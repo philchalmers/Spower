@@ -51,15 +51,15 @@ Spower <- function(conditions, sim_function, interval, power,
 		SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug,
 					  summarise=Internal_Summarise,
-					  fixed_objects=fixed_objects, ...)
+					  fixed_objects=fixed_objects, save=FALSE, ...)
 	} else {
 		SimDesign::SimSolve(conditions, interval=interval,
 		  		 analyse=sim_function_aug,
 		  		 summarise=Internal_Summarise, b=power,
-		  		 integer=integer, fixed_objects=fixed_objects, ...)
+		  		 integer=integer, fixed_objects=fixed_objects, save=FALSE, ...)
 	}
 	if(!is.null(beta_alpha)){
-		out <- uniroot(compromise_root, c(.001, .999), beta_alpha=beta_alpha,
+		out <- uniroot(compromise_root, c(.0001, .9999), beta_alpha=beta_alpha,
 				sim=ret, Design=conditions, Summarise=Internal_Summarise4Compromise)
 		ret$sig.level <- out$root
 		ret$power <- 1 - beta_alpha * out$root
