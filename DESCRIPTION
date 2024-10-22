@@ -1,18 +1,20 @@
-Package: Mpower
-Title: Monte Carlo Simulation Functions for Power Analysis 
+Package: Spower
+Title: General Purpose Simulated Power Analysis  
 Version: 0.1
 Authors@R: 
    person("Phil", family="Chalmers", email =
                      "rphilip.chalmers@gmail.com", role = c("aut", "cre"), 
                      comment = c(ORCID="0000-0001-5332-2810"))
-Description: Describe what Mpower does ... TODO
+Description: Package provides simulation-based methodology for power analysis. Supports Monte Carlo simulation 
+   version of a priori power analysis, criterion power analysis, compromise power analysis, and post-hoc
+   power analysis. 
 Depends:
     SimDesign
 License: GPL (>= 3)
 Encoding: UTF-8
 Repository: CRAN
 Maintainer: Phil Chalmers <rphilip.chalmers@gmail.com>
-URL: https://philchalmers.github.io/Mpower/
-BugReports: https://github.com/philchalmers/Mpower/issues?state=open
+URL: https://philchalmers.github.io/Spower/
+BugReports: https://github.com/philchalmers/Spower/issues?state=open
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2

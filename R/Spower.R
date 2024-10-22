@@ -1,18 +1,20 @@
-#' Run Monte Carlo Simulation Power
+#' Simulation-based Power Analysis
 #'
 #' Description
 #'
 #' @param conditions a set of conditions to use in the simulation, passed to
 #'  either \code{\link{SimSolve}} if exactly one value contains an \code{NA} or to
 #'  \code{\link{runSimulation}} if \code{power} is set to \code{NA}
-#' @param power power level to use. If set to \code{NA} then
-#' @param sig.level alpha level
+#' @param power power level to use. If set to \code{NA} then the empirical power
+#'   will be estimated given the fixed \code{conditions} input
+#'   (e.g., for post-hoc power analysis)
+#' @param sig.level alpha level to use. If set to \code{NA} then the empirical
+#'   alpha will be estimated given the fixed \code{conditions} input
+#'   (e.g., for criterion power analysis)
 #' @param interval search interval to use when \code{\link{SimSolve}} is required
 #' @param sim_function function that both creates the data and returns a single
 #'   p-value for the analysis of interest. Function must contain the arguments
-#'   \code{condition} to utilize the row in \code{conditions} and an
-#'   argument \code{fixed_objects} for catching any fixed object information
-#'   (see \code{\link{runSimulation}} for details)
+#'   \code{condition} to utilize the row in \code{conditions}
 #' @param Analyse analyse function (see \code{\link{runSimulation}})
 #' @param replications number of replications to use when
 #'   \code{\link{runSimulation}} is required
@@ -28,25 +30,27 @@
 #' @examples
 #'
 #'
-runMCPower <- function(conditions, sim_function, power, sig.level=.05,
-					   interval, replications=10000,
-					   integer, ...){
+Spower <- function(conditions, sim_function, power, sig.level=.05,
+				   interval, replications=10000, integer, compromise.q = NULL,
+				   ...){
 	conditions$sig.level <- sig.level
 	if(missing(interval)) interval <- NA
 	if(missing(integer))
 		integer <- !has.decimals(interval)
 	if(missing(power)) power <- NA
+	fixed_objects <- list()
 	sim_function_aug <- function(condition, dat, fixed_objects)
-		sim_function(condition=condition, fixed_objects=fixed_objects)
+		sim_function(condition=condition)
 	ret <- if(is.na(power)){
-		runSimulation(conditions, replications=replications,
+		SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug,
-					  summarise=Internal_Summarise, ...)
+					  summarise=Internal_Summarise,
+					  fixed_objects=fixed_objects, ...)
 	} else {
-		  SimSolve(conditions, interval=interval,
+		SimDesign::SimSolve(conditions, interval=interval,
 		  		 analyse=sim_function_aug,
 		  		 summarise=Internal_Summarise, b=power,
-		  		 integer=integer, ...)
+		  		 integer=integer, fixed_objects=fixed_objects, ...)
 	}
 	ret
 }
@@ -73,22 +77,28 @@ has.decimals <- function(x){
 
 if(FALSE){
 
-	# estimate power given fixed inputs
-	runMCPower(createDesign(N = 50, d=.5),
+	# estimate power given fixed inputs (post-hoc power analysis)
+	Spower(createDesign(N = 50, d=.5),
 			   sim_function=t.test_sim)
 
-	# solve N to get 80% power
-	runMCPower(createDesign(N = NA, d = .5),
+	# solve N to get 80% power (a priori power analysis)
+	Spower(createDesign(N = NA, d = .5),
 			   sim_function=t.test_sim,
 			   power=.8, interval=c(2,500))
 
-	# solve d to get 80% power
-	runMCPower(createDesign(N = 50, d = NA),
+	# solve d to get 80% power (sensitivity power analysis)
+	Spower(createDesign(N = 50, d = NA),
 			   sim_function=t.test_sim,
 			   power=.8, interval=c(.1, 2))
 
-	# solve alpha
-	runMCPower(createDesign(N = 50, d=.5),
+	# solve alpha (criterion power analysis)
+	Spower(createDesign(N = 50, d=.5),
+			   sim_function=t.test_sim,
+			   interval=c(.0001, .8),
+			   power=.8, sig.level=NA)
+
+	# beta/alpha given constant q ratio (compromise power analysis)
+	Spower(createDesign(N = 50, d=.5),
 			   sim_function=t.test_sim,
 			   interval=c(.0001, .8),
 			   power=.8, sig.level=NA)
