@@ -22,6 +22,11 @@
 #'   use integers or doubles.
 #'   Automatically set to \code{FALSE} if \code{interval} contains
 #'   non-integer numbers, though in general this should be set explicitly
+#' @param beta_alpha ratio to use in compromise analyses corresponding to
+#'   the Type II errors (beta) over the Type I error (alpha). Ratios greater
+#'   than 1 indicate that Type I errors are worse than Type II, while ratios
+#'   less than one the opposite. A ratio equal to 1 gives an equal trade-off
+#'   between Type I and Type II errors
 #' @param ... additional parameters to pass to \code{\link{runSimulation}} or
 #'   \code{\link{SimSolve}}
 #'
@@ -30,9 +35,10 @@
 #' @examples
 #'
 #'
-Spower <- function(conditions, sim_function, power, sig.level=.05,
-				   interval, replications=10000, integer, compromise.q = NULL,
-				   ...){
+Spower <- function(conditions, sim_function, interval, power,
+				   sig.level=.05, replications=10000, integer,
+				   beta_alpha = NULL, ...){
+	stopifnot(nrow(conditions) == 1)
 	conditions$sig.level <- sig.level
 	if(missing(interval)) interval <- NA
 	if(missing(integer))
@@ -41,7 +47,7 @@ Spower <- function(conditions, sim_function, power, sig.level=.05,
 	fixed_objects <- list()
 	sim_function_aug <- function(condition, dat, fixed_objects)
 		sim_function(condition=condition)
-	ret <- if(is.na(power)){
+	ret <- if(is.na(power) || !is.null(beta_alpha)){
 		SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug,
 					  summarise=Internal_Summarise,
@@ -52,55 +58,51 @@ Spower <- function(conditions, sim_function, power, sig.level=.05,
 		  		 summarise=Internal_Summarise, b=power,
 		  		 integer=integer, fixed_objects=fixed_objects, ...)
 	}
+	if(!is.null(beta_alpha)){
+		out <- uniroot(compromise_root, c(.001, .999), beta_alpha=beta_alpha,
+				sim=ret, Design=conditions, Summarise=Internal_Summarise4Compromise)
+		ret$sig.level <- out$root
+		ret$power <- 1 - beta_alpha * out$root
+	}
+	cat('\n\n')
 	ret
 }
 
-t.test_sim <- function(condition, fixed_objects) {
-	Attach(condition)
-	group1 <- rnorm(N)
-	group2 <- rnorm(N, mean=d)
-	dat <- data.frame(group = gl(2, N, labels=c('G1', 'G2')),
-					  DV = c(group1, group2))
-	p <- t.test(DV ~ group, dat, var.equal=TRUE)$p.value
-	p
-}
-
-Internal_Summarise <- function(condition, results, fixed_objects) {
-	ret <- c(power = EDR(results, alpha = condition$sig.level))
-	ret
-}
-
-has.decimals <- function(x){
-	intx <- as.integer(x)
-	any(abs(x - intx) > 0)
-}
 
 if(FALSE){
+
+	t.test_sim <- function(condition) {
+		Attach(condition)
+		group1 <- rnorm(N)
+		group2 <- rnorm(N, mean=d)
+		dat <- data.frame(group = gl(2, N, labels=c('G1', 'G2')),
+						  DV = c(group1, group2))
+		p <- t.test(DV ~ group, dat, var.equal=TRUE)$p.value
+		p
+	}
 
 	# estimate power given fixed inputs (post-hoc power analysis)
 	Spower(createDesign(N = 50, d=.5),
 			   sim_function=t.test_sim)
 
-	# solve N to get 80% power (a priori power analysis)
+	# solve N to get .80 power (a priori power analysis)
 	Spower(createDesign(N = NA, d = .5),
 			   sim_function=t.test_sim,
 			   power=.8, interval=c(2,500))
 
-	# solve d to get 80% power (sensitivity power analysis)
+	# solve d to get .80 power (sensitivity power analysis)
 	Spower(createDesign(N = 50, d = NA),
 			   sim_function=t.test_sim,
-			   power=.8, interval=c(.1, 2))
+			   power=.80, interval=c(.1, 2))
 
-	# solve alpha (criterion power analysis)
+	# solve alpha that would give power of .80 (criterion power analysis)
 	Spower(createDesign(N = 50, d=.5),
 			   sim_function=t.test_sim,
 			   interval=c(.0001, .8),
-			   power=.8, sig.level=NA)
+			   power=.80, sig.level=NA)
 
 	# beta/alpha given constant q ratio (compromise power analysis)
 	Spower(createDesign(N = 50, d=.5),
-			   sim_function=t.test_sim,
-			   interval=c(.0001, .8),
-			   power=.8, sig.level=NA)
+			   sim_function=t.test_sim, beta_alpha = 2)
 }
 
