@@ -49,33 +49,42 @@
 #' # Independent samples t-test
 #' ############################
 #'
-#' # Internally defined sim_t.test function
-#' args(sim_t.test)    # arguments required for Spower()
-#' body(sim_t.test)    # body of the function to generate data + return p-value
-#' # help(sim_t.test)  # additional information
+#' # Internally defined p_t.test function
+#' args(p_t.test)    # arguments required for Spower()
+#' body(p_t.test)    # body of the function
+#' # help(p_t.test)  # additional information
+#'
+#' # p_* functions generate data and return single p-value
+#' p_t.test(N=50, d=.5)
+#' p_t.test(N=50, d=.5)
 #'
 #' # Estimate power given fixed inputs (post-hoc power analysis)
-#' Spower(N = 50, d = .5, sim_function=sim_t.test)
+#' Spower(N = 50, d = .5, sim_function=p_t.test)
 #'
 #' \dontrun{
 #'
 #' # Solve N to get .80 power (a priori power analysis)
-#' out <- Spower(N = NA, d = .5, sim_function=sim_t.test,
-#'           	 power=.8, interval=c(2,500))
+#' out <- Spower(N = NA, d = .5, sim_function=p_t.test,
+#'           	 power = .8, interval=c(2,500))
 #' # total sample size required
 #' out$N * 2
 #'
+#' # similar information from pwr package
+#' pwr <- pwr::pwr.t.test(d=.5, power=.80)
+#' pwr
+#' pwr$n * 2
+#'
 #' # Solve d to get .80 power (sensitivity power analysis)
-#' Spower(N = 50, d = NA, sim_function=sim_t.test,
+#' Spower(N = 50, d = NA, sim_function=p_t.test,
 #' 	   power=.80, interval=c(.1, 2))
 #'
 #' # Solve alpha that would give power of .80 (criterion power analysis)
-#' Spower(N = 50, d = .5, sim_function=sim_t.test,
+#' Spower(N = 50, d = .5, sim_function=p_t.test,
 #' 	   interval=c(.0001, .8), power=.80, sig.level=NA)
 #'
 #' # Solve beta/alpha ratio to specific trade-off constant
 #' #   (compromise power analysis)
-#' Spower(N = 50, d = .5, sim_function=sim_t.test, beta_alpha = 2)
+#' Spower(N = 50, d = .5, sim_function=p_t.test, beta_alpha = 2)
 #'
 #'
 #' ###############
@@ -84,13 +93,13 @@
 #'
 #' #   Make edits to the function for customization
 #' if(interactive()){
-#'     mysim_t.test <- edit(sim_t.test)
-#'     args(mysim_t.test)
-#'     body(mysim_t.test)
+#'     new.p_t.test <- edit(p_t.test)
+#'     args(new.p_t.test)
+#'     body(new.p_t.test)
 #' }
 #'
 #' # Alternatively, define a custom function (potentially based on the template)
-#' mysim_t.test <- function(N, d, var.equal=FALSE, group_ratio=1, df=10){
+#' new.p_t.test <- function(N, d, var.equal=FALSE, group_ratio=1, df=10){
 #'
 #'     # Welch power analysis with asymmetric distributions
 #'     # group1 as large as group2 by default
@@ -107,16 +116,24 @@
 #' }
 #'
 #' # Solve N to get .80 power (a priori power analysis), using defaults
-#' Spower(N = NA, d = .5, sim_function=mysim_t.test,
+#' Spower(N = NA, d = .5, sim_function=new.p_t.test,
 #'        power=.8, interval=c(2,500))
 #'
 #' # Solve N to get .80 power (a priori power analysis), assuming
 #' #   equal variances, control 2x as large as treatment group, large skewness
 #' out <- Spower(N = NA, d = .5, var.equal=TRUE, group_ratio=2, df=3,
-#'               sim_function=mysim_t.test, power=.8, interval=c(2,500))
+#'               sim_function=new.p_t.test, power=.8, interval=c(2,500))
 #'
 #' # total sample size required
 #' out$N * 2 + out$N
+#'
+#' # should different alpha level be used given the assumption violations?
+#' TypeI <- Spower(N = 50, d = 0, var.equal=TRUE, group_ratio=2, df=3,
+#'                 sim_function=new.p_t.test, replications=30000)
+#' TypeI
+#' se <- with(TypeI, sqrt(sig.level * (1-sig.level) / REPLICATIONS))
+#' TypeI$sig.level + qnorm(c(.025, .975)) * se  # 95% CI
+#' TypeI$power
 #'
 #'
 #' }

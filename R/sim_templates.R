@@ -1,5 +1,5 @@
 #' @export
-sim_t.test <- function(N, d) {
+p_t.test <- function(N, d) {
 	group1 <- rnorm(N)
 	group2 <- rnorm(N, mean=d)
 	dat <- data.frame(group = gl(2, N, labels=c('G1', 'G2')),
