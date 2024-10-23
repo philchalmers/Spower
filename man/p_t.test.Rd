@@ -2,14 +2,17 @@
 % Please edit documentation in R/p_sim_templates.R
 \name{p_t.test}
 \alias{p_t.test}
-\title{Independent samples t-test simulation and p-value}
+\title{Independent/paired samples t-test simulation and p-value}
 \usage{
-p_t.test(n, d)
+p_t.test(n, d, paired = FALSE)
 }
 \arguments{
 \item{n}{sample size per group, assumed equal across groups}
 
 \item{d}{Cohen's standardized effect size}
+
+\item{paired}{logical; should the analysis results assume that the groups
+are dependent?}
 }
 \value{
 a single p-value
@@ -24,5 +27,6 @@ have equal variance.
 
 # sample size of 50 per group, medium effect size
 p_t.test(n=50, d=0.5)
+p_t.test(n=50, d=0.5, paired=TRUE)
 
 }
