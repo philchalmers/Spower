@@ -18,7 +18,7 @@ Internal_Summarise4Compromise.empirical <- function(condition,
 
 has.decimals <- function(x){
 	intx <- as.integer(x)
-	any(abs(x - intx) > 0)
+	isTRUE(any(abs(x - intx) > 0))
 }
 
 # compute beta/alpha ratio given different alpha
