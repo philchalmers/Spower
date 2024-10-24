@@ -1,0 +1,44 @@
+---
+title: "G*Power examples evaluated with Spower"
+author: Phil Chalmers
+date: "`r Sys.Date()`"
+output: 
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    number_sections: false
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{G*Power examples evaluated with Spower}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r nomessages, echo = FALSE}
+knitr::opts_chunk$set(
+  warning = FALSE,
+  message = FALSE
+)
+options(digits=4)
+par(mar=c(5,4,1,1)+.1)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+library(Spower)
+set.seed(1234)
+```
+
+
+
+Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
+
+```{r}
+(out <- Spower(n = NA, d = .5, sim_function=p_t.test,
+	   power = .95, two.tailed=FALSE, interval=c(2,500)))
+```
+
+G*power estimate is 88 per group, `Spower` estimate is `r out$n`. 
+

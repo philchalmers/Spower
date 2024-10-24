@@ -60,7 +60,7 @@
 #' ############################
 #'
 #' # Internally defined p_t.test function
-#' args(p_t.test)    # arguments required for Spower()
+#' args(p_t.test)    # missing arguments required for Spower()
 #' # help(p_t.test)  # additional information
 #'
 #' # p_* functions generate data and return single p-value
@@ -76,14 +76,13 @@
 #' # Spower(n = 50, d = .5, sim_function=p_t.test, parallel=TRUE)
 #'
 #' # Solve N to get .80 power (a priori power analysis)
-#' out <- Spower(n = NA, d = .5, sim_function=p_t.test,
-#'           	 power = .8, interval=c(2,500))
+#' (out <- Spower(n = NA, d = .5, sim_function=p_t.test,
+#'           	 power = .8, interval=c(2,500)))
 #' # total sample size required
 #' out$n * 2
 #'
 #' # similar information from pwr package
-#' pwr <- pwr::pwr.t.test(d=.5, power=.80)
-#' pwr
+#' (pwr <- pwr::pwr.t.test(d=.5, power=.80))
 #' pwr$n * 2
 #'
 #' # Solve d to get .80 power (sensitivity power analysis)
@@ -113,17 +112,17 @@
 #' }
 #'
 #' # Alternatively, define a custom function (potentially based on the template)
-#' new.p_t.test <- function(n, d, var.equal=FALSE, group_ratio=1, df=10){
+#' new.p_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
 #'
 #'     # Welch power analysis with asymmetric distributions
-#'     # group1 as large as group2 by default
+#'     # group2 as large as group1 by default
 #'
 #'     # degree of skewness controlled via chi-squared distribution's df
-#'     group1 <- rchisq(group_ratio*n, df=df)
+#'     group1 <- rchisq(n, df=df)
 #'     group1 <-  (group1 - df) / sqrt(2*df)   # Adjusted mean to 0, sd = 1
-#'     group2 <- rnorm(n, mean=d)
+#'     group2 <- rnorm(n*n2_n1, mean=d)
 #'     dat <- data.frame(group = factor(rep(c('G1', 'G2'),
-#'                                      times = c(group_ratio*n, n))),
+#'                                      times = c(n, n*n2_n1))),
 #'     				  DV = c(group1, group2))
 #'     p <- t.test(DV ~ group, dat, var.equal=var.equal)$p.value
 #'     p
@@ -134,17 +133,16 @@
 #'        power=.8, interval=c(2,500))
 #'
 #' # Solve N to get .80 power (a priori power analysis), assuming
-#' #   equal variances, control 2x as large as treatment group, large skewness
-#' out <- Spower(n = NA, d = .5, var.equal=TRUE, group_ratio=2, df=3,
-#'               sim_function=new.p_t.test, power=.8, interval=c(2,500))
+#' #   equal variances, group2 2x as large as group1, large skewness
+#' (out <- Spower(n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
+#'               sim_function=new.p_t.test, power=.8, interval=c(2,500)))
 #'
 #' # total sample size required
-#' out$N * 2 + out$N
+#' out$n + out$n * 2
 #'
 #' # should different alpha level be used given the assumption violations?
-#' TypeI <- Spower(n = 50, d = 0, var.equal=TRUE, group_ratio=2, df=3,
-#'                 sim_function=new.p_t.test, replications=30000)
-#' TypeI
+#' (TypeI <- Spower(n = 50, d = 0, var.equal=TRUE, n2_n1=2, df=3,
+#'                 sim_function=new.p_t.test, replications=30000))
 #' se <- with(TypeI, sqrt(sig.level * (1-sig.level) / REPLICATIONS))
 #' TypeI$sig.level + qnorm(c(.025, .975)) * se  # 95% CI
 #' TypeI$power
