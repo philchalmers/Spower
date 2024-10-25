@@ -42,3 +42,25 @@ Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed
 
 G*power estimate is 88 per group, `Spower` estimate is `r out$n`. 
 
+# Correlation
+
+
+Power associated with $\rho = .1$ with 100 pairs of observations.
+```{r}
+Spower(n = 100, r = .1, sim_function=p_r)
+```
+
+Sample size estimate to reject $H_0:\, \rho_0=0$ in correlation analysis
+with $1-\beta=.95$ probability when $\rho=.3$.
+```{r}
+(out <- Spower(n = NA, r = .3, sim_function=p_r,
+			   power = .95, interval=c(50,1000)))
+
+# 95% predictions CI for estimate
+summary(out)$predCIs_root
+```
+
+```{r}
+pwr::pwr.r.test(r=.3, power=.95)
+```
+

@@ -4,12 +4,20 @@
 \alias{p_t.test}
 \title{Independent/paired samples t-test simulation and p-value}
 \usage{
-p_t.test(n, d, mu = 0, paired = FALSE, n2_n1 = 1, two.tailed = TRUE)
+p_t.test(
+  n,
+  d,
+  mu = 0,
+  paired = FALSE,
+  n2_n1 = 1,
+  two.tailed = TRUE,
+  raw_info = list(mu1 = NA, mu2 = NA, sigma1 = NA, sigma2 = NA)
+)
 }
 \arguments{
 \item{n}{sample size per group, assumed equal across groups}
 
-\item{d}{Cohen's standardized effect size}
+\item{d}{Cohen's standardized effect size \code{d}}
 
 \item{mu}{population mean to test against}
 
@@ -19,6 +27,11 @@ are dependent?}
 \item{n2_n1}{allocation ratio reflecting the same size ratio.
 Default of 1 sets the groups to be the same size. Only applicable
 when \code{paired = FALSE}}
+
+\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
+
+\item{raw_info}{(optional) list of mean and variance inputs for each group.
+If supplied the \code{d} input will be ignored}
 }
 \value{
 a single p-value
