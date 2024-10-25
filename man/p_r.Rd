@@ -11,8 +11,11 @@ p_r(n, r, rho = 0, method = "pearson", two.tailed = TRUE)
 
 \item{r}{correlation}
 
+\item{rho}{population coefficient to test against using
+\code{\link[car]{linearHypothesis}}}
+
 \item{method}{method to use to compute the correlation
-(see \code{\link{cor.test}})}
+(see \code{\link{cor.test}}). Only used when \code{rho = 0}}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 }
@@ -29,5 +32,8 @@ assuming a multivariate normal distribution.
 # 50 observations, .5 correlation
 p_r(50, r=.5)
 p_r(50, r=.5, method = 'spearman')
+
+# test against constant other than rho = .6
+p_r(50, .5, rho=.60)
 
 }

@@ -10,10 +10,13 @@ Description: Package provides simulation-based methodology for power analysis. S
    power analysis. 
 Depends:
     SimDesign
+Imports:
+	car
 License: GPL (>= 3)
 Encoding: UTF-8
 Repository: CRAN
 Maintainer: Phil Chalmers <rphilip.chalmers@gmail.com>
+VignetteBuilder: knitr
 URL: https://philchalmers.github.io/Spower/
 BugReports: https://github.com/philchalmers/Spower/issues?state=open
 Roxygen: list(markdown = TRUE)

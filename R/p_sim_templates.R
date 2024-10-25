@@ -44,7 +44,7 @@ p_t.test <- function(n, d, mu = 0, paired = FALSE,
 		if(n2_n1 != 1) stop('n2_n1 must equal 1 for paired t-tests')
 		t.test(group1, group2, mu=mu, paired=TRUE)$p.value
 	} else t.test(DV ~ group, dat, var.equal=TRUE, mu=mu)$p.value
-	p <- ifelse(two.tailed, p, p*2)
+	p <- ifelse(two.tailed, p, p/2)
 	p
 }
 
@@ -56,9 +56,12 @@ p_t.test <- function(n, d, mu = 0, paired = FALSE,
 #'
 #' @param n sample size
 #' @param r correlation
+#' @param rho population coefficient to test against using
+#'   \code{\link[car]{linearHypothesis}}
 #' @param method method to use to compute the correlation
-#'   (see \code{\link{cor.test}})
+#'   (see \code{\link{cor.test}}). Only used when \code{rho = 0}
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#' @importFrom car linearHypothesis
 #' @return a single p-value
 #' @examples
 #'
@@ -66,11 +69,20 @@ p_t.test <- function(n, d, mu = 0, paired = FALSE,
 #' p_r(50, r=.5)
 #' p_r(50, r=.5, method = 'spearman')
 #'
+#' # test against constant other than rho = .6
+#' p_r(50, .5, rho=.60)
+#'
 #' @export
 p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 	dat <- SimDesign::rmvnorm(n, sigma = matrix(c(1,r,r,1), 2, 2))
 	colnames(dat) <- c('x', 'y')
-	test <- cor.test(~ x + y, dat, method=method)
-	p <- ifelse(two.tailed, test$p.value, test$p.value*2)
+	if(rho != 0){
+		mod <- lm(y ~ x, as.data.frame(dat))
+		out <- car::linearHypothesis(mod, "x", rho)
+		p <- out$`Pr(`[2]
+	} else {
+		p <- cor.test(~ x + y, dat, method=method)$p.value
+	}
+	p <- ifelse(two.tailed, p, p/2)
 	p
 }

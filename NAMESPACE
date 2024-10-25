@@ -3,3 +3,4 @@
 export(Spower)
 export(p_r)
 export(p_t.test)
+importFrom(car,linearHypothesis)

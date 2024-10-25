@@ -36,8 +36,8 @@ set.seed(1234)
 Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
 
 ```{r}
-(out <- Spower(n = NA, d = .5, sim_function=p_t.test,
-	   power = .95, two.tailed=FALSE, interval=c(2,500)))
+(out <- Spower(n = NA, d = .5, two.tailed=FALSE, 
+			   sim_function=p_t.test, power = .95, interval=c(10,500)))
 ```
 
 G*power estimate is 88 per group, `Spower` estimate is `r out$n`. 
@@ -62,5 +62,25 @@ summary(out)$predCIs_root
 
 ```{r}
 pwr::pwr.r.test(r=.3, power=.95)
+```
+
+Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis
+with $1-\beta=.95$ probability when $\rho=.65$.
+```{r}
+(out <- Spower(n = NA, r = .65, rho = .60, sim_function=p_r,
+			   power = .95, interval=c(1000,4000)))
+
+# 95% predictions CI for estimate
+summary(out)$predCIs_root
+```
+
+G*power estimates $n$ to be 1928, though `Spower` returns the much larger `out$n`. A one tailed-test is closer, but still not the same.
+
+```{r}
+(out <- Spower(n = NA, r = .65, rho = .60, two.tailed=FALSE,
+			   sim_function=p_r, power = .95, interval=c(1000,4000)))
+
+# 95% predictions CI for estimate
+summary(out)$predCIs_root
 ```
 
