@@ -154,7 +154,7 @@ Spower <- function(..., sim_function, interval, power = NA,
 				   beta_alpha = NULL, parallel = FALSE, cl = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   verbose = TRUE){
-	conditions <- createDesign(...)
+	conditions <- SimDesign::createDesign(...)
 	stopifnot(nrow(conditions) == 1)
 	conditions$sig.level <- sig.level
 	if(missing(interval)){
