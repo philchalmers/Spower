@@ -74,13 +74,5 @@ with $1-\beta=.95$ probability when $\rho=.65$.
 summary(out)$predCIs_root
 ```
 
-G*power estimates $n$ to be 1928, though `Spower` returns the much larger `out$n`. A one tailed-test is closer, but still not the same.
-
-```{r}
-(out <- Spower(n = NA, r = .65, rho = .60, two.tailed=FALSE,
-			   sim_function=p_r, power = .95, interval=c(1000,4000)))
-
-# 95% predictions CI for estimate
-summary(out)$predCIs_root
-```
+G*power estimates $n$ to be 1928, though `Spower` returns the much larger `out$n`. 
 
