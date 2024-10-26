@@ -15,7 +15,8 @@
 #'   Default of 1 sets the groups to be the same size. Only applicable
 #'   when \code{type = 'two.sample'}
 #' @param raw_info (optional) list of mean and variance inputs for each group.
-#'   If supplied the \code{d} input will be ignored
+#'   For one-sample tests only the first group information will be used
+#'
 #' @return a single p-value
 #' @examples
 #'
@@ -37,6 +38,7 @@ p_t.test <- function(n, d, mu = 0,
 					 				sigma1=NA, sigma2=NA)) {
 	type <- match.arg(type)
 	if(!is.na(raw_info$mu1)){
+		if(!missing(d)) stop('d argument cannot be used with raw_info')
 		group1 <- with(raw_info, rnorm(n, mean=mu1, sd=sigma1))
 		group2 <- with(raw_info, rnorm(n * n2_n1, mean=mu2, sd=sigma2))
 	} else {
@@ -51,7 +53,8 @@ p_t.test <- function(n, d, mu = 0,
 	} else if(type == 'two.sample'){
 		t.test(DV ~ group, dat, var.equal=TRUE, mu=mu)$p.value
 	} else if(type == 'one.sample') {
-		dv <- rnorm(n, mean=d)
+		dv <- if(!is.na(raw_info$mu1))
+			with(raw_info, rnorm(n, mean=mu1, sd=sigma1)) else rnorm(n, mean=d)
 		t.test(dv, mu=mu)$p.value
 	}
 	p <- ifelse(two.tailed, p, p/2)
@@ -125,7 +128,8 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' p_prop.test(50, prob=c(.5, .65, .7), n.ratios=c(1,2,1))
 #'
 #' @export
-p_prop.test <- function(n, prob, pi = .5, n.ratios = rep(1, length(prob)),
+p_prop.test <- function(n, prob, pi = .5,
+						n.ratios = rep(1, length(prob)),
 						two.tailed = TRUE) {
 	stopifnot(length(n) == 1)
 	p <- if(length(prob) > 1){

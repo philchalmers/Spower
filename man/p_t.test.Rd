@@ -31,7 +31,7 @@ when \code{type = 'two.sample'}}
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 
 \item{raw_info}{(optional) list of mean and variance inputs for each group.
-If supplied the \code{d} input will be ignored}
+For one-sample tests only the first group information will be used}
 }
 \value{
 a single p-value
