@@ -4,6 +4,30 @@
 #' \code{SimDesign} package's \code{\link{runSimulation}} and
 #' \code{\link{SimSolve}} functions.
 #'
+#' Five types of power analysis flavors can be performed with \code{Spower},
+#' which are triggered based on which supplied inputs as set to missing (\code{NA}):
+#'
+#' \describe{
+#'    \item{A priori}{Solve for a missing sample size component
+#'      (e.g., \code{n}) to achieve a specific target power rate
+#'      (argument \code{power})}
+#'    \item{Post-hoc}{Estimate the power rate given a set of fixed conditions}
+#'    \item{Sensitivity}{Solve a missing effect size value as a function of
+#'      the other supplied constant components}
+#'    \item{Criterion}{Solve the error rate (argument \code{sig.level}) as a
+#'      function of the other supplied constant components}
+#'    \item{Compromise}{Solve a Type I/Type II error trade-off ratio as a
+#'      function of the other supplied constant components and the
+#'      target ratio \eqn{q = \beta/\alpha} (argument \code{beta_alpha})}
+#' }
+#'
+#' Post-hoc and compromise analyses utilize the
+#' \code{\link[SimDesign]{runSimulation}} function, while the remaining three
+#' approaches utilize the stochastic root solving methods in the function
+#' \code{\link[SimDesign]{SimSolve}}.
+#' See the example below for a demonstration with an independent samples t-test
+#' analysis.
+#'
 #' @param ... a set of conditions to use in the simulation that must match the
 #'   arguments in the function \code{sim_function}. Internally these arguments
 #'   are passed to either \code{\link{SimSolve}} or
@@ -21,7 +45,9 @@
 #'   alpha will be estimated given the fixed \code{conditions} input
 #'   (e.g., for criterion power analysis)
 #'
-#' @param interval search interval to use when \code{\link{SimSolve}} is required
+#' @param interval search interval to use when \code{\link{SimSolve}} is required.
+#'   Note that for compromise analyses, where the \code{sig.level} is set to
+#'   \code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}
 #'
 #' @param replications number of replications to use when
 #'   \code{\link{runSimulation}} is required
@@ -29,7 +55,8 @@
 #' @param integer a logical value indicating whether the search iterations
 #'   use integers or doubles.
 #'   Automatically set to \code{FALSE} if \code{interval} contains
-#'   non-integer numbers, though in general this should be set explicitly
+#'   non-integer numbers, as well as when \code{sig.level = NA},
+#'   though in general this should be set explicitly
 #'
 #' @param beta_alpha ratio to use in compromise analyses corresponding to
 #'   the Type II errors (beta) over the Type I error (alpha). Ratios greater
@@ -92,8 +119,8 @@
 #' pwr::pwr.t.test(n=50, power=.80) # compare
 #'
 #' # Solve alpha that would give power of .80 (criterion power analysis)
-#' Spower(n = 50, d = .5, sim_function=p_t.test,
-#' 	   interval=c(.0001, .8), power=.80, sig.level=NA)
+#' #    interval not required (set to interval = c(0, 1))
+#' Spower(n = 50, d = .5, sim_function=p_t.test, power=.80, sig.level=NA)
 #'
 #' # Solve beta/alpha ratio to specific error trade-off constant
 #' #   (compromise power analysis)
@@ -156,6 +183,8 @@ Spower <- function(..., sim_function, interval, power = NA,
 				   verbose = TRUE){
 	conditions <- SimDesign::createDesign(...)
 	stopifnot(nrow(conditions) == 1)
+	if(is.na(sig.level) && missing(interval)) interval <- c(0, 1)
+	if(is.na(sig.level)) integer <- FALSE
 	conditions$sig.level <- sig.level
 	if(missing(interval)){
 		if(is.na(sig.level) || any(is.na(conditions)))
