@@ -94,9 +94,8 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' @param n sample size per group
 #' @param prob sample probability of success. If a vector with two-values
 #'   is supplied then a two-samples test will be used
-#' @param n2_n1 allocation ratio reflecting the same size ratio.
-#'   Default of 1 sets the groups to be the same size. Only applicable
-#'   when \code{paired = FALSE}
+#' @param n.ratios allocation ratios reflecting the sample size ratios.
+#'   Default of 1 sets the groups to be the same size (n * n.ratio)
 #' @param pi probability of success to test against (default is .5). Ignored
 #'   for two-sample tests
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
@@ -110,19 +109,23 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' p_prop.test(50, prob=c(.5, .65))
 #'
 #' # two sample test, unequal ns
-#' p_prop.test(c(50, 60), prob=c(.5, .65))
+#' p_prop.test(50, prob=c(.5, .65))
 #'
-#' # test against constant other than rho = .6
-#' p_r(50, .5, rho=.60)
+#' # three sample test, group2 twice as large as others
+#' p_prop.test(50, prob=c(.5, .65, .7), n.ratios=c(1,2,1))
 #'
 #' @export
-p_prop.test <- function(n, prob, pi = .5, n2_n1 = 1,
+p_prop.test <- function(n, prob, pi = .5, n.ratios = rep(1, length(prob)),
 						two.tailed = TRUE) {
-	stopifnot(length(prob) < 3)
-	p <- if(length(prob) == 2){
-		dat1 <- rbinom(n, 1, prob = prob[1])
-		dat2 <- rbinom(n2_n1*n, 1, prob = prob[2])
-		prop.test(table(dat1), table(dat2))$p.value
+	stopifnot(length(n) == 1)
+	p <- if(length(prob) > 1){
+		draws <- sapply(1:length(prob), \(i){
+			vals <- rbinom(n * n.ratios[i], 1, prob=prob[i])
+			c(sum(vals), length(vals))
+		})
+		A <- draws[1,]
+		B <- draws[2,]
+		prop.test(A, B)$p.value
 	} else {
 		dat <- rbinom(n, 1, prob = prob)
 		prop.test(table(dat), p=pi)$p.value
