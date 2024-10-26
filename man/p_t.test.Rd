@@ -8,7 +8,7 @@ p_t.test(
   n,
   d,
   mu = 0,
-  paired = FALSE,
+  type = c("two.sample", "one.sample", "paired"),
   n2_n1 = 1,
   two.tailed = TRUE,
   raw_info = list(mu1 = NA, mu2 = NA, sigma1 = NA, sigma2 = NA)
@@ -21,12 +21,12 @@ p_t.test(
 
 \item{mu}{population mean to test against}
 
-\item{paired}{logical; should the analysis results assume that the groups
-are dependent?}
+\item{type}{type of t-test to use; can be \code{'two.sample'},
+\code{'one.sample'}, or \code{'paired'}}
 
 \item{n2_n1}{allocation ratio reflecting the same size ratio.
 Default of 1 sets the groups to be the same size. Only applicable
-when \code{paired = FALSE}}
+when \code{type = 'two.sample'}}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 
@@ -46,9 +46,12 @@ have equal variance.
 
 # sample size of 50 per group, medium effect size
 p_t.test(n=50, d=0.5)
-p_t.test(n=50, d=0.5, paired=TRUE)
 
 # second group 2x as large as the first group
 p_t.test(n=50, d=0.5, n2_n1 = 2)
+
+# paired and one-sample tests
+p_t.test(n=50, d=0.5, type = 'paired')
+p_t.test(n=50, d=0.5, type = 'one.sample')
 
 }
