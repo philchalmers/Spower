@@ -12,7 +12,7 @@ p_r(n, r, rho = 0, method = "pearson", two.tailed = TRUE)
 \item{r}{correlation}
 
 \item{rho}{population coefficient to test against using
-\code{\link[car]{linearHypothesis}}}
+\code{\link[car]{linearHypothesis}}. Defaults to 0}
 
 \item{method}{method to use to compute the correlation
 (see \code{\link{cor.test}}). Only used when \code{rho = 0}}
@@ -23,7 +23,7 @@ p_r(n, r, rho = 0, method = "pearson", two.tailed = TRUE)
 a single p-value
 }
 \description{
-Function generates correlated X-Y data and returns a p-value to assess the null
+Generates correlated X-Y data and returns a p-value to assess the null
 of no correlation in the population. The X-Y data are generated
 assuming a multivariate normal distribution.
 }

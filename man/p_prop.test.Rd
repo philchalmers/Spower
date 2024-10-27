@@ -30,7 +30,8 @@ Default of 1 sets the groups to be the same size (n * n.ratio)}
 a single p-value
 }
 \description{
-Proportion test simulation and p-value
+Generates single and multi-sample data
+for proportion tests and return a p-value.
 }
 \examples{
 

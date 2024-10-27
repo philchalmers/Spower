@@ -1,9 +1,10 @@
 #' Independent/paired samples t-test simulation and p-value
 #'
-#' Function generates two sets of individuals with equal sample sizes
-#' and Cohen's effect size 'd'. The data and associated t-test
+#' Generates one or two sets of continuous data group-level data
+#' according to Cohen's effect size 'd', and return a p-value.
+#' The data and associated t-test
 #' assume that the conditional observations are normally distributed and have
-#' have equal variance.
+#' have equal variance by default, however these may be modified.
 #'
 #' @param n sample size per group, assumed equal across groups
 #' @param d Cohen's standardized effect size \code{d}
@@ -11,11 +12,13 @@
 #' @param type type of t-test to use; can be \code{'two.sample'},
 #'   \code{'one.sample'}, or \code{'paired'}
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#' @param var.equal logical; use the classical or Welch corrected t-test?
 #' @param n2_n1 allocation ratio reflecting the same size ratio.
 #'   Default of 1 sets the groups to be the same size. Only applicable
 #'   when \code{type = 'two.sample'}
-#' @param raw_info (optional) list of mean and variance inputs for each group.
-#'   For one-sample tests only the first group information will be used
+#' @param raw_info (optional) list of mean and SD inputs for each group,
+#'   each specified as a vector. When specified the input \code{d} is ignored
+#'
 #'
 #' @return a single p-value
 #' @examples
@@ -33,14 +36,13 @@
 #' @export
 p_t.test <- function(n, d, mu = 0,
 					 type = c('two.sample', 'one.sample', 'paired'),
-					 n2_n1 = 1, two.tailed = TRUE,
-					 raw_info = list(mu1=NA, mu2=NA,
-					 				sigma1=NA, sigma2=NA)) {
+					 n2_n1 = 1, two.tailed = TRUE, var.equal = TRUE,
+					 raw_info = list(means=NA, sds=NA)) {
 	type <- match.arg(type)
 	if(!is.na(raw_info$mu1)){
 		if(!missing(d)) stop('d argument cannot be used with raw_info')
-		group1 <- with(raw_info, rnorm(n, mean=mu1, sd=sigma1))
-		group2 <- with(raw_info, rnorm(n * n2_n1, mean=mu2, sd=sigma2))
+		group1 <- with(raw_info, rnorm(n, mean=means[1], sd=sds[1]))
+		group2 <- with(raw_info, rnorm(n * n2_n1, mean=means[2], sd=sds[2]))
 	} else {
 		group1 <- rnorm(n)
 		group2 <- rnorm(n * n2_n1, mean=d)
@@ -51,7 +53,7 @@ p_t.test <- function(n, d, mu = 0,
 		if(n2_n1 != 1) stop('n2_n1 must equal 1 for paired t-tests')
 		t.test(group1, group2, mu=mu, paired=TRUE)$p.value
 	} else if(type == 'two.sample'){
-		t.test(DV ~ group, dat, var.equal=TRUE, mu=mu)$p.value
+		t.test(DV ~ group, dat, var.equal=var.equal, mu=mu)$p.value
 	} else if(type == 'one.sample') {
 		dv <- if(!is.na(raw_info$mu1))
 			with(raw_info, rnorm(n, mean=mu1, sd=sigma1)) else rnorm(n, mean=d)
@@ -63,14 +65,14 @@ p_t.test <- function(n, d, mu = 0,
 
 #' Correlation simulation and p-value
 #'
-#' Function generates correlated X-Y data and returns a p-value to assess the null
+#' Generates correlated X-Y data and returns a p-value to assess the null
 #' of no correlation in the population. The X-Y data are generated
 #' assuming a multivariate normal distribution.
 #'
 #' @param n sample size
 #' @param r correlation
 #' @param rho population coefficient to test against using
-#'   \code{\link[car]{linearHypothesis}}
+#'   \code{\link[car]{linearHypothesis}}. Defaults to 0
 #' @param method method to use to compute the correlation
 #'   (see \code{\link{cor.test}}). Only used when \code{rho = 0}
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
@@ -102,7 +104,8 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 
 #' Proportion test simulation and p-value
 #'
-#'
+#' Generates single and multi-sample data
+#' for proportion tests and return a p-value.
 #'
 #' @param n sample size per group
 #' @param prob sample probability of success. If a vector with two-values
@@ -144,6 +147,56 @@ p_prop.test <- function(n, prob, pi = .5,
 		dat <- rbinom(n, 1, prob = prob)
 		prop.test(table(dat), p=pi)$p.value
 	}
+	p <- ifelse(two.tailed, p, p/2)
+	p
+}
+
+#' One-way ANOVA simulation and p-value
+#'
+#' Generates continuous multi-sample data to be analysed by
+#' a one-way ANOVA, and return a p-value.
+#' Uses the function \code{\link{one.way}} to perform the analyses.
+#' The data and associated
+#' test assume that the conditional observations are normally distributed and have
+#' have equal variance by default, however these may be modified.
+#'
+#' @param n sample size per group
+#' @param k number of groups
+#' @param f Cohen's f effect size
+#' @param n.ratios allocation ratios reflecting the sample size ratios.
+#'   Default of 1 sets the groups to be the same size (n * n.ratio)
+#' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#' @param raw_info (optional) list of mean and SD inputs for each group,
+#'   each specified as a vector. When specified the input \code{f} is ignored
+#' @return a single p-value
+#' @examples
+#'
+#' # n=50 in 3 groups, medium effect size
+#' p_anova.test(50, 3, f=.3)
+#'
+#' # explicit means/sds
+#' p_anova.test(50, 3,
+#'             raw_info=list(means=c(0,0,1), sds=c(1,2,1)))
+#'
+#' @export
+p_anova.test <- function(n, k, f,
+						 n.ratios = rep(1, k),
+						 two.tailed = TRUE,
+						 raw_info = list(means=NA, sds=NA)) {
+	stopifnot(length(n) == 1)
+	stopifnot(length(n.ratios) == k)
+	group <- rep(factor(1:k), times = n*n.ratios)
+	if(!is.na(raw_info$means[1])){
+		dat <- sapply(1:k, \(i)
+					  with(raw_info, rnorm(n*n.ratios[i],
+					  					 mean=means[i], sd=sds[i])))
+	} else {
+		# use f
+		browser()
+		dat <- sapply(1:k, \(i) rnorm(n*n.ratios[i]))
+	}
+	df <- data.frame(group=group, dv = as.numeric(dat))
+	p <- oneway.test(dv ~ group, data=df)$p.value
 	p <- ifelse(two.tailed, p, p/2)
 	p
 }

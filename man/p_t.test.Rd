@@ -11,7 +11,8 @@ p_t.test(
   type = c("two.sample", "one.sample", "paired"),
   n2_n1 = 1,
   two.tailed = TRUE,
-  raw_info = list(mu1 = NA, mu2 = NA, sigma1 = NA, sigma2 = NA)
+  var.equal = TRUE,
+  raw_info = list(means = NA, sds = NA)
 )
 }
 \arguments{
@@ -30,17 +31,20 @@ when \code{type = 'two.sample'}}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 
-\item{raw_info}{(optional) list of mean and variance inputs for each group.
-For one-sample tests only the first group information will be used}
+\item{var.equal}{logical; use the classical or Welch corrected t-test?}
+
+\item{raw_info}{(optional) list of mean and SD inputs for each group,
+each specified as a vector. When specified the input \code{d} is ignored}
 }
 \value{
 a single p-value
 }
 \description{
-Function generates two sets of individuals with equal sample sizes
-and Cohen's effect size 'd'. The data and associated t-test
+Generates one or two sets of continuous data group-level data
+according to Cohen's effect size 'd', and return a p-value.
+The data and associated t-test
 assume that the conditional observations are normally distributed and have
-have equal variance.
+have equal variance by default, however these may be modified.
 }
 \examples{
 
