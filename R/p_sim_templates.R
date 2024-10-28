@@ -33,6 +33,21 @@
 #' p_t.test(n=50, d=0.5, type = 'paired')
 #' p_t.test(n=50, d=0.5, type = 'one.sample')
 #'
+#' if(FALSE){
+#'   # compare simulated results to pwr package
+#'
+#'   pwr::pwr.t.test(d=0.2, n=60, sig.level=0.10,
+#'              type="one.sample", alternative="two.sided")
+#'   Spower(n=60, d=0.2, type = 'one.sample', two.tailed=TRUE,
+#'      sim=p_t.test, sig.level=.10)
+#'
+#'   pwr::pwr.t.test(d=0.3, power=0.75, type="two.sample",
+#'                   alternative="greater")
+#'   Spower(n=NA, d=0.3, type='two.sample', two.tailed=FALSE,
+#'          sim=p_t.test, power=0.75, interval=c(10,200))
+#'
+#' }
+#'
 #' @export
 p_t.test <- function(n, d, mu = 0,
 					 type = c('two.sample', 'one.sample', 'paired'),
@@ -57,8 +72,8 @@ p_t.test <- function(n, d, mu = 0,
 	} else if(type == 'two.sample'){
 		t.test(DV ~ group, dat, var.equal=var.equal, mu=mu)$p.value
 	} else if(type == 'one.sample') {
-		dv <- if(!is.na(raw_info$mu1))
-			with(raw_info, rnorm(n, mean=mu1, sd=sigma1)) else rnorm(n, mean=d)
+		dv <- if(!all(is.na(raw_info$means)))
+			with(raw_info, rnorm(n, mean=means, sd=sds)) else rnorm(n, mean=d)
 		t.test(dv, mu=mu)$p.value
 	}
 	p <- ifelse(two.tailed, p, p/2)
@@ -89,6 +104,21 @@ p_t.test <- function(n, d, mu = 0,
 #' # test against constant other than rho = .6
 #' p_r(50, .5, rho=.60)
 #'
+#'
+#' if(FALSE){
+#'     # compare simulated results to pwr package
+#'
+#'     pwr::pwr.r.test(r=0.3, n=50)
+#'     Spower(n=50, r=0.3, sim=p_r)
+#'
+#'     pwr::pwr.r.test(r=0.3, power=0.80)
+#'     Spower(n=NA, r=0.3, sim=p_r, power=.80, interval=c(10, 200))
+#'
+#'     pwr::pwr.r.test(r=0.1, power=0.80)
+#'     Spower(n=NA, r=0.1, sim=p_r, power=.80, interval=c(200, 1000))
+#'
+#' }
+#'
 #' @export
 p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 	dat <- SimDesign::rmvnorm(n, sigma = matrix(c(1,r,r,1), 2, 2))
@@ -110,8 +140,9 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' for proportion tests and return a p-value.
 #'
 #' @param n sample size per group
-#' @param prob sample probability of success. If a vector with two-values
-#'   is supplied then a two-samples test will be used
+#' @param prop sample probability/proportions of success.
+#'   If a vector with two-values or more elements are supplied then
+#'   a multi-samples test will be used
 #' @param n.ratios allocation ratios reflecting the sample size ratios.
 #'   Default of 1 sets the groups to be the same size (n * n.ratio)
 #' @param pi probability of success to test against (default is .5). Ignored
@@ -121,34 +152,44 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' @examples
 #'
 #' # 50 observations, test against pi = .5
-#' p_prop.test(50, prob=.65)
+#' p_prop.test(50, prop=.65)
 #'
 #' # two sample test
-#' p_prop.test(50, prob=c(.5, .65))
+#' p_prop.test(50, prop=c(.5, .65))
 #'
 #' # two sample test, unequal ns
-#' p_prop.test(50, prob=c(.5, .65))
+#' p_prop.test(50, prop=c(.5, .65))
 #'
 #' # three sample test, group2 twice as large as others
-#' p_prop.test(50, prob=c(.5, .65, .7), n.ratios=c(1,2,1))
+#' p_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
+#'
+#' if(FALSE){
+#'     # compare simulated results to pwr package
+#'
+#'     h <- pwr::ES.h(0.5, 0.4)
+#'     pwr.p.test(h=h, n=60)
+#'
+#'     Spower(n=60, prop=c(.5, .4), sim=p_prop.test)
+#'
+#' }
 #'
 #' @export
-p_prop.test <- function(n, prob, pi = .5,
-						n.ratios = rep(1, length(prob)),
+p_prop.test <- function(n, prop, pi = .5,
+						n.ratios = rep(1, length(prop)),
 						two.tailed = TRUE) {
 	stopifnot(length(n) == 1)
 	n.each <- n * n.ratios
 	stopifnot(all.equal(n.each, as.integer(n.each)))
-	p <- if(length(prob) > 1){
-		draws <- sapply(1:length(prob), \(i){
-			vals <- rbinom(n * n.ratios[i], 1, prob=prob[i])
+	p <- if(length(prop) > 1){
+		draws <- sapply(1:length(prop), \(i){
+			vals <- rbinom(n * n.ratios[i], 1, prob=prop[i])
 			c(sum(vals), length(vals))
 		})
 		A <- draws[1,]
 		B <- draws[2,]
 		prop.test(A, B)$p.value
 	} else {
-		dat <- rbinom(n, 1, prob = prob)
+		dat <- rbinom(n, 1, prob = prop)
 		prop.test(table(dat), p=pi)$p.value
 	}
 	p <- ifelse(two.tailed, p, p/2)
@@ -183,6 +224,12 @@ p_prop.test <- function(n, prob, pi = .5,
 #' # explicit means/sds
 #' p_anova.test(50, 3,
 #'             raw_info=list(means=c(0,0,1), sds=c(1,2,1)))
+#'
+#' if(FALSE){
+#'   # compare simulated results to pwr package
+#'   pwr::pwr.anova.test(f=0.28, k=4, n=20)
+#'   Spower(n=20, k=4, f=.28, sim=p_anova.test)
+#' }
 #'
 #' @export
 p_anova.test <- function(n, k, f,

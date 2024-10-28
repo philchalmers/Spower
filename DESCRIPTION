@@ -12,6 +12,8 @@ Depends:
     SimDesign
 Imports:
 	car
+Suggests:
+	pwr
 License: GPL (>= 3)
 Encoding: UTF-8
 Repository: CRAN
