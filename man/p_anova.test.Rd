@@ -45,8 +45,8 @@ have equal variance by default, however these may be modified.
 }
 \examples{
 
-# n=50 in 3 groups, medium effect size
-p_anova.test(50, k=3, f=.3)
+# n=50 in 3 groups, "medium" effect size
+p_anova.test(50, k=3, f=.25)
 
 # explicit means/sds
 p_anova.test(50, 3,

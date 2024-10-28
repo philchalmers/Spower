@@ -23,7 +23,7 @@
 #' @return a single p-value
 #' @examples
 #'
-#' # sample size of 50 per group, medium effect size
+#' # sample size of 50 per group, "medium" effect size
 #' p_t.test(n=50, d=0.5)
 #'
 #' # second group 2x as large as the first group
@@ -177,8 +177,8 @@ p_prop.test <- function(n, prob, pi = .5,
 #' @return a single p-value
 #' @examples
 #'
-#' # n=50 in 3 groups, medium effect size
-#' p_anova.test(50, k=3, f=.3)
+#' # n=50 in 3 groups, "medium" effect size
+#' p_anova.test(50, k=3, f=.25)
 #'
 #' # explicit means/sds
 #' p_anova.test(50, 3,

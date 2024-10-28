@@ -48,7 +48,7 @@ have equal variance by default, however these may be modified.
 }
 \examples{
 
-# sample size of 50 per group, medium effect size
+# sample size of 50 per group, "medium" effect size
 p_t.test(n=50, d=0.5)
 
 # second group 2x as large as the first group
