@@ -34,12 +34,14 @@
 #'  \code{\link{runSimulation}} depending on which element (including
 #'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}
 #'
-#' @param sim_function function that both creates the data and returns a single
+#' @param sim function that both creates the data and returns a single
 #'   p-value for the analysis of interest
 #'
 #' @param power power level to use. If set to \code{NA} then the empirical power
 #'   will be estimated given the fixed \code{conditions} input
 #'   (e.g., for post-hoc power analysis)
+#'
+#' @param maxiter maximum number of stochastic root-solving iterations
 #'
 #' @param sig.level alpha level to use. If set to \code{NA} then the empirical
 #'   alpha will be estimated given the fixed \code{conditions} input
@@ -71,6 +73,20 @@
 #'
 #' @param ncores see \code{\link{runSimulation}}
 #'
+#' @param control a list of control parameters to pass to
+#'   \code{\link{runSimulation}} or \code{\link{SimSolve}}
+#'
+#' @param predCI predicting confidence interval level
+#'   (see \code{\link{SimSolve}})
+#'
+#' @param predCI.tol predicting confidence interval consistency tolerance
+#'    for stochastic root solver convergence (see \code{\link{SimSolve}}).
+#'    Default converges when the power rate CI is consistently
+#'    within \code{.01/2} of the target power
+#'
+#' @param check.interval logical; check the interval range validity
+#'   (see \code{\link{SimSolve}})
+#'
 #' @param verbose logical; should information be printed to the console?
 #'
 # @param extra_args additional parameters to pass to \code{\link{runSimulation}} or
@@ -80,7 +96,6 @@
 #' @export
 #'
 #' @examples
-#'
 #'
 #' ############################
 #' # Independent samples t-test
@@ -95,7 +110,7 @@
 #' p_t.test(n=50, d=.5)
 #'
 #' # Estimate power given fixed inputs (post-hoc power analysis)
-#' Spower(n = 50, d = .5, sim_function=p_t.test)
+#' Spower(n = 50, d = .5, sim=p_t.test)
 #'
 #' \dontrun{
 #'
@@ -103,28 +118,26 @@
 #' # Spower(n = 50, d = .5, sim_function=p_t.test, parallel=TRUE)
 #'
 #' # Solve N to get .80 power (a priori power analysis)
-#' (out <- Spower(n = NA, d = .5, sim_function=p_t.test,
-#'           	 power = .8, interval=c(2,500)))
+#' (out <- Spower(n = NA, d = .5, sim=p_t.test, power=.8, interval=c(2,500)))
 #' # total sample size required
-#' out$n * 2
+#' ceiling(out$n) * 2
 #'
 #' # similar information from pwr package
 #' (pwr <- pwr::pwr.t.test(d=.5, power=.80))
-#' pwr$n * 2
+#' ceiling(pwr$n) * 2
 #'
 #' # Solve d to get .80 power (sensitivity power analysis)
-#' Spower(n = 50, d = NA, sim_function=p_t.test,
-#'   	  power=.80, interval=c(.1, 2))
+#' Spower(n = 50, d = NA, sim=p_t.test, power=.8, interval=c(.1, 2))
 #'
 #' pwr::pwr.t.test(n=50, power=.80) # compare
 #'
 #' # Solve alpha that would give power of .80 (criterion power analysis)
 #' #    interval not required (set to interval = c(0, 1))
-#' Spower(n = 50, d = .5, sim_function=p_t.test, power=.80, sig.level=NA)
+#' Spower(n = 50, d = .5, sim=p_t.test, power=.80, sig.level=NA)
 #'
 #' # Solve beta/alpha ratio to specific error trade-off constant
 #' #   (compromise power analysis)
-#' Spower(n = 50, d = .5, sim_function=p_t.test, beta_alpha = 2)
+#' Spower(n = 50, d = .5, sim=p_t.test, beta_alpha = 2)
 #'
 #'
 #' ###############
@@ -156,31 +169,31 @@
 #' }
 #'
 #' # Solve N to get .80 power (a priori power analysis), using defaults
-#' Spower(n = NA, d = .5, sim_function=new.p_t.test,
-#'        power=.8, interval=c(2,500))
+#' Spower(n = NA, d = .5, sim=new.p_t.test, power=.8, interval=c(2,500))
 #'
 #' # Solve N to get .80 power (a priori power analysis), assuming
 #' #   equal variances, group2 2x as large as group1, large skewness
 #' (out <- Spower(n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
-#'               sim_function=new.p_t.test, power=.8, interval=c(2,500)))
+#'               sim=new.p_t.test, power=.8, interval=c(2,500)))
 #'
 #' # total sample size required
-#' out$n + out$n * 2
+#' ceiling(out$n) + ceiling(out$n) * 2
 #'
 #' # should different alpha level be used given the assumption violations?
 #' (TypeI <- Spower(n = 50, d = 0, var.equal=TRUE, n2_n1=2, df=3,
-#'                 sim_function=new.p_t.test, replications=30000))
+#'                 sim=new.p_t.test, replications=30000))
 #' se <- with(TypeI, sqrt(sig.level * (1-sig.level) / REPLICATIONS))
 #' TypeI$sig.level + qnorm(c(.025, .975)) * se  # 95% CI
 #' TypeI$power
 #'
 #'
 #' }
-Spower <- function(..., sim_function, interval, power = NA,
+Spower <- function(..., sim, interval, power = NA,
 				   sig.level=.05, replications=10000, integer,
 				   beta_alpha = NULL, parallel = FALSE, cl = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
-				   verbose = TRUE){
+				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
+				   check.interval = TRUE, maxiter=150, control = list()){
 	conditions <- SimDesign::createDesign(...)
 	stopifnot(nrow(conditions) == 1)
 	if(is.na(sig.level) && missing(interval)) interval <- c(0, 1)
@@ -191,14 +204,17 @@ Spower <- function(..., sim_function, interval, power = NA,
 			stop('Must provide a search interval to solve the missing NA', call.=FALSE)
 		interval <- c(NA, NA)
 	}
-	if(missing(integer))
+	if(missing(integer)){
 		integer <- !has.decimals(interval)
+		if(!integer)
+			message('Using continuous search interval')
+	}
 	if(sum(sapply(conditions, is.na), is.na(power)) != 1)
 		stop(c('Exactly one argument for the inputs \'power\', \'sig.level\',',
 			   '\n  or the \'...\' list must be set to NA'), call.=FALSE)
 	fixed_objects <- list()
 	sim_function_aug <- function(condition, dat, fixed_objects){
-		do.call(sim_function,
+		do.call(sim,
 				condition[!(names(condition) %in% c('ID', 'sig.level'))])
 	}
 	ret <- if(is.na(power) || !is.null(beta_alpha)){
@@ -206,13 +222,17 @@ Spower <- function(..., sim_function, interval, power = NA,
 					  analyse=sim_function_aug,
 					  summarise=Internal_Summarise,
 					  fixed_objects=fixed_objects, save=FALSE,
-					  cl=cl, parallel=parallel, ncores=ncores, verbose=verbose)
+					  cl=cl, parallel=parallel, ncores=ncores,
+					  verbose=verbose, control=control)
 	} else {
 		SimDesign::SimSolve(conditions, interval=interval,
 							analyse=sim_function_aug, save=FALSE,
 							summarise=Internal_Summarise, b=power,
 							integer=integer, fixed_objects=fixed_objects,
-							cl=cl, parallel=parallel, ncores=ncores, verbose=verbose)
+							cl=cl, parallel=parallel, ncores=ncores, verbose=verbose,
+							predCI=predCI, predCI.tol=predCI.tol,
+							control=control, check.interval=check.interval,
+							maxiter=maxiter)
 	}
 	if(!is.null(beta_alpha)){
 		out <- uniroot(compromise_root, c(.0001, .9999), beta_alpha=beta_alpha,

@@ -39,7 +39,7 @@ p_t.test <- function(n, d, mu = 0,
 					 n2_n1 = 1, two.tailed = TRUE, var.equal = TRUE,
 					 raw_info = list(means=NA, sds=NA)) {
 	type <- match.arg(type)
-	if(!is.na(raw_info$mu1)){
+	if(!all(is.na(raw_info$means))){
 		if(!missing(d)) stop('d argument cannot be used with raw_info')
 		group1 <- with(raw_info, rnorm(n, mean=means[1], sd=sds[1]))
 		group2 <- with(raw_info, rnorm(n * n2_n1, mean=means[2], sd=sds[2]))
@@ -186,7 +186,7 @@ p_anova.test <- function(n, k, f,
 	stopifnot(length(n) == 1)
 	stopifnot(length(n.ratios) == k)
 	group <- rep(factor(1:k), times = n*n.ratios)
-	if(!is.na(raw_info$means[1])){
+	if(!all(is.na(raw_info$means))){
 		dat <- sapply(1:k, \(i)
 					  with(raw_info, rnorm(n*n.ratios[i],
 					  					 mean=means[i], sd=sds[i])))

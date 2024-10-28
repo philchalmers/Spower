@@ -6,7 +6,7 @@
 \usage{
 Spower(
   ...,
-  sim_function,
+  sim,
   interval,
   power = NA,
   sig.level = 0.05,
@@ -16,7 +16,12 @@ Spower(
   parallel = FALSE,
   cl = NULL,
   ncores = parallelly::availableCores(omit = 1L),
-  verbose = TRUE
+  predCI = 0.95,
+  predCI.tol = 0.01,
+  verbose = TRUE,
+  check.interval = TRUE,
+  maxiter = 150,
+  control = list()
 )
 }
 \arguments{
@@ -26,7 +31,7 @@ are passed to either \code{\link{SimSolve}} or
 \code{\link{runSimulation}} depending on which element (including
 the \code{power} and \code{sig.level} arguments) is set to \code{NA}}
 
-\item{sim_function}{function that both creates the data and returns a single
+\item{sim}{function that both creates the data and returns a single
 p-value for the analysis of interest}
 
 \item{interval}{search interval to use when \code{\link{SimSolve}} is required.
@@ -63,7 +68,23 @@ between Type I and Type II errors}
 
 \item{ncores}{see \code{\link{runSimulation}}}
 
+\item{predCI}{predicting confidence interval level
+(see \code{\link{SimSolve}})}
+
+\item{predCI.tol}{predicting confidence interval consistency tolerance
+for stochastic root solver convergence (see \code{\link{SimSolve}}).
+Default converges when the power rate CI is consistently
+within \code{.01/2} of the target power}
+
 \item{verbose}{logical; should information be printed to the console?}
+
+\item{check.interval}{logical; check the interval range validity
+(see \code{\link{SimSolve}})}
+
+\item{maxiter}{maximum number of stochastic root-solving iterations}
+
+\item{control}{a list of control parameters to pass to
+\code{\link{runSimulation}} or \code{\link{SimSolve}}}
 }
 \description{
 General purpose function that serves as a power-focused wrapper to the
@@ -97,7 +118,6 @@ analysis.
 }
 \examples{
 
-
 ############################
 # Independent samples t-test
 ############################
@@ -111,7 +131,7 @@ p_t.test(n=50, d=.5)
 p_t.test(n=50, d=.5)
 
 # Estimate power given fixed inputs (post-hoc power analysis)
-Spower(n = 50, d = .5, sim_function=p_t.test)
+Spower(n = 50, d = .5, sim=p_t.test)
 
 \dontrun{
 
@@ -119,28 +139,28 @@ Spower(n = 50, d = .5, sim_function=p_t.test)
 # Spower(n = 50, d = .5, sim_function=p_t.test, parallel=TRUE)
 
 # Solve N to get .80 power (a priori power analysis)
-(out <- Spower(n = NA, d = .5, sim_function=p_t.test,
+(out <- Spower(n = NA, d = .5, sim=p_t.test,
           	 power = .8, interval=c(2,500)))
 # total sample size required
-out$n * 2
+ceiling(out$n) * 2
 
 # similar information from pwr package
 (pwr <- pwr::pwr.t.test(d=.5, power=.80))
-pwr$n * 2
+ceiling(pwr$n) * 2
 
 # Solve d to get .80 power (sensitivity power analysis)
-Spower(n = 50, d = NA, sim_function=p_t.test,
+Spower(n = 50, d = NA, sim=p_t.test,
   	  power=.80, interval=c(.1, 2))
 
 pwr::pwr.t.test(n=50, power=.80) # compare
 
 # Solve alpha that would give power of .80 (criterion power analysis)
 #    interval not required (set to interval = c(0, 1))
-Spower(n = 50, d = .5, sim_function=p_t.test, power=.80, sig.level=NA)
+Spower(n = 50, d = .5, sim=p_t.test, power=.80, sig.level=NA)
 
 # Solve beta/alpha ratio to specific error trade-off constant
 #   (compromise power analysis)
-Spower(n = 50, d = .5, sim_function=p_t.test, beta_alpha = 2)
+Spower(n = 50, d = .5, sim=p_t.test, beta_alpha = 2)
 
 
 ###############
@@ -172,20 +192,20 @@ new.p_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
 }
 
 # Solve N to get .80 power (a priori power analysis), using defaults
-Spower(n = NA, d = .5, sim_function=new.p_t.test,
+Spower(n = NA, d = .5, sim=new.p_t.test,
        power=.8, interval=c(2,500))
 
 # Solve N to get .80 power (a priori power analysis), assuming
 #   equal variances, group2 2x as large as group1, large skewness
 (out <- Spower(n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
-              sim_function=new.p_t.test, power=.8, interval=c(2,500)))
+              sim=new.p_t.test, power=.8, interval=c(2,500)))
 
 # total sample size required
-out$n + out$n * 2
+ceiling(out$n) + ceiling(out$n) * 2
 
 # should different alpha level be used given the assumption violations?
 (TypeI <- Spower(n = 50, d = 0, var.equal=TRUE, n2_n1=2, df=3,
-                sim_function=new.p_t.test, replications=30000))
+                sim=new.p_t.test, replications=30000))
 se <- with(TypeI, sqrt(sig.level * (1-sig.level) / REPLICATIONS))
 TypeI$sig.level + qnorm(c(.025, .975)) * se  # 95\% CI
 TypeI$power
