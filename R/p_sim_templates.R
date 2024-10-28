@@ -293,7 +293,14 @@ p_anova.test <- function(n, k, f,
 #' if(FALSE){
 #'     # compare simulated results to pwr package
 #'
-
+#'     P0 <- c(1/3, 1/3, 1/3)
+#'     P <- c(.5, .25, .25)
+#'     w <- pwr::ES.w1(P0, P)
+#'     pwr::pwr.chisq.test(w=w, df=(3-1), N=100, sig.level=0.05)
+#'
+#'     Spower(n=100, sim=p_chisq.test, raw_info=list(P0=P0, P=P))
+#'
+#'
 #'
 #' }
 #'
