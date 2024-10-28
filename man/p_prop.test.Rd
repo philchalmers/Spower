@@ -6,17 +6,18 @@
 \usage{
 p_prop.test(
   n,
-  prob,
+  prop,
   pi = 0.5,
-  n.ratios = rep(1, length(prob)),
+  n.ratios = rep(1, length(prop)),
   two.tailed = TRUE
 )
 }
 \arguments{
 \item{n}{sample size per group}
 
-\item{prob}{sample probability of success. If a vector with two-values
-is supplied then a two-samples test will be used}
+\item{prop}{sample probability/proportions of success.
+If a vector with two-values or more elements are supplied then
+a multi-samples test will be used}
 
 \item{pi}{probability of success to test against (default is .5). Ignored
 for two-sample tests}
@@ -36,15 +37,25 @@ for proportion tests and return a p-value.
 \examples{
 
 # 50 observations, test against pi = .5
-p_prop.test(50, prob=.65)
+p_prop.test(50, prop=.65)
 
 # two sample test
-p_prop.test(50, prob=c(.5, .65))
+p_prop.test(50, prop=c(.5, .65))
 
 # two sample test, unequal ns
-p_prop.test(50, prob=c(.5, .65))
+p_prop.test(50, prop=c(.5, .65))
 
 # three sample test, group2 twice as large as others
-p_prop.test(50, prob=c(.5, .65, .7), n.ratios=c(1,2,1))
+p_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
+
+if(FALSE){
+    # compare simulated results to pwr package
+
+    h <- pwr::ES.h(0.5, 0.4)
+    pwr::pwr.p.test(h=h, n=60)
+
+    Spower(n=60, prop=c(.5, .4), sim=p_prop.test)
+
+}
 
 }

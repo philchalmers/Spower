@@ -36,4 +36,19 @@ p_r(50, r=.5, method = 'spearman')
 # test against constant other than rho = .6
 p_r(50, .5, rho=.60)
 
+
+if(FALSE){
+    # compare simulated results to pwr package
+
+    pwr::pwr.r.test(r=0.3, n=50)
+    Spower(n=50, r=0.3, sim=p_r)
+
+    pwr::pwr.r.test(r=0.3, power=0.80)
+    Spower(n=NA, r=0.3, sim=p_r, power=.80, interval=c(10, 200))
+
+    pwr::pwr.r.test(r=0.1, power=0.80)
+    Spower(n=NA, r=0.1, sim=p_r, power=.80, interval=c(200, 1000))
+
+}
+
 }

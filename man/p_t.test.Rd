@@ -58,4 +58,19 @@ p_t.test(n=50, d=0.5, n2_n1 = 2)
 p_t.test(n=50, d=0.5, type = 'paired')
 p_t.test(n=50, d=0.5, type = 'one.sample')
 
+if(FALSE){
+  # compare simulated results to pwr package
+
+  pwr::pwr.t.test(d=0.2, n=60, sig.level=0.10,
+             type="one.sample", alternative="two.sided")
+  Spower(n=60, d=0.2, type = 'one.sample', two.tailed=TRUE,
+     sim=p_t.test, sig.level=.10)
+
+  pwr::pwr.t.test(d=0.3, power=0.75, type="two.sample",
+                  alternative="greater")
+  Spower(n=NA, d=0.3, type='two.sample', two.tailed=FALSE,
+         sim=p_t.test, power=0.75, interval=c(10,200))
+
+}
+
 }

@@ -194,11 +194,15 @@ Spower <- function(..., sim, interval, power = NA,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = TRUE, maxiter=150, control = list()){
-	conditions <- SimDesign::createDesign(...)
+	fixed_objects <- dots <- list(...)
+	dots <- lapply(dots, \(x) if(!is.atomic(x) || length(x) > 1) list(x) else x)
+	conditions <- do.call(SimDesign::createDesign, dots)
 	stopifnot(nrow(conditions) == 1)
+	fixed_objects$ID <- 1
 	if(is.na(sig.level) && missing(interval)) interval <- c(0, 1)
 	if(is.na(sig.level)) integer <- FALSE
-	conditions$sig.level <- sig.level
+	conditions$sig.level <- fixed_objects$sig.level <- sig.level
+	if(!is.na(power)) conditions$power <- power
 	if(missing(interval)){
 		if(is.na(sig.level) || any(is.na(conditions)))
 			stop('Must provide a search interval to solve the missing NA', call.=FALSE)
@@ -209,21 +213,24 @@ Spower <- function(..., sim, interval, power = NA,
 		if(!integer)
 			message('Using continuous search interval')
 	}
-	if(sum(sapply(conditions, is.na), is.na(power)) != 1)
+	if(sum(sapply(conditions, \(x) isTRUE(is.na(x))), is.na(power)) != 1)
 		stop(c('Exactly one argument for the inputs \'power\', \'sig.level\',',
 			   '\n  or the \'...\' list must be set to NA'), call.=FALSE)
-	fixed_objects <- list()
 	sim_function_aug <- function(condition, dat, fixed_objects){
+		pick <- which(sapply(fixed_objects, \(x) all(is.na(x))))
+		nm <- names(pick)
+		if(length(pick)) fixed_objects[[nm]] <- condition[[nm]]
 		do.call(sim,
-				condition[!(names(condition) %in% c('ID', 'sig.level'))])
+				fixed_objects[!(names(fixed_objects) %in% c('ID', 'sig.level'))])
 	}
 	ret <- if(is.na(power) || !is.null(beta_alpha)){
-		SimDesign::runSimulation(conditions, replications=replications,
+		tmp <- SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug,
 					  summarise=Internal_Summarise,
 					  fixed_objects=fixed_objects, save=FALSE,
 					  cl=cl, parallel=parallel, ncores=ncores,
 					  verbose=verbose, control=control)
+		tmp[,c(names(conditions), 'power')]
 	} else {
 		SimDesign::SimSolve(conditions, interval=interval,
 							analyse=sim_function_aug, save=FALSE,

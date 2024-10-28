@@ -137,7 +137,8 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' Proportion test simulation and p-value
 #'
 #' Generates single and multi-sample data
-#' for proportion tests and return a p-value.
+#' for proportion tests and return a p-value. Uses \code{\link{binom.test}}
+#' for one-sample applications and \code{\link{prop.test}} otherwise.
 #'
 #' @param n sample size per group
 #' @param prop sample probability/proportions of success.
@@ -167,7 +168,7 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #'     # compare simulated results to pwr package
 #'
 #'     h <- pwr::ES.h(0.5, 0.4)
-#'     pwr.p.test(h=h, n=60)
+#'     pwr::pwr.p.test(h=h, n=60)
 #'
 #'     Spower(n=60, prop=c(.5, .4), sim=p_prop.test)
 #'
@@ -190,7 +191,7 @@ p_prop.test <- function(n, prop, pi = .5,
 		prop.test(A, B)$p.value
 	} else {
 		dat <- rbinom(n, 1, prob = prop)
-		prop.test(table(dat), p=pi)$p.value
+		binom.test(sum(dat), n=n, p=pi)$p.value
 	}
 	p <- ifelse(two.tailed, p, p/2)
 	p
