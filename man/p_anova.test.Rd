@@ -10,6 +10,7 @@ p_anova.test(
   f,
   n.ratios = rep(1, k),
   two.tailed = TRUE,
+  var.equal = TRUE,
   raw_info = list(means = NA, sds = NA)
 )
 }
@@ -24,6 +25,9 @@ p_anova.test(
 Default of 1 sets the groups to be the same size (n * n.ratio)}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
+
+\item{var.equal}{logical; use the pooled SE estimate instead of the Welch
+correction for unequal variances?}
 
 \item{raw_info}{(optional) list of mean and SD inputs for each group,
 each specified as a vector. When specified the input \code{f} is ignored}
@@ -42,7 +46,7 @@ have equal variance by default, however these may be modified.
 \examples{
 
 # n=50 in 3 groups, medium effect size
-p_anova.test(50, 3, f=.3)
+p_anova.test(50, k=3, f=.3)
 
 # explicit means/sds
 p_anova.test(50, 3,

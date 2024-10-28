@@ -39,6 +39,8 @@ p_t.test <- function(n, d, mu = 0,
 					 n2_n1 = 1, two.tailed = TRUE, var.equal = TRUE,
 					 raw_info = list(means=NA, sds=NA)) {
 	type <- match.arg(type)
+	n.each <- n * n2_n1
+	stopifnot(all.equal(n.each, as.integer(n.each)))
 	if(!all(is.na(raw_info$means))){
 		if(!missing(d)) stop('d argument cannot be used with raw_info')
 		group1 <- with(raw_info, rnorm(n, mean=means[1], sd=sds[1]))
@@ -135,6 +137,8 @@ p_prop.test <- function(n, prob, pi = .5,
 						n.ratios = rep(1, length(prob)),
 						two.tailed = TRUE) {
 	stopifnot(length(n) == 1)
+	n.each <- n * n.ratios
+	stopifnot(all.equal(n.each, as.integer(n.each)))
 	p <- if(length(prob) > 1){
 		draws <- sapply(1:length(prob), \(i){
 			vals <- rbinom(n * n.ratios[i], 1, prob=prob[i])
@@ -166,13 +170,15 @@ p_prop.test <- function(n, prob, pi = .5,
 #' @param n.ratios allocation ratios reflecting the sample size ratios.
 #'   Default of 1 sets the groups to be the same size (n * n.ratio)
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#' @param var.equal logical; use the pooled SE estimate instead of the Welch
+#'   correction for unequal variances?
 #' @param raw_info (optional) list of mean and SD inputs for each group,
 #'   each specified as a vector. When specified the input \code{f} is ignored
 #' @return a single p-value
 #' @examples
 #'
 #' # n=50 in 3 groups, medium effect size
-#' p_anova.test(50, 3, f=.3)
+#' p_anova.test(50, k=3, f=.3)
 #'
 #' # explicit means/sds
 #' p_anova.test(50, 3,
@@ -181,22 +187,32 @@ p_prop.test <- function(n, prob, pi = .5,
 #' @export
 p_anova.test <- function(n, k, f,
 						 n.ratios = rep(1, k),
-						 two.tailed = TRUE,
+						 two.tailed = TRUE, var.equal = TRUE,
 						 raw_info = list(means=NA, sds=NA)) {
 	stopifnot(length(n) == 1)
 	stopifnot(length(n.ratios) == k)
 	group <- rep(factor(1:k), times = n*n.ratios)
+	n.each <- n*n.ratios
+	stopifnot(all.equal(n.each, as.integer(n.each)))
 	if(!all(is.na(raw_info$means))){
-		dat <- sapply(1:k, \(i)
+		dv <- sapply(1:k, \(i)
 					  with(raw_info, rnorm(n*n.ratios[i],
 					  					 mean=means[i], sd=sds[i])))
+		df <- data.frame(group=group, dv = as.numeric(dv))
 	} else {
 		# use f
-		browser()
-		dat <- sapply(1:k, \(i) rnorm(n*n.ratios[i]))
+		f2 <- f^2
+		N <- sum(n.each)
+		eta2 <- 1 / (1/f2 + 1)
+		# pick a nice SSG from mu=0 deviation form, and solve for SSE
+		gmeans <- seq(-2, 2, length.out=k)
+		SSG <- sum(n.each * gmeans^2)
+		SSE <- SSG*(1/eta2 - 1)
+		sde <- sqrt(SSE / N)
+		dv <- rep(gmeans, times=n.each) + rnorm(N, sd=sde)
+		df <- data.frame(dv=dv, group=group)
 	}
-	df <- data.frame(group=group, dv = as.numeric(dat))
-	p <- oneway.test(dv ~ group, data=df)$p.value
+	p <- oneway.test(dv ~ group, data=df, var.equal=var.equal)$p.value
 	p <- ifelse(two.tailed, p, p/2)
 	p
 }

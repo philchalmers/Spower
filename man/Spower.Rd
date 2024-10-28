@@ -139,8 +139,7 @@ Spower(n = 50, d = .5, sim=p_t.test)
 # Spower(n = 50, d = .5, sim_function=p_t.test, parallel=TRUE)
 
 # Solve N to get .80 power (a priori power analysis)
-(out <- Spower(n = NA, d = .5, sim=p_t.test,
-          	 power = .8, interval=c(2,500)))
+(out <- Spower(n = NA, d = .5, sim=p_t.test, power=.8, interval=c(2,500)))
 # total sample size required
 ceiling(out$n) * 2
 
@@ -149,8 +148,7 @@ ceiling(out$n) * 2
 ceiling(pwr$n) * 2
 
 # Solve d to get .80 power (sensitivity power analysis)
-Spower(n = 50, d = NA, sim=p_t.test,
-  	  power=.80, interval=c(.1, 2))
+Spower(n = 50, d = NA, sim=p_t.test, power=.8, interval=c(.1, 2))
 
 pwr::pwr.t.test(n=50, power=.80) # compare
 
@@ -192,8 +190,7 @@ new.p_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
 }
 
 # Solve N to get .80 power (a priori power analysis), using defaults
-Spower(n = NA, d = .5, sim=new.p_t.test,
-       power=.8, interval=c(2,500))
+Spower(n = NA, d = .5, sim=new.p_t.test, power=.8, interval=c(2,500))
 
 # Solve N to get .80 power (a priori power analysis), assuming
 #   equal variances, group2 2x as large as group1, large skewness
