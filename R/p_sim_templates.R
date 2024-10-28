@@ -264,3 +264,56 @@ p_anova.test <- function(n, k, f,
 	p <- ifelse(two.tailed, p, p/2)
 	p
 }
+
+#' Proportion test simulation and p-value
+#'
+#' Generates single and multi-sample data
+#' for proportion tests and return a p-value. Uses \code{\link{binom.test}}
+#' for one-sample applications and \code{\link{prop.test}} otherwise.
+#'
+#' @param n sample size per group
+#' @param prop sample probability/proportions of success.
+#'   If a vector with two-values or more elements are supplied then
+#'   a multi-samples test will be used
+#' @param n.ratios allocation ratios reflecting the sample size ratios.
+#'   Default of 1 sets the groups to be the same size (n * n.ratio)
+#' @param pi probability of success to test against (default is .5). Ignored
+#'   for two-sample tests
+#' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#' @return a single p-value
+#' @examples
+#'
+#' p_chisq.test(100, raw_info = list(P0 = c(.25, .25, .25, .25),
+#'                                   P = c(.6, .2, .1, .1)))
+#'
+#' # works, but logic seems odd
+#' p_chisq.test(100, raw_info = list(P0 = matrix(c(.25, .25, .25, .25), 2, 2),
+#'                                   P = matrix(c(.6, .2, .1, .1),2,2)))
+#'
+#' if(FALSE){
+#'     # compare simulated results to pwr package
+#'
+
+#'
+#' }
+#'
+#' @export
+p_chisq.test <- function(n, w, df,
+						 raw_info = list(P0 = NA, P = NA)) {
+	stopifnot(length(n) == 1)
+	p <- if(!missing(w)){
+		stopifnot(length(w) == 1)
+		stopifnot(length(df) == 1)
+
+
+
+		tab <- NA
+	} else {
+		tab <- as.vector(with(raw_info, rmultinom(1, size = n, prob = P)))
+		if(is.matrix(raw_info$P))
+			tab <- with(raw_info, matrix(tab, nrow=nrow(P), ncol=ncol(P)))
+		p <- chisq.test(tab, p=raw_info$P0)$p.value
+	}
+
+	p
+}

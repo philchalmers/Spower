@@ -2,6 +2,7 @@
 
 export(Spower)
 export(p_anova.test)
+export(p_chisq.test)
 export(p_prop.test)
 export(p_r)
 export(p_t.test)
