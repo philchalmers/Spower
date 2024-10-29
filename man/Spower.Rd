@@ -5,14 +5,14 @@
 \title{Simulation-based Power Analysis}
 \usage{
 Spower(
-  ...,
   sim,
+  ...,
   interval,
   power = NA,
   sig.level = 0.05,
+  beta_alpha = NULL,
   replications = 10000,
   integer,
-  beta_alpha = NULL,
   parallel = FALSE,
   cl = NULL,
   ncores = parallelly::availableCores(omit = 1L),
@@ -25,14 +25,14 @@ Spower(
 )
 }
 \arguments{
+\item{sim}{function that both creates the data and returns a single
+p-value for the analysis of interest}
+
 \item{...}{a set of conditions to use in the simulation that must match the
 arguments in the function \code{sim_function}. Internally these arguments
 are passed to either \code{\link{SimSolve}} or
 \code{\link{runSimulation}} depending on which element (including
 the \code{power} and \code{sig.level} arguments) is set to \code{NA}}
-
-\item{sim}{function that both creates the data and returns a single
-p-value for the analysis of interest}
 
 \item{interval}{search interval to use when \code{\link{SimSolve}} is required.
 Note that for compromise analyses, where the \code{sig.level} is set to
@@ -46,6 +46,12 @@ will be estimated given the fixed \code{conditions} input
 alpha will be estimated given the fixed \code{conditions} input
 (e.g., for criterion power analysis)}
 
+\item{beta_alpha}{ratio to use in compromise analyses corresponding to
+the Type II errors (beta) over the Type I error (alpha). Ratios greater
+than 1 indicate that Type I errors are worse than Type II, while ratios
+less than one the opposite. A ratio equal to 1 gives an equal trade-off
+between Type I and Type II errors}
+
 \item{replications}{number of replications to use when
 \code{\link{runSimulation}} is required}
 
@@ -54,12 +60,6 @@ use integers or doubles.
 Automatically set to \code{FALSE} if \code{interval} contains
 non-integer numbers, as well as when \code{sig.level = NA},
 though in general this should be set explicitly}
-
-\item{beta_alpha}{ratio to use in compromise analyses corresponding to
-the Type II errors (beta) over the Type I error (alpha). Ratios greater
-than 1 indicate that Type I errors are worse than Type II, while ratios
-less than one the opposite. A ratio equal to 1 gives an equal trade-off
-between Type I and Type II errors}
 
 \item{parallel}{for parallel computing for slower simulation experiments
 (see \code{\link{runSimulation}} for details)}
@@ -131,15 +131,15 @@ p_t.test(n=50, d=.5)
 p_t.test(n=50, d=.5)
 
 # Estimate power given fixed inputs (post-hoc power analysis)
-Spower(n = 50, d = .5, sim=p_t.test)
+Spower(p_t.test, n = 50, d = .5)
 
 \dontrun{
 
 # Same as above, but executed with multiple cores (not run)
-# Spower(n = 50, d = .5, sim_function=p_t.test, parallel=TRUE)
+# Spower(p_t.test, n = 50, d = .5, parallel=TRUE)
 
 # Solve N to get .80 power (a priori power analysis)
-(out <- Spower(n = NA, d = .5, sim=p_t.test, power=.8, interval=c(2,500)))
+(out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500)))
 # total sample size required
 ceiling(out$n) * 2
 
@@ -148,17 +148,17 @@ ceiling(out$n) * 2
 ceiling(pwr$n) * 2
 
 # Solve d to get .80 power (sensitivity power analysis)
-Spower(n = 50, d = NA, sim=p_t.test, power=.8, interval=c(.1, 2))
+Spower(p_t.test, n = 50, d = NA, power=.8, interval=c(.1, 2))
 
 pwr::pwr.t.test(n=50, power=.80) # compare
 
 # Solve alpha that would give power of .80 (criterion power analysis)
 #    interval not required (set to interval = c(0, 1))
-Spower(n = 50, d = .5, sim=p_t.test, power=.80, sig.level=NA)
+Spower(p_t.test, n = 50, d = .5, power=.80, sig.level=NA)
 
 # Solve beta/alpha ratio to specific error trade-off constant
 #   (compromise power analysis)
-Spower(n = 50, d = .5, sim=p_t.test, beta_alpha = 2)
+Spower(p_t.test, n = 50, d = .5, beta_alpha = 2)
 
 
 ###############
@@ -190,19 +190,19 @@ new.p_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
 }
 
 # Solve N to get .80 power (a priori power analysis), using defaults
-Spower(n = NA, d = .5, sim=new.p_t.test, power=.8, interval=c(2,500))
+Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
 
 # Solve N to get .80 power (a priori power analysis), assuming
 #   equal variances, group2 2x as large as group1, large skewness
-(out <- Spower(n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
-              sim=new.p_t.test, power=.8, interval=c(2,500)))
+(out <- Spower(p_t.test, n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
+               power=.8, interval=c(2,500)))
 
 # total sample size required
 ceiling(out$n) + ceiling(out$n) * 2
 
 # should different alpha level be used given the assumption violations?
-(TypeI <- Spower(n = 50, d = 0, var.equal=TRUE, n2_n1=2, df=3,
-                sim=new.p_t.test, replications=30000))
+(TypeI <- Spower(p_t.test, n = 50, d = 0, var.equal=TRUE, n2_n1=2, df=3,
+                 replications=30000))
 se <- with(TypeI, sqrt(sig.level * (1-sig.level) / REPLICATIONS))
 TypeI$sig.level + qnorm(c(.025, .975)) * se  # 95\% CI
 TypeI$power

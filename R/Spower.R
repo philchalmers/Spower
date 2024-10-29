@@ -110,15 +110,15 @@
 #' p_t.test(n=50, d=.5)
 #'
 #' # Estimate power given fixed inputs (post-hoc power analysis)
-#' Spower(n = 50, d = .5, sim=p_t.test)
+#' Spower(p_t.test, n = 50, d = .5)
 #'
 #' \dontrun{
 #'
 #' # Same as above, but executed with multiple cores (not run)
-#' # Spower(n = 50, d = .5, sim_function=p_t.test, parallel=TRUE)
+#' # Spower(p_t.test, n = 50, d = .5, parallel=TRUE)
 #'
 #' # Solve N to get .80 power (a priori power analysis)
-#' (out <- Spower(n = NA, d = .5, sim=p_t.test, power=.8, interval=c(2,500)))
+#' (out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500)))
 #' # total sample size required
 #' ceiling(out$n) * 2
 #'
@@ -127,17 +127,17 @@
 #' ceiling(pwr$n) * 2
 #'
 #' # Solve d to get .80 power (sensitivity power analysis)
-#' Spower(n = 50, d = NA, sim=p_t.test, power=.8, interval=c(.1, 2))
+#' Spower(p_t.test, n = 50, d = NA, power=.8, interval=c(.1, 2))
 #'
 #' pwr::pwr.t.test(n=50, power=.80) # compare
 #'
 #' # Solve alpha that would give power of .80 (criterion power analysis)
 #' #    interval not required (set to interval = c(0, 1))
-#' Spower(n = 50, d = .5, sim=p_t.test, power=.80, sig.level=NA)
+#' Spower(p_t.test, n = 50, d = .5, power=.80, sig.level=NA)
 #'
 #' # Solve beta/alpha ratio to specific error trade-off constant
 #' #   (compromise power analysis)
-#' Spower(n = 50, d = .5, sim=p_t.test, beta_alpha = 2)
+#' Spower(p_t.test, n = 50, d = .5, beta_alpha = 2)
 #'
 #'
 #' ###############
@@ -169,33 +169,35 @@
 #' }
 #'
 #' # Solve N to get .80 power (a priori power analysis), using defaults
-#' Spower(n = NA, d = .5, sim=new.p_t.test, power=.8, interval=c(2,500))
+#' Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
 #'
 #' # Solve N to get .80 power (a priori power analysis), assuming
 #' #   equal variances, group2 2x as large as group1, large skewness
-#' (out <- Spower(n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
-#'               sim=new.p_t.test, power=.8, interval=c(2,500)))
+#' (out <- Spower(p_t.test, n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
+#'                power=.8, interval=c(2,500)))
 #'
 #' # total sample size required
 #' ceiling(out$n) + ceiling(out$n) * 2
 #'
 #' # should different alpha level be used given the assumption violations?
-#' (TypeI <- Spower(n = 50, d = 0, var.equal=TRUE, n2_n1=2, df=3,
-#'                 sim=new.p_t.test, replications=30000))
+#' (TypeI <- Spower(p_t.test, n = 50, d = 0, var.equal=TRUE, n2_n1=2, df=3,
+#'                  replications=30000))
 #' se <- with(TypeI, sqrt(sig.level * (1-sig.level) / REPLICATIONS))
 #' TypeI$sig.level + qnorm(c(.025, .975)) * se  # 95% CI
 #' TypeI$power
 #'
 #'
 #' }
-Spower <- function(..., sim, interval, power = NA,
-				   sig.level=.05, replications=10000, integer,
-				   beta_alpha = NULL, parallel = FALSE, cl = NULL,
+Spower <- function(sim, ..., interval, power = NA,
+				   sig.level=.05, beta_alpha = NULL,
+				   replications=10000, integer,
+				   parallel = FALSE, cl = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = TRUE, maxiter=150, control = list()){
 	fixed_objects <- dots <- list(...)
 	dots <- lapply(dots, \(x) if(!is.atomic(x) || length(x) > 1) list(x) else x)
+	names(dots) <- names(fixed_objects)
 	conditions <- do.call(SimDesign::createDesign, dots)
 	stopifnot(nrow(conditions) == 1)
 	fixed_objects$ID <- 1

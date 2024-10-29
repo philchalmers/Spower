@@ -55,7 +55,7 @@ if(FALSE){
     h <- pwr::ES.h(0.5, 0.4)
     pwr::pwr.p.test(h=h, n=60)
 
-    Spower(n=60, prop=c(.5, .4), sim=p_prop.test)
+    Spower(p_prop.test, n=60, prop=c(.5, .4))
 
 }
 

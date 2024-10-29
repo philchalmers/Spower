@@ -27,12 +27,14 @@ Generates multinomial data suitable for analysis with
 }
 \examples{
 
+# effect size w + df
 p_chisq.test(100, w=.2, df=3)
 
+# vector of explicit probabilities
 p_chisq.test(100, raw_info = list(P0 = c(.25, .25, .25, .25),
                                   P = c(.6, .2, .1, .1)))
 
-# works, but logic seems odd
+# matrix of explicit probabilities
 p_chisq.test(100, raw_info = list(P0 = matrix(c(.25, .25, .25, .25), 2, 2),
                                   P = matrix(c(.6, .2, .1, .1),2,2)))
 
@@ -45,8 +47,19 @@ if(FALSE){
     df <- 3-1
     pwr::pwr.chisq.test(w=w, df=df, N=100, sig.level=0.05)
 
-    Spower(n=100, w=w, df=df, sim=p_chisq.test)
-    Spower(n=100, sim=p_chisq.test, raw_info=list(P0=P0, P=P))
+    Spower(p_chisq.test, n=100, w=w, df=df)
+    Spower(p_chisq.test, n=100, raw_info=list(P0=P0, P=P))
+
+    # slightly differ (latter more conservative)
+    pwr::pwr.chisq.test(w=w, df=df, power=.8, sig.level=0.05)
+    Spower(p_chisq.test, n=NA, w=w, df=df,
+           power=.80, interval=c(50, 200))
+
+    # Spower more conservative even with large N
+    pwr::pwr.chisq.test(w=.1, df=df, power=.95, sig.level=0.05)
+    out <- Spower(p_chisq.test, n=NA, w=.1, df=df,
+                 power=.95, interval=c(1000, 2000))
+    summary(out)
 
 }
 

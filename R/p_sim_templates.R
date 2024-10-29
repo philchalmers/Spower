@@ -38,13 +38,13 @@
 #'
 #'   pwr::pwr.t.test(d=0.2, n=60, sig.level=0.10,
 #'              type="one.sample", alternative="two.sided")
-#'   Spower(n=60, d=0.2, type = 'one.sample', two.tailed=TRUE,
-#'      sim=p_t.test, sig.level=.10)
+#'   Spower(p_t.test, n=60, d=0.2, type = 'one.sample', two.tailed=TRUE,
+#'          sig.level=.10)
 #'
 #'   pwr::pwr.t.test(d=0.3, power=0.75, type="two.sample",
 #'                   alternative="greater")
-#'   Spower(n=NA, d=0.3, type='two.sample', two.tailed=FALSE,
-#'          sim=p_t.test, power=0.75, interval=c(10,200))
+#'   Spower(p_t.test, n=NA, d=0.3, type='two.sample', two.tailed=FALSE,
+#'          power=0.75, interval=c(10,200))
 #'
 #' }
 #'
@@ -109,13 +109,13 @@ p_t.test <- function(n, d, mu = 0,
 #'     # compare simulated results to pwr package
 #'
 #'     pwr::pwr.r.test(r=0.3, n=50)
-#'     Spower(n=50, r=0.3, sim=p_r)
+#'     Spower(p_r, n=50, r=0.3)
 #'
 #'     pwr::pwr.r.test(r=0.3, power=0.80)
-#'     Spower(n=NA, r=0.3, sim=p_r, power=.80, interval=c(10, 200))
+#'     Spower(p_r, n=NA, r=0.3, power=.80, interval=c(10, 200))
 #'
 #'     pwr::pwr.r.test(r=0.1, power=0.80)
-#'     Spower(n=NA, r=0.1, sim=p_r, power=.80, interval=c(200, 1000))
+#'     Spower(p_r, n=NA, r=0.1, power=.80, interval=c(200, 1000))
 #'
 #' }
 #'
@@ -170,7 +170,7 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #'     h <- pwr::ES.h(0.5, 0.4)
 #'     pwr::pwr.p.test(h=h, n=60)
 #'
-#'     Spower(n=60, prop=c(.5, .4), sim=p_prop.test)
+#'     Spower(p_prop.test, n=60, prop=c(.5, .4))
 #'
 #' }
 #'
@@ -229,7 +229,7 @@ p_prop.test <- function(n, prop, pi = .5,
 #' if(FALSE){
 #'   # compare simulated results to pwr package
 #'   pwr::pwr.anova.test(f=0.28, k=4, n=20)
-#'   Spower(n=20, k=4, f=.28, sim=p_anova.test)
+#'   Spower(p_anova.test, n=20, k=4, f=.28)
 #' }
 #'
 #' @export
@@ -280,12 +280,14 @@ p_anova.test <- function(n, k, f,
 #' @return a single p-value
 #' @examples
 #'
+#' # effect size w + df
 #' p_chisq.test(100, w=.2, df=3)
 #'
+#' # vector of explicit probabilities
 #' p_chisq.test(100, raw_info = list(P0 = c(.25, .25, .25, .25),
 #'                                   P = c(.6, .2, .1, .1)))
 #'
-#' # works, but logic seems odd
+#' # matrix of explicit probabilities
 #' p_chisq.test(100, raw_info = list(P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #'                                   P = matrix(c(.6, .2, .1, .1),2,2)))
 #'
@@ -298,8 +300,19 @@ p_anova.test <- function(n, k, f,
 #'     df <- 3-1
 #'     pwr::pwr.chisq.test(w=w, df=df, N=100, sig.level=0.05)
 #'
-#'     Spower(n=100, w=w, df=df, sim=p_chisq.test)
-#'     Spower(n=100, sim=p_chisq.test, raw_info=list(P0=P0, P=P))
+#'     Spower(p_chisq.test, n=100, w=w, df=df)
+#'     Spower(p_chisq.test, n=100, raw_info=list(P0=P0, P=P))
+#'
+#'     # slightly differ (latter more conservative)
+#'     pwr::pwr.chisq.test(w=w, df=df, power=.8, sig.level=0.05)
+#'     Spower(p_chisq.test, n=NA, w=w, df=df,
+#'            power=.80, interval=c(50, 200))
+#'
+#'     # Spower more conservative even with large N
+#'     pwr::pwr.chisq.test(w=.1, df=df, power=.95, sig.level=0.05)
+#'     out <- Spower(p_chisq.test, n=NA, w=.1, df=df,
+#'                  power=.95, interval=c(1000, 2000))
+#'     summary(out)
 #'
 #' }
 #'
@@ -312,18 +325,17 @@ p_chisq.test <- function(n, w, df,
 		stopifnot(length(w) == 1)
 		stopifnot(length(df) == 1)
 		w2 <- w^2
-		X2 <- n*w2
-		X2_n <- X2/n
-		p0 <- 1/(df+1)
+		p0 <- rep(1/(df+1), df+1)
 		fn <- function(p1, p0, df, w2){
 			ps <- c(p1, rep((1 - p1)/ df, df))
 			(sum((ps - p0)^2 / p0) - w2)^2
 		}
-		opt <- optimize(fn, c(0,1), p0=p0, df=df, w2=w2)
+		# strange that optimize(fn, c(0,1)) gives right w2 but wrong p?
+		opt <- optimize(fn, c(p0[1],1), p0=p0, df=df, w2=w2)
 		P <- with(opt, c(minimum, rep((1 - minimum)/df, df)))
-		#n * sum((P - p0)^2 / p0) # == X2
+		# sum((P - p0)^2 / p0) # == w2
 		tab <- as.vector(rmultinom(1, size = n, prob = P))
-		p <- chisq.test(tab, correct=correct)$p.value
+		p <- chisq.test(tab, correct=correct, p=p0)$p.value
 	} else {
 		tab <- as.vector(with(raw_info, rmultinom(1, size = n, prob = P)))
 		if(is.matrix(raw_info$P))
