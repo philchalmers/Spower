@@ -230,7 +230,9 @@ Spower <- function(..., sim, interval, power = NA,
 					  fixed_objects=fixed_objects, save=FALSE,
 					  cl=cl, parallel=parallel, ncores=ncores,
 					  verbose=verbose, control=control)
-		tmp[,c(names(conditions), 'power')]
+		tmp <- tmp[,c(names(conditions), 'power')]
+		class(tmp) <- c("tbl_df", "tbl", "SimDesign", "data.frame")
+		tmp
 	} else {
 		SimDesign::SimSolve(conditions, interval=interval,
 							analyse=sim_function_aug, save=FALSE,
