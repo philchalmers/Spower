@@ -283,6 +283,8 @@ p_anova.test <- function(n, k, f,
 #' @return a single p-value
 #' @examples
 #'
+#' p_chisq.test(100, w=.2, df=3)
+#'
 #' p_chisq.test(100, raw_info = list(P0 = c(.25, .25, .25, .25),
 #'                                   P = c(.6, .2, .1, .1)))
 #'
@@ -296,8 +298,10 @@ p_anova.test <- function(n, k, f,
 #'     P0 <- c(1/3, 1/3, 1/3)
 #'     P <- c(.5, .25, .25)
 #'     w <- pwr::ES.w1(P0, P)
-#'     pwr::pwr.chisq.test(w=w, df=(3-1), N=100, sig.level=0.05)
+#'     df <- 3-1
+#'     pwr::pwr.chisq.test(w=w, df=df, N=100, sig.level=0.05)
 #'
+#'     Spower(n=100, w=w, df=df, sim=p_chisq.test)
 #'     Spower(n=100, sim=p_chisq.test, raw_info=list(P0=P0, P=P))
 #'
 #'
@@ -311,16 +315,19 @@ p_chisq.test <- function(n, w, df,
 	p <- if(!missing(w)){
 		stopifnot(length(w) == 1)
 		stopifnot(length(df) == 1)
-
-
-
-		tab <- NA
+		w2 <- w^2
+		X2 <- n*w2
+		X2_n <- X2/n
+		p0 <- 1/(df+1)
+		P <- abs(p0 - sqrt(X2_n * p0))
+		#n * (P - p0)^2 / p0
+		tab <- as.vector(rmultinom(1, size = n, prob = rep(P, df+1)))
+		p <- chisq.test(tab, p=rep(p0, df+1))$p.value
 	} else {
 		tab <- as.vector(with(raw_info, rmultinom(1, size = n, prob = P)))
 		if(is.matrix(raw_info$P))
 			tab <- with(raw_info, matrix(tab, nrow=nrow(P), ncol=ncol(P)))
 		p <- chisq.test(tab, p=raw_info$P0)$p.value
 	}
-
 	p
 }
