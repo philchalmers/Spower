@@ -2,34 +2,32 @@
 % Please edit documentation in R/p_sim_templates.R
 \name{p_chisq.test}
 \alias{p_chisq.test}
-\title{Proportion test simulation and p-value}
+\title{Chi-squared test simulation and p-value}
 \usage{
-p_chisq.test(n, w, df, raw_info = list(P0 = NA, P = NA))
+p_chisq.test(n, w, df, correct = TRUE, raw_info = list(P0 = NA, P = NA))
 }
 \arguments{
 \item{n}{sample size per group}
 
-\item{prop}{sample probability/proportions of success.
-If a vector with two-values or more elements are supplied then
-a multi-samples test will be used}
+\item{w}{Cohen's w effect size}
 
-\item{n.ratios}{allocation ratios reflecting the sample size ratios.
-Default of 1 sets the groups to be the same size (n * n.ratio)}
+\item{df}{degrees of freedom}
 
-\item{pi}{probability of success to test against (default is .5). Ignored
-for two-sample tests}
+\item{correct}{logical; apply continuity correction?}
 
-\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
+\item{raw_info}{list of raw information to generate multinomial data
+under specific nulls and power configurations}
 }
 \value{
 a single p-value
 }
 \description{
-Generates single and multi-sample data
-for proportion tests and return a p-value. Uses \code{\link{binom.test}}
-for one-sample applications and \code{\link{prop.test}} otherwise.
+Generates multinomial data suitable for analysis with
+\code{\link{chisq.test}}.
 }
 \examples{
+
+p_chisq.test(100, w=.2, df=3)
 
 p_chisq.test(100, raw_info = list(P0 = c(.25, .25, .25, .25),
                                   P = c(.6, .2, .1, .1)))
@@ -44,11 +42,11 @@ if(FALSE){
     P0 <- c(1/3, 1/3, 1/3)
     P <- c(.5, .25, .25)
     w <- pwr::ES.w1(P0, P)
-    pwr::pwr.chisq.test(w=w, df=(3-1), N=100, sig.level=0.05)
+    df <- 3-1
+    pwr::pwr.chisq.test(w=w, df=df, N=100, sig.level=0.05)
 
+    Spower(n=100, w=w, df=df, sim=p_chisq.test)
     Spower(n=100, sim=p_chisq.test, raw_info=list(P0=P0, P=P))
-
-
 
 }
 

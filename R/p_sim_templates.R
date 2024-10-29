@@ -265,21 +265,18 @@ p_anova.test <- function(n, k, f,
 	p
 }
 
-#' Proportion test simulation and p-value
+#' Chi-squared test simulation and p-value
 #'
-#' Generates single and multi-sample data
-#' for proportion tests and return a p-value. Uses \code{\link{binom.test}}
-#' for one-sample applications and \code{\link{prop.test}} otherwise.
+#' Generates multinomial data suitable for analysis with
+#' \code{\link{chisq.test}}.
 #'
 #' @param n sample size per group
-#' @param prop sample probability/proportions of success.
-#'   If a vector with two-values or more elements are supplied then
-#'   a multi-samples test will be used
-#' @param n.ratios allocation ratios reflecting the sample size ratios.
-#'   Default of 1 sets the groups to be the same size (n * n.ratio)
-#' @param pi probability of success to test against (default is .5). Ignored
-#'   for two-sample tests
-#' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#' @param w Cohen's w effect size
+#' @param df degrees of freedom
+#' @param correct logical; apply continuity correction?
+#' @param raw_info list of raw information to generate multinomial data
+#'   under specific nulls and power configurations
+#'
 #' @return a single p-value
 #' @examples
 #'
@@ -304,12 +301,11 @@ p_anova.test <- function(n, k, f,
 #'     Spower(n=100, w=w, df=df, sim=p_chisq.test)
 #'     Spower(n=100, sim=p_chisq.test, raw_info=list(P0=P0, P=P))
 #'
-#'
-#'
 #' }
 #'
 #' @export
 p_chisq.test <- function(n, w, df,
+						 correct = TRUE,
 						 raw_info = list(P0 = NA, P = NA)) {
 	stopifnot(length(n) == 1)
 	p <- if(!missing(w)){
@@ -319,15 +315,20 @@ p_chisq.test <- function(n, w, df,
 		X2 <- n*w2
 		X2_n <- X2/n
 		p0 <- 1/(df+1)
-		P <- abs(p0 - sqrt(X2_n * p0))
-		#n * (P - p0)^2 / p0
-		tab <- as.vector(rmultinom(1, size = n, prob = rep(P, df+1)))
-		p <- chisq.test(tab, p=rep(p0, df+1))$p.value
+		fn <- function(p1, p0, df, w2){
+			ps <- c(p1, rep((1 - p1)/ df, df))
+			(sum((ps - p0)^2 / p0) - w2)^2
+		}
+		opt <- optimize(fn, c(0,1), p0=p0, df=df, w2=w2)
+		P <- with(opt, c(minimum, rep((1 - minimum)/df, df)))
+		#n * sum((P - p0)^2 / p0) # == X2
+		tab <- as.vector(rmultinom(1, size = n, prob = P))
+		p <- chisq.test(tab, correct=correct)$p.value
 	} else {
 		tab <- as.vector(with(raw_info, rmultinom(1, size = n, prob = P)))
 		if(is.matrix(raw_info$P))
 			tab <- with(raw_info, matrix(tab, nrow=nrow(P), ncol=ncol(P)))
-		p <- chisq.test(tab, p=raw_info$P0)$p.value
+		p <- chisq.test(tab, correct=correct, p=raw_info$P0)$p.value
 	}
 	p
 }
