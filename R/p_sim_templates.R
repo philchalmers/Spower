@@ -141,6 +141,14 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' for one-sample applications and \code{\link{prop.test}} otherwise.
 #'
 #' @param n sample size per group
+#' @param h Cohen's h effect size. One and two-sample setups may used this
+#'   input, however for two-sample situations the argument \code{prop}
+#'   must have length 1 to indicate the proportions of the second group.
+#'
+#'   Note that it's important to specify the null
+#'   value \code{pi} in one-sample cases and \code{prop} in two-sample cases
+#'   when supplying this effect size as the power changes depending on these
+#'   specific values (see example below).
 #' @param prop sample probability/proportions of success.
 #'   If a vector with two-values or more elements are supplied then
 #'   a multi-samples test will be used
@@ -149,40 +157,76 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' @param pi probability of success to test against (default is .5). Ignored
 #'   for two-sample tests
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+# @param exact logical; use fisher's exact test via \code{\link{fisher.test}}?
 #' @return a single p-value
 #' @examples
 #'
-#' # 50 observations, test against pi = .5
+#' # one sample, 50 observations, tested against pi = .5 by default
 #' p_prop.test(50, prop=.65)
 #'
-#' # two sample test
+#' # specified using h and pi
+#' h <- pwr::ES.h(.65, .4)
+#' p_prop.test(50, h=h, pi=.4)
+#' p_prop.test(50, h=-h, pi=.65)
+#'
+#' # two-sample test
 #' p_prop.test(50, prop=c(.5, .65))
 #'
-#' # two sample test, unequal ns
-#' p_prop.test(50, prop=c(.5, .65))
+#' # two-sample test with h
+#' h <- pwr::ES.h(.65, .4)
+#' p_prop.test(50, h=h, prop=.4)
 #'
-#' # three sample test, group2 twice as large as others
+#' # two-sample test, unequal ns
+#' p_prop.test(50, prop=c(.5, .65), n.ratios = c(1,2))
+#'
+#' # three-sample test, group2 twice as large as others
 #' p_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
 #'
 #' if(FALSE){
 #'     # compare simulated results to pwr package
 #'
-#'     h <- pwr::ES.h(0.5, 0.4)
+#'     # one-sample tests
+#'     (h <- pwr::ES.h(0.5, 0.4))
 #'     pwr::pwr.p.test(h=h, n=60)
 #'
-#'     Spower(p_prop.test, n=60, prop=c(.5, .4))
+#'     # uses binom.test (need to specify null location as this matters!)
+#'     Spower(p_prop.test, n=60, h=h, pi=.4)
+#'     Spower(p_prop.test, n=60, prop=.5, pi=.4)
+#'
+#'     # compare with switched null
+#'     Spower(p_prop.test, n=60, h=h, pi=.5)
+#'     Spower(p_prop.test, n=60, prop=.4, pi=.5)
+#'
+#'     # two-sample test, one-tailed
+#'     pwr::pwr.2p.test(h=0.347, n=80, alternative="greater")
+#'     Spower(p_prop.test, n=80, h=.347, prop=.5, two.tailed=FALSE)
+#'     Spower(p_prop.test, n=80, prop=c(.67, .5), two.tailed=FALSE)
+#'
+#'     # three-sample joint test, equal n's
+#'     Spower(p_prop.test, n=50, prop=c(.6,.4,.7))
 #'
 #' }
 #'
 #' @export
-p_prop.test <- function(n, prop, pi = .5,
+p_prop.test <- function(n, h, prop, pi = .5,
 						n.ratios = rep(1, length(prop)),
 						two.tailed = TRUE) {
+	root.h <- function(p1, p2, h)
+		(2 * asin(sqrt(p1)) - 2 * asin(sqrt(p2))) - h
 	stopifnot(length(n) == 1)
+	if(!missing(h)){
+		if(!missing(prop)) stopifnot(length(prop) == 1)
+		if(!missing(prop) && missing(n.ratios)) n.ratios <- c(1,1)
+		stopifnot(length(n.ratios) < 3)
+		int <- if(h > 0) c(pi, 1) else c(0, pi)
+		root <- uniroot(root.h, interval=int,
+						p2=ifelse(length(n.ratios) == 1, prop, pi), h=h)$root
+		if(length(n.ratios) == 2) prop <- c(root, prop) else prop <- root
+		# pwr::ES.h(prop, pi) == h
+	}
 	n.each <- n * n.ratios
 	stopifnot(all.equal(n.each, as.integer(n.each)))
-	if(is.matrix(prop)){
-		browser()
+	p <- if(length(prop) > 1){
 		draws <- sapply(1:length(prop), \(i){
 			vals <- rbinom(n * n.ratios[i], 1, prob=prop[i])
 			c(sum(vals), length(vals))
@@ -190,21 +234,9 @@ p_prop.test <- function(n, prop, pi = .5,
 		A <- draws[1,]
 		B <- draws[2,]
 		prop.test(A, B)$p.value
-		browser()
-
 	} else {
-		p <- if(length(prop) > 1){
-			draws <- sapply(1:length(prop), \(i){
-				vals <- rbinom(n * n.ratios[i], 1, prob=prop[i])
-				c(sum(vals), length(vals))
-			})
-			A <- draws[1,]
-			B <- draws[2,]
-			prop.test(A, B)$p.value
-		} else {
-			dat <- rbinom(n, 1, prob = prop)
-			binom.test(sum(dat), n=n, p=pi)$p.value
-		}
+		dat <- rbinom(n, 1, prob = prop)
+		binom.test(sum(dat), n=n, p=pi)$p.value
 	}
 	p <- ifelse(two.tailed, p, p/2)
 	p

@@ -6,6 +6,7 @@
 \usage{
 p_prop.test(
   n,
+  h,
   prop,
   pi = 0.5,
   n.ratios = rep(1, length(prop)),
@@ -14,6 +15,15 @@ p_prop.test(
 }
 \arguments{
 \item{n}{sample size per group}
+
+\item{h}{Cohen's h effect size. One and two-sample setups may used this
+input, however for two-sample situations the argument \code{prop}
+must have length 1 to indicate the proportions of the second group.
+
+Note that it's important to specify the null
+value \code{pi} in one-sample cases and \code{prop} in two-sample cases
+when supplying this effect size as the power changes depending on these
+specific values (see example below).}
 
 \item{prop}{sample probability/proportions of success.
 If a vector with two-values or more elements are supplied then
@@ -37,25 +47,49 @@ for one-sample applications and \code{\link{prop.test}} otherwise.
 }
 \examples{
 
-# 50 observations, test against pi = .5
+# one sample, 50 observations, tested against pi = .5 by default
 p_prop.test(50, prop=.65)
 
-# two sample test
+# specified using h and pi
+h <- pwr::ES.h(.65, .4)
+p_prop.test(50, h=h, pi=.4)
+p_prop.test(50, h=-h, pi=.65)
+
+# two-sample test
 p_prop.test(50, prop=c(.5, .65))
 
-# two sample test, unequal ns
-p_prop.test(50, prop=c(.5, .65))
+# two-sample test with h
+h <- pwr::ES.h(.65, .4)
+p_prop.test(50, h=h, prop=.4)
 
-# three sample test, group2 twice as large as others
+# two-sample test, unequal ns
+p_prop.test(50, prop=c(.5, .65), n.ratios = c(1,2))
+
+# three-sample test, group2 twice as large as others
 p_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
 
 if(FALSE){
     # compare simulated results to pwr package
 
-    h <- pwr::ES.h(0.5, 0.4)
+    # one-sample tests
+    (h <- pwr::ES.h(0.5, 0.4))
     pwr::pwr.p.test(h=h, n=60)
 
-    Spower(p_prop.test, n=60, prop=c(.5, .4))
+    # uses binom.test (need to specify null location as this matters!)
+    Spower(p_prop.test, n=60, h=h, pi=.4)
+    Spower(p_prop.test, n=60, prop=.5, pi=.4)
+
+    # compare with switched null
+    Spower(p_prop.test, n=60, h=h, pi=.5)
+    Spower(p_prop.test, n=60, prop=.4, pi=.5)
+
+    # two-sample test, one-tailed
+    pwr::pwr.2p.test(h=0.347, n=80, alternative="greater")
+    Spower(p_prop.test, n=80, h=.347, prop=.5, two.tailed=FALSE)
+    Spower(p_prop.test, n=80, prop=c(.67, .5), two.tailed=FALSE)
+
+    # three-sample joint test, equal n's
+    Spower(p_prop.test, n=50, prop=c(.6,.4,.7))
 
 }
 
