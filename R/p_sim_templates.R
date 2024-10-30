@@ -220,7 +220,7 @@ p_prop.test <- function(n, h, prop, pi = .5,
 		stopifnot(length(n.ratios) < 3)
 		int <- if(h > 0) c(pi, 1) else c(0, pi)
 		root <- uniroot(root.h, interval=int,
-						p2=ifelse(length(n.ratios) == 1, prop, pi), h=h)$root
+						p2=ifelse(length(n.ratios) == 2, prop, pi), h=h)$root
 		if(length(n.ratios) == 2) prop <- c(root, prop) else prop <- root
 		# pwr::ES.h(prop, pi) == h
 	}
