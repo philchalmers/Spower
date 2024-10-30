@@ -101,8 +101,10 @@ colnames(P) <- c('Standard (Yes)', 'Standard (No)')
 rownames(P) <- c('Treatment (Yes)', 'Treatment (No)')
 P
 ```
+
 ```{r}
-Spower(p_prop.test, n=50, prop=P, two.tailed=FALSE)
+# TODO
+# Spower(p_prop.test, prop=P, n=50)
 ```
 
 
