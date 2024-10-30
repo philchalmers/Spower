@@ -181,7 +181,8 @@ p_prop.test <- function(n, prop, pi = .5,
 	stopifnot(length(n) == 1)
 	n.each <- n * n.ratios
 	stopifnot(all.equal(n.each, as.integer(n.each)))
-	p <- if(length(prop) > 1){
+	if(is.matrix(prop)){
+		browser()
 		draws <- sapply(1:length(prop), \(i){
 			vals <- rbinom(n * n.ratios[i], 1, prob=prop[i])
 			c(sum(vals), length(vals))
@@ -189,9 +190,21 @@ p_prop.test <- function(n, prop, pi = .5,
 		A <- draws[1,]
 		B <- draws[2,]
 		prop.test(A, B)$p.value
+		browser()
+
 	} else {
-		dat <- rbinom(n, 1, prob = prop)
-		binom.test(sum(dat), n=n, p=pi)$p.value
+		p <- if(length(prop) > 1){
+			draws <- sapply(1:length(prop), \(i){
+				vals <- rbinom(n * n.ratios[i], 1, prob=prop[i])
+				c(sum(vals), length(vals))
+			})
+			A <- draws[1,]
+			B <- draws[2,]
+			prop.test(A, B)$p.value
+		} else {
+			dat <- rbinom(n, 1, prob = prop)
+			binom.test(sum(dat), n=n, p=pi)$p.value
+		}
 	}
 	p <- ifelse(two.tailed, p, p/2)
 	p

@@ -36,8 +36,8 @@ set.seed(1234)
 Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
 
 ```{r}
-(out <- Spower(n = NA, d = .5, two.tailed=FALSE, 
-			   sim_function=p_t.test, power = .95, interval=c(10,500)))
+(out <- Spower(p_t.test, n = NA, d = .5, two.tailed=FALSE, 
+			   power = .95, interval=c(10,500)))
 ```
 
 G*power estimate is 88 per group, `Spower` estimate is `r out$n`. 
@@ -53,7 +53,7 @@ Spower(n = 100, r = .1, sim_function=p_r)
 Sample size estimate to reject $H_0:\, \rho_0=0$ in correlation analysis
 with $1-\beta=.95$ probability when $\rho=.3$.
 ```{r}
-(out <- Spower(n = NA, r = .3, sim_function=p_r,
+(out <- Spower(p_r, n = NA, r = .3,
 			   power = .95, interval=c(50,1000)))
 
 # 95% predictions CI for estimate
@@ -67,7 +67,7 @@ pwr::pwr.r.test(r=.3, power=.95)
 Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis
 with $1-\beta=.95$ probability when $\rho=.65$.
 ```{r}
-(out <- Spower(n = NA, r = .65, rho = .60, sim_function=p_r,
+(out <- Spower(p_r, n = NA, r = .65, rho = .60, 
 			   power = .95, interval=c(1000,4000)))
 
 # 95% predictions CI for estimate
@@ -75,4 +75,34 @@ summary(out)$predCIs_root
 ```
 
 G*power estimates $n$ to be 1928, though `Spower` returns the much larger `out$n`. 
+
+
+# Proportions
+
+
+One sample test
+
+```{r}
+pi <- .65
+g <- .15
+p <- pi + g
+
+Spower(p_prop.test, n=20, prop=p, pi=pi, two.tailed=FALSE, interval=c(5,50))
+
+```
+
+G*power gives the estimate $1-\beta=.4112$
+
+## Two dependent proportions
+
+```{r}
+P <- matrix(c(.54, .32, .08, .06), 2, 2)
+colnames(P) <- c('Standard (Yes)', 'Standard (No)')
+rownames(P) <- c('Treatment (Yes)', 'Treatment (No)')
+P
+```
+```{r}
+Spower(p_prop.test, n=50, prop=P, two.tailed=FALSE)
+```
+
 
