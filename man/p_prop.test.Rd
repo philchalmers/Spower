@@ -10,20 +10,18 @@ p_prop.test(
   prop,
   pi = 0.5,
   n.ratios = rep(1, length(prop)),
-  two.tailed = TRUE
+  two.tailed = TRUE,
+  correct = TRUE
 )
 }
 \arguments{
 \item{n}{sample size per group}
 
-\item{h}{Cohen's h effect size. One and two-sample setups may used this
-input, however for two-sample situations the argument \code{prop}
-must have length 1 to indicate the proportions of the second group.
+\item{h}{Cohen's h effect size; only supported for one-sample analysis.
 
 Note that it's important to specify the null
-value \code{pi} in one-sample cases and \code{prop} in two-sample cases
-when supplying this effect size as the power changes depending on these
-specific values (see example below).}
+value \code{pi} when supplying this effect size as the power
+changes depending on these specific values (see example below).}
 
 \item{prop}{sample probability/proportions of success.
 If a vector with two-values or more elements are supplied then
@@ -36,6 +34,8 @@ for two-sample tests}
 Default of 1 sets the groups to be the same size (n * n.ratio)}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
+
+\item{correct}{logical; use Yates' continuity correction?}
 }
 \value{
 a single p-value
@@ -57,10 +57,6 @@ p_prop.test(50, h=-h, pi=.65)
 
 # two-sample test
 p_prop.test(50, prop=c(.5, .65))
-
-# two-sample test with h
-h <- pwr::ES.h(.65, .4)
-p_prop.test(50, h=h, prop=.4)
 
 # two-sample test, unequal ns
 p_prop.test(50, prop=c(.5, .65), n.ratios = c(1,2))
@@ -84,8 +80,11 @@ if(FALSE){
     Spower(p_prop.test, n=60, prop=.4, pi=.5)
 
     # two-sample test, one-tailed
-    pwr::pwr.2p.test(h=0.347, n=80, alternative="greater")
-    Spower(p_prop.test, n=80, h=.347, prop=.5, two.tailed=FALSE)
+    (h <- pwr::ES.h(0.67, 0.5))
+    pwr::pwr.2p.test(h=h, n=80, alternative="greater")
+    Spower(p_prop.test, n=80, prop=c(.67, .5), two.tailed=FALSE, correct=FALSE)
+
+    # same as above, but with continuity correction (default)
     Spower(p_prop.test, n=80, prop=c(.67, .5), two.tailed=FALSE)
 
     # three-sample joint test, equal n's

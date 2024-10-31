@@ -141,14 +141,11 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' for one-sample applications and \code{\link{prop.test}} otherwise.
 #'
 #' @param n sample size per group
-#' @param h Cohen's h effect size. One and two-sample setups may used this
-#'   input, however for two-sample situations the argument \code{prop}
-#'   must have length 1 to indicate the proportions of the second group.
+#' @param h Cohen's h effect size; only supported for one-sample analysis.
 #'
 #'   Note that it's important to specify the null
-#'   value \code{pi} in one-sample cases and \code{prop} in two-sample cases
-#'   when supplying this effect size as the power changes depending on these
-#'   specific values (see example below).
+#'   value \code{pi} when supplying this effect size as the power
+#'   changes depending on these specific values (see example below).
 #' @param prop sample probability/proportions of success.
 #'   If a vector with two-values or more elements are supplied then
 #'   a multi-samples test will be used
@@ -158,6 +155,7 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #'   for two-sample tests
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
 # @param exact logical; use fisher's exact test via \code{\link{fisher.test}}?
+#' @param correct logical; use Yates' continuity correction?
 #' @return a single p-value
 #' @examples
 #'
@@ -171,10 +169,6 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #'
 #' # two-sample test
 #' p_prop.test(50, prop=c(.5, .65))
-#'
-#' # two-sample test with h
-#' h <- pwr::ES.h(.65, .4)
-#' p_prop.test(50, h=h, prop=.4)
 #'
 #' # two-sample test, unequal ns
 #' p_prop.test(50, prop=c(.5, .65), n.ratios = c(1,2))
@@ -198,8 +192,11 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #'     Spower(p_prop.test, n=60, prop=.4, pi=.5)
 #'
 #'     # two-sample test, one-tailed
-#'     pwr::pwr.2p.test(h=0.347, n=80, alternative="greater")
-#'     Spower(p_prop.test, n=80, h=.347, prop=.5, two.tailed=FALSE)
+#'     (h <- pwr::ES.h(0.67, 0.5))
+#'     pwr::pwr.2p.test(h=h, n=80, alternative="greater")
+#'     Spower(p_prop.test, n=80, prop=c(.67, .5), two.tailed=FALSE, correct=FALSE)
+#'
+#'     # same as above, but with continuity correction (default)
 #'     Spower(p_prop.test, n=80, prop=c(.67, .5), two.tailed=FALSE)
 #'
 #'     # three-sample joint test, equal n's
@@ -210,18 +207,16 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' @export
 p_prop.test <- function(n, h, prop, pi = .5,
 						n.ratios = rep(1, length(prop)),
-						two.tailed = TRUE) {
+						two.tailed = TRUE, correct=TRUE) {
 	root.h <- function(p1, p2, h)
 		(2 * asin(sqrt(p1)) - 2 * asin(sqrt(p2))) - h
 	stopifnot(length(n) == 1)
 	if(!missing(h)){
-		if(!missing(prop)) stopifnot(length(prop) == 1)
-		if(!missing(prop) && missing(n.ratios)) n.ratios <- c(1,1)
-		stopifnot(length(n.ratios) < 3)
+		n.ratios <- 1
 		int <- if(h > 0) c(pi, 1) else c(0, pi)
 		root <- uniroot(root.h, interval=int,
 						p2=ifelse(length(n.ratios) == 2, prop, pi), h=h)$root
-		if(length(n.ratios) == 2) prop <- c(root, prop) else prop <- root
+		prop <- root
 		# pwr::ES.h(prop, pi) == h
 	}
 	n.each <- n * n.ratios
@@ -233,7 +228,7 @@ p_prop.test <- function(n, h, prop, pi = .5,
 		})
 		A <- draws[1,]
 		B <- draws[2,]
-		prop.test(A, B)$p.value
+		prop.test(A, B, correct=correct)$p.value
 	} else {
 		dat <- rbinom(n, 1, prob = prop)
 		binom.test(sum(dat), n=n, p=pi)$p.value
