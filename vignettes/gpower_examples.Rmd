@@ -108,3 +108,18 @@ P
 ```
 
 
+# McNemar test
+
+```{r}
+obrien2002 <- matrix(c(.54, .32, .08, .06), 2, 2,
+					 dimnames = list('Treatment' = c('Yes', 'No'),
+					 				'Standard' = c('Yes', 'No')))
+obrien2002
+
+Spower(p_mcnemar.test, n=50, prop=obrien2002, 
+	   two.tailed=FALSE)
+```
+
+G*Power gives .839 ($\alpha = .032$). 
+
+
