@@ -11,7 +11,8 @@ p_prop.test(
   pi = 0.5,
   n.ratios = rep(1, length(prop)),
   two.tailed = TRUE,
-  correct = TRUE
+  correct = TRUE,
+  exact = FALSE
 )
 }
 \arguments{
@@ -25,7 +26,7 @@ changes depending on these specific values (see example below).}
 
 \item{prop}{sample probability/proportions of success.
 If a vector with two-values or more elements are supplied then
-a multi-samples test will be used}
+a multi-samples test will be used. Matrices are also supported}
 
 \item{pi}{probability of success to test against (default is .5). Ignored
 for two-sample tests}
@@ -36,6 +37,9 @@ Default of 1 sets the groups to be the same size (n * n.ratio)}
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 
 \item{correct}{logical; use Yates' continuity correction?}
+
+\item{exact}{logical; use fisher's exact test via \code{\link{fisher.test}}?
+Use of this flag requires that \code{prop} was specified as a matrix}
 }
 \value{
 a single p-value
@@ -63,6 +67,9 @@ p_prop.test(50, prop=c(.5, .65), n.ratios = c(1,2))
 
 # three-sample test, group2 twice as large as others
 p_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
+
+# Fisher exact test
+p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 
 if(FALSE){
     # compare simulated results to pwr package

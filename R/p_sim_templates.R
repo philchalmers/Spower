@@ -148,13 +148,14 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #'   changes depending on these specific values (see example below).
 #' @param prop sample probability/proportions of success.
 #'   If a vector with two-values or more elements are supplied then
-#'   a multi-samples test will be used
+#'   a multi-samples test will be used. Matrices are also supported
 #' @param n.ratios allocation ratios reflecting the sample size ratios.
 #'   Default of 1 sets the groups to be the same size (n * n.ratio)
 #' @param pi probability of success to test against (default is .5). Ignored
 #'   for two-sample tests
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
-# @param exact logical; use fisher's exact test via \code{\link{fisher.test}}?
+#' @param exact logical; use fisher's exact test via \code{\link{fisher.test}}?
+#'   Use of this flag requires that \code{prop} was specified as a matrix
 #' @param correct logical; use Yates' continuity correction?
 #' @return a single p-value
 #' @examples
@@ -175,6 +176,9 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #'
 #' # three-sample test, group2 twice as large as others
 #' p_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
+#'
+#' # Fisher exact test
+#' p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #'
 #' if(FALSE){
 #'     # compare simulated results to pwr package
@@ -207,7 +211,7 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' @export
 p_prop.test <- function(n, h, prop, pi = .5,
 						n.ratios = rep(1, length(prop)),
-						two.tailed = TRUE, correct=TRUE) {
+						two.tailed = TRUE, correct=TRUE, exact=FALSE) {
 	root.h <- function(p1, p2, h)
 		(2 * asin(sqrt(p1)) - 2 * asin(sqrt(p2))) - h
 	stopifnot(length(n) == 1)
@@ -228,7 +232,11 @@ p_prop.test <- function(n, h, prop, pi = .5,
 		})
 		A <- draws[1,]
 		B <- draws[2,]
-		prop.test(A, B, correct=correct)$p.value
+		if(exact){
+			stopifnot(is.matrix(prop))
+			A <- matrix(A, nrow(prop), ncol(prop))
+			fisher.test(A)$p.value
+		} else prop.test(A, B, correct=correct)$p.value
 	} else {
 		dat <- rbinom(n, 1, prob = prop)
 		binom.test(sum(dat), n=n, p=pi)$p.value

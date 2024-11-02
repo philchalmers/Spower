@@ -91,7 +91,7 @@ Spower(p_prop.test, n=20, prop=p, pi=pi, two.tailed=FALSE, interval=c(5,50))
 
 ```
 
-G*power gives the estimate $1-\beta=.4112$
+G*power gives the estimate $1-\beta=.4112$. Fisher's exact test is also supported by using the argument `exact = TRUE`.
 
 ## Two dependent proportions
 
@@ -120,6 +120,12 @@ Spower(p_mcnemar.test, n=50, prop=obrien2002,
 	   two.tailed=FALSE)
 ```
 
-G*Power gives .839 ($\alpha = .032$). 
+G*Power gives .839 ($\alpha = .032$). Slightly more power can be achieved when not using the continuity correction (though in general this is not recommended practice).
+
+```{r}
+Spower(p_mcnemar.test, n=50, prop=obrien2002, 
+	   two.tailed=FALSE, correct=FALSE)
+```
+
 
 
