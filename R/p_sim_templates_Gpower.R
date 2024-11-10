@@ -446,9 +446,50 @@ p_sign.test <- function(n){
 
 }
 
-p_var.test <- function(n){
-	# also include one-sample test against constant
+#' Variance test simulation and p-value
+#'
+#' Generates one or or more sets of continuous data group-level data
+#' to perform a variance test, and return a p-value.
+#'
+#' @param n sample size per group, assumed equal across groups
+#' @param sds a vector of standard deviations to use for each group
+#' @param n.ratios allocation ratios reflecting the sample size ratios.
+#'   Default of 1 sets the groups to be the same size (n * n.ratio)
+#' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#' @param test type of test to use in multi-sample applications.
+#'   Can be either \code{'Levene'} (default) or \code{'Bartlett'}
+#' @param correct logical; use correction when \code{test = 'Bartlett'}?
+#'
+#' @return a single p-value
 
+
+#' @importFrom EnvStats varTest varGroupTest
+#' @examples
+#'
+#' # one sample
+#' p_var.test(100, sds=10, sigma=9)
+#'
+#' # three sample
+#' p_var.test(100, sds=c(10, 9, 11))
+#'
+p_var.test <- function(n, sds, n.ratios = rep(1, length(sds)),
+					   sigma = 1, two.tailed = TRUE, test = 'Levene',
+					   correct = TRUE){
+	p <- if(length(sds) == 1){
+		dv <- rnorm(n, sd=sds)
+		out <- EnvStats::varTest(dv, sigma.squared = sigma^2)
+		out$p.value
+	} else {
+		dv <- sapply(1:length(sds), \(i){
+			rnorm(n * n.ratios[i], sd=sds[i])
+		}) |> as.vector()
+		group <- rep(paste0('G', 1:length(sds)), times=n*n.ratios)
+		out <- EnvStats::varGroupTest(dv ~ group, test=test,
+									  correct=correct)
+		out$p.value
+	}
+	p <- ifelse(two.tailed, p, p/2)
+	p
 }
 
 p_wilcox.test <- function(n){
