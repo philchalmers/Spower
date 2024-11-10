@@ -449,10 +449,15 @@ p_sign.test <- function(n){
 #' Variance test simulation and p-value
 #'
 #' Generates one or or more sets of continuous data group-level data
-#' to perform a variance test, and return a p-value.
+#' to perform a variance test, and return a p-value. When two-samples
+#' are investigated the \code{\link{var.test}} function will be used,
+#' otherwise functions from the \code{EnvStats} package will be used.
+#'
 #'
 #' @param n sample size per group, assumed equal across groups
 #' @param sds a vector of standard deviations to use for each group
+#' @param ratio hypothesized ratio of the population variance (only
+#'   used in two-sample case)
 #' @param n.ratios allocation ratios reflecting the sample size ratios.
 #'   Default of 1 sets the groups to be the same size (n * n.ratio)
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
@@ -482,8 +487,8 @@ p_sign.test <- function(n){
 #' }
 #'
 p_var.test <- function(n, sds, n.ratios = rep(1, length(sds)),
-					   sigma = 1, two.tailed = TRUE, test = 'Levene',
-					   correct = TRUE){
+					   ratio = 1, sigma = 1, two.tailed = TRUE,
+					   test = 'Levene', correct = TRUE){
 	p <- if(length(sds) == 1){
 		dv <- rnorm(n, sd=sds)
 		out <- EnvStats::varTest(dv, sigma.squared = sigma^2)
@@ -493,7 +498,8 @@ p_var.test <- function(n, sds, n.ratios = rep(1, length(sds)),
 			rnorm(n * n.ratios[i], sd=sds[i])
 		}) |> as.vector()
 		group <- rep(paste0('G', 1:length(sds)), times=n*n.ratios)
-		out <- EnvStats::varGroupTest(dv ~ group, test=test,
+		out <- if(length(sds) == 2) var.test(dv ~ group)
+			else EnvStats::varGroupTest(dv ~ group, test=test,
 									  correct=correct)
 		out$p.value
 	}

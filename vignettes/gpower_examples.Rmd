@@ -135,5 +135,14 @@ Spower(p_mcnemar.test, n=50, prop=obrien2002,
 Spower(p_var.test, n=NA, sds=sqrt(1), sigma=sqrt(1.5), 
 	   two.tailed=FALSE, power=.80, interval=c(10, 200))
 ```
-
 G*power gives sample size of 81. 
+
+For a two-sample equality of variance test with equal sample sizes, 
+```{r}
+# solve n for variance ratio of 1/1.5 = 2/3, one.tailed, 80% power
+Spower(p_var.test, n=NA, sds=sqrt(c(1, 1.5)), 
+	   two.tailed=TRUE, power=.80, interval=c(50, 300))
+```
+
+G*Power gives estimate of 193 per group.
+

@@ -8,6 +8,7 @@ p_var.test(
   n,
   sds,
   n.ratios = rep(1, length(sds)),
+  ratio = 1,
   sigma = 1,
   two.tailed = TRUE,
   test = "Levene",
@@ -22,6 +23,9 @@ p_var.test(
 \item{n.ratios}{allocation ratios reflecting the sample size ratios.
 Default of 1 sets the groups to be the same size (n * n.ratio)}
 
+\item{ratio}{hypothesized ratio of the population variance (only
+used in two-sample case)}
+
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 
 \item{test}{type of test to use in multi-sample applications.
@@ -34,7 +38,9 @@ a single p-value
 }
 \description{
 Generates one or or more sets of continuous data group-level data
-to perform a variance test, and return a p-value.
+to perform a variance test, and return a p-value. When two-samples
+are investigated the \code{\link{var.test}} function will be used,
+otherwise functions from the \code{EnvStats} package will be used.
 }
 \examples{
 
