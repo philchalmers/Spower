@@ -466,8 +466,7 @@ p_sign.test <- function(n){
 #' @param correct logical; use correction when \code{test = 'Bartlett'}?
 #'
 #' @return a single p-value
-
-
+#' @export
 #' @importFrom EnvStats varTest varGroupTest
 #' @examples
 #'
