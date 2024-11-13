@@ -131,12 +131,13 @@ p_t.test(n=50, d=.5)
 p_t.test(n=50, d=.5)
 
 # Estimate power given fixed inputs (post-hoc power analysis)
-Spower(p_t.test, n = 50, d = .5)
+(out <- Spower(p_t.test, n = 50, d = .5))
+summary(out)   # extra information
 
 \dontrun{
 
 # Same as above, but executed with multiple cores (not run)
-# Spower(p_t.test, n = 50, d = .5, parallel=TRUE)
+# (out <- Spower(p_t.test, n = 50, d = .5, parallel=TRUE))
 
 # Solve N to get .80 power (a priori power analysis)
 (out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500)))

@@ -110,15 +110,18 @@
 #' p_t.test(n=50, d=.5)
 #'
 #' # Estimate power given fixed inputs (post-hoc power analysis)
-#' Spower(p_t.test, n = 50, d = .5)
+#' (out <- Spower(p_t.test, n = 50, d = .5))
+#' summary(out)   # extra information
 #'
 #' \dontrun{
 #'
 #' # Same as above, but executed with multiple cores (not run)
-#' # Spower(p_t.test, n = 50, d = .5, parallel=TRUE)
+#' # (out <- Spower(p_t.test, n = 50, d = .5, parallel=TRUE))
 #'
 #' # Solve N to get .80 power (a priori power analysis)
 #' (out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500)))
+#' summary(out)  # extra information
+#'
 #' # total sample size required
 #' ceiling(out$n) * 2
 #'
@@ -233,10 +236,17 @@ Spower <- function(sim, ..., interval, power = NA,
 					  cl=cl, parallel=parallel, ncores=ncores,
 					  verbose=verbose, control=control)
 		tmp <- tmp[,c(names(conditions), 'power')]
+		alpha <- 1 - predCI
+		CI <- tmp$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
+			sqrt((tmp$power * (1-tmp$power))/replications)
+		names(CI) <- paste0('CI_', c(alpha/2, predCI+alpha/2)*100)
+		attr(tmp, 'extra_info')$power.CI <- CI
+		attr(tmp, 'extra_info')[c("number_of_conditions", "Design.ID",
+								  'save_info')] <- NULL
 		class(tmp) <- c("tbl_df", "tbl", "SimDesign", "data.frame")
 		tmp
 	} else {
-		SimDesign::SimSolve(conditions, interval=interval,
+		tmp <- SimDesign::SimSolve(conditions, interval=interval,
 							analyse=sim_function_aug, save=FALSE,
 							summarise=Internal_Summarise, b=power,
 							integer=integer, fixed_objects=fixed_objects,
@@ -244,6 +254,10 @@ Spower <- function(sim, ..., interval, power = NA,
 							predCI=predCI, predCI.tol=predCI.tol,
 							control=control, check.interval=check.interval,
 							maxiter=maxiter)
+		attr(tmp, 'roots')[[1]] <- attr(tmp, 'roots')[[1]][
+			c('terminated_early', 'time', 'iter',
+			  'total.replications', 'predCIs', 'predCIs_root')]
+		tmp
 	}
 	if(!is.null(beta_alpha)){
 		out <- uniroot(compromise_root, c(.0001, .9999), beta_alpha=beta_alpha,
