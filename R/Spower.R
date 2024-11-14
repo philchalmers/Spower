@@ -220,7 +220,7 @@ Spower <- function(sim, ..., interval, power = NA,
 	if(missing(integer)){
 		integer <- !has.decimals(interval)
 		if(!integer)
-			message('Using continuous search interval')
+			message('\nUsing continuous search interval (set manually by passing integer=FALSE).')
 	}
 	if(sum(sapply(conditions, \(x) isTRUE(is.na(x))), is.na(power)) != 1)
 		stop(c('Exactly one argument for the inputs \'power\', \'sig.level\',',
@@ -240,6 +240,7 @@ Spower <- function(sim, ..., interval, power = NA,
 					  cl=cl, parallel=parallel, ncores=ncores,
 					  verbose=verbose, control=control)
 		alpha <- 1 - predCI
+		conditions$power <- as.numeric(NA)
 		CI <- tmp$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
 			sqrt((tmp$power * (1-tmp$power))/replications)
 		names(CI) <- paste0('CI_', c(alpha/2, predCI+alpha/2)*100)
@@ -263,7 +264,7 @@ Spower <- function(sim, ..., interval, power = NA,
 				sim=ret, Design=conditions, Summarise=Internal_Summarise4Compromise)
 		ret$sig.level <- out$root
 		ret$power <- 1 - beta_alpha * out$root
-		conditions$power <- conditions$sig.level <- as.numeric(NA)
+		conditions$sig.level <- as.numeric(NA)
 		conditions$beta_alpha <- beta_alpha
 	}
 	attr(ret, 'Spower_extra') <- list(predCI=predCI, conditions=conditions,
@@ -283,7 +284,7 @@ print.Spower <- function(x, ...){
 	if(inherits(x, 'SimSolve')){
 		lst <- attr(x, 'roots')[[1]]
 		pick <- is.na(lste$conditions[1,])
-		cat(sprintf(paste0("\nSolution for %s: ", if(lst$integer) "%.1f" else "%.3f"),
+		cat(sprintf(paste0("\nEstimate of %s: ", if(lst$integer) "%.1f" else "%.3f"),
 					names(lste$conditions)[pick],
 					x[names(lste$conditions)[pick]]))
 		cat(sprintf(paste0("\n%s%% Prediction Interval: ",
@@ -291,21 +292,21 @@ print.Spower <- function(x, ...){
 					lste$predCI*100, lst$predCIs_root[1], lst$predCIs_root[2]))
 	} else {
 		if(!is.null(lste$beta_alpha)){
-			cat(sprintf("\nSolution for Type I error rate (alpha/sig.level): %.3f", x$sig.level))
+			cat(sprintf("\nEstimate of Type I error rate (alpha/sig.level): %.3f", x$sig.level))
 			alpha <- 1 - lste$predCI
 			CI <- x$sig.level + c(qnorm(c(alpha/2, lste$predCI+alpha/2))) *
 				sqrt((x$sig.level * (1-x$sig.level))/x$REPLICATIONS)
 			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
 						lste$predCI*100, CI[1], CI[2]))
 			power <- x$power
-			cat(sprintf("\nSolution for power (1-beta): %.3f", power))
+			cat(sprintf("\nEstimate of power (1-beta): %.3f", power))
 			CI <- power + c(qnorm(c(alpha/2, lste$predCI + alpha/2))) *
 				sqrt((power * (1-power))/x$REPLICATIONS)
 			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
 						lste$predCI*100, CI[1], CI[2]))
 		} else {
 			CI <- attr(x, 'extra_info')$power.CI
-			cat(sprintf("\nSolution for power (1 - beta): %.3f", x$power))
+			cat(sprintf("\nEstimate of power (1 - beta): %.3f", x$power))
 			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
 						lste$predCI*100, CI[1], CI[2]))
 
