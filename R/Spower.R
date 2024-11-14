@@ -239,7 +239,6 @@ Spower <- function(sim, ..., interval, power = NA,
 					  fixed_objects=fixed_objects, save=FALSE,
 					  cl=cl, parallel=parallel, ncores=ncores,
 					  verbose=verbose, control=control)
-		tmp <- tmp[,c(names(conditions), 'power')]
 		alpha <- 1 - predCI
 		CI <- tmp$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
 			sqrt((tmp$power * (1-tmp$power))/replications)
@@ -247,15 +246,9 @@ Spower <- function(sim, ..., interval, power = NA,
 		attr(tmp, 'extra_info')$power.CI <- CI
 		attr(tmp, 'extra_info')[c("number_of_conditions", "Design.ID",
 								  'save_info')] <- NULL
-		class(tmp) <- c("tbl_df", "tbl", "SimDesign", "data.frame")
-		if(verbose){
-			cat(sprintf("\nSolution for power (1 - beta): %.3f", tmp$power))
-			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n\n",
-						predCI*100, CI[1], CI[2]))
-		}
 		tmp
 	} else {
-		tmp <- SimDesign::SimSolve(conditions, interval=interval,
+		SimDesign::SimSolve(conditions, interval=interval,
 							analyse=sim_function_aug, save=FALSE,
 							summarise=Internal_Summarise, b=power,
 							integer=integer, fixed_objects=fixed_objects,
@@ -263,10 +256,6 @@ Spower <- function(sim, ..., interval, power = NA,
 							predCI=predCI, predCI.tol=predCI.tol,
 							control=control, check.interval=check.interval,
 							maxiter=maxiter, wait.time=wait.time)
-		attr(tmp, 'roots')[[1]] <- attr(tmp, 'roots')[[1]][
-			c('terminated_early', 'time', 'iter',
-			  'total.replications', 'predCIs', 'predCIs_root')]
-		tmp
 	}
 	if(!is.null(beta_alpha)){
 		out <- uniroot(compromise_root, c(.0001, .9999), beta_alpha=beta_alpha,
@@ -274,5 +263,48 @@ Spower <- function(sim, ..., interval, power = NA,
 		ret$sig.level <- out$root
 		ret$power <- 1 - beta_alpha * out$root
 	}
+	attr(ret, 'Spower_extra') <- list(predCI=predCI, conditions=conditions,
+							   beta_alpha=beta_alpha)
+	class(ret) <- c('Spower', class(ret))
+	if(verbose) print(ret)
 	invisible(ret)
+}
+
+#' @rdname Spower
+#' @param x object of class \code{'Spower'}
+#' @export
+print.Spower <- function(x, ...){
+	lste <- attr(x, 'Spower_extra')
+	if(inherits(x, 'SimSolve')){
+		lst <- attr(x, 'roots')[[1]]
+		pick <- is.na(lste$conditions[1,])
+		cat(sprintf(paste0("\nSolution for %s: ", if(lst$integer) "%.1f" else "%.3f"),
+					names(lste$conditions)[pick],
+					x[names(lste$conditions)[pick]]))
+		cat(sprintf(paste0("\n%s%% Prediction Interval: ",
+						   if(lst$integer) "[%.1f, %.1f]" else "[%.3f, %.3f]"),
+					lste$predCI*100, lst$predCIs_root[1], lst$predCIs_root[2]))
+	} else {
+		if(!is.null(lste$beta_alpha)){
+			cat(sprintf("\nSolution for Type I error rate (sig.level): %.3f", x$sig.level))
+			alpha <- 1 - lste$predCI
+			CI <- x$sig.level + c(qnorm(c(alpha/2, lste$predCI+alpha/2))) *
+				sqrt((x$sig.level * (1-x$sig.level))/x$REPLICATIONS)
+			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
+						lste$predCI*100, CI[1], CI[2]))
+			beta <- 1 - x$power
+			cat(sprintf("\nSolution for Type II error (beta): %.3f", beta))
+			CI <- beta + c(qnorm(c(alpha/2, lste$predCI+alpha/2))) *
+				sqrt((beta * (1-beta))/x$REPLICATIONS)
+			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n\n",
+						lste$predCI*100, CI[1], CI[2]))
+		} else {
+			CI <- attr(x, 'extra_info')$power.CI
+			cat(sprintf("\nSolution for power (1 - beta): %.3f", x$power))
+			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n\n",
+						lste$predCI*100, CI[1], CI[2]))
+
+		}
+	}
+	invisible(NULL)
 }

@@ -21,6 +21,7 @@ Spower(
   verbose = TRUE,
   check.interval = TRUE,
   maxiter = 150,
+  wait.time = NULL,
   control = list()
 )
 }
@@ -83,6 +84,9 @@ within \code{.01/2} of the target power}
 
 \item{maxiter}{maximum number of stochastic root-solving iterations}
 
+\item{wait.time}{(optional) argument to indicate the time to wait
+(specified in minutes). See \code{\link[SimDesign]{SimSolve}} for details}
+
 \item{control}{a list of control parameters to pass to
 \code{\link{runSimulation}} or \code{\link{SimSolve}}}
 }
@@ -131,7 +135,7 @@ p_t.test(n=50, d=.5)
 p_t.test(n=50, d=.5)
 
 # Estimate power given fixed inputs (post-hoc power analysis)
-(out <- Spower(p_t.test, n = 50, d = .5))
+out <- Spower(p_t.test, n = 50, d = .5)
 summary(out)   # extra information
 
 \dontrun{
@@ -140,7 +144,9 @@ summary(out)   # extra information
 # (out <- Spower(p_t.test, n = 50, d = .5, parallel=TRUE))
 
 # Solve N to get .80 power (a priori power analysis)
-(out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500)))
+out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
+summary(out)  # extra information
+
 # total sample size required
 ceiling(out$n) * 2
 
