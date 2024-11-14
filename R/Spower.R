@@ -110,7 +110,7 @@
 #' p_t.test(n=50, d=.5)
 #'
 #' # Estimate power given fixed inputs (post-hoc power analysis)
-#' (out <- Spower(p_t.test, n = 50, d = .5))
+#' out <- Spower(p_t.test, n = 50, d = .5)
 #' summary(out)   # extra information
 #'
 #' \dontrun{
@@ -119,7 +119,7 @@
 #' # (out <- Spower(p_t.test, n = 50, d = .5, parallel=TRUE))
 #'
 #' # Solve N to get .80 power (a priori power analysis)
-#' (out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500)))
+#' out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
 #' summary(out)  # extra information
 #'
 #' # total sample size required
@@ -244,6 +244,11 @@ Spower <- function(sim, ..., interval, power = NA,
 		attr(tmp, 'extra_info')[c("number_of_conditions", "Design.ID",
 								  'save_info')] <- NULL
 		class(tmp) <- c("tbl_df", "tbl", "SimDesign", "data.frame")
+		if(verbose){
+			cat(sprintf("\nSolution for power: %.3f", tmp$power))
+			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n\n",
+						predCI*100, CI[1], CI[2]))
+		}
 		tmp
 	} else {
 		tmp <- SimDesign::SimSolve(conditions, interval=interval,
@@ -265,5 +270,5 @@ Spower <- function(sim, ..., interval, power = NA,
 		ret$sig.level <- out$root
 		ret$power <- 1 - beta_alpha * out$root
 	}
-	ret
+	invisible(ret)
 }
