@@ -44,7 +44,6 @@ G*power estimate is 88 per group, `Spower` estimate is `r out$n`.
 
 # Correlation
 
-
 Power associated with $\rho = .1$ with 100 pairs of observations.
 ```{r}
 Spower(p_r, n = 100, r = .1, verbose=FALSE)
@@ -55,9 +54,6 @@ with $1-\beta=.95$ probability when $\rho=.3$.
 ```{r}
 (out <- Spower(p_r, n = NA, r = .3,
 			   power = .95, interval=c(50,1000), verbose=FALSE))
-
-# 95% predictions CI for estimate
-summary(out)$predCIs_root
 ```
 
 ```{r}
@@ -68,13 +64,10 @@ Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis
 with $1-\beta=.95$ probability when $\rho=.65$.
 ```{r}
 (out <- Spower(p_r, n = NA, r = .65, rho = .60, 
-			   power = .95, interval=c(1000,4000), verbose=FALSE))
-
-# 95% predictions CI for estimate
-summary(out)$predCIs_root
+	   power = .95, interval=c(1000,4000), verbose=FALSE))
 ```
 
-G*power estimates $n$ to be 1928, though `Spower` returns the much larger `out$n`. 
+G*power estimates $n$ to be 1928, though `Spower` returns the much larger `r out$n`. 
 
 
 # Proportions
