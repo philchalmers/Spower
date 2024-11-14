@@ -51,6 +51,9 @@
 #'   Note that for compromise analyses, where the \code{sig.level} is set to
 #'   \code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}
 #'
+#' @param wait.time (optional) argument to indicate the time to wait
+#'  (specified in minutes). See \code{\link[SimDesign]{SimSolve}} for details
+#'
 #' @param replications number of replications to use when
 #'   \code{\link{runSimulation}} is required
 #'
@@ -197,7 +200,8 @@ Spower <- function(sim, ..., interval, power = NA,
 				   parallel = FALSE, cl = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
-				   check.interval = TRUE, maxiter=150, control = list()){
+				   check.interval = TRUE, maxiter=150, wait.time = NULL,
+				   control = list()){
 	fixed_objects <- dots <- list(...)
 	dots <- lapply(dots, \(x) if(!is.atomic(x) || length(x) > 1) list(x) else x)
 	names(dots) <- names(fixed_objects)
@@ -245,7 +249,7 @@ Spower <- function(sim, ..., interval, power = NA,
 								  'save_info')] <- NULL
 		class(tmp) <- c("tbl_df", "tbl", "SimDesign", "data.frame")
 		if(verbose){
-			cat(sprintf("\nSolution for power: %.3f", tmp$power))
+			cat(sprintf("\nSolution for power (1 - beta): %.3f", tmp$power))
 			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n\n",
 						predCI*100, CI[1], CI[2]))
 		}
@@ -258,7 +262,7 @@ Spower <- function(sim, ..., interval, power = NA,
 							cl=cl, parallel=parallel, ncores=ncores, verbose=verbose,
 							predCI=predCI, predCI.tol=predCI.tol,
 							control=control, check.interval=check.interval,
-							maxiter=maxiter)
+							maxiter=maxiter, wait.time=wait.time)
 		attr(tmp, 'roots')[[1]] <- attr(tmp, 'roots')[[1]][
 			c('terminated_early', 'time', 'iter',
 			  'total.replications', 'predCIs', 'predCIs_root')]
