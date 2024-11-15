@@ -96,6 +96,11 @@
 #   \code{\link{SimSolve}}, specified as a list
 #   (e.g., \code{extra_args = list(verbose=FALSE)})
 #'
+#' @return an invisible \code{tibble}/\code{data.frame}-type object of
+#' class \code{'Spower'}
+#'
+#' @seealso \code{\link{updateCompromise}}
+#'
 #' @export
 #'
 #' @examples
@@ -147,7 +152,12 @@
 #'
 #' # Solve beta/alpha ratio to specific error trade-off constant
 #' #   (compromise power analysis)
-#' Spower(p_t.test, n = 50, d = .5, beta_alpha = 2)
+#' (out <- Spower(p_t.test, n = 50, d = .5, beta_alpha = 2))
+#' with(out, (1-power)/sig.level)   # check ratio
+#'
+#' # update beta_alpha criteria without re-simulating
+#' (out2 <- updateCompromise(out, beta_alpha=4))
+#' with(out2, (1-power)/sig.level)   # check ratio
 #'
 #'
 #' ###############
@@ -187,7 +197,7 @@
 #'                power=.8, interval=c(2,500)))
 #'
 #' # total sample size required
-#' ceiling(out$n) + ceiling(out$n) * 2
+#' with(out, ceiling(n) + ceiling(n * 2))
 #'
 #' }
 Spower <- function(sim, ..., interval, power = NA,
