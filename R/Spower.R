@@ -206,6 +206,7 @@ Spower <- function(sim, ..., interval, power = NA,
 	dots <- lapply(dots, \(x) if(!is.atomic(x) || length(x) > 1) list(x) else x)
 	names(dots) <- names(fixed_objects)
 	conditions <- do.call(SimDesign::createDesign, dots)
+	class(conditions) <- class(conditions)[-1]
 	stopifnot(nrow(conditions) == 1)
 	fixed_objects$ID <- 1
 	if(is.na(sig.level) && missing(interval)) interval <- c(0, 1)

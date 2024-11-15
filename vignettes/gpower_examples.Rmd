@@ -31,8 +31,6 @@ library(Spower)
 set.seed(1234)
 ```
 
-
-
 Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
 
 ```{r}
@@ -40,17 +38,18 @@ Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed
 			   power = .95, interval=c(10,500), verbose=FALSE))
 ```
 
-G*power estimate is 88 per group, `Spower` estimate is `r out$n`. 
+G\*power estimate is 88 per group, `Spower` estimate is `r out$n`.
 
 # Correlation
 
 Power associated with $\rho = .1$ with 100 pairs of observations.
+
 ```{r}
 Spower(p_r, n = 100, r = .1, verbose=FALSE)
 ```
 
-Sample size estimate to reject $H_0:\, \rho_0=0$ in correlation analysis
-with $1-\beta=.95$ probability when $\rho=.3$.
+Sample size estimate to reject $H_0:\, \rho_0=0$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.3$.
+
 ```{r}
 (out <- Spower(p_r, n = NA, r = .3,
 			   power = .95, interval=c(50,1000), verbose=FALSE))
@@ -60,18 +59,16 @@ with $1-\beta=.95$ probability when $\rho=.3$.
 pwr::pwr.r.test(r=.3, power=.95)
 ```
 
-Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis
-with $1-\beta=.95$ probability when $\rho=.65$.
+Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.65$.
+
 ```{r}
 (out <- Spower(p_r, n = NA, r = .65, rho = .60, 
 	   power = .95, interval=c(1000,4000), verbose=FALSE))
 ```
 
-G*power estimates $n$ to be 1928, though `Spower` returns the much larger `r out$n`. 
-
+G\*power estimates $n$ to be 1928, though `Spower` returns the much larger `r out$n`.
 
 # Proportions
-
 
 One sample test
 
@@ -85,7 +82,7 @@ Spower(p_prop.test, n=20, prop=p, pi=pi,
 
 ```
 
-G*power gives the estimate $1-\beta=.4112$. Fisher's exact test is also supported by using the argument `exact = TRUE`.
+G\*power gives the estimate $1-\beta=.4112$. Fisher's exact test is also supported by using the argument `exact = TRUE`.
 
 ## Two dependent proportions test
 
@@ -101,7 +98,6 @@ P
 # Spower(p_prop.test, prop=P, n=50, verbose=FALSE)
 ```
 
-
 # McNemar test
 
 ```{r}
@@ -114,13 +110,12 @@ Spower(p_mcnemar.test, n=50, prop=obrien2002,
 	   two.tailed=FALSE, verbose=FALSE)
 ```
 
-G*Power gives .839 ($\alpha = .032$). Slightly more power can be achieved when not using the continuity correction (though in general this is not recommended practice).
+G\*Power gives .839 ($\alpha = .032$). Slightly more power can be achieved when not using the continuity correction (though in general this is not recommended practice).
 
 ```{r}
 Spower(p_mcnemar.test, n=50, prop=obrien2002, 
 	   two.tailed=FALSE, correct=FALSE, verbose=FALSE)
 ```
-
 
 # Variance test
 
@@ -129,16 +124,17 @@ Spower(p_mcnemar.test, n=50, prop=obrien2002,
 Spower(p_var.test, n=NA, sds=sqrt(1), sigma=sqrt(1.5), 
 	   two.tailed=FALSE, power=.80, interval=c(10, 200), verbose=FALSE)
 ```
-G*power gives sample size of 81. 
+
+G\*power gives sample size of 81.
 
 ## Two-sample variance test
 
-For a two-sample equality of variance test with equal sample sizes, 
+For a two-sample equality of variance test with equal sample sizes,
+
 ```{r}
 # solve n for variance ratio of 1/1.5 = 2/3, one.tailed, 80% power
 Spower(p_var.test, n=NA, sds=sqrt(c(1, 1.5)), 
 	   two.tailed=TRUE, power=.80, interval=c(50, 300), verbose=FALSE)
 ```
 
-G*Power gives estimate of 193 per group.
-
+G\*Power gives estimate of 193 per group.

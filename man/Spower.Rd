@@ -2,6 +2,7 @@
 % Please edit documentation in R/Spower.R
 \name{Spower}
 \alias{Spower}
+\alias{print.Spower}
 \title{Simulation-based Power Analysis}
 \usage{
 Spower(
@@ -24,6 +25,8 @@ Spower(
   wait.time = NULL,
   control = list()
 )
+
+\method{print}{Spower}(x, ...)
 }
 \arguments{
 \item{sim}{function that both creates the data and returns a single
@@ -89,6 +92,8 @@ within \code{.01/2} of the target power}
 
 \item{control}{a list of control parameters to pass to
 \code{\link{runSimulation}} or \code{\link{SimSolve}}}
+
+\item{x}{object of class \code{'Spower'}}
 }
 \description{
 General purpose function that serves as a power-focused wrapper to the
