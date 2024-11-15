@@ -145,8 +145,12 @@ summary(out)   # extra information
 
 \dontrun{
 
+# increase precision
+Spower(p_t.test, n = 50, d = .5, replications=30000)
+
 # Same as above, but executed with multiple cores (not run)
-# (out <- Spower(p_t.test, n = 50, d = .5, parallel=TRUE))
+# Spower(p_t.test, n = 50, d = .5, replications=30000,
+#        parallel=TRUE)
 
 # Solve N to get .80 power (a priori power analysis)
 out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
@@ -211,14 +215,6 @@ Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
 
 # total sample size required
 ceiling(out$n) + ceiling(out$n) * 2
-
-# should different alpha level be used given the assumption violations?
-(TypeI <- Spower(p_t.test, n = 50, d = 0, var.equal=TRUE, n2_n1=2, df=3,
-                 replications=30000))
-se <- with(TypeI, sqrt(sig.level * (1-sig.level) / REPLICATIONS))
-TypeI$sig.level + qnorm(c(.025, .975)) * se  # 95\% CI
-TypeI$power
-
 
 }
 }
