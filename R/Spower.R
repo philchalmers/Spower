@@ -278,8 +278,11 @@ Spower <- function(sim, ..., interval, power = NA,
 	attr(ret, 'Spower_extra') <- list(predCI=predCI, conditions=conditions,
 							   beta_alpha=beta_alpha)
 	class(ret) <- c('Spower', class(ret))
-	if(verbose) print(ret)
-	invisible(ret)
+	if(verbose){
+		print(ret)
+		return(invisible(ret))
+	}
+	ret
 }
 
 #' @rdname Spower
