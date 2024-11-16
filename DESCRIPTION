@@ -5,22 +5,30 @@ Authors@R:
    person("Phil", family="Chalmers", email =
                      "rphilip.chalmers@gmail.com", role = c("aut", "cre"), 
                      comment = c(ORCID="0000-0001-5332-2810"))
-Description: Package provides a general purpose simulation-based methodology 
-   for power analyses for routine and customizable designs. 
+Description: Provides general purpose simulation-based power analysis 
+   functionality for routine and customizable designs. 
    Supports Monte Carlo simulation variants of a priori power analysis, 
    criterion power analysis, compromise power analysis, and post-hoc
-   power analysis. 
+   power analysis. Default generator functions provide stochastic variants
+   of the power analyses found in the G*Power software (Faul, Erdfelder, 
+   Buchner, and Lang, 2009) <10.3758/brm.41.4.1149>, various other 
+   power analyses (e.g., mediation analyses), and the ability to write 
+   user-defined simulation functions for complete customizability.
 Depends:
-    SimDesign
+    SimDesign,
+    stats
 Imports:
-	car
+	car,
+	parallelly,
+	EnvStats
 Suggests:
+	knitr,
 	pwr
+VignetteBuilder: knitr
 License: GPL (>= 3)
 Encoding: UTF-8
 Repository: CRAN
 Maintainer: Phil Chalmers <rphilip.chalmers@gmail.com>
-VignetteBuilder: knitr
 URL: https://philchalmers.github.io/Spower/
 BugReports: https://github.com/philchalmers/Spower/issues?state=open
 Roxygen: list(markdown = TRUE)

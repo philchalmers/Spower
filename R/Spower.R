@@ -96,6 +96,7 @@
 #   \code{\link{SimSolve}}, specified as a list
 #   (e.g., \code{extra_args = list(verbose=FALSE)})
 #'
+#' @import SimDesign stats
 #' @return an invisible \code{tibble}/\code{data.frame}-type object of
 #' class \code{'Spower'}
 #'
