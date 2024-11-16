@@ -23,6 +23,7 @@ Imports:
 	EnvStats
 Suggests:
 	knitr,
+	rmarkdown,
 	pwr
 VignetteBuilder: knitr
 License: GPL (>= 3)

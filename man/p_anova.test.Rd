@@ -38,7 +38,7 @@ a single p-value
 \description{
 Generates continuous multi-sample data to be analysed by
 a one-way ANOVA, and return a p-value.
-Uses the function \code{\link{one.way}} to perform the analyses.
+Uses the function \code{\link{oneway.test}} to perform the analyses.
 The data and associated
 test assume that the conditional observations are normally distributed and have
 have equal variance by default, however these may be modified.

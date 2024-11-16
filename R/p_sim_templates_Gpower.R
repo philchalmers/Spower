@@ -297,7 +297,7 @@ p_mcnemar.test <- function(n, prop,
 #'
 #' Generates continuous multi-sample data to be analysed by
 #' a one-way ANOVA, and return a p-value.
-#' Uses the function \code{\link{one.way}} to perform the analyses.
+#' Uses the function \code{\link{oneway.test}} to perform the analyses.
 #' The data and associated
 #' test assume that the conditional observations are normally distributed and have
 #' have equal variance by default, however these may be modified.
@@ -463,6 +463,7 @@ p_sign.test <- function(n){
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #' @param test type of test to use in multi-sample applications.
 #'   Can be either \code{'Levene'} (default) or \code{'Bartlett'}
+#' @param sigma standard deviation value to test against in one-sample test
 #' @param correct logical; use correction when \code{test = 'Bartlett'}?
 #'
 #' @return a single p-value

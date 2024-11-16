@@ -26,6 +26,8 @@ Default of 1 sets the groups to be the same size (n * n.ratio)}
 \item{ratio}{hypothesized ratio of the population variance (only
 used in two-sample case)}
 
+\item{sigma}{standard deviation value to test against in one-sample test}
+
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 
 \item{test}{type of test to use in multi-sample applications.
