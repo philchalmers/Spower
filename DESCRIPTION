@@ -24,6 +24,7 @@ Imports:
 Suggests:
 	knitr,
 	rmarkdown,
+    bookdown,
 	pwr
 VignetteBuilder: knitr
 License: GPL (>= 3)
