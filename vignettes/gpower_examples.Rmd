@@ -31,6 +31,10 @@ library(Spower)
 set.seed(1234)
 ```
 
+This vignette replicates several of the examples found in the G\*Power manual (version 3.1). It is not meant to be exhaustive but instead demonstrates how power analyses could be computed and extended using simulation methodology by either editing the default functions found within the package or by creating a new user-defined function for yet-to-be-defined statistical analysis contexts.
+
+# Independent samples t-test
+
 Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
 
 ```{r}
@@ -38,7 +42,11 @@ Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed
 			   power = .95, interval=c(10,500), verbose=FALSE))
 ```
 
-G\*power estimate is 88 per group, `Spower` estimate is `r out$n`.
+```{r echo=FALSE}
+so <- summary(out)
+```
+
+G\*power estimate is 88 per group, `Spower` estimate is `r out$n` with the 95% CI `r so$predCIs_root`.
 
 # Correlation
 
@@ -66,11 +74,13 @@ Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis with 
 	   power = .95, interval=c(1000,4000), verbose=FALSE))
 ```
 
-G\*power estimates $n$ to be 1928, though `Spower` returns the much larger `r out$n`.
+G\*power estimates $n$ to be 1928, though `Spower` returns the much larger `r out$n`. It's unclear why this discrepancy is so large, though given that the simulation approach is based on simulating and analyzing the data with the `car::linearHypothesis()` function the `Spower` results appear more reflective of what would be expected in practice.
 
 # Proportions
 
-One sample test
+## One sample proportion tests 
+
+One sample, on-tailed proportions test given data generated from a population with $\pi = .80$ and tested against $\pi_0 = .65$ with $n=20$.
 
 ```{r}
 pi <- .65
@@ -82,23 +92,17 @@ Spower(p_prop.test, n=20, prop=p, pi=pi,
 
 ```
 
-G\*power gives the estimate $1-\beta=.4112$. Fisher's exact test is also supported by using the argument `exact = TRUE`.
+G\*power gives the estimate $1-\beta=.4112$.
 
-## Two dependent proportions test
-
-```{r}
-P <- matrix(c(.54, .32, .08, .06), 2, 2)
-colnames(P) <- c('Standard (Yes)', 'Standard (No)')
-rownames(P) <- c('Treatment (Yes)', 'Treatment (No)')
-P
-```
+Fisher's exact test is also supported by using the argument `exact = TRUE`.
 
 ```{r}
-# TODO
-# Spower(p_prop.test, prop=P, n=50, verbose=FALSE)
+# Fisher exact test
+Spower(p_prop.test, n=20, prop=p, pi=pi, exact=TRUE, 
+	   two.tailed=FALSE, interval=c(5,50), verbose=FALSE)
 ```
 
-# McNemar test
+## Two dependent proportions test (McNemar's test)
 
 ```{r}
 obrien2002 <- matrix(c(.54, .32, .08, .06), 2, 2,
@@ -110,14 +114,14 @@ Spower(p_mcnemar.test, n=50, prop=obrien2002,
 	   two.tailed=FALSE, verbose=FALSE)
 ```
 
-G\*Power gives .839 ($\alpha = .032$). Slightly more power can be achieved when not using the continuity correction (though in general this is not recommended practice).
+G\*Power gives .839 ($\alpha = .032$). Slightly more power can be achieved when not using the continuity correction (though in general this is not recommended in practice).
 
 ```{r}
 Spower(p_mcnemar.test, n=50, prop=obrien2002, 
 	   two.tailed=FALSE, correct=FALSE, verbose=FALSE)
 ```
 
-# Variance test
+# Variance tests
 
 ```{r}
 # solve n for variance ratio of 1/1.5 = 2/3, one.tailed, 80% power
@@ -132,7 +136,7 @@ G\*power gives sample size of 81.
 For a two-sample equality of variance test with equal sample sizes,
 
 ```{r}
-# solve n for variance ratio of 1/1.5 = 2/3, one.tailed, 80% power
+# solve n for variance ratio of 1/1.5 = 2/3, two.tailed, 80% power
 Spower(p_var.test, n=NA, sds=sqrt(c(1, 1.5)), 
 	   two.tailed=TRUE, power=.80, interval=c(50, 300), verbose=FALSE)
 ```
