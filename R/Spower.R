@@ -59,9 +59,10 @@
 #'
 #' @param integer a logical value indicating whether the search iterations
 #'   use integers or doubles.
-#'   Automatically set to \code{FALSE} if \code{interval} contains
-#'   non-integer numbers, as well as when \code{sig.level = NA},
-#'   though in general this should be set explicitly
+#'
+#'   If missing, automatically set to \code{FALSE} if \code{interval} contains
+#'   non-integer numbers or the range is less than 5, as well as
+#'   when \code{sig.level = NA}, though in general this should be set explicitly
 #'
 #' @param beta_alpha ratio to use in compromise analyses corresponding to
 #'   the Type II errors (beta) over the Type I error (alpha). Ratios greater
@@ -134,6 +135,8 @@
 #' # Solve N to get .80 power (a priori power analysis)
 #' out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
 #' summary(out)  # extra information
+#' plot(out)
+#' plot(out, type = 'history')
 #'
 #' # total sample size required
 #' ceiling(out$n) * 2
@@ -226,8 +229,8 @@ Spower <- function(sim, ..., interval, power = NA,
 		interval <- c(NA, NA)
 	}
 	if(missing(integer)){
-		integer <- !has.decimals(interval)
-		if(!integer)
+		integer <- !has.decimals(interval) || diff(interval) < 5
+		if(!integer && verbose)
 			message('\nUsing continuous search interval (set manually by passing integer=FALSE).')
 	}
 	if(sum(sapply(conditions, \(x) isTRUE(is.na(x))), is.na(power)) != 1)

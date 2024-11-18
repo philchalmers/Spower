@@ -61,9 +61,10 @@ between Type I and Type II errors}
 
 \item{integer}{a logical value indicating whether the search iterations
 use integers or doubles.
-Automatically set to \code{FALSE} if \code{interval} contains
-non-integer numbers, as well as when \code{sig.level = NA},
-though in general this should be set explicitly}
+
+If missing, automatically set to \code{FALSE} if \code{interval} contains
+non-integer numbers or the range is less than 5, as well as
+when \code{sig.level = NA}, though in general this should be set explicitly}
 
 \item{parallel}{for parallel computing for slower simulation experiments
 (see \code{\link{runSimulation}} for details)}
@@ -159,6 +160,8 @@ Spower(p_t.test, n = 50, d = .5, replications=30000)
 # Solve N to get .80 power (a priori power analysis)
 out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
 summary(out)  # extra information
+plot(out)
+plot(out, type = 'history')
 
 # total sample size required
 ceiling(out$n) * 2
