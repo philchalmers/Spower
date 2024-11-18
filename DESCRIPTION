@@ -7,13 +7,14 @@ Authors@R:
                      comment = c(ORCID="0000-0001-5332-2810"))
 Description: Provides general purpose simulation-based power analysis 
    functionality for routine and customizable designs. 
-   Supports Monte Carlo simulation variants of a priori power analysis, 
+   Supports Monte Carlo simulation variants of (expected) a priori power analysis, 
    criterion power analysis, compromise power analysis, and post-hoc
-   power analysis. Default generator functions provide stochastic variants
-   of the power analyses found in the G*Power software (Faul, Erdfelder, 
-   Buchner, and Lang, 2009) <10.3758/brm.41.4.1149>, various other 
-   power analyses (e.g., mediation analyses), and the ability to write 
-   user-defined simulation functions for complete customizability.
+   power analysis. Default generator functions found within the package 
+   provide stochastic variants of the power analyses found in the 
+   G*Power software (Faul, Erdfelder, Buchner, and Lang, 2009) <10.3758/brm.41.4.1149>, 
+   along with various other power analyses (e.g., mediation analyses), 
+   as well as the ability to write user-defined simulation functions and 
+   prior distributions for greater flexibility.
 Depends:
     SimDesign,
     stats

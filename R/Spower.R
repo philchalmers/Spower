@@ -93,6 +93,12 @@
 #'
 #' @param verbose logical; should information be printed to the console?
 #'
+#' @param prior an optional user-defined function defining any prior distributions
+#'  to use in order to compute an expected power output. No arguments are
+#'  required for this function, however the return must replace one or more
+#'  of the original arguments from the \code{...} input using either
+#'  a named \code{list} or \code{numeric} vector.
+#'
 # @param extra_args additional parameters to pass to \code{\link{runSimulation}} or
 #   \code{\link{SimSolve}}, specified as a list
 #   (e.g., \code{extra_args = list(verbose=FALSE)})
@@ -163,6 +169,22 @@
 #' (out2 <- updateCompromise(out, beta_alpha=4))
 #' with(out2, (1-power)/sig.level)   # check ratio
 #'
+#' ################
+#' # Expected Power
+#' ################
+#'
+#' # Expected power computed by including effect size uncertainty.
+#' # For instance, belief is that the true d is somewhere around d ~ N(.5, 1/8)
+#' dprior <- function(x, mean=.5, sd=1/8) dnorm(x, mean=mean, sd=sd)
+#' curve(dprior, -3, 3)
+#' abline(v=.5, col='red') # most likely value is d = 0.5
+#'
+#' # define prior sampler and returned named object (list or numeric vector)
+#' prior <- function() c(d=rnorm(1, mean=.5, sd=1/8))
+#' prior(); prior(); prior()
+#'
+#' # Expected power (d no longer in ... since it's returned from prior())
+#' Spower(p_t.test, n = 50, prior=prior)
 #'
 #' ###############
 #' # Customization
@@ -206,7 +228,7 @@
 #' }
 Spower <- function(sim, ..., interval, power = NA,
 				   sig.level=.05, beta_alpha = NULL,
-				   replications=10000, integer,
+				   replications=10000, integer, prior = NULL,
 				   parallel = FALSE, cl = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
@@ -219,6 +241,7 @@ Spower <- function(sim, ..., interval, power = NA,
 	class(conditions) <- class(conditions)[-1]
 	stopifnot(nrow(conditions) == 1)
 	fixed_objects$ID <- 1
+	fixed_objects$prior <- prior
 	if(is.na(sig.level) && missing(interval)) interval <- c(0, 1)
 	if(is.na(sig.level)) integer <- FALSE
 	conditions$sig.level <- fixed_objects$sig.level <- sig.level
@@ -237,11 +260,19 @@ Spower <- function(sim, ..., interval, power = NA,
 		stop(c('Exactly one argument for the inputs \'power\', \'sig.level\',',
 			   '\n  or the \'...\' list must be set to NA'), call.=FALSE)
 	sim_function_aug <- function(condition, dat, fixed_objects){
+		if(!is.null(fixed_objects$prior)){
+			prior_list <- as.list(fixed_objects$prior())
+			fixed_objects[names(prior_list)] <- prior_list
+		}
 		pick <- which(sapply(fixed_objects, \(x) all(is.na(x))))
 		nm <- names(pick)
 		if(length(pick)) fixed_objects[[nm]] <- condition[[nm]]
 		do.call(sim,
-				fixed_objects[!(names(fixed_objects) %in% c('ID', 'sig.level'))])
+				fixed_objects[!(names(fixed_objects) %in% c('ID', 'sig.level', 'prior'))])
+	}
+	if(!is.null(prior)){
+		prior_list <- as.list(fixed_objects$prior())
+		fixed_objects <- c(fixed_objects, prior_list)
 	}
 	ret <- if(is.na(power) || !is.null(beta_alpha)){
 		tmp <- SimDesign::runSimulation(conditions, replications=replications,
@@ -279,7 +310,7 @@ Spower <- function(sim, ..., interval, power = NA,
 		conditions$beta_alpha <- beta_alpha
 	}
 	attr(ret, 'Spower_extra') <- list(predCI=predCI, conditions=conditions,
-							   beta_alpha=beta_alpha)
+							   beta_alpha=beta_alpha, expected=!is.null(prior))
 	class(ret) <- c('Spower', class(ret))
 	if(verbose){
 		print(ret)
@@ -313,14 +344,16 @@ print.Spower <- function(x, ...){
 			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
 						lste$predCI*100, CI[1], CI[2]))
 			power <- x$power
-			cat(sprintf("\nEstimate of power (1-beta): %.3f", power))
+			cat(sprintf("\nEstimate of %spower (1-beta): %.3f",
+						if(lste$expected) 'expected ' else "", power))
 			CI <- power + c(qnorm(c(alpha/2, lste$predCI + alpha/2))) *
 				sqrt((power * (1-power))/x$REPLICATIONS)
 			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
 						lste$predCI*100, CI[1], CI[2]))
 		} else {
 			CI <- attr(x, 'extra_info')$power.CI
-			cat(sprintf("\nEstimate of power (1 - beta): %.3f", x$power))
+			cat(sprintf("\nEstimate of %spower (1 - beta): %.3f",
+						if(lste$expected) 'expected ' else "", x$power))
 			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
 						lste$predCI*100, CI[1], CI[2]))
 

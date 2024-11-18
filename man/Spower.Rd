@@ -14,6 +14,7 @@ Spower(
   beta_alpha = NULL,
   replications = 10000,
   integer,
+  prior = NULL,
   parallel = FALSE,
   cl = NULL,
   ncores = parallelly::availableCores(omit = 1L),
@@ -65,6 +66,12 @@ use integers or doubles.
 If missing, automatically set to \code{FALSE} if \code{interval} contains
 non-integer numbers or the range is less than 5, as well as
 when \code{sig.level = NA}, though in general this should be set explicitly}
+
+\item{prior}{an optional user-defined function defining any prior distributions
+to use in order to compute an expected power output. No arguments are
+required for this function, however the return must replace one or more
+of the original arguments from the \code{...} input using either
+a named \code{list} or \code{numeric} vector.}
 
 \item{parallel}{for parallel computing for slower simulation experiments
 (see \code{\link{runSimulation}} for details)}
@@ -188,6 +195,22 @@ with(out, (1-power)/sig.level)   # check ratio
 (out2 <- updateCompromise(out, beta_alpha=4))
 with(out2, (1-power)/sig.level)   # check ratio
 
+################
+# Expected Power
+################
+
+# Expected power computed by including effect size uncertainty.
+# For instance, belief is that the true d is somewhere around d ~ N(.5, 1/8)
+dprior <- function(x, mean=.5, sd=1/8) dnorm(x, mean=mean, sd=sd)
+curve(dprior, -3, 3)
+abline(v=.5, col='red') # most likely value is d = 0.5
+
+# define prior sampler and returned named object (list or numeric vector)
+prior <- function() c(d=rnorm(1, mean=.5, sd=1/8))
+prior(); prior(); prior()
+
+# Expected power (d no longer in ... since it's returned from prior())
+Spower(p_t.test, n = 50, prior=prior)
 
 ###############
 # Customization
