@@ -33,27 +33,33 @@ set.seed(1234)
 
 This vignette replicates several of the examples found in the G\*Power manual (version 3.1). It is not meant to be exhaustive but instead demonstrates how power analyses could be computed and extended using simulation methodology by either editing the default functions found within the package or by creating a new user-defined function for yet-to-be-defined statistical analysis contexts.
 
-# Independent samples t-test
-
-Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
-
-```{r}
-(out <- Spower(p_t.test, n = NA, d = .5, two.tailed=FALSE, 
-			   power = .95, interval=c(10,500), verbose=FALSE))
-```
-
-```{r echo=FALSE}
-so <- summary(out)
-```
-
-G\*power estimate is 88 per group, `Spower` estimate is `r out$n` with the 95% CI `r so$predCIs_root`.
-
 # Correlation
 
-Power associated with $\rho = .1$ with 100 pairs of observations.
+## Difference from constant (one sample case)
+
+Power associated with the hypotheses 
+$$H_0:\, \rho-\rho_0=0$$
+$$H_1:\, \rho-\rho_0\ne 0$$
+
+where $\rho$ is the population correlation and $\rho_0$ the null hypothesis constant.
+
+### Example 3.3
+
+Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.65$.
 
 ```{r}
-Spower(p_r, n = 100, r = .1, verbose=FALSE)
+(out <- Spower(p_r, n = NA, r = .65, rho = .60,
+			   power = .95, interval=c(1000,4000), verbose=FALSE))
+```
+
+G\*power estimates $n$ to be 1928, though `Spower` returns the much larger `r out$n`. It's unclear why this discrepancy is so large, though given that the simulation approach is based on simulating and analyzing the data with the `car::linearHypothesis()` function the `Spower` results appear more reflective of what would be expected in practice.
+
+### Test against constant $\rho_0=0$
+
+Power associated with $\rho = .3$ with 100 pairs of observations, tested against $\rho_0=0$.
+
+```{r}
+Spower(p_r, n = 100, r = .3, verbose=FALSE)
 ```
 
 Sample size estimate to reject $H_0:\, \rho_0=0$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.3$.
@@ -63,24 +69,18 @@ Sample size estimate to reject $H_0:\, \rho_0=0$ in correlation analysis with $1
 			   power = .95, interval=c(50,1000), verbose=FALSE))
 ```
 
+Compare to approximate result from `pwr` package.
 ```{r}
 pwr::pwr.r.test(r=.3, power=.95)
 ```
-
-Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.65$.
-
-```{r}
-(out <- Spower(p_r, n = NA, r = .65, rho = .60, 
-	   power = .95, interval=c(1000,4000), verbose=FALSE))
-```
-
-G\*power estimates $n$ to be 1928, though `Spower` returns the much larger `r out$n`. It's unclear why this discrepancy is so large, though given that the simulation approach is based on simulating and analyzing the data with the `car::linearHypothesis()` function the `Spower` results appear more reflective of what would be expected in practice.
 
 # Proportions
 
 ## One sample proportion tests 
 
-One sample, on-tailed proportions test given data generated from a population with $\pi = .80$ and tested against $\pi_0 = .65$ with $n=20$.
+### Example 4.3
+
+One sample, one-tailed proportions test given data generated from a population tested against $\pi_0 = .65$ with $g=.15$ (hence, $\pi = .65+g=.80$) with $n=20$.
 
 ```{r}
 pi <- .65
@@ -104,21 +104,54 @@ Spower(p_prop.test, n=20, prop=p, pi=pi, exact=TRUE,
 
 ## Two dependent proportions test (McNemar's test)
 
+### Example 5.3
+
 ```{r}
 obrien2002 <- matrix(c(.54, .32, .08, .06), 2, 2,
 					 dimnames = list('Treatment' = c('Yes', 'No'),
 					 				'Standard' = c('Yes', 'No')))
 obrien2002
 
-Spower(p_mcnemar.test, n=50, prop=obrien2002, 
+Spower(p_mcnemar.test, n=50, prop=obrien2002, replications=30000,
 	   two.tailed=FALSE, verbose=FALSE)
 ```
 
-G\*Power gives .839 ($\alpha = .032$). Slightly more power can be achieved when not using the continuity correction (though in general this is not recommended in practice).
+G\*Power gives .839 ($\alpha = .032$). Slightly more power can be achieved when not using the continuity correction, though in general this is not recommended in practice.
 
 ```{r}
 Spower(p_mcnemar.test, n=50, prop=obrien2002, 
 	   two.tailed=FALSE, correct=FALSE, verbose=FALSE)
+```
+
+# Multiple Linear Regression 
+
+### Example 7.3.1
+
+First example,
+
+```{r eval=FALSE}
+# TODO
+Spower(p_lm, n=95, k=5, R2=.1, two.tailed=FALSE)
+```
+
+G*power gives power of 0.662627.
+
+
+# F test: Fixed effects ANOVA - one way
+
+### Example 10.3
+
+```{r}
+Spower(p_anova.test, n=NA, k=10, f=.25, power=.95, interval=c(20, 300), verbose=FALSE)
+```
+G\*power gives the estimate $n=39$.
+
+Fixing $n=200$ and performing a compromise analysis assuming $q=\frac{\beta}{\alpha}=1$,
+
+```{r}
+## FIXME "Error in uniroot(compromise_root, c(1e-04, 0.9999), beta_alpha = beta_alpha,  : 
+##  f() values at end points not of opposite sign
+Spower(p_anova.test, n=200, k=10, f=.25, beta_alpha=1)
 ```
 
 # Variance tests
@@ -142,3 +175,19 @@ Spower(p_var.test, n=NA, sds=sqrt(c(1, 1.5)),
 ```
 
 G\*Power gives estimate of 193 per group.
+
+
+# Independent samples t-test
+
+Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
+
+```{r}
+(out <- Spower(p_t.test, n = NA, d = .5, two.tailed=FALSE, 
+			   power = .95, interval=c(10,500), verbose=FALSE))
+```
+
+```{r echo=FALSE}
+so <- summary(out)
+```
+
+G\*power estimate is 88 per group, `Spower` estimate is `r out$n` with the 95% CI `r so$predCIs_root`.
