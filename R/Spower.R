@@ -338,6 +338,7 @@ print.Spower <- function(x, ...){
 	} else {
 		if(!is.null(lste$beta_alpha)){
 			cat(sprintf("\nEstimate of Type I error rate (alpha/sig.level): %.3f", x$sig.level))
+			cat(sprintf("\nEstimate of Type II error rate (beta): %.3f", x$sig.level))
 			alpha <- 1 - lste$predCI
 			CI <- x$sig.level + c(qnorm(c(alpha/2, lste$predCI+alpha/2))) *
 				sqrt((x$sig.level * (1-x$sig.level))/x$REPLICATIONS)
