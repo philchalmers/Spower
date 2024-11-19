@@ -511,7 +511,13 @@ p_wilcox.test <- function(n){
 	#wilcox.test()
 }
 
-p_lm <- function(n){
+#' @param n sample size
+#' @param u numerator df
+#' @param v denominator df
+#' @param f2 effect size
+#' @param raw_info list of raw info
+p_lm <- function(n, u, v, f2, two.tailed=TRUE,
+				 raw_info=list(betas=NA, X=NA, sigma=NA)){
 
 }
 
