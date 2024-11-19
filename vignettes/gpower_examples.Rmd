@@ -181,7 +181,9 @@ Spower(p_var.test, n=NA, sds=sqrt(c(1, 1.5)),
 
 G\*Power gives estimate of 193 per group.
 
-# Independent samples t-test
+# Two-group designs (t-test)
+
+## Independent samples t-test
 
 Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
 
@@ -212,3 +214,13 @@ ceiling(out$n) * 2
 ```
 
 G\*power gives the result $N=164$.
+
+## Paired samples t-test
+
+### Example 19.3
+
+```{r}
+Spower(p_t.test, n=50, d=0.421637, type = 'paired', verbose=FALSE)
+```
+
+G\*power gives power estimate of .832.

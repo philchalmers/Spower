@@ -66,6 +66,7 @@ p_t.test <- function(n, d, mu = 0, r = NA,
 		type <- 'two.sample'
 		var.equal <- TRUE
 	}
+	if(type == 'paired') n <- n * 2
 	n.each <- n * n2_n1
 	stopifnot(all.equal(n.each, as.integer(n.each)))
 	if(!all(is.na(raw_info$means))){
