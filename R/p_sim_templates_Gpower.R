@@ -9,6 +9,8 @@
 #' @param n sample size per group, assumed equal across groups
 #' @param d Cohen's standardized effect size \code{d}
 #' @param mu population mean to test against
+#' @param r (optional) instead of specifying \code{d} specify
+#'   a point-biserial correlation
 #' @param type type of t-test to use; can be \code{'two.sample'},
 #'   \code{'one.sample'}, or \code{'paired'}
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
@@ -25,6 +27,9 @@
 #'
 #' # sample size of 50 per group, "medium" effect size
 #' p_t.test(n=50, d=0.5)
+#'
+#' # point-biserial correlation effect size
+#' p_t.test(n=50, r=.3)
 #'
 #' # second group 2x as large as the first group
 #' p_t.test(n=50, d=0.5, n2_n1 = 2)
@@ -49,11 +54,18 @@
 #' }
 #'
 #' @export
-p_t.test <- function(n, d, mu = 0,
+p_t.test <- function(n, d, mu = 0, r = NA,
 					 type = c('two.sample', 'one.sample', 'paired'),
 					 n2_n1 = 1, two.tailed = TRUE, var.equal = TRUE,
 					 raw_info = list(means=NA, sds=NA)) {
 	type <- match.arg(type)
+	if(!missing(d) && !is.na(r))
+		stop('Please use either d or r')
+	if(!is.na(r)){
+		d <- r2d(r, n0=n, n1=n*n2_n1)
+		type <- 'two.sample'
+		var.equal <- TRUE
+	}
 	n.each <- n * n2_n1
 	stopifnot(all.equal(n.each, as.integer(n.each)))
 	if(!all(is.na(raw_info$means))){

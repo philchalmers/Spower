@@ -8,6 +8,7 @@ p_t.test(
   n,
   d,
   mu = 0,
+  r = NA,
   type = c("two.sample", "one.sample", "paired"),
   n2_n1 = 1,
   two.tailed = TRUE,
@@ -21,6 +22,9 @@ p_t.test(
 \item{d}{Cohen's standardized effect size \code{d}}
 
 \item{mu}{population mean to test against}
+
+\item{r}{(optional) instead of specifying \code{d} specify
+a point-biserial correlation}
 
 \item{type}{type of t-test to use; can be \code{'two.sample'},
 \code{'one.sample'}, or \code{'paired'}}
@@ -50,6 +54,9 @@ have equal variance by default, however these may be modified.
 
 # sample size of 50 per group, "medium" effect size
 p_t.test(n=50, d=0.5)
+
+# point-biserial correlation effect size
+p_t.test(n=50, r=.3)
 
 # second group 2x as large as the first group
 p_t.test(n=50, d=0.5, n2_n1 = 2)

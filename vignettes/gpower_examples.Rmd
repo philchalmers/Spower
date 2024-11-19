@@ -155,6 +155,10 @@ G\*Power gives $\alpha=\beta=0.159$.
 
 # Variance tests
 
+## Variance - difference from constant (one sample case)
+
+### Example 26.3
+
 ```{r}
 # solve n for variance ratio of 1/1.5 = 2/3, one.tailed, 80% power
 Spower(p_var.test, n=NA, sds=sqrt(1), sigma=sqrt(1.5), 
@@ -164,6 +168,8 @@ Spower(p_var.test, n=NA, sds=sqrt(1), sigma=sqrt(1.5),
 G\*power gives sample size of 81.
 
 ## Two-sample variance test
+
+### Example 15.3
 
 For a two-sample equality of variance test with equal sample sizes,
 
@@ -189,3 +195,20 @@ so <- summary(out)
 ```
 
 G\*power estimate is 88 per group, `Spower` estimate is `r out$n` with the 95% CI `r so$predCIs_root`.
+
+## Point-biserial correlation
+
+Relatedly, one can specify $r$, a point-biserial correlation, instead of $d$ since $r$ is easily converted to $d$.
+
+### Example 16.3
+
+```{r}
+# solution per group
+out <- Spower(p_t.test, r = .25, power = .95, n = NA, two.tailed=FALSE, interval=c(50, 200), verbose=FALSE)
+out
+
+# total sample size required
+ceiling(out$n) * 2
+```
+
+G\*power gives the result $N=164$.

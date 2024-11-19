@@ -30,3 +30,11 @@ compromise <- function(alpha, sim, Design, Summarise){
 
 compromise_root <- function(alpha, beta_alpha, ...)
 	compromise(alpha, ...) - beta_alpha
+
+
+# convert r to d
+r2d <- function(rho, n0, n1){
+	N <- n0 + n1
+	d <- (N*rho) / sqrt(n0*n1*(1-rho^2))
+	d
+}
