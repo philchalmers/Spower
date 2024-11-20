@@ -26,6 +26,7 @@ Suggests:
 	knitr,
 	rmarkdown,
     bookdown,
+    VGAM,
 	pwr
 VignetteBuilder: knitr
 License: GPL (>= 3)

@@ -234,10 +234,28 @@ G\*power gives sample size of $n=1492$.
 
 # Wilcox tests
 
-## One-sample test with normal (Example 22.3)
+## One-sample test with normal distribution (Example 22.3)
 
 ```{r}
 Spower(p_wilcox.test, n=649, d=.1, two.tailed=FALSE, verbose=FALSE)
 ```
 
 G\*power provide power estimate of .800.
+
+## Two-sample test with Laplace distributions (Example 23.3)
+
+```{r}
+library(VGAM)
+
+# find VAR of distribution for standardizing
+fn <- function(x) x^2 * dlaplace(x)
+SD <- sqrt(integrate(fn, -Inf, Inf)$value)
+SD
+
+parent1 <- function(n, d) VGAM::rlaplace(n)/SD + d
+parent2 <- function(n, d) VGAM::rlaplace(n)/SD
+Spower(p_wilcox.test, n=10, d=1.13842, type='paired',
+	   parent1=parent1, parent2=parent2, verbose=FALSE)
+```
+
+G\*power estimates power to be 0.853.

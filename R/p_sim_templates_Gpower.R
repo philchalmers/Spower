@@ -565,7 +565,7 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 	ret <- if(type == 'one.sample'){
 		wilcox.test(dat1, mu=mu, correct=correct, exact=exact)
 	} else {
-		dat2 <- parent2(n, d)
+		dat2 <- parent2(n*n2_n1, d)
 		paired <- type == 'paired'
 		wilcox.test(dat1, dat2, paired=paired,
 					mu=mu, correct=correct, exact=exact)
