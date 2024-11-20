@@ -29,6 +29,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r include=FALSE}
 library(Spower)
 set.seed(1234)
+formals(Spower)$verbose <- FALSE
 ```
 
 This vignette replicates several of the examples found in the G\*Power manual (version 3.1). It is not meant to be exhaustive but instead demonstrates how power analyses could be computed and extended using simulation methodology by either editing the default functions found within the package or by creating a new user-defined function for yet-to-be-defined statistical analysis contexts.
@@ -45,7 +46,7 @@ Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis with 
 
 ```{r}
 (out <- Spower(p_r, n = NA, r = .65, rho = .60,
-			   power = .95, interval=c(1000,4000), verbose=FALSE))
+			   power = .95, interval=c(1000,4000)))
 ```
 
 G\*power estimates $n$ to be 1928, though `Spower` returns the much larger `r out$n`. It's unclear why this discrepancy is so large, though given that the simulation approach is based on simulating and analyzing the data with the `car::linearHypothesis()` function the `Spower` results appear more reflective of what would be expected in practice.
@@ -55,14 +56,14 @@ G\*power estimates $n$ to be 1928, though `Spower` returns the much larger `r ou
 Power associated with $\rho = .3$ with 100 pairs of observations, tested against $\rho_0=0$.
 
 ```{r}
-Spower(p_r, n = 100, r = .3, verbose=FALSE)
+Spower(p_r, n = 100, r = .3)
 ```
 
 Sample size estimate to reject $H_0:\, \rho_0=0$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.3$.
 
 ```{r}
 (out <- Spower(p_r, n = NA, r = .3,
-			   power = .95, interval=c(50,1000), verbose=FALSE))
+			   power = .95, interval=c(50,1000)))
 ```
 
 Compare to approximate result from `pwr` package.
@@ -83,7 +84,7 @@ g <- .15
 p <- pi + g
 
 Spower(p_prop.test, n=20, prop=p, pi=pi, 
-	   two.tailed=FALSE, interval=c(5,50), verbose=FALSE)
+	   two.tailed=FALSE, interval=c(5,50))
 
 ```
 
@@ -94,7 +95,7 @@ Fisher's exact test is also supported by using the argument `exact = TRUE`.
 ```{r}
 # Fisher exact test
 Spower(p_prop.test, n=20, prop=p, pi=pi, exact=TRUE, 
-	   two.tailed=FALSE, interval=c(5,50), verbose=FALSE)
+	   two.tailed=FALSE, interval=c(5,50))
 ```
 
 ## Two dependent proportions test (McNemar's test; Example 5.3)
@@ -106,14 +107,14 @@ obrien2002 <- matrix(c(.54, .32, .08, .06), 2, 2,
 obrien2002
 
 Spower(p_mcnemar.test, n=50, prop=obrien2002, replications=30000,
-	   two.tailed=FALSE, verbose=FALSE)
+	   two.tailed=FALSE)
 ```
 
 G\*Power gives .839 ($\alpha = .032$). Slightly more power can be achieved when not using the continuity correction, though in general this is not recommended in practice.
 
 ```{r}
 Spower(p_mcnemar.test, n=50, prop=obrien2002, 
-	   two.tailed=FALSE, correct=FALSE, verbose=FALSE)
+	   two.tailed=FALSE, correct=FALSE)
 ```
 
 # Multiple Linear Regression
@@ -132,7 +133,7 @@ G\*power gives power of 0.662627.
 # F test: Fixed effects ANOVA - one way (Example 10.3)
 
 ```{r}
-Spower(p_anova.test, n=NA, k=10, f=.25, power=.95, interval=c(20, 300), verbose=FALSE)
+Spower(p_anova.test, n=NA, k=10, f=.25, power=.95, interval=c(20, 300))
 ```
 
 G\*power gives the estimate $n=39$.
@@ -140,7 +141,7 @@ G\*power gives the estimate $n=39$.
 Fixing $n=200$ in total (hence, $n=200/k=20$) and performing a compromise analysis assuming $q=\frac{\beta}{\alpha}=1$,
 
 ```{r}
-Spower(p_anova.test, n=20, k=10, f=.25, beta_alpha=1, replications=30000, verbose=FALSE)
+Spower(p_anova.test, n=20, k=10, f=.25, beta_alpha=1, replications=30000)
 ```
 
 G\*Power gives $\alpha=\beta=0.159$.
@@ -152,7 +153,7 @@ G\*Power gives $\alpha=\beta=0.159$.
 ```{r}
 # solve n for variance ratio of 1/1.5 = 2/3, one.tailed, 80% power
 Spower(p_var.test, n=NA, sds=sqrt(1), sigma=sqrt(1.5), 
-	   two.tailed=FALSE, power=.80, interval=c(10, 200), verbose=FALSE)
+	   two.tailed=FALSE, power=.80, interval=c(10, 200))
 ```
 
 G\*power gives sample size of 81.
@@ -164,7 +165,7 @@ For a two-sample equality of variance test with equal sample sizes,
 ```{r}
 # solve n for variance ratio of 1/1.5 = 2/3, two.tailed, 80% power
 Spower(p_var.test, n=NA, sds=sqrt(c(1, 1.5)), 
-	   two.tailed=TRUE, power=.80, interval=c(50, 300), verbose=FALSE)
+	   two.tailed=TRUE, power=.80, interval=c(50, 300))
 ```
 
 G\*Power gives estimate of 193 per group.
@@ -177,7 +178,7 @@ Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed
 
 ```{r}
 (out <- Spower(p_t.test, n = NA, d = .5, two.tailed=FALSE, 
-			   power = .95, interval=c(10,500), verbose=FALSE))
+			   power = .95, interval=c(10,500)))
 ```
 
 ```{r echo=FALSE}
@@ -195,7 +196,7 @@ Relatedly, one can specify $r$, a point-biserial correlation, instead of $d$ sin
 ```{r}
 # solution per group
 out <- Spower(p_t.test, r = .25, power = .95, n = NA,
-			  two.tailed=FALSE, interval=c(50, 200), verbose=FALSE)
+			  two.tailed=FALSE, interval=c(50, 200))
 out
 
 # total sample size required
@@ -209,7 +210,7 @@ G\*power gives the result $N=164$.
 ### 
 
 ```{r}
-Spower(p_t.test, n=50, d=0.421637, type = 'paired', verbose=FALSE)
+Spower(p_t.test, n=50, d=0.421637, type = 'paired')
 ```
 
 G\*power gives power estimate of .832.
@@ -218,7 +219,7 @@ G\*power gives power estimate of .832.
 
 ```{r}
 Spower(p_t.test, n=NA, d=.625, power=.95, 
-	   two.tailed=FALSE, type='one.sample', interval=c(10, 100), verbose=FALSE)
+	   two.tailed=FALSE, type='one.sample', interval=c(10, 100))
 ```
 
 G\*power gives sample size of $n=30$.
@@ -227,7 +228,7 @@ G\*power gives sample size of $n=30$.
 
 ```{r}
 Spower(p_t.test, n=NA, d=.1, power=.9, 
-	   type='one.sample', sig.level=.01, interval=c(100,2000), verbose=FALSE)
+	   type='one.sample', sig.level=.01, interval=c(100,2000))
 ```
 
 G\*power gives sample size of $n=1492$.
@@ -237,25 +238,27 @@ G\*power gives sample size of $n=1492$.
 ## One-sample test with normal distribution (Example 22.3)
 
 ```{r}
-Spower(p_wilcox.test, n=649, d=.1, two.tailed=FALSE, verbose=FALSE)
+Spower(p_wilcox.test, n=649, d=.1, type='one.sample', two.tailed=FALSE)
 ```
 
 G\*power provide power estimate of .800.
 
-## Two-sample test with Laplace distributions (Example 23.3)
+## Two-sample test with Laplace distributions
 
 ```{r}
 library(VGAM)
 
 # find VAR of distribution for standardizing
-fn <- function(x) x^2 * dlaplace(x)
-SD <- sqrt(integrate(fn, -Inf, Inf)$value)
-SD
+fn <- function(x) x^2 * VGAM::dlaplace(x)
+(SD <- sqrt(integrate(fn, -Inf, Inf)$value))
 
 parent1 <- function(n, d) VGAM::rlaplace(n)/SD + d
 parent2 <- function(n, d) VGAM::rlaplace(n)/SD
-Spower(p_wilcox.test, n=10, d=1.13842, type='paired',
-	   parent1=parent1, parent2=parent2, verbose=FALSE)
-```
 
-G\*power estimates power to be 0.853.
+d1 <- parent1(50, .2)
+d2 <- parent2(50, 0)
+boxplot(d1, d2)
+wilcox.test(d1, d2)
+
+Spower(p_wilcox.test, n=50, d=.2, parent1=parent1, parent2=parent2)
+```
