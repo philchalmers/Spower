@@ -217,7 +217,8 @@ G\*power gives power estimate of .832.
 ## One-sample t-test (Example 20.3)
 
 ```{r}
-Spower(p_t.test, n=NA, d=.625, power=.95, two.tailed=FALSE, type='one.sample', interval=c(10, 100), verbose=FALSE)
+Spower(p_t.test, n=NA, d=.625, power=.95, 
+	   two.tailed=FALSE, type='one.sample', interval=c(10, 100), verbose=FALSE)
 ```
 
 G\*power gives sample size of $n=30$.
@@ -225,7 +226,18 @@ G\*power gives sample size of $n=30$.
 ## 
 
 ```{r}
-Spower(p_t.test, n=NA, d=.1, power=.9, type='one.sample', sig.level=.01, interval=c(100,2000), verbose=FALSE)
+Spower(p_t.test, n=NA, d=.1, power=.9, 
+	   type='one.sample', sig.level=.01, interval=c(100,2000), verbose=FALSE)
 ```
 
 G\*power gives sample size of $n=1492$.
+
+# Wilcox tests
+
+## One-sample test with normal (Example 22.3)
+
+```{r}
+Spower(p_wilcox.test, n=649, d=.1, two.tailed=FALSE, verbose=FALSE)
+```
+
+G\*power provide power estimate of .800.
