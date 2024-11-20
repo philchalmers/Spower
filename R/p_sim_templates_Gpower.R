@@ -10,7 +10,8 @@
 #' @param d Cohen's standardized effect size \code{d}
 #' @param mu population mean to test against
 #' @param r (optional) instead of specifying \code{d} specify
-#'   a point-biserial correlation
+#'   a point-biserial correlation. Internally this is transformed
+#'   into a suitable \code{d} value for the power computations
 #' @param type type of t-test to use; can be \code{'two.sample'},
 #'   \code{'one.sample'}, or \code{'paired'}
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
@@ -54,17 +55,18 @@
 #' }
 #'
 #' @export
-p_t.test <- function(n, d, mu = 0, r = NA,
+p_t.test <- function(n, d, mu = 0, r,
 					 type = c('two.sample', 'one.sample', 'paired'),
 					 n2_n1 = 1, two.tailed = TRUE, var.equal = TRUE,
 					 raw_info = list(means=NA, sds=NA)) {
 	type <- match.arg(type)
-	if(!missing(d) && !is.na(r))
+	if(!missing(d) && !missing(r))
 		stop('Please use either d or r')
-	if(!is.na(r)){
+	if(!missing(r)){
 		d <- r2d(r, n0=n, n1=n*n2_n1)
 		type <- 'two.sample'
-		var.equal <- TRUE
+		stopifnot(var.equal)
+		stopifnot(n2_n1 == 1)
 	}
 	if(type == 'paired') n <- n * 2
 	n.each <- n * n2_n1
@@ -520,16 +522,26 @@ p_var.test <- function(n, sds, n.ratios = rep(1, length(sds)),
 	p
 }
 
-p_wilcox.test <- function(n){
+p_wilcox.test <- function(n, d,
+						  two.tailed = TRUE,
+						  parent = function(n) rnorm(n, 0, 1)){
 	#wilcox.test()
 }
 
-#' @param n sample size
-#' @param u numerator df
-#' @param v denominator df
-#' @param f2 effect size
-#' @param raw_info list of raw info
-p_lm <- function(n, u, v, f2, two.tailed=TRUE,
+# Linear model
+#
+#
+#
+# @param n sample size
+# @param u numerator df
+# @param v denominator df
+# @param f2 effect size
+# @param raw_info list of raw info
+# @param C linear contrast to evaluate passed to argument
+#   \code{hypothesis.matrix} in \code{\link[car]{lht}}
+# @param rhs right-hand-side argument of contrasts passed
+#   to \code{\link[car]{lht}}
+p_lm <- function(n, u, v, f2, C = NULL, rhs = NULL, two.tailed=TRUE,
 				 raw_info=list(betas=NA, X=NA, sigma=NA)){
 
 }

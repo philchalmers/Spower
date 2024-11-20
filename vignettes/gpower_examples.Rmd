@@ -35,13 +35,11 @@ This vignette replicates several of the examples found in the G\*Power manual (v
 
 # Correlation
 
-## Difference from constant (one sample case)
-
 Power associated with the hypotheses $$H_0:\, \rho-\rho_0=0$$ $$H_1:\, \rho-\rho_0\ne 0$$
 
 where $\rho$ is the population correlation and $\rho_0$ the null hypothesis constant.
 
-### Example 3.3
+### Difference from constant (one sample case; Example 3.3)
 
 Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.65$.
 
@@ -75,9 +73,7 @@ pwr::pwr.r.test(r=.3, power=.95)
 
 # Proportions
 
-## One sample proportion tests
-
-### Example 4.3
+## One sample proportion tests (Example 4.3)
 
 One sample, one-tailed proportions test given data generated from a population tested against $\pi_0 = .65$ with $g=.15$ (hence, $\pi = .65+g=.80$) with $n=20$.
 
@@ -101,9 +97,7 @@ Spower(p_prop.test, n=20, prop=p, pi=pi, exact=TRUE,
 	   two.tailed=FALSE, interval=c(5,50), verbose=FALSE)
 ```
 
-## Two dependent proportions test (McNemar's test)
-
-### Example 5.3
+## Two dependent proportions test (McNemar's test; Example 5.3)
 
 ```{r}
 obrien2002 <- matrix(c(.54, .32, .08, .06), 2, 2,
@@ -135,9 +129,7 @@ Spower(p_lm, n=95, k=5, R2=.1, two.tailed=FALSE)
 
 G\*power gives power of 0.662627.
 
-# F test: Fixed effects ANOVA - one way
-
-### Example 10.3
+# F test: Fixed effects ANOVA - one way (Example 10.3)
 
 ```{r}
 Spower(p_anova.test, n=NA, k=10, f=.25, power=.95, interval=c(20, 300), verbose=FALSE)
@@ -155,9 +147,7 @@ G\*Power gives $\alpha=\beta=0.159$.
 
 # Variance tests
 
-## Variance - difference from constant (one sample case)
-
-### Example 26.3
+## Variance - difference from constant (one sample case; Example 26.3)
 
 ```{r}
 # solve n for variance ratio of 1/1.5 = 2/3, one.tailed, 80% power
@@ -167,9 +157,7 @@ Spower(p_var.test, n=NA, sds=sqrt(1), sigma=sqrt(1.5),
 
 G\*power gives sample size of 81.
 
-## Two-sample variance test
-
-### Example 15.3
+## Two-sample variance test (Example 15.3)
 
 For a two-sample equality of variance test with equal sample sizes,
 
@@ -183,7 +171,7 @@ G\*Power gives estimate of 193 per group.
 
 # Two-group designs (t-test)
 
-## Independent samples t-test
+## Independent samples t-test 
 
 Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
 
@@ -196,17 +184,18 @@ Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed
 so <- summary(out)
 ```
 
-G\*power estimate is 88 per group, `Spower` estimate is `r out$n` with the 95% CI `r so$predCIs_root`.
+G\*power estimate is 88 per group, `Spower` estimate is `r out$n` with the 95% CI [`r so$predCIs_root`].
 
-## Point-biserial correlation
+## 
 
 Relatedly, one can specify $r$, a point-biserial correlation, instead of $d$ since $r$ is easily converted to $d$.
 
-### Example 16.3
+### Point-biserial correlation (Example 16.3)
 
 ```{r}
 # solution per group
-out <- Spower(p_t.test, r = .25, power = .95, n = NA, two.tailed=FALSE, interval=c(50, 200), verbose=FALSE)
+out <- Spower(p_t.test, r = .25, power = .95, n = NA,
+			  two.tailed=FALSE, interval=c(50, 200), verbose=FALSE)
 out
 
 # total sample size required
@@ -215,12 +204,28 @@ ceiling(out$n) * 2
 
 G\*power gives the result $N=164$.
 
-## Paired samples t-test
+## Paired samples t-test (Example 19.3)
 
-### Example 19.3
+### 
 
 ```{r}
 Spower(p_t.test, n=50, d=0.421637, type = 'paired', verbose=FALSE)
 ```
 
 G\*power gives power estimate of .832.
+
+## One-sample t-test (Example 20.3)
+
+```{r}
+Spower(p_t.test, n=NA, d=.625, power=.95, two.tailed=FALSE, type='one.sample', interval=c(10, 100), verbose=FALSE)
+```
+
+G\*power gives sample size of $n=30$.
+
+## 
+
+```{r}
+Spower(p_t.test, n=NA, d=.1, power=.9, type='one.sample', sig.level=.01, interval=c(100,2000), verbose=FALSE)
+```
+
+G\*power gives sample size of $n=1492$.

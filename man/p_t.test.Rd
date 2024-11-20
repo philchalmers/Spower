@@ -8,7 +8,7 @@ p_t.test(
   n,
   d,
   mu = 0,
-  r = NA,
+  r,
   type = c("two.sample", "one.sample", "paired"),
   n2_n1 = 1,
   two.tailed = TRUE,
@@ -24,7 +24,8 @@ p_t.test(
 \item{mu}{population mean to test against}
 
 \item{r}{(optional) instead of specifying \code{d} specify
-a point-biserial correlation}
+a point-biserial correlation. Internally this is transformed
+into a suitable \code{d} value for the power computations}
 
 \item{type}{type of t-test to use; can be \code{'two.sample'},
 \code{'one.sample'}, or \code{'paired'}}
