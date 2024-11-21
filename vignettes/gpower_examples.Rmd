@@ -72,6 +72,16 @@ Compare to approximate result from `pwr` package.
 pwr::pwr.r.test(r=.3, power=.95)
 ```
 
+### Correlation - inequality of two independent Pearson r’s (Example 27.3)
+
+```{r}
+n <- 206
+n2_n1 <- 51/n
+Spower(p_2r, n=n, r.xy1=.75, r.xy2=.88, n2_n1=n2_n1)
+```
+
+G\*power gives power of .726.
+
 # Proportions
 
 ## One sample proportion tests (Example 4.3)
@@ -172,7 +182,7 @@ G\*Power gives estimate of 193 per group.
 
 # Two-group designs (t-test)
 
-## Independent samples t-test 
+## Independent samples t-test
 
 Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
 

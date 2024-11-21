@@ -2,6 +2,7 @@
 
 S3method(print,Spower)
 export(Spower)
+export(p_2r)
 export(p_anova.test)
 export(p_chisq.test)
 export(p_mcnemar.test)

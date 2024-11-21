@@ -598,8 +598,75 @@ p_glm <- function(n){
 
 }
 
-# compare two correlations
-p_2r <- function(n, r1, r2){
-
+#' Compare two correlations
+#'
+#'
+#' @export
+#' @examples
+#'
+#' # independent (same x-y pairing across groups)
+#' p_2r(100, r.xy1=.5, r.xy2=.6)
+#'
+#' # overlap (same y, different xs)
+#' p_2r(100, r.xy1=.5, r.xy2=.7,
+#'           r.xz1=.3, r.xz2=.3,
+#'           r.yz1=.2, r.yz2=.2, type = 'overlap')
+#'
+#' # nonoverlap (different ys, different xs)
+#' p_2r(100, r.xy1=.5, r.xy2=.6,
+#'           r.xz1=.3, r.xz2=.3,
+#'           r.yz1=.2, r.yz2=.2,
+#'           r.xw1=.2, r.xw2=.2,
+#'           r.yw1=.4, r.yw2=.4,
+#'           r.zw1=.2, r.zw2=.2,
+#'           type = 'nonoverlap')
+#'
+#'
+p_2r <- function(n, r.xy1, r.xy2, r.xz1, r.xz2, r.yz1, r.yz2,
+				 r.xw1, r.xw2, r.yw1, r.yw2, r.zw1, r.zw2,
+				 n2_n1 = 1, two.tailed=TRUE,
+				 type = c('independent', 'overlap', 'nonoverlap'),
+				 test = 'fisher1925'){
+	type <- match.arg(type)
+	if(type == 'independent'){
+		R1 <- matrix(c(1,r.xy1, r.xy1, 1), 2, 2)
+		R2 <- matrix(c(1,r.xy2, r.xy2, 1), 2, 2)
+		cnms <- c('y', 'x')
+	} else if(type == 'overlap'){
+		R1 <- matrix(c(1,r.xy1, r.xz1,
+					   r.xy1, 1, r.yz1,
+					   r.xz1,r.yz1, 1), 3, 3)
+		R2 <- matrix(c(1,r.xy2, r.xz2,
+					   r.xy2, 1, r.yz2,
+					   r.xz2, r.yz2, 1), 3, 3)
+		cnms <- c('y', 'x1', 'x2')
+	} else {
+		R1 <- matrix(c(1,r.xy1, r.xz1, r.xw1,
+					   0, 1, r.yz1, r.yw1,
+					   0,0, 1, r.zw1,
+					   0, 0, 0, 1), 4, 4)
+		R1 <- R1 + t(R1) - diag(4)
+		R2 <- matrix(c(1,r.xy2, r.xz2, r.xw2,
+					   0, 1, r.yz2, r.yw2,
+					   0,0, 1, r.zw2,
+					   0, 0, 0, 1), 4, 4)
+		R2 <- R2 + t(R2) - diag(4)
+		cnms <- c('y1', 'x1', 'y2', 'x2')
+	}
+	df1 <- data.frame(rmvnorm(n, sigma=R1))
+	df2 <- data.frame(rmvnorm(n * n2_n1, sigma=R2))
+	colnames(df1) <- colnames(df2) <- cnms
+	dat <- list(sample1=df1, sample2=df2)
+	res <- if(type == 'independent'){
+		cocor::cocor(~ y + x | y + x, dat, test=test)
+	} else if(type == 'overlap'){
+		cocor::cocor(~ y + x1 | y + x2, dat, test=test)
+	} else {
+		cocor::cocor(~ y1 + x1 | y2 + x2, dat, test=test)
+	}
+	pick <- slot(res, test)
+	p <- pick$p.value
+	p <- ifelse(two.tailed, p, p*2)
+	p
 }
 
