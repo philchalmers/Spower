@@ -1,14 +1,19 @@
-#' Simulation-based Power Analysis
+#' Simulation-based Power Analyses
 #'
-#' General purpose function that serves as a power-focused wrapper to the
+#' General purpose function that provides power-focused estimates for
+#' a priori, post-hoc, compromise, sensitivity, and criterion power analysis.
+#' Function provides a general wrapper to the
 #' \code{SimDesign} package's \code{\link{runSimulation}} and
-#' \code{\link{SimSolve}} functions.
+#' \code{\link{SimSolve}} functions. As such, parallel processing is
+#' automatically supported, along with progress bars,
+#' confidence/prediction intervals for the results estimates, safty checks,
+#' and more.
 #'
 #' Five types of power analysis flavors can be performed with \code{Spower},
 #' which are triggered based on which supplied inputs as set to missing (\code{NA}):
 #'
 #' \describe{
-#'    \item{A priori}{Solve for a missing sample size component
+#'    \item{A Priori}{Solve for a missing sample size component
 #'      (e.g., \code{n}) to achieve a specific target power rate
 #'      (argument \code{power})}
 #'    \item{Post-hoc}{Estimate the power rate given a set of fixed conditions}

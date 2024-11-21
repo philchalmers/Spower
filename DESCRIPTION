@@ -1,5 +1,5 @@
 Package: Spower
-Title: Simulation-based Power Analysis
+Title: Simulation-based Power Analyses
 Version: 0.1
 Authors@R: 
    person("Phil", family="Chalmers", email =
