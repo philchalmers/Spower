@@ -2,48 +2,83 @@
 % Please edit documentation in R/p_sim_templates_Gpower.R
 \name{p_2r}
 \alias{p_2r}
-\title{Compare two correlations}
+\title{Compare two correlations and p-value}
 \usage{
 p_2r(
   n,
-  r.xy1,
-  r.xy2,
-  r.xz1,
-  r.xz2,
-  r.yz1,
-  r.yz2,
-  r.xw1,
-  r.xw2,
-  r.yw1,
-  r.yw2,
-  r.zw1,
-  r.zw2,
+  r.ab1,
+  r.ab2,
+  r.ac1,
+  r.ac2,
+  r.bc1,
+  r.bc2,
+  r.ad1,
+  r.ad2,
+  r.bd1,
+  r.bd2,
+  r.cd1,
+  r.cd2,
   n2_n1 = 1,
   two.tailed = TRUE,
   type = c("independent", "overlap", "nonoverlap"),
   test = "fisher1925"
 )
 }
+\arguments{
+\item{n}{sample size}
+
+\item{r.ab1}{correlation between variable A and B in sample 1}
+
+\item{r.ab2}{correlation between variable A and B in sample 2}
+
+\item{r.ac1}{same pattern as \code{r.ab1}}
+
+\item{r.ac2}{same pattern as \code{r.ab2}}
+
+\item{r.bc1}{...}
+
+\item{r.bc2}{...}
+
+\item{r.ad1}{...}
+
+\item{r.ad2}{...}
+
+\item{r.bd1}{...}
+
+\item{r.bd2}{...}
+
+\item{r.cd1}{...}
+
+\item{r.cd2}{...}
+
+\item{n2_n1}{sample size ratio}
+
+\item{two.tailed}{logical; use two-tailed test?}
+
+\item{type}{type of correlation design}
+
+\item{test}{hypothesis method to use. Defaults to 'fisher1925'}
+}
 \description{
-Compare two correlations
+Compare two correlations and p-value
 }
 \examples{
 
 # independent (same x-y pairing across groups)
-p_2r(100, r.xy1=.5, r.xy2=.6)
+p_2r(100, r.ab1=.5, r.ab2=.6)
 
 # overlap (same y, different xs)
-p_2r(100, r.xy1=.5, r.xy2=.7,
-          r.xz1=.3, r.xz2=.3,
-          r.yz1=.2, r.yz2=.2, type = 'overlap')
+p_2r(100, r.ab1=.5, r.ab2=.7,
+          r.ac1=.3, r.ac2=.3,
+          r.bc1=.2, r.bc2=.2, type = 'overlap')
 
 # nonoverlap (different ys, different xs)
-p_2r(100, r.xy1=.5, r.xy2=.6,
-          r.xz1=.3, r.xz2=.3,
-          r.yz1=.2, r.yz2=.2,
-          r.xw1=.2, r.xw2=.2,
-          r.yw1=.4, r.yw2=.4,
-          r.zw1=.2, r.zw2=.2,
+p_2r(100, r.ab1=.5, r.ab2=.6,
+          r.ac1=.3, r.ac2=.3,
+          r.bc1=.2, r.bc2=.2,
+          r.ad1=.2, r.ad2=.2,
+          r.bd1=.4, r.bd2=.4,
+          r.cd1=.2, r.cd2=.2,
           type = 'nonoverlap')
 
 

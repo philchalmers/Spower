@@ -77,7 +77,7 @@ pwr::pwr.r.test(r=.3, power=.95)
 ```{r}
 n <- 206
 n2_n1 <- 51/n
-Spower(p_2r, n=n, r.xy1=.75, r.xy2=.88, n2_n1=n2_n1)
+Spower(p_2r, n=n, r.ab1=.75, r.ab2=.88, n2_n1=n2_n1)
 ```
 
 G\*power gives power of .726.
