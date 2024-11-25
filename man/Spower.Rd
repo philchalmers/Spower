@@ -182,9 +182,13 @@ ceiling(out$n) * 2
 (pwr <- pwr::pwr.t.test(d=.5, power=.80))
 ceiling(pwr$n) * 2
 
+# If greater precision is required and the user has a specific amount of time
+# they are willing to wait (e.g., 5 minutes) then wait.time can be used. Below
+# estimates root after searching for 1 minute
+Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500), wait.time='1')
+
 # Solve d to get .80 power (sensitivity power analysis)
 Spower(p_t.test, n = 50, d = NA, power=.8, interval=c(.1, 2))
-
 pwr::pwr.t.test(n=50, power=.80) # compare
 
 # Solve alpha that would give power of .80 (criterion power analysis)

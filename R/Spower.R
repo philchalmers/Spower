@@ -156,9 +156,13 @@
 #' (pwr <- pwr::pwr.t.test(d=.5, power=.80))
 #' ceiling(pwr$n) * 2
 #'
+#' # If greater precision is required and the user has a specific amount of time
+#' # they are willing to wait (e.g., 5 minutes) then wait.time can be used. Below
+#' # estimates root after searching for 1 minute
+#' Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500), wait.time='1')
+#'
 #' # Solve d to get .80 power (sensitivity power analysis)
 #' Spower(p_t.test, n = 50, d = NA, power=.8, interval=c(.1, 2))
-#'
 #' pwr::pwr.t.test(n=50, power=.80) # compare
 #'
 #' # Solve alpha that would give power of .80 (criterion power analysis)
@@ -257,9 +261,9 @@ Spower <- function(sim, ..., interval, power = NA,
 		interval <- c(NA, NA)
 	}
 	if(missing(integer)){
-		integer <- !has.decimals(interval) || diff(interval) < 5
+		integer <- !(has.decimals(interval) || diff(interval) < 5)
 		if(!integer && verbose)
-			message('\nUsing continuous search interval (set manually by passing integer=FALSE).')
+			message('\nUsing continuous search interval (set manually by passing integer = FALSE).')
 	}
 	if(sum(sapply(conditions, \(x) isTRUE(is.na(x))), is.na(power)) != 1)
 		stop(c('Exactly one argument for the inputs \'power\', \'sig.level\',',
@@ -281,7 +285,7 @@ Spower <- function(sim, ..., interval, power = NA,
 	}
 	if(!is.null(wait.time) && maxiter == 150){
 		maxiter <- 3000
-		predCI.tol <- 0
+		predCI.tol <- NULL
 	}
 	ret <- if(is.na(power) || !is.null(beta_alpha)){
 		tmp <- SimDesign::runSimulation(conditions, replications=replications,
