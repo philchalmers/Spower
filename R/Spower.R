@@ -279,6 +279,10 @@ Spower <- function(sim, ..., interval, power = NA,
 		prior_list <- as.list(fixed_objects$prior())
 		fixed_objects <- c(fixed_objects, prior_list)
 	}
+	if(!is.null(wait.time) && maxiter == 150){
+		maxiter <- 3000
+		predCI.tol <- 0
+	}
 	ret <- if(is.na(power) || !is.null(beta_alpha)){
 		tmp <- SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug,
