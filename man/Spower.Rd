@@ -211,8 +211,8 @@ with(out2, (1-power)/sig.level)   # check ratio
 # Expected power computed by including effect size uncertainty.
 # For instance, belief is that the true d is somewhere around d ~ N(.5, 1/8)
 dprior <- function(x, mean=.5, sd=1/8) dnorm(x, mean=mean, sd=sd)
-curve(dprior, -3, 3)
-abline(v=.5, col='red') # most likely value is d = 0.5
+curve(dprior, -1, 2, main=expression(d \%~\% N(0.5, 1/8)),
+      xlab='d', ylab='density')
 
 # define prior sampler and returned named object (list or numeric vector)
 prior <- function() c(d=rnorm(1, mean=.5, sd=1/8))
