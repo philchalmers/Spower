@@ -221,6 +221,11 @@ prior(); prior(); prior()
 # Expected power (d no longer in ... since it's returned from prior())
 Spower(p_t.test, n = 50, prior=prior)
 
+# A priori power analysis using expected power
+Spower(p_t.test, n = NA, power=.8, interval=c(2,500), prior=prior)
+pwr::pwr.t.test(d=.5, power=.80) # expected power result higher than fixed d
+
+
 ###############
 # Customization
 ###############

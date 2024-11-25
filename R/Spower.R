@@ -195,6 +195,11 @@
 #' # Expected power (d no longer in ... since it's returned from prior())
 #' Spower(p_t.test, n = 50, prior=prior)
 #'
+#' # A priori power analysis using expected power
+#' Spower(p_t.test, n = NA, power=.8, interval=c(2,500), prior=prior)
+#' pwr::pwr.t.test(d=.5, power=.80) # expected power result higher than fixed d
+#'
+#'
 #' ###############
 #' # Customization
 #' ###############
@@ -260,11 +265,13 @@ Spower <- function(sim, ..., interval, power = NA,
 			stop('Must provide a search interval to solve the missing NA', call.=FALSE)
 		interval <- c(NA, NA)
 	}
-	if(missing(integer)){
-		integer <- !(has.decimals(interval) || diff(interval) < 5)
-		if(!integer && verbose)
-			message('\nUsing continuous search interval (set manually by passing integer = FALSE).')
-	}
+	if(!is.na(power) && !is.na(sig.level) && is.null(beta_alpha)){
+		if(missing(integer)){
+			integer <- !(has.decimals(interval) || diff(interval) < 5)
+			if(!integer && verbose)
+				message('\nUsing continuous search interval (set manually by passing integer = FALSE).')
+		}
+	} else integer <- FALSE
 	if(sum(sapply(conditions, \(x) isTRUE(is.na(x))), is.na(power)) != 1)
 		stop(c('Exactly one argument for the inputs \'power\', \'sig.level\',',
 			   '\n  or the \'...\' list must be set to NA'), call.=FALSE)
