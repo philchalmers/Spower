@@ -140,7 +140,9 @@ Spower(p_lm, n=95, k=5, R2=.1, two.tailed=FALSE)
 
 G\*power gives power of 0.662627.
 
-# F test: Fixed effects ANOVA - one way (Example 10.3)
+# F test
+
+## Fixed effects ANOVA - one way (Example 10.3)
 
 ```{r}
 Spower(p_anova.test, n=NA, k=10, f=.25, power=.95, interval=c(20, 300))
@@ -217,8 +219,6 @@ G\*power gives the result $N=164$.
 
 ## Paired samples t-test (Example 19.3)
 
-### 
-
 ```{r}
 Spower(p_t.test, n=50, d=0.421637, type = 'paired')
 ```
@@ -233,8 +233,6 @@ Spower(p_t.test, n=NA, d=.625, power=.95,
 ```
 
 G\*power gives sample size of $n=30$.
-
-## 
 
 ```{r}
 Spower(p_t.test, n=NA, d=.1, power=.9, 
