@@ -33,6 +33,8 @@ p_wilcox.test(
 \item{correct}{a logical indicating whether to apply continuity correction
 in the normal approximation for the p-value}
 
+\item{two.tailed}{logical; use two-tailed test?}
+
 \item{parent1}{data generation function for first group. Ideally
 should have SDs = 1 so that \code{d} reflects a standardized
 difference}

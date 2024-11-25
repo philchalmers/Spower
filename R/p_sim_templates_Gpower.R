@@ -539,6 +539,7 @@ p_var.test <- function(n, sds, n.ratios = rep(1, length(sds)),
 #'   should have SDs = 1 so that \code{d} reflects a standardized
 #'   difference
 #' @param parent2 same as \code{parent1}, but for the second group
+#' @param two.tailed logical; use two-tailed test?
 #' @export
 #' @examples
 #'
@@ -621,6 +622,7 @@ p_glm <- function(n){
 #' @param type type of correlation design
 #' @param test hypothesis method to use. Defaults to 'fisher1925'
 #' @importFrom cocor cocor
+#' @importFrom methods slot
 #' @export
 #' @examples
 #'
@@ -684,7 +686,7 @@ p_2r <- function(n, r.ab1, r.ab2, r.ac1, r.ac2, r.bc1, r.bc2,
 	} else {
 		cocor::cocor(~ y1 + x1 | y2 + x2, dat, test=test)
 	}
-	pick <- slot(res, test)
+	pick <- methods::slot(res, test)
 	p <- pick$p.value
 	p <- ifelse(two.tailed, p, p*2)
 	p
