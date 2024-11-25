@@ -600,6 +600,9 @@ p_glm <- function(n){
 
 #' Compare two correlations and p-value
 #'
+#' Function utilizes \code{\link[cocor]{cocor}} to perform correlation
+#' comparison for independent, overlapping, and non-overlapping designs.
+#'
 #' @param n sample size
 #' @param r.ab1 correlation between variable A and B in sample 1
 #' @param r.ab2 correlation between variable A and B in sample 2
@@ -617,6 +620,7 @@ p_glm <- function(n){
 #' @param two.tailed logical; use two-tailed test?
 #' @param type type of correlation design
 #' @param test hypothesis method to use. Defaults to 'fisher1925'
+#' @importFrom cocor cocor
 #' @export
 #' @examples
 #'

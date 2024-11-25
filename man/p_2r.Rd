@@ -60,7 +60,8 @@ p_2r(
 \item{test}{hypothesis method to use. Defaults to 'fisher1925'}
 }
 \description{
-Compare two correlations and p-value
+Function utilizes \code{\link[cocor]{cocor}} to perform correlation
+comparison for independent, overlapping, and non-overlapping designs.
 }
 \examples{
 

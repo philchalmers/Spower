@@ -20,6 +20,7 @@ Depends:
     stats
 Imports:
 	car,
+	cocor,
 	parallelly,
 	EnvStats
 Suggests:
