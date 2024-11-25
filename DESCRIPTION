@@ -22,6 +22,7 @@ Imports:
 	car,
 	cocor,
 	parallelly,
+	methods,
 	EnvStats
 Suggests:
 	knitr,
