@@ -588,36 +588,41 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 #   \code{hypothesis.matrix} in \code{\link[car]{lht}}
 # @param rhs right-hand-side argument of contrasts passed
 #   to \code{\link[car]{lht}}
-p_lm <- function(n, R2, k, R2_0 = 0, C = NULL, rhs = NULL, two.tailed=TRUE,
-				 raw_info=list(betas=NA, X=NA, sigma=NA)){
-	if(!missing(R2)){
+p_lm <- function(n, R2, k, R2_0 = 0, X = NULL){
+	stopifnot(R2 > R2_0)
+	if(is.null(X))
 		X <- matrix(rnorm(k*n), n, k)
-		betas <- c(sqrt(R2), rep(0, k-1))
-		y <- colSums(betas * t(X)) + rnorm(n, 0, sqrt(1-R2))
-		df <- data.frame(y, X)
-		mod1 <- lm(y ~ ., df)
-		if(is.null(C))
-			C <- colnames(df)[-1]
-		if(is.null(rhs))
-			rhs <- c(sqrt(R2_0), numeric(k-1))
-		out <- car::lht(mod1, C, rhs=rhs)
-		p <- out$`Pr(>F)`[2]
+	else {
+		k <- ncol(X)
+		n <- nrow(X)
 	}
-	p <- ifelse(two.tailed, p, p/2)
+	stopifnot(k >= 2)
+	R2s <- R2 - R2_0
+	betas <- c(sqrt(R2s), sqrt(R2_0), rep(0, k-2))
+	y <- colSums(betas * t(X)) + rnorm(n, 0, sqrt(1-R2))
+	df <- data.frame(y, X)
+	mod1 <- lm(y ~ ., df)
+	mod0 <- if(R2_0 == 0) lm(y ~ 1, df)
+	  else lm(y ~ X2, df)
+	p <- anova(mod0, mod1)[2, "Pr(>F)"]
 	p
 }
 
 if(FALSE){
 	p_lm(n=95, R2=.1, k=5)
-	Spower(p_lm, n=95, R2=.1, k=5, two.tailed=FALSE)
-	# G*power gives 0.662? Matches when two-tailed
+
 	Spower(p_lm, n=95, R2=.1, k=5)
+	# G*power gives 0.662 (Random sampling model)
+	#
 
-	Spower(p_lm, n=100, R2=.4, R2_0 = .3, k=5, two.tailed=FALSE)
-	# G*power gives 0.3464
+	# fixed X
+	X <- rmvnorm(95, numeric(5))
+	Spower(p_lm, R2=.1, X=X)
 
-	Spower(p_lm, n=NA, R2=.05, R2_0 = .2, k=5, two.tailed=FALSE, power=.9,
-		   interval=c(50,300))
+	Spower(p_lm, n=100, R2=.4, R2_0 = .3, k=5)
+	# G*power gives 0.3464? There's no way that's correct
+
+	Spower(p_lm, n=NA, R2=.05, R2_0 = .2, k=5, power=.9, interval=c(50,300))
 	# G*power gives N=153
 
 
