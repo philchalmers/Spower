@@ -591,7 +591,7 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 # @param rhs right-hand-side argument of contrasts passed
 #   to \code{\link[car]{lht}}
 # @importFrom car linearHypothesis
-p_lm <- function(n, R2, k, R2_0 = 0, delta=FALSE, X = NULL){
+p_lm <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, X=NULL){
 	stopifnot(R2 > R2_0)
 	if(is.null(X))
 		X <- matrix(rnorm(k*n), n, k)
@@ -599,16 +599,18 @@ p_lm <- function(n, R2, k, R2_0 = 0, delta=FALSE, X = NULL){
 		k <- ncol(X)
 		n <- nrow(X)
 	}
-	if(!delta)
+	if(k.R2_0 == 0)
 		stopifnot(k >= 2)
-	if(delta || R2_0 == 0){
+	if(k.R2_0 > 0 || R2_0 == 0){
 		R2s <- R2 - R2_0
 		betas <- c(sqrt(R2s), sqrt(R2_0), rep(0, k-2))
-		y <- colSums(betas * t(X)) + rnorm(n, 0, sqrt(1-R2))
+		y <- colSums(betas * t(X)) + rnorm(n, 0, sqrt(R2.resid))
 		df <- data.frame(y, X)
+		if(k.R2_0 > 0)
+			df2 <- df[,c(1,3:(k.R2_0 +2))]
 		mod1 <- lm(y ~ ., df)
 		mod0 <- if(R2_0 == 0) lm(y ~ 1, df)
-		  else lm(y ~ X2, df)
+		  else lm(y ~ ., df2)
 		p <- anova(mod0, mod1)[2, "Pr(>F)"]
 	}
 	p
@@ -636,12 +638,37 @@ if(FALSE){
 
 
 	# Example 14.3
-	# k is delta.k in this case (e.g., 9 vs 4 predictors)
+	# k is total IVs, k.R2_0 is number of IVs for baseline
 	# delta.R2 = R2 - R2_0
-	#
-	# G*power gives 1-beta = .241
-	Spower(p_lm, n=90, R2=.3, R2_0 = .25, k=5,
-		   delta=TRUE, sig.level=.01, power=NA)
+
+	# Cohen (1988) gives 1-beta between .22 and .24
+	# G*power gives 1-beta = .241 as they claim Cohen used the wrong non-centrality parameter estimate?
+	Spower(p_lm, n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5, sig.level=.01)
+
+	Spower(p_lm, n=90, R2=.3, k=5, R2_0=.25, k.R2_0=1, sig.level=.01) # matches better (why?)
+
+	# with 2*n, Cohen (1988) gives estimate .61
+	Spower(p_lm, n=90*2, R2=.3, k=9, R2_0=.25, k.R2_0=5, sig.level=.01)
+
+	Spower(p_lm, n=90*2, R2=.3, k=5, R2_0=.25, k.R2_0=1, sig.level=.01) # matches better (why?)
+
+	# G*power gives n = 242 (underestimate?)
+	Spower(p_lm, n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5,
+		   sig.level=.01, power=.8, interval=c(100, 400))
+
+	# Example 14.3b
+	# Cohen gives 1-beta = .74
+	# G*power gives 1-beta = .767
+	Spower(p_lm, n=200, R2=.16, R2_0 = .1, k=12,
+		   k.R2_0=9, R2.resid=.8, sig.level=.01, power=NA)  # better with Cohen
+
+	Spower(p_lm, n=200, R2=.16, R2_0 = .1, k=4,
+		   k.R2_0=1, R2.resid=.8, sig.level=.01, power=NA)  # better with G*power
+
+	# 14* examples all these appear to have lower power than G*power, but agree well with Cohen (1988)
+	# Adjusted df version agrees better with G*power
+
+
 
 }
 
