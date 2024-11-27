@@ -53,7 +53,7 @@ G\*power estimates $n$ to be 1929 using the same Fisher z-transformation approxi
 
 ### Test against constant $\rho_0=0$
 
-Unlike the previous section, this is the more cannonical version of the hypotheses involving correlation coefficients. Power associated with $\rho = .3$ with 100 pairs of observations, tested against $\rho_0=0$.
+Unlike the previous section, this is the more canonical version of the hypotheses involving correlation coefficients. Power associated with $\rho = .3$ with 100 pairs of observations, tested against $\rho_0=0$.
 
 ```{r}
 Spower(p_r, n = 100, r = .3)

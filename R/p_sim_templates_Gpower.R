@@ -103,8 +103,8 @@ p_t.test <- function(n, d, mu = 0, r,
 #'
 #' @param n sample size
 #' @param r correlation
-#' @param rho population coefficient to test against using
-#'   Fisher's z-transformation. Defaults to 0
+#' @param rho population coefficient to test against. Uses the
+#'   Fisher's z-transformation approximation when non-zero
 #' @param method method to use to compute the correlation
 #'   (see \code{\link{cor.test}}). Only used when \code{rho = 0}
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
@@ -591,7 +591,7 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 # @param rhs right-hand-side argument of contrasts passed
 #   to \code{\link[car]{lht}}
 # @importFrom car linearHypothesis
-p_lm <- function(n, R2, k, R2_0 = 0, X = NULL){
+p_lm <- function(n, R2, k, R2_0 = 0, delta=FALSE, X = NULL){
 	stopifnot(R2 > R2_0)
 	if(is.null(X))
 		X <- matrix(rnorm(k*n), n, k)
@@ -599,15 +599,18 @@ p_lm <- function(n, R2, k, R2_0 = 0, X = NULL){
 		k <- ncol(X)
 		n <- nrow(X)
 	}
-	stopifnot(k >= 2)
-	R2s <- R2 - R2_0
-	betas <- c(sqrt(R2s), sqrt(R2_0), rep(0, k-2))
-	y <- colSums(betas * t(X)) + rnorm(n, 0, sqrt(1-R2))
-	df <- data.frame(y, X)
-	mod1 <- lm(y ~ ., df)
-	mod0 <- if(R2_0 == 0) lm(y ~ 1, df)
-	  else lm(y ~ X2, df)
-	p <- anova(mod0, mod1)[2, "Pr(>F)"]
+	if(!delta)
+		stopifnot(k >= 2)
+	if(delta || R2_0 == 0){
+		R2s <- R2 - R2_0
+		betas <- c(sqrt(R2s), sqrt(R2_0), rep(0, k-2))
+		y <- colSums(betas * t(X)) + rnorm(n, 0, sqrt(1-R2))
+		df <- data.frame(y, X)
+		mod1 <- lm(y ~ ., df)
+		mod0 <- if(R2_0 == 0) lm(y ~ 1, df)
+		  else lm(y ~ X2, df)
+		p <- anova(mod0, mod1)[2, "Pr(>F)"]
+	}
 	p
 }
 
@@ -615,19 +618,30 @@ if(FALSE){
 	p_lm(n=95, R2=.1, k=5)
 
 	Spower(p_lm, n=95, R2=.1, k=5)
+	# Example 7.3 (though note that G*power claims this a one-tailed test)
 	# G*power gives 0.662 (Random sampling model)
-	#
 
-	# fixed X
-	X <- rmvnorm(95, numeric(5))
+	# fixed X (Example 13.1)
+	X <- SimDesign::rmvnorm(95, numeric(5)) |> scale()
 	Spower(p_lm, R2=.1, X=X)
 
+	# Example 7.3b
+	# G*power gives 0.3464 (broken)
 	Spower(p_lm, n=100, R2=.4, R2_0 = .3, k=5)
-	# G*power gives 0.3464? There's no way that's correct
 
-	Spower(p_lm, n=NA, R2=.05, R2_0 = .2, k=5, power=.9, interval=c(50,300))
-	# G*power gives N=153
+	# Example 7.3c
+	# G*power gives N=153 (broken)
+	Spower(p_lm, n=NA, R2=.05, R2_0 = .2, k=5, power=.9,
+		   interval=c(50,300))
 
+
+	# Example 14.3
+	# k is delta.k in this case (e.g., 9 vs 4 predictors)
+	# delta.R2 = R2 - R2_0
+	#
+	# G*power gives 1-beta = .241
+	Spower(p_lm, n=90, R2=.3, R2_0 = .25, k=5,
+		   delta=TRUE, sig.level=.01, power=NA)
 
 }
 
