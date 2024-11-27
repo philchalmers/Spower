@@ -104,11 +104,10 @@ p_t.test <- function(n, d, mu = 0, r,
 #' @param n sample size
 #' @param r correlation
 #' @param rho population coefficient to test against using
-#'   \code{\link[car]{linearHypothesis}}. Defaults to 0
+#'   Fisher's z-transformation. Defaults to 0
 #' @param method method to use to compute the correlation
 #'   (see \code{\link{cor.test}}). Only used when \code{rho = 0}
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
-#' @importFrom car linearHypothesis
 #' @return a single p-value
 #' @examples
 #'
@@ -139,9 +138,12 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 	dat <- SimDesign::rmvnorm(n, sigma = matrix(c(1,r,r,1), 2, 2))
 	colnames(dat) <- c('x', 'y')
 	if(rho != 0){
-		mod <- lm(y ~ x, as.data.frame(dat))
-		out <- car::linearHypothesis(mod, "x", rho)
-		p <- out$`Pr(`[2]
+		out <- cor.test(~ x + y, dat, method=method)
+		z <- with(out, 1/2 * log((1+estimate)/(1-estimate)))
+		se <- 1 / sqrt(n-3)
+		z0 <- 1/2 * log((1+rho)/(1-rho))
+		t <- (z - z0) / se
+		p <- pnorm(abs(t), lower.tail=FALSE)*2
 	} else {
 		p <- cor.test(~ x + y, dat, method=method)$p.value
 	}
@@ -588,6 +590,7 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 #   \code{hypothesis.matrix} in \code{\link[car]{lht}}
 # @param rhs right-hand-side argument of contrasts passed
 #   to \code{\link[car]{lht}}
+# @importFrom car linearHypothesis
 p_lm <- function(n, R2, k, R2_0 = 0, X = NULL){
 	stopifnot(R2 > R2_0)
 	if(is.null(X))

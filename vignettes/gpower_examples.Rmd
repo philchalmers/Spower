@@ -46,14 +46,14 @@ Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis with 
 
 ```{r}
 (out <- Spower(p_r, n = NA, r = .65, rho = .60,
-			   power = .95, interval=c(1000,4000)))
+			   power = .95, interval=c(500,3000)))
 ```
 
-G\*power estimates $n$ to be 1928, though `Spower` returns the much larger `r out$n`. It's unclear why this discrepancy is so large, though given that the simulation approach is based on simulating and analyzing the data with the `car::linearHypothesis()` function the `Spower` results appear more reflective of what would be expected in practice.
+G\*power estimates $n$ to be 1929 using the same Fisher z-transformation approximation.
 
 ### Test against constant $\rho_0=0$
 
-Power associated with $\rho = .3$ with 100 pairs of observations, tested against $\rho_0=0$.
+Unlike the previous section, this is the more cannonical version of the hypotheses involving correlation coefficients. Power associated with $\rho = .3$ with 100 pairs of observations, tested against $\rho_0=0$.
 
 ```{r}
 Spower(p_r, n = 100, r = .3)
