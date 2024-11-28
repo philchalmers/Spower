@@ -6,7 +6,7 @@
 #' \code{SimDesign} package's \code{\link{runSimulation}} and
 #' \code{\link{SimSolve}} functions. As such, parallel processing is
 #' automatically supported, along with progress bars,
-#' confidence/prediction intervals for the results estimates, safty checks,
+#' confidence/prediction intervals for the results estimates, safety checks,
 #' and more.
 #'
 #' Five types of power analysis flavors can be performed with \code{Spower},

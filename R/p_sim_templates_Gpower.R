@@ -591,13 +591,20 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 # @param rhs right-hand-side argument of contrasts passed
 #   to \code{\link[car]{lht}}
 # @importFrom car linearHypothesis
-p_lm <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, X=NULL){
+p_lm <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, fixed.X=TRUE){
 	stopifnot(R2 > R2_0)
-	if(is.null(X))
+	if(!fixed.X){
 		X <- matrix(rnorm(k*n), n, k)
-	else {
-		k <- ncol(X)
-		n <- nrow(X)
+	} else {
+		lst <- vector('list', k)
+		for(i in 1:k) lst[[i]] <- 0:1
+		x <- expand.grid(lst)
+		X <- if(nrow(x) < n)
+			x[rep(1:nrow(x), each=ceiling(n/nrow(x))), ]
+		else
+			x[floor(seq(1, nrow(x), length.out=n)),]
+		X <- X[1:n, ]
+		X <- scale(X)
 	}
 	if(k.R2_0 == 0)
 		stopifnot(k >= 2)
@@ -619,13 +626,13 @@ p_lm <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, X=NULL){
 if(FALSE){
 	p_lm(n=95, R2=.1, k=5)
 
-	Spower(p_lm, n=95, R2=.1, k=5)
+	Spower(p_lm, n=95, R2=.1, k=5, fixed.X=FALSE)
 	# Example 7.3 (though note that G*power claims this a one-tailed test)
 	# G*power gives 0.662 (Random sampling model)
 
 	# fixed X (Example 13.1)
-	X <- SimDesign::rmvnorm(95, numeric(5)) |> scale()
-	Spower(p_lm, R2=.1, X=X)
+	Spower(p_lm, n=95, R2=.1, k=5, fixed.X=TRUE)
+	# G*power gives 1-beta = .673
 
 	# Example 7.3b
 	# G*power gives 0.3464 (broken)
@@ -641,34 +648,20 @@ if(FALSE){
 	# k is total IVs, k.R2_0 is number of IVs for baseline
 	# delta.R2 = R2 - R2_0
 
-	# Cohen (1988) gives 1-beta between .22 and .24
-	# G*power gives 1-beta = .241 as they claim Cohen used the wrong non-centrality parameter estimate?
+	# G*power gives 1-beta = .241
 	Spower(p_lm, n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5, sig.level=.01)
-
-	Spower(p_lm, n=90, R2=.3, k=5, R2_0=.25, k.R2_0=1, sig.level=.01) # matches better (why?)
 
 	# with 2*n, Cohen (1988) gives estimate .61
 	Spower(p_lm, n=90*2, R2=.3, k=9, R2_0=.25, k.R2_0=5, sig.level=.01)
 
-	Spower(p_lm, n=90*2, R2=.3, k=5, R2_0=.25, k.R2_0=1, sig.level=.01) # matches better (why?)
-
-	# G*power gives n = 242 (underestimate?)
+	# G*power gives n = 242
 	Spower(p_lm, n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5,
 		   sig.level=.01, power=.8, interval=c(100, 400))
 
 	# Example 14.3b
-	# Cohen gives 1-beta = .74
 	# G*power gives 1-beta = .767
 	Spower(p_lm, n=200, R2=.16, R2_0 = .1, k=12,
-		   k.R2_0=9, R2.resid=.8, sig.level=.01, power=NA)  # better with Cohen
-
-	Spower(p_lm, n=200, R2=.16, R2_0 = .1, k=4,
-		   k.R2_0=1, R2.resid=.8, sig.level=.01, power=NA)  # better with G*power
-
-	# 14* examples all these appear to have lower power than G*power, but agree well with Cohen (1988)
-	# Adjusted df version agrees better with G*power
-
-
+		   k.R2_0=9, R2.resid=.8, sig.level=.01, power=NA)
 
 }
 
