@@ -578,19 +578,26 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 	p
 }
 
-# Linear model and p-value
-#
-#
-#
-# @param n sample size
-# @param R2 R-squared effect size
-# @param k number of IVs
-# @param raw_info list of raw info
-# @param C linear contrast to evaluate passed to argument
-#   \code{hypothesis.matrix} in \code{\link[car]{lht}}
-# @param rhs right-hand-side argument of contrasts passed
-#   to \code{\link[car]{lht}}
-# @importFrom car linearHypothesis
+#' Linear regression model and p-value
+#'
+#' p-values associated with linear regression model using fixed or random
+#' independent variables.
+#'
+#' @param n sample size
+#' @param R2 R-squared effect size
+#' @param k number of IVs
+#' @param R2_0 null hypothesis for R-squared
+#' @param k.R2_0 number of IVs associated with the null hypothesis model
+#' @param R2.resid residual R-squared value, typically used when comparing
+#'   nested models when fit sequentially (e.g., comparing model A vs B when
+#'   model involves the structure A -> B -> C)
+#' @param fixed.X logical; should the IVs be considered fixed or random?
+#' @export
+#' @examples
+#'
+#' # 5 fixed IVs, R^2 = .1, sample size of 95
+#' p_lm(n=95, R2=.1, k=5)
+#'
 p_lm <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, fixed.X=TRUE){
 	stopifnot(R2 > R2_0)
 	if(!fixed.X){
@@ -627,15 +634,6 @@ p_lm <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, fixed.X=TRUE){
 }
 
 if(FALSE){
-	p_lm(n=95, R2=.1, k=5)
-
-	Spower(p_lm, n=95, R2=.1, k=5, fixed.X=FALSE)
-	# Example 7.3 (though note that G*power claims this a one-tailed test)
-	# G*power gives 0.662 (Random sampling model)
-
-	# fixed X (Example 13.1)
-	Spower(p_lm, n=95, R2=.1, k=5, fixed.X=TRUE)
-	# G*power gives 1-beta = .673
 
 	# Example 7.3b
 	# G*power gives 0.3464 (broken)
@@ -646,25 +644,6 @@ if(FALSE){
 	Spower(p_lm, n=NA, R2=.05, R2_0 = .2, k=5, fixed.X=FALSE, power=.9,
 		   interval=c(50,300))
 
-
-	# Example 14.3
-	# k is total IVs, k.R2_0 is number of IVs for baseline
-	# delta.R2 = R2 - R2_0
-
-	# G*power gives 1-beta = .241
-	Spower(p_lm, n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5, sig.level=.01)
-
-	# with 2*n, Cohen (1988) gives estimate .61
-	Spower(p_lm, n=90*2, R2=.3, k=9, R2_0=.25, k.R2_0=5, sig.level=.01)
-
-	# G*power gives n = 242
-	Spower(p_lm, n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5,
-		   sig.level=.01, power=.8, interval=c(100, 400))
-
-	# Example 14.3b
-	# G*power gives 1-beta = .767
-	Spower(p_lm, n=200, R2=.16, R2_0 = .1, k=12,
-		   k.R2_0=9, R2.resid=.8, sig.level=.01, power=NA)
 
 }
 

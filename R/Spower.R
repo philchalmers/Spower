@@ -130,11 +130,14 @@
 #' p_t.test(n=50, d=.5)
 #' p_t.test(n=50, d=.5)
 #'
+#' # test that it works
+#' Spower(p_t.test, n = 50, d = .5, replications=10)
+#'
+#' \dontrun{
+#'
 #' # Estimate power given fixed inputs (post-hoc power analysis)
 #' out <- Spower(p_t.test, n = 50, d = .5)
 #' summary(out)   # extra information
-#'
-#' \dontrun{
 #'
 #' # increase precision
 #' Spower(p_t.test, n = 50, d = .5, replications=30000)

@@ -11,8 +11,8 @@ p_r(n, r, rho = 0, method = "pearson", two.tailed = TRUE)
 
 \item{r}{correlation}
 
-\item{rho}{population coefficient to test against using
-\code{\link[car]{linearHypothesis}}. Defaults to 0}
+\item{rho}{population coefficient to test against. Uses the
+Fisher's z-transformation approximation when non-zero}
 
 \item{method}{method to use to compute the correlation
 (see \code{\link{cor.test}}). Only used when \code{rho = 0}}

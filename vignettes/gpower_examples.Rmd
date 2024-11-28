@@ -129,16 +129,53 @@ Spower(p_mcnemar.test, n=50, prop=obrien2002,
 
 # Multiple Linear Regression
 
-### Example 7.3.1
+## Random IVs
 
-First example,
+### Example 7.3 
 
-```{r eval=FALSE}
-# TODO
-Spower(p_lm, n=95, k=5, R2=.1, two.tailed=FALSE)
+```{r}
+Spower(p_lm, n=95, R2=.1, k=5, fixed.X=FALSE)
 ```
 
-G\*power gives power of 0.662627.
+G\*power gives 0.662, though note that G\*power claims this a one-tailed test.
+
+## Fixed IVs
+
+### Example 13.1
+
+```{r}
+Spower(p_lm, n=95, R2=.1, k=5)
+```
+
+G\*power gives $1-\beta = .673$.
+
+### Example 14.3
+
+Note that `k` is total IVs, `k.R2_0` is number of IVs for baseline model.
+
+```{r}
+Spower(p_lm, n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5, sig.level=.01)
+```
+
+G\*power gives $1-\beta = .241$. Solving the sample size to achieve 80% power
+
+```{r}
+Spower(p_lm, n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5,
+	   sig.level=.01, power=.8, interval=c(100, 400))
+```
+
+G\*power gives $n = 242$.
+
+### Example 14.3b
+
+Compare model with 12 IVs to model with 9 IVs.
+
+```{r}
+Spower(p_lm, n=200, R2=.16, R2_0 = .1, k=12, 
+	   k.R2_0=9, R2.resid=.8, sig.level=.01)
+```
+
+G\*power gives $1-\beta = .767$.
 
 # F test
 
