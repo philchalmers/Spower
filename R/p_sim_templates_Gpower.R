@@ -612,8 +612,8 @@ p_lm <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, fixed.X=TRUE){
 			x[floor(seq(1, nrow(x), length.out=n)),]
 		X <- X[1:n, ]
 		X <- scale(X)
-		colnames(X) <- paste0('X', 1:k)
 	}
+	colnames(X) <- paste0('X', 1:k)
 	if(k.R2_0 == 0)
 		stopifnot(k >= 2)
 	R2s <- R2 - R2_0
@@ -623,7 +623,7 @@ p_lm <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, fixed.X=TRUE){
 	if(k.R2_0 > 0)
 		df2 <- df[,c(1,3:(k.R2_0 +2))]
 	mod1 <- lm(y ~ ., df)
-	if(!fixed.X && k.R2_0 == 0){
+	if(!fixed.X && k.R2_0 == 0 && R2_0 != 0){
 		stop('Random X with non-zero R2_0 not currently supported', call.=FALSE)
 	} else {
 		mod0 <- if(R2_0 == 0) lm(y ~ 1, df)
