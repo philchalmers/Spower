@@ -40,7 +40,7 @@ Power associated with the hypotheses $$H_0:\, \rho-\rho_0=0$$ $$H_1:\, \rho-\rho
 
 where $\rho$ is the population correlation and $\rho_0$ the null hypothesis constant.
 
-### Difference from constant (one sample case; Example 3.3)
+### Example 3.3; Difference from constant (one sample case)
 
 Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.65$.
 
@@ -72,7 +72,7 @@ Compare to approximate result from `pwr` package.
 pwr::pwr.r.test(r=.3, power=.95)
 ```
 
-### Correlation - inequality of two independent Pearson r’s (Example 27.3)
+### Example 27.3; Correlation - inequality of two independent Pearson r’s
 
 ```{r}
 n <- 206
@@ -82,9 +82,25 @@ Spower(p_2r, n=n, r.ab1=.75, r.ab2=.88, n2_n1=n2_n1)
 
 G\*power gives power of .726.
 
+### Example 16.3; Point-biserial correlation
+
+```{r}
+# solution per group
+out <- Spower(p_t.test, r = .25, power = .95, n = NA,
+			  two.tailed=FALSE, interval=c(50, 200))
+out
+
+# total sample size required
+ceiling(out$n) * 2
+```
+
+G\*power gives the result $N=164$.
+
+Relatedly, one can specify $d$, Cohen's standardized mean-difference effect size, instead of $r$ since $d$ is easily converted to $r$.
+
 # Proportions
 
-## One sample proportion tests (Example 4.3)
+### Example 4.3; One sample proportion tests
 
 One sample, one-tailed proportions test given data generated from a population tested against $\pi_0 = .65$ with $g=.15$ (hence, $\pi = .65+g=.80$) with $n=20$.
 
@@ -108,7 +124,7 @@ Spower(p_prop.test, n=20, prop=p, pi=pi, exact=TRUE,
 	   two.tailed=FALSE, interval=c(5,50))
 ```
 
-## Two dependent proportions test (McNemar's test; Example 5.3)
+### Example 5.3; Two dependent proportions test (McNemar's test)
 
 ```{r}
 obrien2002 <- matrix(c(.54, .32, .08, .06), 2, 2,
@@ -127,9 +143,7 @@ Spower(p_mcnemar.test, n=50, prop=obrien2002,
 	   two.tailed=FALSE, correct=FALSE)
 ```
 
-# Multiple Linear Regression
-
-## Random IVs
+# Multiple Linear Regression (Random IVs)
 
 ### Example 7.3 
 
@@ -139,7 +153,7 @@ Spower(p_lm, n=95, R2=.1, k=5, fixed.X=FALSE)
 
 G\*power gives 0.662, though note that G\*power claims this a one-tailed test.
 
-## Fixed IVs
+# Multiple Linear Regression (Fixed IVs)
 
 ### Example 13.1
 
@@ -177,9 +191,9 @@ Spower(p_lm, n=200, R2=.16, R2_0 = .1, k=12,
 
 G\*power gives $1-\beta = .767$.
 
-# F test
+# Fixed effects ANOVA - One way (F-test) 
 
-## Fixed effects ANOVA - one way (Example 10.3)
+### Example 10.3
 
 ```{r}
 Spower(p_anova.test, n=NA, k=10, f=.25, power=.95, interval=c(20, 300))
@@ -197,7 +211,7 @@ G\*Power gives $\alpha=\beta=0.159$.
 
 # Variance tests
 
-## Variance - difference from constant (one sample case; Example 26.3)
+### Example 26.3; Difference from constant (one sample case)
 
 ```{r}
 # solve n for variance ratio of 1/1.5 = 2/3, one.tailed, 80% power
@@ -207,7 +221,7 @@ Spower(p_var.test, n=NA, sds=sqrt(1), sigma=sqrt(1.5),
 
 G\*power gives sample size of 81.
 
-## Two-sample variance test (Example 15.3)
+## Example 15.3; Two-sample variance test
 
 For a two-sample equality of variance test with equal sample sizes,
 
@@ -236,25 +250,8 @@ so <- summary(out)
 
 G\*power estimate is 88 per group, `Spower` estimate is `r out$n` with the 95% CI [`r so$predCIs_root`].
 
-## 
 
-Relatedly, one can specify $r$, a point-biserial correlation, instead of $d$ since $r$ is easily converted to $d$.
-
-### Point-biserial correlation (Example 16.3)
-
-```{r}
-# solution per group
-out <- Spower(p_t.test, r = .25, power = .95, n = NA,
-			  two.tailed=FALSE, interval=c(50, 200))
-out
-
-# total sample size required
-ceiling(out$n) * 2
-```
-
-G\*power gives the result $N=164$.
-
-## Paired samples t-test (Example 19.3)
+### Example 19.3; Paired samples t-test
 
 ```{r}
 Spower(p_t.test, n=50, d=0.421637, type = 'paired')
@@ -262,7 +259,7 @@ Spower(p_t.test, n=50, d=0.421637, type = 'paired')
 
 G\*power gives power estimate of .832.
 
-## One-sample t-test (Example 20.3)
+### Example 20.3; One-sample t-test
 
 ```{r}
 Spower(p_t.test, n=NA, d=.625, power=.95, 
@@ -278,9 +275,9 @@ Spower(p_t.test, n=NA, d=.1, power=.9,
 
 G\*power gives sample size of $n=1492$.
 
-# Wilcox tests
+## Wilcox tests
 
-## One-sample test with normal distribution (Example 22.3)
+### Example 22.3; One-sample test with normal distribution
 
 ```{r}
 Spower(p_wilcox.test, n=649, d=.1, type='one.sample', two.tailed=FALSE)
@@ -288,7 +285,7 @@ Spower(p_wilcox.test, n=649, d=.1, type='one.sample', two.tailed=FALSE)
 
 G\*power provide power estimate of .800.
 
-## Two-sample test with Laplace distributions
+### Two-sample test with Laplace distributions
 
 ```{r}
 library(VGAM)

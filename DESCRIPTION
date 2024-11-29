@@ -19,7 +19,6 @@ Depends:
     SimDesign,
     stats
 Imports:
-	car,
 	cocor,
 	parallelly,
 	methods,
