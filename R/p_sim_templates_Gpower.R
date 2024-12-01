@@ -152,7 +152,52 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 }
 
 # categorical (point-biserial, poly/tetrachoric)
-p_r.cat <- function(n){
+p_r.cat <- function(n, r, rho=0, tauX, tauY,
+					continuous.Y=FALSE, ML=TRUE, two.tailed=TRUE){
+	dat <- SimDesign::rmvnorm(n,
+							  sigma = matrix(c(1,r,r,1), 2, 2))
+	datcut <- matrix(0, n, 2)
+	for(i in length(tauX):1)
+		datcut[dat[,1] > tauX[i], 1] <- i
+	if(!continuous.Y){
+		for(i in length(tauY):1)
+			datcut[dat[,2] > tauY[i], 2] <- i
+	} else datcut[,2] <- dat[,2]
+	datcut <- as.data.frame(datcut)
+	colnames(datcut) <- c('x', 'y')
+	# could generate r=0 data to get SE_0 instead for proper score test
+	out <- if(continuous.Y){
+		with(datcut, polycor::polyserial(y, x, ML=ML, std.err=TRUE))
+	} else {
+		with(datcut, polycor::polychor(y, x, ML=ML, std.err=TRUE))
+	}
+	est <- out$rho
+	vcov <- out$var
+	z <- (est - rho) / sqrt(vcov[1,1])
+	p <- pnorm(abs(z), lower.tail=FALSE)*2
+	p <- ifelse(two.tailed, p, p/2)
+	p
+}
+
+if(FALSE){
+	p_r.cat(100, .3, tauX=0, tauY=1)
+
+	p_r.cat(100, .3, tauX=0, tauY=1, continuous.Y=FALSE)
+
+	Spower(p_r.cat, n=100, r=.3, tauX=0, tauY=1, parallel=TRUE)
+
+	# Example 31.3
+	F <- matrix(c(203, 186, 167, 374), 2, 2)
+	N <- sum(F)
+	marginal.x <- colSums(F)/N
+	marginal.y <- rowSums(F)/N
+	tauX <- qnorm(marginal.x)[2]
+	tauY <- qnorm(marginal.y)[2]
+
+	# wald approach
+	Spower(p_r.cat, n=NA, r=0.2399846, tauX=tauX, tauY=tauY, two.tailed=FALSE,
+		   power = .95, interval=c(100, 500), parallel=TRUE)
+	# G*power gives n=463, though uses the SE as the null
 
 }
 
