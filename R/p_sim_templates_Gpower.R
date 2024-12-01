@@ -151,9 +151,39 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 	p
 }
 
-# categorical (point-biserial, poly/tetrachoric)
-p_r.cat <- function(n, r, rho=0, tauX, tauY,
-					continuous.Y=FALSE, ML=TRUE, two.tailed=TRUE){
+#' Polychoric and polyserial simulation and p-value
+#'
+#' Generates correlated X-Y data and returns a p-value to assess the null
+#' of no correlation in the population. The X-Y data are generated
+#' assuming a multivariate normal distribution and subsequently discretized
+#' for one or both of the variables.
+#'
+#' @param n sample size
+#' @param r correlation prior to the discretization (recovered via the
+#'   polyserial/polychoric estimates)
+#' @param rho population coefficient to test against
+#' @param tauX intercept parameters used for discretizing the X variable
+#' @param tauY intercept parameters used for discretizing the Y variable. If
+#'   missing a polyserial correlation will be estimated, otherwise a
+#'   tetrachoric/polychoric correlation will be estimated
+#' @param ML logical; use maximum-likelihood estimation?
+#' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#' @param score logical; should the SE be based at the null hypothesis (score test)
+#'   or the ML estimate (Wald test)?
+#'
+#' @return a single p-value
+#' @export
+#' @examples
+#'
+#' # 100 observations, .5 correlation, tetrachoric estimate
+#' p_r.cat(100, r=.5, tauX=0, tauY=1)
+#'
+#' # polyserial estimate (Y continuous)
+#' p_r.cat(50, r=.5, tauX=0)
+#'
+p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
+					ML=TRUE, two.tailed=TRUE, score=TRUE){
+	continuous.Y <- is.null(tauY)
 	dat <- SimDesign::rmvnorm(n,
 							  sigma = matrix(c(1,r,r,1), 2, 2))
 	datcut <- matrix(0, n, 2)
@@ -173,16 +203,21 @@ p_r.cat <- function(n, r, rho=0, tauX, tauY,
 	}
 	est <- out$rho
 	vcov <- out$var
-	z <- (est - rho) / sqrt(vcov[1,1])
-	p <- pnorm(abs(z), lower.tail=FALSE)*2
-	p <- ifelse(two.tailed, p, p/2)
+	if(score > 1) return(sqrt(vcov[1,1]))
+	SE <- if(score == 1){
+		p_r.cat(n, r=rho, tauX=tauX, rho=rho, tauY=tauY,
+				ML=ML, two.tailed=two.tailed, score=2)
+	} else sqrt(vcov[1,1])
+	z <- (est - rho) / SE
+	p <- pnorm(abs(z), lower.tail=FALSE)
+	p <- ifelse(two.tailed, p*2, p)
 	p
 }
 
 if(FALSE){
 	p_r.cat(100, .3, tauX=0, tauY=1)
 
-	p_r.cat(100, .3, tauX=0, tauY=1, continuous.Y=FALSE)
+	p_r.cat(100, .3, tauX=0)
 
 	Spower(p_r.cat, n=100, r=.3, tauX=0, tauY=1, parallel=TRUE)
 
@@ -194,7 +229,6 @@ if(FALSE){
 	tauX <- qnorm(marginal.x)[2]
 	tauY <- qnorm(marginal.y)[2]
 
-	# wald approach
 	Spower(p_r.cat, n=NA, r=0.2399846, tauX=tauX, tauY=tauY, two.tailed=FALSE,
 		   power = .95, interval=c(100, 500), parallel=TRUE)
 	# G*power gives n=463, though uses the SE as the null
