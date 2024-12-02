@@ -1,3 +1,5 @@
 ^Spower\.Rproj$
 ^\.Rproj\.user$
 dev/
+vignettes/*.R$
+vignettes/original/*
