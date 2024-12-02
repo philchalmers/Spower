@@ -169,7 +169,9 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' @param ML logical; use maximum-likelihood estimation?
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #' @param score logical; should the SE be based at the null hypothesis (score test)
-#'   or the ML estimate (Wald test)?
+#'   or the ML estimate (Wald test)? The former is the canonical form for
+#'   a priori power analyses though requires twice as many computations as the
+#'   Wald test approach
 #'
 #' @return a single p-value
 #' @export
@@ -177,6 +179,9 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #'
 #' # 100 observations, .5 correlation, tetrachoric estimate
 #' p_r.cat(100, r=.5, tauX=0, tauY=1)
+#'
+#' # Wald test
+#' p_r.cat(100, r=.5, tauX=0, tauY=1, score=FALSE)
 #'
 #' # polyserial estimate (Y continuous)
 #' p_r.cat(50, r=.5, tauX=0)
@@ -230,7 +235,7 @@ if(FALSE){
 	tauY <- qnorm(marginal.y)[2]
 
 	Spower(p_r.cat, n=NA, r=0.2399846, tauX=tauX, tauY=tauY, two.tailed=FALSE,
-		   power = .95, interval=c(100, 500), parallel=TRUE)
+		   power = .95, interval=c(100, 500), parallel=TRUE, check.interval=FALSE)
 	# G*power gives n=463, though uses the SE as the null
 
 }

@@ -34,7 +34,9 @@ tetrachoric/polychoric correlation will be estimated}
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 
 \item{score}{logical; should the SE be based at the null hypothesis (score test)
-or the ML estimate (Wald test)?}
+or the ML estimate (Wald test)? The former is the canonical form for
+a priori power analyses though requires twice as many computations as the
+Wald test approach}
 }
 \value{
 a single p-value
@@ -49,6 +51,9 @@ for one or both of the variables.
 
 # 100 observations, .5 correlation, tetrachoric estimate
 p_r.cat(100, r=.5, tauX=0, tauY=1)
+
+# Wald test
+p_r.cat(100, r=.5, tauX=0, tauY=1, score=FALSE)
 
 # polyserial estimate (Y continuous)
 p_r.cat(50, r=.5, tauX=0)
