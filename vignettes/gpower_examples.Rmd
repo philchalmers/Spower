@@ -98,6 +98,31 @@ G\*power gives the result $N=164$.
 
 Relatedly, one can specify $d$, Cohen's standardized mean-difference effect size, instead of $r$ since $d$ is easily converted to $r$.
 
+### Example 31.3; tetrachoric correlation
+
+
+```{r}
+F <- matrix(c(203, 186, 167, 374), 2, 2)
+N <- sum(F)
+(marginal.x <- colSums(F)/N)
+(marginal.y <- rowSums(F)/N)
+
+# converted to intercepts
+tauX <- qnorm(marginal.x)[2]
+tauY <- qnorm(marginal.y)[2]
+c(tauX, tauY)
+```
+
+G\*power gives $n=463$, though uses the SE value at the null (Score test). `p_r.cat()`, on 
+the other hand, defaults to the Wald approach where the SE is at the MLE. To switch, use 
+`score=FALSE`, though note that this requires twice as many computations.
+
+```{r}
+Spower(p_r.cat, n=NA, r=0.2399846, tauX=tauX, tauY=tauY, score=FALSE, two.tailed=FALSE,
+       power = .95, interval=c(100, 500), parallel=TRUE, check.interval=FALSE)
+```
+
+
 # Proportions
 
 ### Example 4.3; One sample proportion tests

@@ -12,7 +12,7 @@ p_r.cat(
   tauY = NULL,
   ML = TRUE,
   two.tailed = TRUE,
-  score = TRUE
+  score = FALSE
 )
 }
 \arguments{

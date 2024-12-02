@@ -187,7 +187,7 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' p_r.cat(50, r=.5, tauX=0)
 #'
 p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
-					ML=TRUE, two.tailed=TRUE, score=TRUE){
+					ML=TRUE, two.tailed=TRUE, score=FALSE){
 	continuous.Y <- is.null(tauY)
 	dat <- SimDesign::rmvnorm(n,
 							  sigma = matrix(c(1,r,r,1), 2, 2))
@@ -226,17 +226,7 @@ if(FALSE){
 
 	Spower(p_r.cat, n=100, r=.3, tauX=0, tauY=1, parallel=TRUE)
 
-	# Example 31.3
-	F <- matrix(c(203, 186, 167, 374), 2, 2)
-	N <- sum(F)
-	marginal.x <- colSums(F)/N
-	marginal.y <- rowSums(F)/N
-	tauX <- qnorm(marginal.x)[2]
-	tauY <- qnorm(marginal.y)[2]
 
-	Spower(p_r.cat, n=NA, r=0.2399846, tauX=tauX, tauY=tauY, two.tailed=FALSE,
-		   power = .95, interval=c(100, 500), parallel=TRUE, check.interval=FALSE)
-	# G*power gives n=463, though uses the SE as the null
 
 }
 
