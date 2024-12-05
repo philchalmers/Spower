@@ -47,7 +47,7 @@ Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis with 
 ## 1    NA  0.65   0.6      0.05  0.95
 ## 
 ## Estimate of n: 1887.6
-## 95% Prediction Interval: [1856.2, 1943.0]
+## 95% Prediction Interval: [1856.2, 1927.0]
 ```
 
 G\*power estimates $n$ to be 1929 using the same Fisher z-transformation approximation.
@@ -92,7 +92,7 @@ Sample size estimate to reject $H_0:\, \rho_0=0$ in correlation analysis with $1
 ## 1    NA   0.3      0.05  0.95
 ## 
 ## Estimate of n: 138.1
-## 95% Prediction Interval: [134.2, 134.0]
+## 95% Prediction Interval: [134.2, 142.1]
 ```
 
 Compare to approximate result from `pwr` package.
@@ -226,7 +226,7 @@ Spower(p_r.cat, n=NA, r=0.2399846, tauX=tauX, tauY=tauY, score=FALSE, two.tailed
 ## 1    NA 0.240 0.206 0.259 FALSE FALSE           0.05  0.95
 ## 
 ## Estimate of n: 466.7
-## 95% Prediction Interval: [447.9, 470.8]
+## 95% Prediction Interval: [460.5, 470.8]
 ```
 
 
@@ -476,7 +476,7 @@ Spower(p_anova.test, n=NA, k=10, f=.25, power=.95, interval=c(20, 300))
 ## 1    NA    10  0.25      0.05  0.95
 ## 
 ## Estimate of n: 38.7
-## 95% Prediction Interval: [38.0, 40.0]
+## 95% Prediction Interval: [38.0, 39.4]
 ```
 
 G\*power gives the estimate $n=39$.
@@ -579,12 +579,12 @@ Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed
 ## 1    NA   0.5 FALSE           0.05  0.95
 ## 
 ## Estimate of n: 86.8
-## 95% Prediction Interval: [85.5, 105.0]
+## 95% Prediction Interval: [85.5, 88.5]
 ```
 
 
 
-G\*power estimate is 88 per group, `Spower` estimate is 86.8473 with the 95% CI [85.4576, 104.9619].
+G\*power estimate is 88 per group, `Spower` estimate is 86.8473 with the 95% CI [85.4576, 88.4678].
 
 
 ### Example 19.3; Paired samples t-test
@@ -627,7 +627,7 @@ Spower(p_t.test, n=NA, d=.625, power=.95,
 ## 1    NA 0.625 FALSE      one.sample      0.05  0.95
 ## 
 ## Estimate of n: 29.4
-## 95% Prediction Interval: [28.4, 31.4]
+## 95% Prediction Interval: [28.4, 30.7]
 ```
 
 G\*power gives sample size of $n=30$.
@@ -648,7 +648,7 @@ Spower(p_t.test, n=NA, d=.1, power=.9,
 ## 1    NA   0.1 one.sample      0.01   0.9
 ## 
 ## Estimate of n: 1486.0
-## 95% Prediction Interval: [1170.2, 1501.3]
+## 95% Prediction Interval: [1469.1, 1501.3]
 ```
 
 G\*power gives sample size of $n=1492$.
