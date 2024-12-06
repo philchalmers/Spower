@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r include=FALSE}
 library(Spower)
-set.seed(1234)
+set.seed(42)
 formals(Spower)$verbose <- FALSE
 ```
 
