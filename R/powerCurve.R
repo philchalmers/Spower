@@ -16,6 +16,7 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 	if(length(opower) == 1)
 		opower <- rep(opower, length(varying))
 	out <- vector('list', length(opower))
+	browser()
 	for(i in 1:length(out)){
 		dotse <- dots
 		power <- opower[i]
@@ -38,24 +39,16 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 									  maxiter=maxiter, wait.time=wait.time, control=control)))
 	}
 	if(is.na(power)){
+		browser()
 		power.CI <- t(sapply(out, \(x) summary(x)$power.CI))
 		df <- cbind(do.call(rbind, out), power.CI)
 		gg <- ggplot(df, ...)
-
 	} else {
 		browser()
-		# out <<- out
-
-		power.CI <- t(sapply(out, \(x) summary(x)$power.CI))
-		df <- cbind(do.call(rbind, out), power.CI)
+		CI <- t(sapply(out, \(x) summary(x)$predCIs_root))
+		df <- cbind(do.call(rbind, out), CI)
 		gg <- ggplot(df, ...)
-
 	}
-
-
-	browser()
-
-
 	gg
 }
 
