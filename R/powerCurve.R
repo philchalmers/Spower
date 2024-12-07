@@ -1,3 +1,5 @@
+#' @import ggplot2
+#' @export
 powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 					   sig.level=.05, replications=10000, integer, prior = NULL,
 					   parallel = FALSE, cl = NULL,
@@ -16,7 +18,6 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 	if(length(opower) == 1)
 		opower <- rep(opower, length(varying))
 	out <- vector('list', length(opower))
-	browser()
 	for(i in 1:length(out)){
 		dotse <- dots
 		power <- opower[i]
@@ -39,15 +40,23 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 									  maxiter=maxiter, wait.time=wait.time, control=control)))
 	}
 	if(is.na(power)){
-		browser()
-		power.CI <- t(sapply(out, \(x) summary(x)$power.CI))
-		df <- cbind(do.call(rbind, out), power.CI)
-		gg <- ggplot(df, ...)
+		CI <- unname(t(sapply(out, \(x) summary(x)$power.CI)))
+		df <- data.frame(do.call(rbind, out), CI.low=CI[,1], CI.high=CI[,2])
+		pick <- sapply(dots, \(x) all(is.na(x)))
+		column <- names(dots)[pick]
+		gg <- ggplot(df, aes(.data[[column]], power)) +
+			geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.3) +
+			geom_line() + geom_point() +
+			ggtitle("Power Curve (with 95% CIs)")
 	} else {
-		browser()
-		CI <- t(sapply(out, \(x) summary(x)$predCIs_root))
-		df <- cbind(do.call(rbind, out), CI)
-		gg <- ggplot(df, ...)
+		CI <- unname(t(sapply(out, \(x) summary(x)$predCIs_root)))
+		df <- cbind(do.call(rbind, out), CI.low=CI[,1], CI.high=CI[,2])
+		pick <- sapply(dots, \(x) all(is.na(x)))
+		column <- names(dots)[pick]
+		gg <- ggplot(df, aes(power, .data[[column]])) +
+			geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.3) +
+			geom_line() + geom_point() +
+			ggtitle("Power Curve (with 95% PIs)")
 	}
 	gg
 }
@@ -55,10 +64,20 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 if(FALSE){
 
 	# estimate power given varying sample sizes
-	powerCurve(p_t.test, varying=c(30, 60, 90), n=NA, d=0.2)
+	powerCurve(p_t.test, varying=c(30, 60, 90), n=NA, d=0.2,
+			   replications=1000)
 
 	# estimate sample sizes given varying power
 	powerCurve(p_t.test, n=NA, d=0.2, interval=c(10, 1000),
+			   power=c(.1, .25, .5, .75, .9), maxiter=30)
+
+	# estimate power varying d
+	powerCurve(p_t.test, varying=seq(.1, 1, by=.1), n=50, d=NA,
+			   replications=1000)
+
+	# estimate d varying power
+	powerCurve(p_t.test, n=50, d=NA,
+			   maxiter=30, interval=c(.01, 1),
 			   power=c(.1, .25, .5, .75, .9))
 
 }

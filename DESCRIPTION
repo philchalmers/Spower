@@ -23,6 +23,7 @@ Imports:
 	polycor,
 	parallelly,
 	methods,
+	ggplot2,
 	EnvStats
 Suggests:
 	knitr,
