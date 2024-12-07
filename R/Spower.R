@@ -34,7 +34,7 @@
 #' analysis.
 #'
 #' @param ... a set of conditions to use in the simulation that must match the
-#'   arguments in the function \code{sim_function}. Internally these arguments
+#'   arguments in the function \code{sim}. Internally these arguments
 #'   are passed to either \code{\link{SimSolve}} or
 #'  \code{\link{runSimulation}} depending on which element (including
 #'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}
@@ -43,7 +43,7 @@
 #'   p-value for the analysis of interest
 #'
 #' @param power power level to use. If set to \code{NA} then the empirical power
-#'   will be estimated given the fixed \code{conditions} input
+#'   will be estimated given the fixed \code{...} inputs
 #'   (e.g., for post-hoc power analysis)
 #'
 #' @param maxiter maximum number of stochastic root-solving iterations
@@ -112,7 +112,7 @@
 #' @return an invisible \code{tibble}/\code{data.frame}-type object of
 #' class \code{'Spower'}
 #'
-#' @seealso \code{\link{updateCompromise}}
+#' @seealso \code{\link{updateCompromise}}, \code{\link{powerCurve}}
 #'
 #' @export
 #'

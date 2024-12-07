@@ -34,7 +34,7 @@ Spower(
 p-value for the analysis of interest}
 
 \item{...}{a set of conditions to use in the simulation that must match the
-arguments in the function \code{sim_function}. Internally these arguments
+arguments in the function \code{sim}. Internally these arguments
 are passed to either \code{\link{SimSolve}} or
 \code{\link{runSimulation}} depending on which element (including
 the \code{power} and \code{sig.level} arguments) is set to \code{NA}}
@@ -44,7 +44,7 @@ Note that for compromise analyses, where the \code{sig.level} is set to
 \code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}}
 
 \item{power}{power level to use. If set to \code{NA} then the empirical power
-will be estimated given the fixed \code{conditions} input
+will be estimated given the fixed \code{...} inputs
 (e.g., for post-hoc power analysis)}
 
 \item{sig.level}{alpha level to use. If set to \code{NA} then the empirical
@@ -271,5 +271,5 @@ with(out, ceiling(n) + ceiling(n * 2))
 }
 }
 \seealso{
-\code{\link{updateCompromise}}
+\code{\link{updateCompromise}}, \code{\link{powerCurve}}
 }

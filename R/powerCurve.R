@@ -1,5 +1,73 @@
+#' Draw power curve from simulation functions
+#'
+#' Draws power curves that either a) estimate the power given a
+#' set of varying conditions or b) solves a set of root conditions
+#' given fixed values of power. Confidence/prediction intervals are
+#' included in the output to reflect the estimate uncertainties.
+#'
+#' @param sim function that both creates the data and returns a single
+#'   p-value for the analysis of interest
+#'
+#' @param ... a set of conditions to use in the simulation that must match the
+#'   arguments in the function \code{sim}. See \code{\link{Spower}}
+#'
+#' @param power power level to use. If set to \code{NA} then the empirical power
+#'   will be estimated given the fixed \code{...} input; otherwise,
+#'   can be specified as a vector to solve the missing elements in
+#'   \code{...}
+#'
+#' @param varying vector of values to substitute into the missing \code{...}
+#'   terms. Requires \code{power} to be set to \code{NA}
+#'
+#' @param maxiter see \code{\link{Spower}}
+#'
+#' @param sig.level see \code{\link{Spower}}
+#'
+#' @param interval search interval to use when \code{\link{SimSolve}} is required.
+#'   Can be a vector of length two to apply the same interval across
+#'   the \code{varying} information or a \code{matrix} with two columns
+#'   to apply intervals on a per-row basis
+#'
+#' @param wait.time see \code{\link{Spower}}
+#' @param replications see \code{\link{Spower}}
+#' @param integer see \code{\link{Spower}}
+#' @param parallel see \code{\link{Spower}}
+#' @param cl see \code{\link{Spower}}
+#' @param ncores see \code{\link{Spower}}
+#' @param control see \code{\link{Spower}}
+#' @param predCI see \code{\link{Spower}}
+#' @param predCI.tol see \code{\link{Spower}}
+#' @param check.interval see \code{\link{Spower}}
+#' @param verbose see \code{\link{Spower}}
+#' @param prior see \code{\link{Spower}}
+#'
 #' @import ggplot2
 #' @export
+#'
+#' @seealso \code{\link{Spower}}
+#'
+#' @examples
+#' \dontrun{
+#'
+#' # estimate power given varying sample sizes
+#' powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
+#'  		   replications=1000)
+#'
+#' # estimate sample sizes given varying power
+#' powerCurve(p_t.test, n=NA, d=0.2, interval=c(10, 1000),
+#' 		   power=c(.1, .25, .5, .75, .9), maxiter=30)
+#'
+#' # estimate power varying d
+#' powerCurve(p_t.test, varying=seq(.1, 1, by=.1), n=50, d=NA,
+#' 		   replications=1000)
+#'
+#' # estimate d varying power
+#' powerCurve(p_t.test, n=50, d=NA,
+#' 		   maxiter=30, interval=c(.01, 1),
+#' 		   power=c(.1, .25, .5, .75, .9))
+#'
+#' }
+#'
 powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 					   sig.level=.05, replications=10000, integer, prior = NULL,
 					   parallel = FALSE, cl = NULL,
@@ -39,45 +107,31 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 									  verbose=verbose, check.interval=check.interval,
 									  maxiter=maxiter, wait.time=wait.time, control=control)))
 	}
+	CI.low <- CI.high <- NULL # for check?
 	if(is.na(power)){
 		CI <- unname(t(sapply(out, \(x) summary(x)$power.CI)))
 		df <- data.frame(do.call(rbind, out), CI.low=CI[,1], CI.high=CI[,2])
 		pick <- sapply(dots, \(x) all(is.na(x)))
 		column <- names(dots)[pick]
 		gg <- ggplot(df, aes(.data[[column]], power)) +
-			geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.3) +
+			geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
 			geom_line() + geom_point() +
-			ggtitle("Power Curve (with 95% CIs)")
+			geom_line(aes(y=CI.low), linetype='dashed') +
+			geom_line(aes(y=CI.high), linetype='dashed') +
+			ggtitle("Power Curve (with 95% CIs)") +
+			theme_bw()
 	} else {
 		CI <- unname(t(sapply(out, \(x) summary(x)$predCIs_root)))
 		df <- cbind(do.call(rbind, out), CI.low=CI[,1], CI.high=CI[,2])
 		pick <- sapply(dots, \(x) all(is.na(x)))
 		column <- names(dots)[pick]
 		gg <- ggplot(df, aes(power, .data[[column]])) +
-			geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.3) +
+			geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
 			geom_line() + geom_point() +
-			ggtitle("Power Curve (with 95% PIs)")
+			geom_line(aes(y=CI.low), linetype='dashed') +
+			geom_line(aes(y=CI.high), linetype='dashed') +
+			ggtitle("Power Curve (with 95% PIs)") +
+			theme_bw()
 	}
 	gg
-}
-
-if(FALSE){
-
-	# estimate power given varying sample sizes
-	powerCurve(p_t.test, varying=c(30, 60, 90), n=NA, d=0.2,
-			   replications=1000)
-
-	# estimate sample sizes given varying power
-	powerCurve(p_t.test, n=NA, d=0.2, interval=c(10, 1000),
-			   power=c(.1, .25, .5, .75, .9), maxiter=30)
-
-	# estimate power varying d
-	powerCurve(p_t.test, varying=seq(.1, 1, by=.1), n=50, d=NA,
-			   replications=1000)
-
-	# estimate d varying power
-	powerCurve(p_t.test, n=50, d=NA,
-			   maxiter=30, interval=c(.01, 1),
-			   power=c(.1, .25, .5, .75, .9))
-
 }
