@@ -20,7 +20,7 @@ powerCurve(
   predCI = 0.95,
   predCI.tol = 0.01,
   verbose = TRUE,
-  check.interval = TRUE,
+  check.interval = FALSE,
   maxiter = 150,
   wait.time = NULL,
   control = list()
@@ -66,7 +66,8 @@ can be specified as a vector to solve the missing elements in
 
 \item{verbose}{see \code{\link{Spower}}}
 
-\item{check.interval}{see \code{\link{Spower}}}
+\item{check.interval}{see \code{\link{Spower}}, though is set to \code{FALSE}
+by default instead}
 
 \item{maxiter}{see \code{\link{Spower}}}
 
@@ -92,7 +93,7 @@ powerCurve(p_t.test, n=NA, d=0.2, interval=c(10, 1000),
 		   power=c(.1, .25, .5, .75, .9), maxiter=30)
 
 # estimate power varying d
-powerCurve(p_t.test, varying=seq(.1, 1, by=.1), n=50, d=NA,
+powerCurve(p_t.test, varying=seq(.1, 1, by=.2), n=50, d=NA,
 		   replications=1000)
 
 # estimate d varying power

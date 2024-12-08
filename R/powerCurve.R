@@ -37,7 +37,8 @@
 #' @param control see \code{\link{Spower}}
 #' @param predCI see \code{\link{Spower}}
 #' @param predCI.tol see \code{\link{Spower}}
-#' @param check.interval see \code{\link{Spower}}
+#' @param check.interval see \code{\link{Spower}}, though is set to \code{FALSE}
+#'   by default instead
 #' @param verbose see \code{\link{Spower}}
 #' @param prior see \code{\link{Spower}}
 #'
@@ -58,7 +59,7 @@
 #' 		   power=c(.1, .25, .5, .75, .9), maxiter=30)
 #'
 #' # estimate power varying d
-#' powerCurve(p_t.test, varying=seq(.1, 1, by=.1), n=50, d=NA,
+#' powerCurve(p_t.test, varying=seq(.1, 1, by=.2), n=50, d=NA,
 #' 		   replications=1000)
 #'
 #' # estimate d varying power
@@ -73,10 +74,16 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 					   parallel = FALSE, cl = NULL,
 					   ncores = parallelly::availableCores(omit = 1L),
 					   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
-					   check.interval=TRUE, maxiter=150, wait.time = NULL,
+					   check.interval=FALSE, maxiter=150, wait.time = NULL,
 					   control = list()){
 	dots <- dotse <- list(...)
 	opower <- power
+	if(!missing(varying) && is.numeric(varying)){
+		pick <- sapply(dots, \(x) all(is.na(x)))
+		column <- names(dots)[pick]
+		varying <- data.frame(varying)
+		colnames(varying) <- column
+	}
 	if(is.na(sig.level))
 		stop('NA for sig.level not supported')
 	if(length(power) > 1 && !missing(varying))
@@ -84,15 +91,13 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 	if(all(is.na(power)) && missing(varying))
 		stop('Must specify varying')
 	if(length(opower) == 1)
-		opower <- rep(opower, length(varying))
+		opower <- rep(opower, nrow(varying))
 	out <- vector('list', length(opower))
 	for(i in 1:length(out)){
 		dotse <- dots
 		power <- opower[i]
-		if(is.na(power)){
-			pick <- sapply(dots, \(x) all(is.na(x)))
-			dotse[[which(pick)]] <- varying[i]
-		}
+		if(is.na(power))
+			dotse[[column]] <- varying[i,]
 		if(length(power) == 1 && !is.na(power) && !is.na(sig.level)){
 			if(missing(integer)){
 				integer <- !(has.decimals(interval) || diff(interval) < 5)
