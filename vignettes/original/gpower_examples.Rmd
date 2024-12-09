@@ -322,7 +322,6 @@ parent2 <- function(n, d) VGAM::rlaplace(n)/SD
 
 d1 <- parent1(50, .2)
 d2 <- parent2(50, 0)
-boxplot(d1, d2)
 wilcox.test(d1, d2)
 
 Spower(p_wilcox.test, n=50, d=.2, parent1=parent1, parent2=parent2)

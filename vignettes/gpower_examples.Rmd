@@ -698,10 +698,7 @@ parent2 <- function(n, d) VGAM::rlaplace(n)/SD
 
 d1 <- parent1(50, .2)
 d2 <- parent2(50, 0)
-boxplot(d1, d2)
 ```
-
-![plot of chunk wilcox](figure/wilcox.png)
 
 ``` r
 wilcox.test(d1, d2)
