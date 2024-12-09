@@ -41,8 +41,7 @@
 #'   by default instead
 #' @param verbose see \code{\link{Spower}}
 #' @param prior see \code{\link{Spower}}
-#'
-#' @return invisible \code{data.frame} containing plotting information
+#' @return a ggplot2 object
 #' @import ggplot2
 #' @export
 #'
@@ -52,22 +51,24 @@
 #' \dontrun{
 #'
 #' # estimate power given varying sample sizes
-#' df <- powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
+#' gg <- powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
 #'  		   replications=1000)
 #'
-#' # data used for graphics
-#' df
-#'
 #' # Because output is a ggplot2 object can be modified
+#' gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05) +
+#'   ylab(expression(1-beta)) + theme_grey()
+#'
+#' # using default precision (10000 replications). Parallel computations
+#' # generally recommended in this case to save time
+#' powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2)
+#'
+#' # alternatively, get information from last printed graphic instead of saving
 #' gg <- last_plot()
-#' gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05)
+#' gg + coord_flip() # flip coordinates
 #'
 #' # estimate sample sizes given varying power
 #' powerCurve(p_t.test, n=NA, d=0.2, interval=c(10, 1000),
 #' 		   power=c(.1, .25, .5, .75, .9), maxiter=30)
-#'
-#' gg <- last_plot()
-#' gg + coord_flip() # flip coordinates
 #'
 #' # estimate power varying d
 #' powerCurve(p_t.test, varying=seq(.1, 1, by=.2), n=50, d=NA,
@@ -150,5 +151,5 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 			theme_bw()
 	}
 	print(gg)
-	invisible(df)
+	invisible(gg)
 }
