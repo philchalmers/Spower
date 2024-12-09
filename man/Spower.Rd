@@ -11,6 +11,7 @@ Spower(
   interval,
   power = NA,
   sig.level = 0.05,
+  summarise = NULL,
   beta_alpha = NULL,
   replications = 10000,
   integer,
@@ -50,6 +51,13 @@ will be estimated given the fixed \code{...} inputs
 \item{sig.level}{alpha level to use. If set to \code{NA} then the empirical
 alpha will be estimated given the fixed \code{conditions} input
 (e.g., for criterion power analysis)}
+
+\item{summarise}{(optional) user-defined function for the \code{summarise}
+step in \code{\link{runSimulation}}, with the constraint that the first
+element returned is should be the empirical detection rate estimate.
+If not specified an internal function
+will be used where the first element of the analysis output will be
+passed to \code{\link[SimDesign]{EDR}} to compute the empirical detection rate}
 
 \item{beta_alpha}{ratio to use in compromise analyses corresponding to
 the Type II errors (beta) over the Type I error (alpha). Ratios greater
@@ -235,13 +243,13 @@ pwr::pwr.t.test(d=.5, power=.80) # expected power result higher than fixed d
 
 #   Make edits to the function for customization
 if(interactive()){
-    new.p_t.test <- edit(p_t.test)
-    args(new.p_t.test)
-    body(new.p_t.test)
+    sim_t.test <- edit(p_t.test)
+    args(sim_t.test)
+    body(sim_t.test)
 }
 
 # Alternatively, define a custom function (potentially based on the template)
-new.p_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
+sim_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
 
     # Welch power analysis with asymmetric distributions
     # group2 as large as group1 by default
@@ -253,20 +261,41 @@ new.p_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
     dat <- data.frame(group = factor(rep(c('G1', 'G2'),
                                      times = c(n, n*n2_n1))),
     				  DV = c(group1, group2))
-    p <- t.test(DV ~ group, dat, var.equal=var.equal)$p.value
-    p
+    obj <- t.test(DV ~ group, dat, var.equal=var.equal)
+
+    # p-value must be first element when using default summarise()
+    with(obj, c(p=p.value,
+                mean_diff=unname(estimate[2] - estimate[1]),
+                SE=stderr))
 }
 
 # Solve N to get .80 power (a priori power analysis), using defaults
-Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
+Spower(sim_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
 
 # Solve N to get .80 power (a priori power analysis), assuming
 #   equal variances, group2 2x as large as group1, large skewness
-(out <- Spower(p_t.test, n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
+(out <- Spower(sim_t.test, n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
                power=.8, interval=c(2,500)))
 
 # total sample size required
 with(out, ceiling(n) + ceiling(n * 2))
+
+#######
+# compute power and associated estimates using customized summarise function
+
+# make template:
+# SimFunctions()
+
+Summarise <- function(condition, results, fixed_objects) {
+  ret <- c(power = EDR(results[,1], alpha=.05),
+           colMeans(results[,2:3]))
+  ret
+}
+
+# for simulations with many more conditions using runSimulation() is recommended
+out <- Spower(sim_t.test, n = 100, d = .5, summarise=Summarise)
+out |> as.data.frame()
+
 
 }
 }
