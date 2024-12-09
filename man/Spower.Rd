@@ -284,7 +284,7 @@ with(out, ceiling(n) + ceiling(n * 2))
 # compute power and associated estimates using customized summarise function
 
 # make template:
-# SimFunctions()
+# SimDesign::SimFunctions()
 
 Summarise <- function(condition, results, fixed_objects) {
   ret <- c(power = EDR(results[,1], alpha=.05),

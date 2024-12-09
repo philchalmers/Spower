@@ -310,7 +310,7 @@ G\*power provide power estimate of .800.
 
 ### Two-sample test with Laplace distributions
 
-```{r}
+```{r wilcox}
 library(VGAM)
 
 # find VAR of distribution for standardizing

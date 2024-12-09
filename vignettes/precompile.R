@@ -1,4 +1,5 @@
 # Vignettes that take too long are precompiled
 
 library(knitr)
-knit("vignettes/original/gpower_examples.Rmd", "vignettes/gpower_examples.Rmd")
+setwd('vignettes')
+knit("original/gpower_examples.Rmd", "gpower_examples.Rmd")

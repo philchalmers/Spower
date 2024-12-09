@@ -4,4 +4,4 @@ dev/
 vignettes/*.R$
 vignettes/original/*
 Makefile
-Figure/
+

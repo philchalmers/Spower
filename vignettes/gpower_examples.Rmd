@@ -701,7 +701,7 @@ d2 <- parent2(50, 0)
 boxplot(d1, d2)
 ```
 
-![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-29-1.png)
+![plot of chunk wilcox](figure/wilcox.png)
 
 ``` r
 wilcox.test(d1, d2)
