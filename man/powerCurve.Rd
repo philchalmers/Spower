@@ -75,6 +75,9 @@ by default instead}
 
 \item{control}{see \code{\link{Spower}}}
 }
+\value{
+invisible \code{data.frame} containing plotting information
+}
 \description{
 Draws power curves that either a) estimate the power given a
 set of varying conditions or b) solves a set of root conditions
@@ -88,9 +91,16 @@ included in the output to reflect the estimate uncertainties.
 powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
  		   replications=1000)
 
+# Because output is a ggplot2 object can be modified
+gg <- last_plot()
+gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05)
+
 # estimate sample sizes given varying power
 powerCurve(p_t.test, n=NA, d=0.2, interval=c(10, 1000),
 		   power=c(.1, .25, .5, .75, .9), maxiter=30)
+
+gg <- last_plot()
+gg + coord_flip() # flip coordinates
 
 # estimate power varying d
 powerCurve(p_t.test, varying=seq(.1, 1, by=.2), n=50, d=NA,
