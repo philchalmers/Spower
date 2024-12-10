@@ -134,10 +134,12 @@ powerCurve(p_t.test, n=50, d=NA,
 		   maxiter=30, interval=c(.01, 1),
 		   power=c(.1, .25, .5, .75, .9))
 
+#####
+
 # vary two inputs instead of one (second column uses colour aesthetic)
 varying <- createDesign(n=c(30, 90, 270, 550),
                         d=c(.2, .5, .8))
-powerCurve(p_t.test, varying=varying)
+powerCurve(p_t.test, varying=varying, replications=2000)
 
 # extract data for alternative presentations
 build <- ggplot_build(last_plot())
