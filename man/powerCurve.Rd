@@ -32,7 +32,8 @@ p-value for the analysis of interest}
 
 \item{varying}{either a vector of values to substitute into the missing \code{...}
 terms or a structure created from \code{\link[SimDesign]{createDesign}}.
-Requires \code{power} to be set to \code{NA}.
+The benefit of the ladder is that multiple factors can vary, and NA
+placeholders will not be required. Requires \code{power} to be set to \code{NA}.
 
 Note that only the first two columns in this object will be plotted, though
 the data can be extracted for further visualizations via
@@ -96,6 +97,18 @@ included in the output to reflect the estimate uncertainties.
 gg <- powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
  		   replications=1000)
 
+# alternatively, specifying varying as a createDesign() object (does not
+# require NA placeholders)
+varying <- createDesign(n=c(30, 90, 270, 550))
+gg <- powerCurve(p_t.test, varying=varying, d=0.2, replications=1000)
+
+# also equivalent
+varying <- createDesign(n=c(30, 90, 270, 550),
+                        d=0.2)
+gg <- powerCurve(p_t.test, varying=varying, replications=1000)
+
+#####
+
 # Because output is a ggplot2 object can be modified
 gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05) +
   ylab(expression(1-beta)) + theme_grey()
@@ -124,7 +137,7 @@ powerCurve(p_t.test, n=50, d=NA,
 # vary two inputs instead of one (second column uses colour aesthetic)
 varying <- createDesign(n=c(30, 90, 270, 550),
                         d=c(.2, .5, .8))
-powerCurve(p_t.test, varying=varying, n=NA, d=NA)
+powerCurve(p_t.test, varying=varying)
 
 # extract data for alternative presentations
 build <- ggplot_build(last_plot())

@@ -18,7 +18,8 @@
 #'
 #' @param varying either a vector of values to substitute into the missing \code{...}
 #'   terms or a structure created from \code{\link[SimDesign]{createDesign}}.
-#'   Requires \code{power} to be set to \code{NA}.
+#'   The benefit of the ladder is that multiple factors can vary, and NA
+#'   placeholders will not be required. Requires \code{power} to be set to \code{NA}.
 #'
 #'   Note that only the first two columns in this object will be plotted, though
 #'   the data can be extracted for further visualizations via
@@ -59,6 +60,18 @@
 #' gg <- powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
 #'  		   replications=1000)
 #'
+#' # alternatively, specifying varying as a createDesign() object (does not
+#' # require NA placeholders)
+#' varying <- createDesign(n=c(30, 90, 270, 550))
+#' gg <- powerCurve(p_t.test, varying=varying, d=0.2, replications=1000)
+#'
+#' # also equivalent
+#' varying <- createDesign(n=c(30, 90, 270, 550),
+#'                         d=0.2)
+#' gg <- powerCurve(p_t.test, varying=varying, replications=1000)
+#'
+#' #####
+#'
 #' # Because output is a ggplot2 object can be modified
 #' gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05) +
 #'   ylab(expression(1-beta)) + theme_grey()
@@ -87,7 +100,7 @@
 #' # vary two inputs instead of one (second column uses colour aesthetic)
 #' varying <- createDesign(n=c(30, 90, 270, 550),
 #'                         d=c(.2, .5, .8))
-#' powerCurve(p_t.test, varying=varying, n=NA, d=NA)
+#' powerCurve(p_t.test, varying=varying)
 #'
 #' # extract data for alternative presentations
 #' build <- ggplot_build(last_plot())
@@ -114,7 +127,7 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 		varying <- data.frame(varying)
 		colnames(varying) <- column
 	}
-	if(!missing(varying) && ncol(varying) > 1)
+	if(!missing(varying))
 		column <- colnames(varying)
 	if(is.na(sig.level))
 		stop('NA for sig.level not supported')
@@ -148,7 +161,7 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 	if(is.na(power)){
 		CI <- unname(t(sapply(out, \(x) summary(x)$power.CI)))
 		df <- data.frame(do.call(rbind, out), CI.low=CI[,1], CI.high=CI[,2])
-		if(ncol(varying) > 1){
+		if(ncol(varying) > 1 && length(unique(varying[,2])) > 1){
 			df[[column[2]]] <- factor(df[[column[2]]])
 			gg <- ggplot(df, aes(.data[[column[1]]], power,
 								 color=.data[[column[2]]])) +
@@ -159,7 +172,7 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 				ggtitle("Power Curve (with 95% CIs)") +
 				theme_bw()
 		} else {
-			gg <- ggplot(df, aes(.data[[column]], power)) +
+			gg <- ggplot(df, aes(.data[[column[1]]], power)) +
 				geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
 				geom_line() + geom_point() +
 				geom_line(aes(y=CI.low), linetype='dashed') +
