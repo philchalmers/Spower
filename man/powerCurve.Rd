@@ -30,8 +30,13 @@ powerCurve(
 \item{sim}{function that both creates the data and returns a single
 p-value for the analysis of interest}
 
-\item{varying}{vector of values to substitute into the missing \code{...}
-terms. Requires \code{power} to be set to \code{NA}}
+\item{varying}{either a vector of values to substitute into the missing \code{...}
+terms or a structure created from \code{\link[SimDesign]{createDesign}}.
+Requires \code{power} to be set to \code{NA}.
+
+Note that only the first two columns in this object will be plotted, though
+the data can be extracted for further visualizations via
+\code{\link[ggplot2]{ggplot_build}}}
 
 \item{...}{a set of conditions to use in the simulation that must match the
 arguments in the function \code{sim}. See \code{\link{Spower}}}
@@ -115,6 +120,19 @@ powerCurve(p_t.test, varying=seq(.1, 1, by=.2), n=50, d=NA,
 powerCurve(p_t.test, n=50, d=NA,
 		   maxiter=30, interval=c(.01, 1),
 		   power=c(.1, .25, .5, .75, .9))
+
+# vary two inputs instead of one (second column uses colour aesthetic)
+varying <- createDesign(n=c(30, 90, 270, 550),
+                        d=c(.2, .5, .8))
+powerCurve(p_t.test, varying=varying, n=NA, d=NA)
+
+# extract data for alternative presentations
+build <- ggplot_build(last_plot())
+build
+
+df <- build$plot$data
+head(df)
+ggplot(df, aes(n, power, linetype=d)) + geom_line()
 
 }
 

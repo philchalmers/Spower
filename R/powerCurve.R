@@ -16,8 +16,13 @@
 #'   can be specified as a vector to solve the missing elements in
 #'   \code{...}
 #'
-#' @param varying vector of values to substitute into the missing \code{...}
-#'   terms. Requires \code{power} to be set to \code{NA}
+#' @param varying either a vector of values to substitute into the missing \code{...}
+#'   terms or a structure created from \code{\link[SimDesign]{createDesign}}.
+#'   Requires \code{power} to be set to \code{NA}.
+#'
+#'   Note that only the first two columns in this object will be plotted, though
+#'   the data can be extracted for further visualizations via
+#'   \code{\link[ggplot2]{ggplot_build}}
 #'
 #' @param maxiter see \code{\link{Spower}}
 #'
@@ -79,6 +84,19 @@
 #' 		   maxiter=30, interval=c(.01, 1),
 #' 		   power=c(.1, .25, .5, .75, .9))
 #'
+#' # vary two inputs instead of one (second column uses colour aesthetic)
+#' varying <- createDesign(n=c(30, 90, 270, 550),
+#'                         d=c(.2, .5, .8))
+#' powerCurve(p_t.test, varying=varying, n=NA, d=NA)
+#'
+#' # extract data for alternative presentations
+#' build <- ggplot_build(last_plot())
+#' build
+#'
+#' df <- build$plot$data
+#' head(df)
+#' ggplot(df, aes(n, power, linetype=d)) + geom_line()
+#'
 #' }
 #'
 powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
@@ -96,6 +114,8 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 		varying <- data.frame(varying)
 		colnames(varying) <- column
 	}
+	if(!missing(varying) && ncol(varying) > 1)
+		column <- colnames(varying)
 	if(is.na(sig.level))
 		stop('NA for sig.level not supported')
 	if(length(power) > 1 && !missing(varying))
@@ -109,7 +129,7 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 		dotse <- dots
 		power <- opower[i]
 		if(is.na(power))
-			dotse[[column]] <- varying[i,]
+			dotse[column] <- varying[i,]
 		if(length(power) == 1 && !is.na(power) && !is.na(sig.level)){
 			if(missing(integer)){
 				integer <- !(has.decimals(interval) || diff(interval) < 5)
@@ -128,15 +148,25 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 	if(is.na(power)){
 		CI <- unname(t(sapply(out, \(x) summary(x)$power.CI)))
 		df <- data.frame(do.call(rbind, out), CI.low=CI[,1], CI.high=CI[,2])
-		pick <- sapply(dots, \(x) all(is.na(x)))
-		column <- names(dots)[pick]
-		gg <- ggplot(df, aes(.data[[column]], power)) +
-			geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
-			geom_line() + geom_point() +
-			geom_line(aes(y=CI.low), linetype='dashed') +
-			geom_line(aes(y=CI.high), linetype='dashed') +
-			ggtitle("Power Curve (with 95% CIs)") +
-			theme_bw()
+		if(ncol(varying) > 1){
+			df[[column[2]]] <- factor(df[[column[2]]])
+			gg <- ggplot(df, aes(.data[[column[1]]], power,
+								 color=.data[[column[2]]])) +
+				geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
+				geom_line() + geom_point() +
+				geom_line(aes(y=CI.low), linetype='dashed') +
+				geom_line(aes(y=CI.high), linetype='dashed') +
+				ggtitle("Power Curve (with 95% CIs)") +
+				theme_bw()
+		} else {
+			gg <- ggplot(df, aes(.data[[column]], power)) +
+				geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
+				geom_line() + geom_point() +
+				geom_line(aes(y=CI.low), linetype='dashed') +
+				geom_line(aes(y=CI.high), linetype='dashed') +
+				ggtitle("Power Curve (with 95% CIs)") +
+				theme_bw()
+		}
 	} else {
 		CI <- unname(t(sapply(out, \(x) summary(x)$predCIs_root)))
 		df <- cbind(do.call(rbind, out), CI.low=CI[,1], CI.high=CI[,2])
