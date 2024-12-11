@@ -293,6 +293,7 @@ Spower <- function(sim, ..., interval, power = NA,
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = TRUE, maxiter=150, wait.time = NULL,
 				   control = list()){
+	if(!is.null(cl)) parallel <- TRUE
 	fixed_objects <- dots <- list(...)
 	dots <- lapply(dots, \(x) if(!is.atomic(x) || length(x) > 1) list(x) else x)
 	names(dots) <- names(fixed_objects)
