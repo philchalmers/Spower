@@ -21,9 +21,10 @@
 #'   The benefit of the ladder is that multiple factors can vary, and NA
 #'   placeholders will not be required. Requires \code{power} to be set to \code{NA}.
 #'
-#'   Note that only the first two columns in this object will be plotted, though
-#'   the data can be extracted for further visualizations via
-#'   \code{\link[ggplot2]{ggplot_build}}
+#'   Note that only the first three columns in this object will be plotted using
+#'   the x-y, colour, and facet wrap aesthetics, respectively. However,
+#'   if necessary the data can be extracted for further visualizations via
+#'   \code{\link[ggplot2]{ggplot_build}} to provide more customized control
 #'
 #' @param maxiter see \code{\link{Spower}}
 #'
@@ -33,6 +34,8 @@
 #'   Can be a vector of length two to apply the same interval across
 #'   the \code{varying} information or a \code{matrix} with two columns
 #'   to apply intervals on a per-row basis
+#'
+#' @param plotCI logical; include confidence/prediction intervals in plots?
 #'
 #' @param wait.time see \code{\link{Spower}}
 #' @param replications see \code{\link{Spower}}
@@ -65,10 +68,10 @@
 #' varying <- createDesign(n=c(30, 90, 270, 550))
 #' gg <- powerCurve(p_t.test, varying=varying, d=0.2, replications=1000)
 #'
-#' # also equivalent
+#' # also equivalent, though no CIs plotted
 #' varying <- createDesign(n=c(30, 90, 270, 550),
 #'                         d=0.2)
-#' gg <- powerCurve(p_t.test, varying=varying, replications=1000)
+#' gg <- powerCurve(p_t.test, varying=varying, replications=1000, plotCI=FALSE)
 #'
 #' #####
 #'
@@ -112,11 +115,17 @@
 #' head(df)
 #' ggplot(df, aes(n, power, linetype=d)) + geom_line()
 #'
+#' # vary three inputs (third column uses facet_wrap)
+#' varying <- createDesign(n=c(30, 90, 270),
+#'                         var.equal=c(FALSE, TRUE),
+#'                         d=c(.2, .5))
+#' powerCurve(p_t.test, varying=varying, replications=1000, plotCI=FALSE)
+#'
 #' }
 #'
 powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 					   sig.level=.05, replications=10000, integer, prior = NULL,
-					   parallel = FALSE, cl = NULL,
+					   plotCI=TRUE, parallel = FALSE, cl = NULL,
 					   ncores = parallelly::availableCores(omit = 1L),
 					   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 					   check.interval=FALSE, maxiter=150, wait.time = NULL,
@@ -160,38 +169,45 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 									  maxiter=maxiter, wait.time=wait.time, control=control)))
 	}
 	CI.low <- CI.high <- NULL # for check?
+	main <- "Power Curve"
 	if(is.na(power)){
 		CI <- unname(t(sapply(out, \(x) summary(x)$power.CI)))
 		df <- data.frame(do.call(rbind, out), CI.low=CI[,1], CI.high=CI[,2])
 		if(ncol(varying) > 1 && nrow(unique(varying[,2])) > 1){
 			df[[column[2]]] <- factor(df[[column[2]]])
 			gg <- ggplot(df, aes(.data[[column[1]]], power,
-								 color=.data[[column[2]]])) +
-				geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2, linetype='dashed') +
-				geom_line() + geom_point() +
-				ggtitle("Power Curve (with 95% CIs)") +
-				theme_bw()
+								 color=.data[[column[2]]]))
+			if(plotCI){
+				gg <- gg + geom_ribbon(aes(ymin=CI.low, ymax=CI.high),
+									   alpha=.2, linetype='dashed')
+				main <- "Power Curve (with 95% CIs)"
+			}
+			gg <- gg + geom_line() + geom_point() +	ggtitle(main) +	theme_bw()
+			if(ncol(varying) > 2 && nrow(unique(varying[,3])) > 1)
+				gg <- gg + facet_wrap( ~ .data[[column[3]]])
 		} else {
-			gg <- ggplot(df, aes(.data[[column[1]]], power)) +
-				geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
-				geom_line() + geom_point() +
-				geom_line(aes(y=CI.low), linetype='dashed') +
-				geom_line(aes(y=CI.high), linetype='dashed') +
-				ggtitle("Power Curve (with 95% CIs)") +
-				theme_bw()
+			gg <- ggplot(df, aes(.data[[column[1]]], power))
+			if(plotCI){
+				gg <- gg + geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
+					geom_line(aes(y=CI.low), linetype='dashed') +
+					geom_line(aes(y=CI.high), linetype='dashed')
+				main <- "Power Curve (with 95% CIs)"
+			}
+			gg <- gg + geom_line() + geom_point() +	ggtitle(main) +	theme_bw()
 		}
 	} else {
 		CI <- unname(t(sapply(out, \(x) summary(x)$predCIs_root)))
 		df <- cbind(do.call(rbind, out), CI.low=CI[,1], CI.high=CI[,2])
 		pick <- sapply(dots, \(x) all(is.na(x)))
 		column <- names(dots)[pick]
-		gg <- ggplot(df, aes(power, .data[[column]])) +
-			geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
-			geom_line() + geom_point() +
-			geom_line(aes(y=CI.low), linetype='dashed') +
-			geom_line(aes(y=CI.high), linetype='dashed') +
-			ggtitle("Power Curve (with 95% PIs)") +
-			theme_bw()
+		gg <- ggplot(df, aes(power, .data[[column]]))
+		if(plotCI){
+			gg <- gg + geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
+				geom_line(aes(y=CI.low), linetype='dashed') +
+				geom_line(aes(y=CI.high), linetype='dashed')
+			main <- "Power Curve (with 95% PIs)"
+		}
+		gg <- gg + geom_line() + geom_point() +	ggtitle(main) +	theme_bw()
 	}
 	print(gg)
 	invisible(gg)

@@ -14,6 +14,7 @@ powerCurve(
   replications = 10000,
   integer,
   prior = NULL,
+  plotCI = TRUE,
   parallel = FALSE,
   cl = NULL,
   ncores = parallelly::availableCores(omit = 1L),
@@ -35,9 +36,10 @@ terms or a structure created from \code{\link[SimDesign]{createDesign}}.
 The benefit of the ladder is that multiple factors can vary, and NA
 placeholders will not be required. Requires \code{power} to be set to \code{NA}.
 
-Note that only the first two columns in this object will be plotted, though
-the data can be extracted for further visualizations via
-\code{\link[ggplot2]{ggplot_build}}}
+Note that only the first three columns in this object will be plotted using
+the x-y, colour, and facet wrap aesthetics, respectively. However,
+if necessary the data can be extracted for further visualizations via
+\code{\link[ggplot2]{ggplot_build}} to provide more customized control}
 
 \item{...}{a set of conditions to use in the simulation that must match the
 arguments in the function \code{sim}. See \code{\link{Spower}}}
@@ -59,6 +61,8 @@ can be specified as a vector to solve the missing elements in
 \item{integer}{see \code{\link{Spower}}}
 
 \item{prior}{see \code{\link{Spower}}}
+
+\item{plotCI}{logical; include confidence/prediction intervals in plots?}
 
 \item{parallel}{see \code{\link{Spower}}}
 
@@ -102,10 +106,10 @@ gg <- powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
 varying <- createDesign(n=c(30, 90, 270, 550))
 gg <- powerCurve(p_t.test, varying=varying, d=0.2, replications=1000)
 
-# also equivalent
+# also equivalent, though no CIs plotted
 varying <- createDesign(n=c(30, 90, 270, 550),
                         d=0.2)
-gg <- powerCurve(p_t.test, varying=varying, replications=1000)
+gg <- powerCurve(p_t.test, varying=varying, replications=1000, plotCI=FALSE)
 
 #####
 
@@ -148,6 +152,12 @@ build
 df <- build$plot$data
 head(df)
 ggplot(df, aes(n, power, linetype=d)) + geom_line()
+
+# vary three inputs (third column uses facet_wrap)
+varying <- createDesign(n=c(30, 90, 270),
+                        var.equal=c(FALSE, TRUE),
+                        d=c(.2, .5))
+powerCurve(p_t.test, varying=varying, replications=1000, plotCI=FALSE)
 
 }
 
