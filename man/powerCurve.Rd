@@ -143,7 +143,7 @@ powerCurve(p_t.test, n=50, d=NA,
 # vary two inputs instead of one (second column uses colour aesthetic)
 varying <- createDesign(n=c(30, 90, 270, 550),
                         d=c(.2, .5, .8))
-powerCurve(p_t.test, varying=varying, replications=2000)
+powerCurve(p_t.test, varying=varying, replications=1000)
 
 # extract data for alternative presentations
 build <- ggplot_build(last_plot())
