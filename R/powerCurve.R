@@ -30,7 +30,7 @@
 #'
 #' @param sig.level see \code{\link{Spower}}
 #'
-#' @param interval search interval to use when \code{\link{SimSolve}} is required.
+#' @param interval search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
 #'   Can be a vector of length two to apply the same interval across
 #'   the \code{varying} information or a \code{matrix} with two columns
 #'   to apply intervals on a per-row basis

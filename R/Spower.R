@@ -3,8 +3,8 @@
 #' General purpose function that provides power-focused estimates for
 #' a priori, post-hoc, compromise, sensitivity, and criterion power analysis.
 #' Function provides a general wrapper to the
-#' \code{SimDesign} package's \code{\link{runSimulation}} and
-#' \code{\link{SimSolve}} functions. As such, parallel processing is
+#' \code{SimDesign} package's \code{\link[SimDesign]{runSimulation}} and
+#' \code{\link[SimDesign]{SimSolve}} functions. As such, parallel processing is
 #' automatically supported, along with progress bars,
 #' confidence/prediction intervals for the results estimates, safety checks,
 #' and more.
@@ -35,7 +35,7 @@
 #'
 #' @param ... a set of conditions to use in the simulation that must match the
 #'   arguments in the function \code{sim}. Internally these arguments
-#'   are passed to either \code{\link{SimSolve}} or
+#'   are passed to either \code{\link[SimDesign]{SimSolve}} or
 #'  \code{\link{runSimulation}} depending on which element (including
 #'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}
 #'
@@ -59,7 +59,7 @@
 #'   alpha will be estimated given the fixed \code{conditions} input
 #'   (e.g., for criterion power analysis)
 #'
-#' @param interval search interval to use when \code{\link{SimSolve}} is required.
+#' @param interval search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
 #'   Note that for compromise analyses, where the \code{sig.level} is set to
 #'   \code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}
 #'
@@ -90,18 +90,18 @@
 #' @param ncores see \code{\link{runSimulation}}
 #'
 #' @param control a list of control parameters to pass to
-#'   \code{\link{runSimulation}} or \code{\link{SimSolve}}
+#'   \code{\link[SimDesign]{runSimulation}} or \code{\link[SimDesign]{SimSolve}}
 #'
 #' @param predCI predicting confidence interval level
-#'   (see \code{\link{SimSolve}})
+#'   (see \code{\link[SimDesign]{SimSolve}})
 #'
 #' @param predCI.tol predicting confidence interval consistency tolerance
-#'    for stochastic root solver convergence (see \code{\link{SimSolve}}).
+#'    for stochastic root solver convergence (see \code{\link[SimDesign]{SimSolve}}).
 #'    Default converges when the power rate CI is consistently
 #'    within \code{.01/2} of the target power
 #'
 #' @param check.interval logical; check the interval range validity
-#'   (see \code{\link{SimSolve}})
+#'   (see \code{\link[SimDesign]{SimSolve}})
 #'
 #' @param verbose logical; should information be printed to the console?
 #'
