@@ -11,7 +11,7 @@ Description: Provides general purpose simulation-based power analysis
    criterion power analysis, compromise power analysis, and post-hoc
    power analysis. Default generator functions found within the package 
    provide stochastic variants of the power analyses found in the 
-   G*Power software (Faul, Erdfelder, Buchner, and Lang, 2009) <10.3758/brm.41.4.1149>, 
+   G*Power software (Faul, Erdfelder, Buchner, and Lang, 2009) <doi:10.3758/brm.41.4.1149>, 
    along with various other power analyses (e.g., mediation analyses), 
    as well as the ability to write user-defined simulation functions and 
    prior distributions for greater flexibility.
