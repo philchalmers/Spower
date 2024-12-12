@@ -37,7 +37,7 @@ p-value for the analysis of interest}
 \item{...}{a set of conditions to use in the simulation that must match the
 arguments in the function \code{sim}. Internally these arguments
 are passed to either \code{\link[SimDesign]{SimSolve}} or
-\code{\link{runSimulation}} depending on which element (including
+\code{\link[SimDesign]{runSimulation}} depending on which element (including
 the \code{power} and \code{sig.level} arguments) is set to \code{NA}}
 
 \item{interval}{search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
@@ -53,7 +53,7 @@ alpha will be estimated given the fixed \code{conditions} input
 (e.g., for criterion power analysis)}
 
 \item{summarise}{(optional) user-defined function for the \code{summarise}
-step in \code{\link{runSimulation}}, with the constraint that the first
+step in \code{\link[SimDesign]{runSimulation}}, with the constraint that the first
 element returned is should be the empirical detection rate estimate.
 If not specified an internal function
 will be used where the first element of the analysis output will be
@@ -66,7 +66,7 @@ less than one the opposite. A ratio equal to 1 gives an equal trade-off
 between Type I and Type II errors}
 
 \item{replications}{number of replications to use when
-\code{\link{runSimulation}} is required}
+\code{\link[SimDesign]{runSimulation}} is required}
 
 \item{integer}{a logical value indicating whether the search iterations
 use integers or doubles.
@@ -82,11 +82,11 @@ of the original arguments from the \code{...} input using either
 a named \code{list} or \code{numeric} vector.}
 
 \item{parallel}{for parallel computing for slower simulation experiments
-(see \code{\link{runSimulation}} for details)}
+(see \code{\link[SimDesign]{runSimulation}} for details)}
 
-\item{cl}{see \code{\link{runSimulation}}}
+\item{cl}{see \code{\link[SimDesign]{runSimulation}}}
 
-\item{ncores}{see \code{\link{runSimulation}}}
+\item{ncores}{see \code{\link[SimDesign]{runSimulation}}}
 
 \item{predCI}{predicting confidence interval level
 (see \code{\link[SimDesign]{SimSolve}})}

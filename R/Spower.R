@@ -36,7 +36,7 @@
 #' @param ... a set of conditions to use in the simulation that must match the
 #'   arguments in the function \code{sim}. Internally these arguments
 #'   are passed to either \code{\link[SimDesign]{SimSolve}} or
-#'  \code{\link{runSimulation}} depending on which element (including
+#'  \code{\link[SimDesign]{runSimulation}} depending on which element (including
 #'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}
 #'
 #' @param sim function that both creates the data and returns a single
@@ -49,7 +49,7 @@
 #' @param maxiter maximum number of stochastic root-solving iterations
 #'
 #' @param summarise (optional) user-defined function for the \code{summarise}
-#'   step in \code{\link{runSimulation}}, with the constraint that the first
+#'   step in \code{\link[SimDesign]{runSimulation}}, with the constraint that the first
 #'   element returned is should be the empirical detection rate estimate.
 #'   If not specified an internal function
 #'   will be used where the first element of the analysis output will be
@@ -67,7 +67,7 @@
 #'  (specified in minutes). See \code{\link[SimDesign]{SimSolve}} for details
 #'
 #' @param replications number of replications to use when
-#'   \code{\link{runSimulation}} is required
+#'   \code{\link[SimDesign]{runSimulation}} is required
 #'
 #' @param integer a logical value indicating whether the search iterations
 #'   use integers or doubles.
@@ -83,11 +83,11 @@
 #'   between Type I and Type II errors
 #'
 #' @param parallel for parallel computing for slower simulation experiments
-#'   (see \code{\link{runSimulation}} for details)
+#'   (see \code{\link[SimDesign]{runSimulation}} for details)
 #'
-#' @param cl see \code{\link{runSimulation}}
+#' @param cl see \code{\link[SimDesign]{runSimulation}}
 #'
-#' @param ncores see \code{\link{runSimulation}}
+#' @param ncores see \code{\link[SimDesign]{runSimulation}}
 #'
 #' @param control a list of control parameters to pass to
 #'   \code{\link[SimDesign]{runSimulation}} or \code{\link[SimDesign]{SimSolve}}
