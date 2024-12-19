@@ -3,7 +3,10 @@
 #' Draws power curves that either a) estimate the power given a
 #' set of varying conditions or b) solves a set of root conditions
 #' given fixed values of power. Confidence/prediction intervals are
-#' included in the output to reflect the estimate uncertainties.
+#' included in the output to reflect the estimate uncertainties, though note
+#' that fewer replications/iterations are used compared to
+#' \code{\link{Spower}} as the goal is visualization of competing
+#' variable inputs rather than precision of a given input.
 #'
 #' @param sim function that both creates the data and returns a single
 #'   p-value for the analysis of interest
@@ -26,7 +29,7 @@
 #'   if necessary the data can be extracted for further visualizations via
 #'   \code{\link[ggplot2]{ggplot_build}} to provide more customized control
 #'
-#' @param maxiter see \code{\link{Spower}}
+#' @param maxiter see \code{\link{Spower}}, though set to 50 instead of 150
 #'
 #' @param sig.level see \code{\link{Spower}}
 #'
@@ -38,7 +41,8 @@
 #' @param plotCI logical; include confidence/prediction intervals in plots?
 #'
 #' @param wait.time see \code{\link{Spower}}
-#' @param replications see \code{\link{Spower}}
+#' @param replications see \code{\link{Spower}}, though set to 1000 instead of
+#'   10000
 #' @param integer see \code{\link{Spower}}
 #' @param parallel see \code{\link{Spower}}
 #' @param cl see \code{\link{Spower}}
@@ -60,18 +64,16 @@
 #' \dontrun{
 #'
 #' # estimate power given varying sample sizes
-#' gg <- powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
-#'  		   replications=1000)
+#' gg <- powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2)
 #'
 #' # alternatively, specifying varying as a createDesign() object (does not
 #' # require NA placeholders)
 #' varying <- createDesign(n=c(30, 90, 270, 550))
-#' gg <- powerCurve(p_t.test, varying=varying, d=0.2, replications=1000)
+#' gg <- powerCurve(p_t.test, varying=varying, d=0.2)
 #'
 #' # also equivalent, though no CIs plotted
-#' varying <- createDesign(n=c(30, 90, 270, 550),
-#'                         d=0.2)
-#' gg <- powerCurve(p_t.test, varying=varying, replications=1000, plotCI=FALSE)
+#' varying <- createDesign(n=c(30, 90, 270, 550), d=0.2)
+#' gg <- powerCurve(p_t.test, varying=varying, plotCI=FALSE)
 #'
 #' #####
 #'
@@ -79,9 +81,10 @@
 #' gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05) +
 #'   ylab(expression(1-beta)) + theme_grey()
 #'
-#' # using default precision (10000 replications). Parallel computations
+#' # increase precision by using 10000 replications. Parallel computations
 #' # generally recommended in this case to save time
-#' powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2)
+#' powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
+#'            replications = 10000)
 #'
 #' # alternatively, get information from last printed graphic instead of saving
 #' gg <- last_plot()
@@ -89,23 +92,21 @@
 #'
 #' # estimate sample sizes given varying power
 #' powerCurve(p_t.test, n=NA, d=0.2, interval=c(10, 1000),
-#' 		   power=c(.1, .25, .5, .75, .9), maxiter=30)
+#' 		   power=c(.2, .4, .6, .8))
 #'
 #' # estimate power varying d
-#' powerCurve(p_t.test, varying=seq(.1, 1, by=.2), n=50, d=NA,
-#' 		   replications=1000)
+#' powerCurve(p_t.test, varying=seq(.1, 1, by=.2), n=50, d=NA)
 #'
 #' # estimate d varying power
-#' powerCurve(p_t.test, n=50, d=NA,
-#' 		   maxiter=30, interval=c(.01, 1),
-#' 		   power=c(.1, .25, .5, .75, .9))
+#' powerCurve(p_t.test, n=50, d=NA, interval=c(.01, 1),
+#' 		   power=c(.2, .4, .6, .8))
 #'
 #' #####
 #'
 #' # vary two inputs instead of one (second column uses colour aesthetic)
 #' varying <- createDesign(n=c(30, 90, 270, 550),
 #'                         d=c(.2, .5, .8))
-#' powerCurve(p_t.test, varying=varying, replications=1000)
+#' powerCurve(p_t.test, varying=varying)
 #'
 #' # extract data for alternative presentations
 #' build <- ggplot_build(last_plot())
@@ -119,16 +120,16 @@
 #' varying <- createDesign(n=c(30, 90, 270),
 #'                         var.equal=c(FALSE, TRUE),
 #'                         d=c(.2, .5))
-#' powerCurve(p_t.test, varying=varying, replications=1000, plotCI=FALSE)
+#' powerCurve(p_t.test, varying=varying, plotCI=FALSE)
 #'
 #' }
 #'
 powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
-					   sig.level=.05, replications=10000, integer, prior = NULL,
+					   sig.level=.05, replications=1000, integer, prior = NULL,
 					   plotCI=TRUE, parallel = FALSE, cl = NULL,
 					   ncores = parallelly::availableCores(omit = 1L),
 					   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
-					   check.interval=FALSE, maxiter=150, wait.time = NULL,
+					   check.interval=FALSE, maxiter=50, wait.time = NULL,
 					   control = list()){
 	dots <- dotse <- list(...)
 	opower <- power
