@@ -33,3 +33,33 @@ updateCompromise <- function(x, beta_alpha){
 	attr(ret, 'Spower_extra')$conditions <- conditions
 	ret
 }
+
+#' Update power estimates given new sig.level without re-simulating
+#'
+#' When a power was performed with \code{\link{Spower}} this
+#' function can be used to
+#' update the power estimate given an alternative Type I error rate
+#' (alpha/sig.level) without re-simulating the experiment.
+#'
+#' @param x object returned from \code{\link{Spower}} where \code{power}
+#'   was estimated or the \code{bete_alpha} criteria were supplied
+#' @param sig.level Type I error rate (alpha)
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#'
+#' # estimate power using sig.level = .05 (default)
+#' (out <- Spower(p_t.test, n = 50, d = .5))
+#'
+#' # update power estimate given sig.level = .01
+#' update_sig.level(out, sig.level=.01)
+#'
+#' }
+#'
+update_sig.level <- function(x, sig.level){
+	if(missing(sig.level))
+		stop('Must specify sig.level')
+	stopifnot(sig.level < 0 || sig.level > 1)
+	browser()
+}
