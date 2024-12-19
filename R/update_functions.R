@@ -1,26 +1,64 @@
-#' Update compromise analysis criteria without re-simulating
+#' Update compromise or post-hoc power analysis without re-simulating
 #'
 #' When a power or compromise analysis was performed in
 #' \code{\link{Spower}} this function can be used to
-#' update the compromise criteria without the need for re-simulating
-#' the experiment.
+#' update the compromise or power criteria without the need for re-simulating
+#' the experiment. For compromise analyses a \code{beta_alpha} criteria
+#' must be supplied, while for post-hoc power analyses the \code{sig.level}
+#' must be supplied.
 #'
 #' @param x object returned from \code{\link{Spower}} where \code{power}
 #'   was estimated or the \code{bete_alpha} criteria were supplied
 #' @param beta_alpha Type II/Type I error ratio
+#' @param sig.level Type I error rate (alpha)
+#' @param predCI confidence interval precision (see \code{\link{Spower}} for
+#'   similar input)
+#' @param ... arguments to be passed
+#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
+#'
+#' ########
+#' ## Post-hoc power analysis update
+#'
+#' # Estimate power using sig.level = .05 (default)
+#' out <- Spower(p_t.test, n = 50, d = .5)
+#'
+#' # update power estimate given sig.level=.01 and .20
+#' update(out, sig.level=.01)
+#' update(out, sig.level=.20)
+#'
+#'
+#' ########
+#' ## Compromise analysis update
+#'
 #' # Solve beta/alpha ratio to specific error trade-off constant
 #' out <- Spower(p_t.test, n = 50, d = .5, beta_alpha = 2)
 #'
 #' # update beta_alpha criteria without re-simulating
-#' updateCompromise(out, beta_alpha=4)
+#' update(out, beta_alpha=4)
 #'
 #' }
 #'
-updateCompromise <- function(x, beta_alpha){
+#' @export
+update <- function(x, ...){
+	UseMethod("update")
+}
+
+#' @rdname update
+#' @export
+update.Spower <- function(x, sig.level = .05, beta_alpha = NULL, predCI=.95, ...){
+	ret <- if(!is.null(beta_alpha)){
+		updateCompromise(x, beta_alpha=beta_alpha)
+	} else {
+		update_sig.level(x, sig.level=sig.level, predCI=predCI)
+	}
+	ret
+}
+
+updateCompromise <- function(x,  beta_alpha = NULL){
 	ret <- x
 	conditions <- attr(x, 'Spower_extra')$conditions
 	conditions$beta_alpha <- NULL
@@ -34,32 +72,6 @@ updateCompromise <- function(x, beta_alpha){
 	ret
 }
 
-#' Update power estimates given new sig.level without re-simulating
-#'
-#' When a power was performed with \code{\link{Spower}} this
-#' function can be used to
-#' update the power estimate given an alternative Type I error rate
-#' (alpha/sig.level) without re-simulating the experiment.
-#'
-#' @param x object returned from \code{\link{Spower}} where \code{power}
-#'   was estimated or the \code{bete_alpha} criteria were supplied
-#' @param sig.level Type I error rate (alpha)
-#' @param predCI confidence interval precision (see \code{\link{Spower}} for
-#'   similiar input)
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#'
-#' # estimate power using sig.level = .05 (default)
-#' out <- Spower(p_t.test, n = 50, d = .5)
-#'
-#' # update power estimate given sig.level=.01 and .20
-#' update_sig.level(out, sig.level=.01)
-#' update_sig.level(out, sig.level=.20)
-#'
-#' }
-#'
 update_sig.level <- function(x, sig.level, predCI=.95){
 	if(missing(sig.level))
 		stop('Must specify sig.level')

@@ -119,7 +119,7 @@
 #' @return an invisible \code{tibble}/\code{data.frame}-type object of
 #' class \code{'Spower'}
 #'
-#' @seealso \code{\link{updateCompromise}}, \code{\link{powerCurve}}
+#' @seealso \code{\link{update}}, \code{\link{powerCurve}}
 #'
 #' @export
 #'
@@ -184,7 +184,7 @@
 #' with(out, (1-power)/sig.level)   # check ratio
 #'
 #' # update beta_alpha criteria without re-simulating
-#' (out2 <- updateCompromise(out, beta_alpha=4))
+#' (out2 <- update(out, beta_alpha=4))
 #' with(out2, (1-power)/sig.level)   # check ratio
 #'
 #' ##############
