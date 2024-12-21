@@ -24,6 +24,7 @@ Imports:
 	parallelly,
 	methods,
 	ggplot2,
+	plotly,
 	EnvStats
 Suggests:
 	knitr,

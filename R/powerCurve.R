@@ -56,6 +56,7 @@
 #' @param prior see \code{\link{Spower}}
 #' @return a ggplot2 object
 #' @import ggplot2
+#' @importFrom plotly ggplotly
 #' @export
 #'
 #' @seealso \code{\link{Spower}}
@@ -181,9 +182,9 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 			if(plotCI){
 				gg <- gg + geom_ribbon(aes(ymin=CI.low, ymax=CI.high),
 									   alpha=.2, linetype='dashed')
-				main <- "Power Curve (with 95% CIs)"
 			}
-			gg <- gg + geom_line() + geom_point() +	ggtitle(main) +	theme_bw()
+			gg <- gg + geom_line() + geom_point() +
+				ggtitle(main) +	theme_bw()
 			if(ncol(varying) > 2 && nrow(unique(varying[,3])) > 1)
 				gg <- gg + facet_wrap( ~ .data[[column[3]]])
 		} else {
@@ -192,9 +193,9 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 				gg <- gg + geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
 					geom_line(aes(y=CI.low), linetype='dashed') +
 					geom_line(aes(y=CI.high), linetype='dashed')
-				main <- "Power Curve (with 95% CIs)"
 			}
-			gg <- gg + geom_line() + geom_point() +	ggtitle(main) +	theme_bw()
+			gg <- gg + geom_line() + geom_point() +
+				ggtitle(main) +	theme_bw()
 		}
 	} else {
 		CI <- unname(t(sapply(out, \(x) summary(x)$predCIs_root)))
@@ -206,10 +207,10 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 			gg <- gg + geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
 				geom_line(aes(y=CI.low), linetype='dashed') +
 				geom_line(aes(y=CI.high), linetype='dashed')
-			main <- "Power Curve (with 95% PIs)"
 		}
-		gg <- gg + geom_line() + geom_point() +	ggtitle(main) +	theme_bw()
+		gg <- gg + geom_line() + geom_point() +
+			ggtitle(main) + theme_bw()
 	}
-	print(gg)
+	print(plotly::ggplotly(gg))
 	invisible(gg)
 }
