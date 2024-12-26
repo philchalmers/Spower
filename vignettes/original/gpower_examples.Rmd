@@ -149,6 +149,33 @@ Spower(p_prop.test, n=20, prop=p, pi=pi, exact=TRUE,
 	   two.tailed=FALSE, interval=c(5,50))
 ```
 
+### Example 22.1; Sign test
+
+Normal as the parent distribution.
+
+```{r}
+Spower(p_wilcox.test, n=649, d=.1, type='one.sample',  two.tailed=FALSE)
+```
+G\*power gives the power estimate of .800. 
+
+A one-sample sign test with Laplace distribution as the parent:
+
+```{r}
+library(VGAM)
+
+# find VAR of distribution for standardizing
+fn <- function(x) x^2 * VGAM::dlaplace(x)
+(SD <- sqrt(integrate(fn, -Inf, Inf)$value))
+
+parent <- function(n, d) VGAM::rlaplace(n)/SD + d
+
+Spower(p_wilcox.test, n=11, d=.8, parent1=parent, type='one.sample',
+	   two.tailed=FALSE)
+```
+
+G\*power gives the estimate .830. 
+
+
 ### Example 5.3; Two dependent proportions test (McNemar's test)
 
 ```{r}

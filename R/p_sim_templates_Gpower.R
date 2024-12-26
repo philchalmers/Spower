@@ -532,11 +532,6 @@ p_chisq.test <- function(n, w, df,
 	p
 }
 
-p_sign.test <- function(n){
-	# pass to p_prop.test() with one-sample
-
-}
-
 #' Variance test simulation and p-value
 #'
 #' Generates one or or more sets of continuous data group-level data
@@ -601,7 +596,8 @@ p_var.test <- function(n, sds, n.ratios = rep(1, length(sds)),
 #' Wilcox test simulation and p-value
 #'
 #' Simulates data given one or two parent distributions and
-#' returns a p-value.
+#' returns a p-value. Can also be used for power analyses related
+#' to sign tests.
 #'
 #' @param n sample size per group
 #' @param d effect size passed to \code{parent} functions

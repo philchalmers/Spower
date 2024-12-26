@@ -43,7 +43,8 @@ difference}
 }
 \description{
 Simulates data given one or two parent distributions and
-returns a p-value.
+returns a p-value. Can also be used for power analyses related
+to sign tests.
 }
 \examples{
 
