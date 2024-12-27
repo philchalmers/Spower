@@ -163,11 +163,7 @@ A one-sample sign test with Laplace distribution as the parent:
 ```{r}
 library(VGAM)
 
-# find VAR of distribution for standardizing
-fn <- function(x) x^2 * VGAM::dlaplace(x)
-(SD <- sqrt(integrate(fn, -Inf, Inf)$value))
-
-parent <- function(n, d) VGAM::rlaplace(n)/SD + d
+parent <- function(n, d) VGAM::rlaplace(n, d)
 
 Spower(p_wilcox.test, n=11, d=.8, parent1=parent, type='one.sample',
 	   two.tailed=FALSE)
@@ -340,16 +336,12 @@ G\*power provide power estimate of .800.
 ```{r wilcox}
 library(VGAM)
 
-# find VAR of distribution for standardizing
-fn <- function(x) x^2 * VGAM::dlaplace(x)
-(SD <- sqrt(integrate(fn, -Inf, Inf)$value))
+parent1 <- function(n, d) VGAM::rlaplace(n, d)
+parent2 <- function(n, d) VGAM::rlaplace(n)
 
-parent1 <- function(n, d) VGAM::rlaplace(n)/SD + d
-parent2 <- function(n, d) VGAM::rlaplace(n)/SD
-
-d1 <- parent1(50, .2)
-d2 <- parent2(50, 0)
-wilcox.test(d1, d2)
-
-Spower(p_wilcox.test, n=50, d=.2, parent1=parent1, parent2=parent2)
+nr <- 134/67
+Spower(p_wilcox.test, n=67, n2_n1=nr,
+	   d=0.375, parent1=parent1, parent2=parent2)
 ```
+
+G\*power gives power of .847. 
