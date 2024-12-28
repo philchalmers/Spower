@@ -117,10 +117,25 @@ G\*power gives $n=463$, though uses the SE value at the null (Score test). `p_r.
 the other hand, defaults to the Wald approach where the SE is at the MLE. To switch, use 
 `score=FALSE`, though note that this requires twice as many computations.
 
-```{r}
+```{r eval=FALSE}
 Spower(p_r.cat, n=NA, r=0.2399846, tauX=tauX, tauY=tauY, score=FALSE, two.tailed=FALSE,
        power = .95, interval=c(100, 500), parallel=TRUE, check.interval=FALSE)
 ```
+
+```
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 8
+##       n     r  tauX  tauY score two.tailed sig.level power
+##   <dbl> <dbl> <dbl> <dbl> <lgl> <lgl>          <dbl> <dbl>
+## 1    NA 0.240 0.206 0.259 FALSE FALSE           0.05  0.95
+## 
+## Estimate of n: 462.9
+## 95% Prediction Interval: [458.5, 466.6]
+```
+
+
 
 
 # Proportions
@@ -163,10 +178,12 @@ A one-sample sign test with Laplace distribution as the parent:
 ```{r}
 library(VGAM)
 
-parent <- function(n, d) VGAM::rlaplace(n, d)
+# generate data with scale 0-1 for d effect size to be same as mean
+parent <- function(n, d, scale=sqrt(1/2)) 
+	VGAM::rlaplace(n, d, scale=scale)
 
 Spower(p_wilcox.test, n=11, d=.8, parent1=parent, type='one.sample',
-	   two.tailed=FALSE)
+	   two.tailed=FALSE, correct = FALSE)
 ```
 
 G\*power gives the estimate .830. 
@@ -336,8 +353,8 @@ G\*power provide power estimate of .800.
 ```{r wilcox}
 library(VGAM)
 
-parent1 <- function(n, d) VGAM::rlaplace(n, d)
-parent2 <- function(n, d) VGAM::rlaplace(n)
+parent1 <- function(n, d) VGAM::rlaplace(n, d, scale=sqrt(1/2))
+parent2 <- function(n, d) VGAM::rlaplace(n, scale=sqrt(1/2))
 
 nr <- 134/67
 Spower(p_wilcox.test, n=67, n2_n1=nr,
