@@ -54,7 +54,7 @@ if(FALSE){
 
   # sample size for .95 power
   Spower(p_mediation, n=NA, a=sqrt(.35), b=sqrt(.35),
-         cprime=.39, power=.95, interval=c(50, 500), parallel=TRUE)
+         cprime=.39, power=.95, interval=c(50, 300), parallel=TRUE)
 
 
 }
