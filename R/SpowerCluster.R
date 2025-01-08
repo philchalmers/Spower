@@ -34,9 +34,10 @@ SpowerCluster <- function(spec, remove = FALSE, ...){
 			spec <- parallelly::availableCores(omit = 1L)
 		if(remove){
 			if(is.null(.SpowerClusterEnv$SPOWERCLUSTER)){
-				message('There is no visible SpowerCluster() definition')
+				message('There is no visible SpowerCluster() definition.')
 				return(invisible(NULL))
 			}
+			message('Removing previous cluster definition')
 			parallel::stopCluster(.SpowerClusterEnv$SPOWERCLUSTER)
 			.SpowerClusterEnv$SPOWERCLUSTER <- NULL
 			.SpowerClusterEnv$ncores <- 1L
@@ -46,11 +47,15 @@ SpowerCluster <- function(spec, remove = FALSE, ...){
 		if(!is.null(.SpowerClusterEnv$SPOWERCLUSTER)){
 			return(invisible(NULL))
 		}
+		message(sprintf('Creating global cluster definition with %i workers ... ',
+						ifelse(is.numeric(spec), spec, length(spec))))
 		if(is.numeric(spec))
 			.SpowerClusterEnv$SPOWERCLUSTER <- parallel::makeCluster(spec, ...)
 		else .SpowerClusterEnv$SPOWERCLUSTER <- spec
 		.SpowerClusterEnv$ncores <- length(.SpowerClusterEnv$SPOWERCLUSTER)
-		parallel::parSapply(1L:.SpowerClusterEnv$ncores*2L, function(x) invisible(NULL))
+		parallel::parSapply(cl=.SpowerClusterEnv$SPOWERCLUSTER,
+							X=1L:(.SpowerClusterEnv$ncores*2L),
+							FUN=function(x) invisible(NULL))
 	}
 	return(invisible(NULL))
 }
