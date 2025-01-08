@@ -83,7 +83,10 @@
 #'   between Type I and Type II errors
 #'
 #' @param parallel for parallel computing for slower simulation experiments
-#'   (see \code{\link[SimDesign]{runSimulation}} for details)
+#'   (see \code{\link[SimDesign]{runSimulation}} for details). Note that
+#'   the defined cluster object will be made globally available via
+#'   \code{\link{SpowerCluster}} so that the cluster definition can be reused
+#'   automatically
 #'
 #' @param cl see \code{\link[SimDesign]{runSimulation}}
 #'
@@ -150,6 +153,11 @@
 #' Spower(p_t.test, n = 50, d = .5, replications=30000)
 #'
 #' # Same as above, but executed with multiple cores (not run)
+#' # Spower(p_t.test, n = 50, d = .5, replications=30000, parallel=TRUE)
+#' #
+#' # Note: additional runs with parallel=TRUE will use previously defined
+#' # cluster object. To remove this global definition behavior see
+#' # help(SpowerCluster)
 #' # Spower(p_t.test, n = 50, d = .5, replications=30000, parallel=TRUE)
 #'
 #' # Solve N to get .80 power (a priori power analysis)
@@ -294,6 +302,8 @@ Spower <- function(sim, ..., interval, power = NA,
 				   check.interval = TRUE, maxiter=150, wait.time = NULL,
 				   control = list()){
 	if(!is.null(cl)) parallel <- TRUE
+	if(parallel && is.null(cl))
+		cl <- SpowerCluster(spec = ncores)
 	fixed_objects <- dots <- list(...)
 	dots <- lapply(dots, \(x) if(!is.atomic(x) || length(x) > 1) list(x) else x)
 	names(dots) <- names(fixed_objects)

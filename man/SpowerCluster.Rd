@@ -15,6 +15,9 @@ Setting this to NULL will skip a new definition (allows \code{omp_threads} to be
 
 \item{...}{additional arguments to pass to \code{parallel::makeCluster}}
 }
+\value{
+cluster object
+}
 \description{
 This function defines a object that is placed in a relevant internal environment defined in Spower,
 and stores the object internally so that it can be reused across multiple applications rather than
@@ -28,6 +31,7 @@ for the purpose of redefining a cluster use the argument \code{remove = TRUE}.
 if(interactive()){
   # use all available cores
   SpowerCluster()
+  SpowerCluster() # returns previously defined cluster
   SpowerCluster(remove = TRUE)
 
 }

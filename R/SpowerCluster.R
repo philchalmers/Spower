@@ -11,7 +11,7 @@
 #'   Setting this to NULL will skip a new definition (allows \code{omp_threads} to be used independently)
 #' @param ... additional arguments to pass to \code{parallel::makeCluster}
 #' @param remove logical; remove previously defined \code{SpowerCluster()}?
-#'
+#' @return cluster object
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @keywords parallel
 #' @export
@@ -21,6 +21,7 @@
 #' if(interactive()){
 #'   # use all available cores
 #'   SpowerCluster()
+#'   SpowerCluster() # returns previously defined cluster
 #'   SpowerCluster(remove = TRUE)
 #'
 #' }
@@ -28,7 +29,7 @@
 #' }
 SpowerCluster <- function(spec, remove = FALSE, ...){
 	if(!missing(spec) && is.null(spec))
-		return(invisible(NULL))
+		return(spec)
 	if(requireNamespace("parallel", quietly = TRUE)){
 		if(missing(spec))
 			spec <- parallelly::availableCores(omit = 1L)
@@ -45,7 +46,7 @@ SpowerCluster <- function(spec, remove = FALSE, ...){
 			return(invisible(NULL))
 		}
 		if(!is.null(.SpowerClusterEnv$SPOWERCLUSTER)){
-			return(invisible(NULL))
+			return(.SpowerClusterEnv$SPOWERCLUSTER)
 		}
 		message(sprintf('Creating global cluster definition with %i workers ... ',
 						ifelse(is.numeric(spec), spec, length(spec))))
@@ -57,7 +58,7 @@ SpowerCluster <- function(spec, remove = FALSE, ...){
 							X=1L:(.SpowerClusterEnv$ncores*2L),
 							FUN=function(x) invisible(NULL))
 	}
-	return(invisible(NULL))
+	return(.SpowerClusterEnv$SPOWERCLUSTER)
 }
 
 .SpowerClusterEnv <- new.env(parent=emptyenv())
