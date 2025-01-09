@@ -87,7 +87,7 @@
 #' powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
 #'            replications = 10000)
 #'
-#' # alternatively, get information from last printed graphic instead of saving
+#' # get information from last printed graphic instead of saving
 #' gg <- last_plot()
 #' gg + coord_flip() # flip coordinates
 #'
