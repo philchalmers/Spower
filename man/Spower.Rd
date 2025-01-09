@@ -82,10 +82,7 @@ of the original arguments from the \code{...} input using either
 a named \code{list} or \code{numeric} vector.}
 
 \item{parallel}{for parallel computing for slower simulation experiments
-(see \code{\link[SimDesign]{runSimulation}} for details). Note that
-the defined cluster object will be made globally available via
-\code{\link{SpowerCluster}} so that the cluster definition can be reused
-automatically}
+(see \code{\link[SimDesign]{runSimulation}} for details).}
 
 \item{cl}{see \code{\link[SimDesign]{runSimulation}}}
 
@@ -180,11 +177,6 @@ summary(out)   # extra information
 Spower(p_t.test, n = 50, d = .5, replications=30000)
 
 # Same as above, but executed with multiple cores (not run)
-# Spower(p_t.test, n = 50, d = .5, replications=30000, parallel=TRUE)
-#
-# Note: additional runs with parallel=TRUE will use previously defined
-# cluster object. To remove this global definition behavior see
-# help(SpowerCluster)
 # Spower(p_t.test, n = 50, d = .5, replications=30000, parallel=TRUE)
 
 # Solve N to get .80 power (a priori power analysis)

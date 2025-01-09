@@ -9,7 +9,7 @@ p_mediation(
   a,
   b,
   cprime,
-  dichotomous.X = TRUE,
+  dichotomous.X = FALSE,
   two.tailed = TRUE,
   method = "wald"
 )
@@ -44,7 +44,7 @@ X may be continuous or dichotomous.
 
 # joint test H0: a*b = 0
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
-p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=FALSE)
+p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
 
 if(FALSE){
 
@@ -54,7 +54,8 @@ if(FALSE){
 
   # sample size for .95 power
   Spower(p_mediation, n=NA, a=sqrt(.35), b=sqrt(.35),
-         cprime=.39, power=.95, interval=c(50, 300), parallel=TRUE)
+         cprime=.39, power=.95, interval=c(50, 300),
+         parallel=TRUE)
 
 
 }
