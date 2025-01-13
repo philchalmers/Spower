@@ -52,6 +52,8 @@
 #' @param predCI.tol see \code{\link{Spower}}
 #' @param check.interval see \code{\link{Spower}}, though is set to \code{FALSE}
 #'   by default instead
+#' @param plotly logical; draw the graphic into the interactive \code{plotly}
+#'   interface? If \code{FALSE} the ggplot2 object will be returned instead
 #' @param verbose see \code{\link{Spower}}
 #' @param prior see \code{\link{Spower}}
 #' @return a ggplot2 object
@@ -127,7 +129,7 @@
 #'
 powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 					   sig.level=.05, replications=1000, integer, prior = NULL,
-					   plotCI=TRUE, parallel = FALSE, cl = NULL,
+					   plotCI=TRUE, plotly=TRUE, parallel = FALSE, cl = NULL,
 					   ncores = parallelly::availableCores(omit = 1L),
 					   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 					   check.interval=FALSE, maxiter=50, wait.time = NULL,
@@ -211,6 +213,11 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 		gg <- gg + geom_line() + geom_point() +
 			ggtitle(main) + theme_bw()
 	}
-	print(plotly::ggplotly(gg))
-	invisible(gg)
+	if(plotly){
+		print(plotly::ggplotly(gg))
+		return(invisible(gg))
+	}
+	gg
+
+
 }

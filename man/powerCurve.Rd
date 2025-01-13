@@ -15,6 +15,7 @@ powerCurve(
   integer,
   prior = NULL,
   plotCI = TRUE,
+  plotly = TRUE,
   parallel = FALSE,
   cl = NULL,
   ncores = parallelly::availableCores(omit = 1L),
@@ -64,6 +65,9 @@ can be specified as a vector to solve the missing elements in
 \item{prior}{see \code{\link{Spower}}}
 
 \item{plotCI}{logical; include confidence/prediction intervals in plots?}
+
+\item{plotly}{logical; draw the graphic into the interactive \code{plotly}
+interface? If \code{FALSE} the ggplot2 object will be returned instead}
 
 \item{parallel}{see \code{\link{Spower}}}
 
