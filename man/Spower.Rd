@@ -6,7 +6,7 @@
 \title{Simulation-based Power Analyses}
 \usage{
 Spower(
-  sim,
+  p_sim,
   ...,
   interval,
   power = NA,
@@ -31,7 +31,7 @@ Spower(
 \method{print}{Spower}(x, ...)
 }
 \arguments{
-\item{sim}{function that both creates the data and returns a single
+\item{p_sim}{function that both creates the data and returns a single
 p-value for the analysis of interest}
 
 \item{...}{a set of conditions to use in the simulation that must match the

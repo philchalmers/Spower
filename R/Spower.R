@@ -39,7 +39,7 @@
 #'  \code{\link[SimDesign]{runSimulation}} depending on which element (including
 #'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}
 #'
-#' @param sim function that both creates the data and returns a single
+#' @param p_sim function that both creates the data and returns a single
 #'   p-value for the analysis of interest
 #'
 #' @param power power level to use. If set to \code{NA} then the empirical power
@@ -295,7 +295,7 @@
 #'
 #'
 #' }
-Spower <- function(sim, ..., interval, power = NA,
+Spower <- function(p_sim, ..., interval, power = NA,
 				   sig.level=.05, summarise=NULL, beta_alpha = NULL,
 				   replications=10000, integer, prior = NULL,
 				   parallel = FALSE, cl = NULL,
@@ -341,7 +341,7 @@ Spower <- function(sim, ..., interval, power = NA,
 		pick <- which(sapply(fixed_objects, \(x) all(is.na(x))))
 		nm <- names(pick)
 		if(length(pick)) fixed_objects[[nm]] <- condition[[nm]]
-		do.call(sim,
+		do.call(p_sim,
 				fixed_objects[!(names(fixed_objects) %in% c('ID', 'sig.level', 'prior'))])
 	}
 	if(!is.null(prior)){

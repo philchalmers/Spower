@@ -5,7 +5,7 @@
 \title{Draw power curve from simulation functions}
 \usage{
 powerCurve(
-  sim,
+  p_sim,
   varying,
   ...,
   interval = NULL,
@@ -29,7 +29,7 @@ powerCurve(
 )
 }
 \arguments{
-\item{sim}{function that both creates the data and returns a single
+\item{p_sim}{function that both creates the data and returns a single
 p-value for the analysis of interest}
 
 \item{varying}{either a vector of values to substitute into the missing \code{...}
@@ -43,7 +43,7 @@ if necessary the data can be extracted for further visualizations via
 \code{\link[ggplot2]{ggplot_build}} to provide more customized control}
 
 \item{...}{a set of conditions to use in the simulation that must match the
-arguments in the function \code{sim}. See \code{\link{Spower}}}
+arguments in the function \code{p_sim}. See \code{\link{Spower}}}
 
 \item{interval}{search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
 Can be a vector of length two to apply the same interval across

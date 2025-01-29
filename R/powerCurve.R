@@ -8,11 +8,11 @@
 #' \code{\link{Spower}} as the goal is visualization of competing
 #' variable inputs rather than precision of a given input.
 #'
-#' @param sim function that both creates the data and returns a single
+#' @param p_sim function that both creates the data and returns a single
 #'   p-value for the analysis of interest
 #'
 #' @param ... a set of conditions to use in the simulation that must match the
-#'   arguments in the function \code{sim}. See \code{\link{Spower}}
+#'   arguments in the function \code{p_sim}. See \code{\link{Spower}}
 #'
 #' @param power power level to use. If set to \code{NA} then the empirical power
 #'   will be estimated given the fixed \code{...} input; otherwise,
@@ -127,7 +127,7 @@
 #'
 #' }
 #'
-powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
+powerCurve <- function(p_sim, varying, ..., interval = NULL, power = NA,
 					   sig.level=.05, replications=1000, integer, prior = NULL,
 					   plotCI=TRUE, plotly=TRUE, parallel = FALSE, cl = NULL,
 					   ncores = parallelly::availableCores(omit = 1L),
@@ -165,7 +165,7 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 					message('\nUsing continuous search interval (set manually by passing integer = FALSE).')
 			}
 		} else integer <- FALSE
-		out[[i]] <- do.call(Spower, c(sim=sim, dotse,
+		out[[i]] <- do.call(Spower, c(p_sim=p_sim, dotse,
 									  list(power=power, sig.level=sig.level, beta_alpha=NULL,
 									  interval=interval, integer=integer, replications=replications,
 									  parallel=parallel, cl=cl, predCI=predCI, predCI.tol=predCI.tol,
@@ -218,6 +218,4 @@ powerCurve <- function(sim, varying, ..., interval = NULL, power = NA,
 		return(invisible(gg))
 	}
 	gg
-
-
 }
