@@ -196,8 +196,8 @@ powerCurve <- function(p_sim, varying, ..., interval = NULL, power = NA,
 					geom_line(aes(y=CI.low), linetype='dashed') +
 					geom_line(aes(y=CI.high), linetype='dashed')
 			}
-			gg <- gg + geom_line() + geom_point() +
-				ggtitle(main) +	theme_bw()
+			gg <- gg + geom_line() + geom_point() + ggtitle(main) +
+				theme(plot.title = element_text(hjust = 0.5))
 		}
 	} else {
 		CI <- unname(t(sapply(out, \(x) summary(x)$predCIs_root)))
@@ -210,8 +210,8 @@ powerCurve <- function(p_sim, varying, ..., interval = NULL, power = NA,
 				geom_line(aes(y=CI.low), linetype='dashed') +
 				geom_line(aes(y=CI.high), linetype='dashed')
 		}
-		gg <- gg + geom_line() + geom_point() +
-			ggtitle(main) + theme_bw()
+		gg <- gg + geom_line() + geom_point() + ggtitle(main) +
+			theme(plot.title = element_text(hjust = 0.5))
 	}
 	if(plotly){
 		print(plotly::ggplotly(gg))
