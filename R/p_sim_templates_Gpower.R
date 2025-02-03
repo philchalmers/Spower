@@ -26,9 +26,9 @@
 #'   \code{"DV"} and \code{"group"}. Default uses \code{\link{gen_t.test}}
 #'   to generate conditionally Gaussian distributed samples
 #'
-#'   User defined version of this function must, at minimum, accept the arguments
-#'   \code{gen_fun(n, n2_n1, d, r, type, raw_info, ...)}, even if they are not used
-#'   directly
+#'   User defined version of this function must, at minimum, accept all the
+#'   arguments in \code{args(gen_t.test)}, even if they are not used
+#'   explicitly
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not necessary
 #'   unless a customized \code{gen_fun} was defined
 #'
@@ -71,8 +71,9 @@
 #' #   - group 2 is from a positively skewed distribution (X2(5))
 #' #   - groups have equal variance, but differ by d = 0.5
 #'
-#' args(gen_t.test)   ## use these arguments as a basis
+#' args(gen_t.test)   ## at minimum, must use these arguments as a basis
 #'
+#' # arguments df1 and df2 added
 #' my.gen_fun <- function(n, d, n2_n1, r, type, df1, df2, ...){
 #'  	 group1 <- -1 * rchisq(n, df=df1)
 #' 	     group2 <- rchisq(n, df=df2)
@@ -84,6 +85,8 @@
 #' 	        			   group=gl(2, n, labels=c('G1', 'G2')))
 #' 	     dat
 #' }
+#'
+#' # check the sample data properties
 #' df <- my.gen_fun(n=10000, d=.5, df1=10, df2=5)
 #' with(df, tapply(DV, group, mean))
 #' with(df, tapply(DV, group, sd))
