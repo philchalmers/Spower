@@ -32,6 +32,7 @@ Suggests:
 	rmarkdown,
     bookdown,
     VGAM,
+    copula,
 	pwr
 VignetteBuilder: knitr
 License: GPL (>= 3)
