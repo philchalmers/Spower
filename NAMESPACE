@@ -3,6 +3,7 @@
 S3method(print,Spower)
 S3method(update,Spower)
 export(Spower)
+export(gen_r)
 export(gen_t.test)
 export(p_2r)
 export(p_anova.test)

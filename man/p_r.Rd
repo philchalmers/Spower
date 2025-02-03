@@ -4,7 +4,7 @@
 \alias{p_r}
 \title{Correlation simulation and p-value}
 \usage{
-p_r(n, r, rho = 0, method = "pearson", two.tailed = TRUE)
+p_r(n, r, rho = 0, method = "pearson", two.tailed = TRUE, gen_fun = gen_r, ...)
 }
 \arguments{
 \item{n}{sample size}
@@ -18,6 +18,17 @@ Fisher's z-transformation approximation when non-zero}
 (see \code{\link{cor.test}}). Only used when \code{rho = 0}}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
+
+\item{gen_fun}{function used to generate the required dependent bivariate data.
+Object returned must be a \code{matrix} with two columns and \code{n} rows.
+Default uses \code{\link{gen_r}} to generate conditionally
+dependent data from a bivariate normal distribution
+
+User defined version of this function must, at minimum, accept all the
+arguments in \code{args(gen_r)}, even if they are not used
+explicitly}
+
+\item{...}{additional arguments (not used)}
 }
 \value{
 a single p-value
@@ -25,7 +36,7 @@ a single p-value
 \description{
 Generates correlated X-Y data and returns a p-value to assess the null
 of no correlation in the population. The X-Y data are generated
-assuming a multivariate normal distribution.
+assuming a bivariate normal distribution.
 }
 \examples{
 
@@ -51,4 +62,7 @@ if(FALSE){
 
 }
 
+}
+\seealso{
+\code{\link{gen_r}}
 }

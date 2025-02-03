@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_templates_Gpower.R
 \name{gen_t.test}
 \alias{gen_t.test}
-\title{Generate sample data for t.test procedures}
+\title{Generate data for paired, one-sample, and two-sample t.test procedures}
 \usage{
 gen_t.test(
   n,
@@ -51,4 +51,7 @@ df <- gen_t.test(n=100, d=.5)
 head(df)
 with(df, tapply(DV, group, mean))
 
+}
+\seealso{
+\code{\link{p_t.test}}
 }

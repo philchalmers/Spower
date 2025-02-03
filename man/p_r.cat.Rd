@@ -12,7 +12,9 @@ p_r.cat(
   tauY = NULL,
   ML = TRUE,
   two.tailed = TRUE,
-  score = FALSE
+  score = FALSE,
+  gen_fun = gen_r,
+  ...
 )
 }
 \arguments{
@@ -37,6 +39,18 @@ tetrachoric/polychoric correlation will be estimated}
 or the ML estimate (Wald test)? The former is the canonical form for
 a priori power analyses though requires twice as many computations as the
 Wald test approach}
+
+\item{gen_fun}{function used to generate the required
+continuous bivariate data (prior to truncation).
+Object returned must be a \code{matrix} with two columns.
+Default uses \code{\link{gen_r}} to generate conditionally
+dependent data from a bivariate normal distribution.
+
+User defined version of this function must, at minimum, accept all the
+arguments in \code{args(gen_r)}, even if they are not used
+explicitly}
+
+\item{...}{additional arguments (not used)}
 }
 \value{
 a single p-value
@@ -58,4 +72,7 @@ p_r.cat(100, r=.5, tauX=0, tauY=1, score=FALSE)
 # polyserial estimate (Y continuous)
 p_r.cat(50, r=.5, tauX=0)
 
+}
+\seealso{
+\code{\link{gen_r}}
 }

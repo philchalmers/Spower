@@ -142,3 +142,6 @@ if(FALSE){
 }
 
 }
+\seealso{
+\code{\link{gen_t.test}}
+}

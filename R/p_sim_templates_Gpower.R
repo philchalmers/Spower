@@ -32,7 +32,7 @@
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not necessary
 #'   unless a customized \code{gen_fun} was defined
 #'
-#'
+#' @seealso \code{\link{gen_t.test}}
 #' @return a single p-value
 #' @examples
 #'
@@ -140,7 +140,7 @@ p_t.test <- function(n, d, mu = 0, r = NULL,
 	p
 }
 
-#' Generate sample data for t.test procedures
+#' Generate data for paired, one-sample, and two-sample t.test procedures
 #'
 #' Generates one or two sets of continuous data group-level data
 #' according to Cohen's effect size 'd'. The data are generated such that
@@ -163,6 +163,7 @@ p_t.test <- function(n, d, mu = 0, r = NULL,
 #'
 #' @return a \code{data.frame} with the columns \code{'DV'} and \code{'group'}
 #'
+#' @seealso \code{\link{p_t.test}}
 #' @export
 #' @examples
 #'
@@ -207,7 +208,7 @@ gen_t.test <- function(n, d, n2_n1 = 1, r = NULL,
 #'
 #' Generates correlated X-Y data and returns a p-value to assess the null
 #' of no correlation in the population. The X-Y data are generated
-#' assuming a multivariate normal distribution.
+#' assuming a bivariate normal distribution.
 #'
 #' @param n sample size
 #' @param r correlation
@@ -216,6 +217,16 @@ gen_t.test <- function(n, d, n2_n1 = 1, r = NULL,
 #' @param method method to use to compute the correlation
 #'   (see \code{\link{cor.test}}). Only used when \code{rho = 0}
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#' @param gen_fun function used to generate the required dependent bivariate data.
+#'   Object returned must be a \code{matrix} with two columns and \code{n} rows.
+#'   Default uses \code{\link{gen_r}} to generate conditionally
+#'   dependent data from a bivariate normal distribution
+#'
+#'   User defined version of this function must, at minimum, accept all the
+#'   arguments in \code{args(gen_r)}, even if they are not used
+#'   explicitly
+#' @param ... additional arguments (not used)
+#' @seealso \code{\link{gen_r}}
 #' @return a single p-value
 #' @examples
 #'
@@ -242,8 +253,9 @@ gen_t.test <- function(n, d, n2_n1 = 1, r = NULL,
 #' }
 #'
 #' @export
-p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
-	dat <- SimDesign::rmvnorm(n, sigma = matrix(c(1,r,r,1), 2, 2))
+p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE,
+				gen_fun=gen_r, ...) {
+	dat <- gen_r(n=n, r=r, ...)
 	colnames(dat) <- c('x', 'y')
 	if(rho != 0){
 		out <- cor.test(~ x + y, dat, method=method)
@@ -257,6 +269,26 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 	}
 	p <- ifelse(two.tailed, p, p/2)
 	p
+}
+
+#' Generate bivariate normal data
+#'
+#' Generates correlated X-Y data from a bivariate normal distribution.
+#'
+#' @param n sample size
+#' @param r correlation
+#' @param ... additional arguments (not used)
+#' @return a \code{matrix} with two-columns and \code{n} rows
+#' @export
+#' @seealso \code{\link{p_r}}
+#' @examples
+#'
+#' dat <- gen_r(1000, r=.9)
+#' plot(dat)
+#'
+gen_r <- function(n, r, ...){
+	dat <- SimDesign::rmvnorm(n, sigma = matrix(c(1,r,r,1), 2, 2))
+	dat
 }
 
 #' Polychoric and polyserial simulation and p-value
@@ -280,7 +312,18 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #'   or the ML estimate (Wald test)? The former is the canonical form for
 #'   a priori power analyses though requires twice as many computations as the
 #'   Wald test approach
+#' @param gen_fun function used to generate the required
+#'   continuous bivariate data (prior to truncation).
+#'   Object returned must be a \code{matrix} with two columns.
+#'   Default uses \code{\link{gen_r}} to generate conditionally
+#'   dependent data from a bivariate normal distribution.
 #'
+#'   User defined version of this function must, at minimum, accept all the
+#'   arguments in \code{args(gen_r)}, even if they are not used
+#'   explicitly
+#' @param ... additional arguments (not used)
+#'
+#' @seealso \code{\link{gen_r}}
 #' @return a single p-value
 #' @export
 #' @examples
@@ -295,10 +338,10 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE) {
 #' p_r.cat(50, r=.5, tauX=0)
 #'
 p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
-					ML=TRUE, two.tailed=TRUE, score=FALSE){
+					ML=TRUE, two.tailed=TRUE, score=FALSE,
+					gen_fun=gen_r, ...){
 	continuous.Y <- is.null(tauY)
-	dat <- SimDesign::rmvnorm(n,
-							  sigma = matrix(c(1,r,r,1), 2, 2))
+	dat <- gen_fun(n=n, r=r, ...)
 	datcut <- matrix(0, n, 2)
 	for(i in length(tauX):1)
 		datcut[dat[,1] > tauX[i], 1] <- i
