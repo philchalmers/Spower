@@ -7,7 +7,7 @@
 #' must be supplied, while for post-hoc power analyses the \code{sig.level}
 #' must be supplied.
 #'
-#' @param x object returned from \code{\link{Spower}} where \code{power}
+#' @param object object returned from \code{\link{Spower}} where \code{power}
 #'   was estimated or the \code{bete_alpha} criteria were supplied
 #' @param beta_alpha Type II/Type I error ratio
 #' @param sig.level Type I error rate (alpha)
@@ -42,18 +42,16 @@
 #'
 #' }
 #'
-#' @export
-update <- function(x, ...){
-	UseMethod("update")
-}
+#' @importFrom stats update
+
 
 #' @rdname update
 #' @export
-update.Spower <- function(x, sig.level = .05, beta_alpha = NULL, predCI=.95, ...){
+update.Spower <- function(object, sig.level = .05, beta_alpha = NULL, predCI=.95, ...){
 	ret <- if(!is.null(beta_alpha)){
-		updateCompromise(x, beta_alpha=beta_alpha)
+		updateCompromise(object, beta_alpha=beta_alpha)
 	} else {
-		update_sig.level(x, sig.level=sig.level, predCI=predCI)
+		update_sig.level(object, sig.level=sig.level, predCI=predCI)
 	}
 	ret
 }
