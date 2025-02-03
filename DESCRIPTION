@@ -16,9 +16,9 @@ Description: Provides general purpose simulation-based power analysis
    as well as the ability to write user-defined simulation functions and 
    prior distributions for greater flexibility.
 Depends:
+	SimDesign,
     stats
 Imports:
-	SimDesign,
 	cocor,
 	polycor,
 	parallelly,
