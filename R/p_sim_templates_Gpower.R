@@ -21,6 +21,16 @@
 #'   when \code{type = 'two.sample'}
 #' @param raw_info (optional) list of mean and SD inputs for each group,
 #'   each specified as a vector. When specified the input \code{d} is ignored
+#' @param gen_fun function used to generate the required two-sample data.
+#'   Object returned must be a \code{data.frame} with the columns
+#'   \code{"DV"} and \code{"group"}. Default uses \code{\link{gen_t.test}}
+#'   to generate conditionally Gaussian distributed samples
+#'
+#'   User defined version of this function must, at minimum, accept the arguments
+#'   \code{gen_fun(n, n2_n1, d, r, type, raw_info, ...)}, even if they are not used
+#'   directly
+#' @param ... additional arguments to be passed to \code{gen_fun}. Not necessary
+#'   unless a customized \code{gen_fun} was defined
 #'
 #'
 #' @return a single p-value
@@ -47,52 +57,147 @@
 #'   Spower(p_t.test, n=60, d=0.2, type = 'one.sample', two.tailed=TRUE,
 #'          sig.level=.10)
 #'
-#'   pwr::pwr.t.test(d=0.3, power=0.75, type="two.sample",
+#'   pwr::pwr.t.test(d=0.3, power=0.80, type="two.sample",
 #'                   alternative="greater")
 #'   Spower(p_t.test, n=NA, d=0.3, type='two.sample', two.tailed=FALSE,
-#'          power=0.75, interval=c(10,200))
+#'          power=0.80, interval=c(10,200))
+#'
+#' }
+#'
+#' ###### Custom data generation function
+#'
+#' # Generate data such that:
+#' #   - group 1 is from a negatively distribution (reversed X2(10)),
+#' #   - group 2 is from a positively skewed distribution (X2(5))
+#' #   - groups have equal variance, but differ by d = 0.5
+#'
+#' args(gen_t.test)   ## use these arguments as a basis
+#'
+#' my.gen_fun <- function(n, d, n2_n1, r, type, df1, df2, ...){
+#'  	 group1 <- -1 * rchisq(n, df=df1)
+#' 	     group2 <- rchisq(n, df=df2)
+#' 	     # scale groups first given moments of the chi-square distribution,
+#' 	     #   then add std mean difference
+#' 	     group1 <- ((group1 + df1) / sqrt(2*df1))
+#' 	     group2 <- ((group2 - df2) / sqrt(2*df2)) + d
+#' 	     dat <- data.frame(DV=c(group1, group2),
+#' 	        			   group=gl(2, n, labels=c('G1', 'G2')))
+#' 	     dat
+#' }
+#' df <- my.gen_fun(n=10000, d=.5, df1=10, df2=5)
+#' with(df, tapply(DV, group, mean))
+#' with(df, tapply(DV, group, sd))
+#'
+#' library(ggplot2)
+#' ggplot(df, aes(group, DV, fill=group)) + geom_violin()
+#'
+#' p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
+#'
+#' if(FALSE){
+#'
+#'   # power given Gaussian distributions
+#'   Spower(p_t.test, n=100, d=0.5)
+#'
+#'   # estimate power given the customized data generating function
+#'   Spower(p_t.test, n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
+#'
+#'   # evaluate Type I error rate to see if liberal/conservative given
+#'   # assumption violations (should be close to alpha/sig.level)
+#'   Spower(p_t.test, n=100, d=0, gen_fun=my.gen_fun, df1=10, df2=5)
 #'
 #' }
 #'
 #' @export
-p_t.test <- function(n, d, mu = 0, r,
+p_t.test <- function(n, d, mu = 0, r = NULL,
 					 type = c('two.sample', 'one.sample', 'paired'),
 					 n2_n1 = 1, two.tailed = TRUE, var.equal = TRUE,
-					 raw_info = list(means=NA, sds=NA)) {
+					 raw_info = list(means=NA, sds=NA),
+					 gen_fun=gen_t.test, ...) {
 	type <- match.arg(type)
-	if(!missing(d) && !missing(r))
+	if(!missing(d) && !is.null(r))
 		stop('Please use either d or r')
-	if(!missing(r)){
-		d <- r2d(r, n0=n, n1=n*n2_n1)
+	if(!is.null(r)){
 		type <- 'two.sample'
 		stopifnot(var.equal)
-		stopifnot(n2_n1 == 1)
 	}
-	if(type == 'paired') n <- n * 2
-	n.each <- n * n2_n1
-	stopifnot(all.equal(n.each, as.integer(n.each)))
-	if(!all(is.na(raw_info$means))){
-		if(!missing(d)) stop('d argument cannot be used with raw_info')
-		group1 <- with(raw_info, rnorm(n, mean=means[1], sd=sds[1]))
-		group2 <- with(raw_info, rnorm(n * n2_n1, mean=means[2], sd=sds[2]))
-	} else {
-		group1 <- rnorm(n)
-		group2 <- rnorm(n * n2_n1, mean=d)
-	}
-	dat <- data.frame(group = factor(rep(c('G1', 'G2'), times=c(n, n*n2_n1))),
-					  DV = c(group1, group2))
+	dat <- gen_fun(n=n, n2_n1=n2_n1, d=d, r=r, type=type,
+				   raw_info=raw_info, ...)
 	p <- if(type == 'paired'){
 		if(n2_n1 != 1) stop('n2_n1 must equal 1 for paired t-tests')
+		lvls <- levels(dat$group)
+		group1 <- with(dat, DV[group == lvls[1]])
+		group2 <- with(dat, DV[group == lvls[2]])
 		t.test(group1, group2, mu=mu, paired=TRUE)$p.value
 	} else if(type == 'two.sample'){
 		t.test(DV ~ group, dat, var.equal=var.equal, mu=mu)$p.value
 	} else if(type == 'one.sample') {
-		dv <- if(!all(is.na(raw_info$means)))
-			with(raw_info, rnorm(n, mean=means, sd=sds)) else rnorm(n, mean=d)
-		t.test(dv, mu=mu)$p.value
+		t.test(dat$DV, mu=mu)$p.value
 	}
 	p <- ifelse(two.tailed, p, p/2)
 	p
+}
+
+#' Generate sample data for t.test procedures
+#'
+#' Generates one or two sets of continuous data group-level data
+#' according to Cohen's effect size 'd'. The data are generated such that
+#' the conditional observations are normally distributed and have
+#' have equal variance, however some of these properties may be modified.
+#'
+#' @param n sample size per group, assumed equal across groups
+#' @param d Cohen's standardized effect size \code{d}
+#' @param r (optional) instead of specifying \code{d} specify
+#'   a point-biserial correlation. Internally this is transformed
+#'   into a suitable \code{d} value for the power computations
+#' @param type type of data structure to generate; can be \code{'two.sample'},
+#'   \code{'one.sample'}, or \code{'paired'}
+#' @param n2_n1 allocation ratio reflecting the same size ratio.
+#'   Default of 1 sets the groups to be the same size. Only applicable
+#'   when \code{type = 'two.sample'}
+#' @param raw_info (optional) list of mean and SD inputs for each group,
+#'   each specified as a vector. When specified the input \code{d} is ignored
+#' @param ... additional arguments (not used)
+#'
+#' @return a \code{data.frame} with the columns \code{'DV'} and \code{'group'}
+#'
+#' @export
+#' @examples
+#'
+#' # two-sample data with 100 observations each
+#' df <- gen_t.test(n=100, d=.5)
+#' head(df)
+#' with(df, tapply(DV, group, mean))
+#'
+gen_t.test <- function(n, d, n2_n1 = 1, r = NULL,
+					   type = c('two.sample', 'one.sample', 'paired'),
+					   raw_info = list(means=NA, sds=NA), ...){
+	type <- match.arg(type)
+	if(!is.null(r)){
+		type <- 'two.sample'
+		stopifnot(n2_n1 == 1)
+	}
+	if(!is.null(r))
+		d <- r2d(r, n0=n, n1=n*n2_n1)
+	if(type == 'paired') n <- n * 2
+	n.each <- n * n2_n1
+	stopifnot(all.equal(n.each, as.integer(n.each)))
+	if(type == 'one.sample'){
+		DV <- if(!all(is.na(raw_info$means)))
+			with(raw_info, rnorm(n, mean=means, sd=sds)) else rnorm(n, mean=d)
+		dat <- data.frame(DV=DV)
+	} else {
+		if(!all(is.na(raw_info$means))){
+			if(!missing(d)) stop('d argument cannot be used with raw_info')
+			group1 <- with(raw_info, rnorm(n, mean=means[1], sd=sds[1]))
+			group2 <- with(raw_info, rnorm(n * n2_n1, mean=means[2], sd=sds[2]))
+		} else {
+			group1 <- rnorm(n)
+			group2 <- rnorm(n * n2_n1, mean=d)
+		}
+		dat <- data.frame(group = factor(rep(c('G1', 'G2'), times=c(n, n*n2_n1))),
+						  DV = c(group1, group2))
+	}
+	dat
 }
 
 #' Correlation simulation and p-value

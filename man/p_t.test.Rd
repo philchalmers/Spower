@@ -8,12 +8,14 @@ p_t.test(
   n,
   d,
   mu = 0,
-  r,
+  r = NULL,
   type = c("two.sample", "one.sample", "paired"),
   n2_n1 = 1,
   two.tailed = TRUE,
   var.equal = TRUE,
-  raw_info = list(means = NA, sds = NA)
+  raw_info = list(means = NA, sds = NA),
+  gen_fun = gen_t.test,
+  ...
 )
 }
 \arguments{
@@ -40,6 +42,18 @@ when \code{type = 'two.sample'}}
 
 \item{raw_info}{(optional) list of mean and SD inputs for each group,
 each specified as a vector. When specified the input \code{d} is ignored}
+
+\item{gen_fun}{function used to generate the required two-sample data.
+Object returned must be a \code{data.frame} with the columns
+\code{"DV"} and \code{"group"}. Default uses \code{\link{gen_t.test}}
+to generate conditionally Gaussian distributed samples
+
+User defined version of this function must, at minimum, accept the arguments
+\code{gen_fun(n, n2_n1, d, r, type, raw_info, ...)}, even if they are not used
+directly}
+
+\item{...}{additional arguments to be passed to \code{gen_fun}. Not necessary
+unless a customized \code{gen_fun} was defined}
 }
 \value{
 a single p-value
@@ -74,10 +88,53 @@ if(FALSE){
   Spower(p_t.test, n=60, d=0.2, type = 'one.sample', two.tailed=TRUE,
          sig.level=.10)
 
-  pwr::pwr.t.test(d=0.3, power=0.75, type="two.sample",
+  pwr::pwr.t.test(d=0.3, power=0.80, type="two.sample",
                   alternative="greater")
   Spower(p_t.test, n=NA, d=0.3, type='two.sample', two.tailed=FALSE,
-         power=0.75, interval=c(10,200))
+         power=0.80, interval=c(10,200))
+
+}
+
+###### Custom data generation function
+
+# Generate data such that:
+#   - group 1 is from a negatively distribution (reversed X2(10)),
+#   - group 2 is from a positively skewed distribution (X2(5))
+#   - groups have equal variance, but differ by d = 0.5
+
+args(gen_t.test)   ## use these arguments as a basis
+
+my.gen_fun <- function(n, d, n2_n1, r, type, df1, df2, ...){
+ 	 group1 <- -1 * rchisq(n, df=df1)
+	     group2 <- rchisq(n, df=df2)
+	     # scale groups first given moments of the chi-square distribution,
+	     #   then add std mean difference
+	     group1 <- ((group1 + df1) / sqrt(2*df1))
+	     group2 <- ((group2 - df2) / sqrt(2*df2)) + d
+	     dat <- data.frame(DV=c(group1, group2),
+	        			   group=gl(2, n, labels=c('G1', 'G2')))
+	     dat
+}
+df <- my.gen_fun(n=10000, d=.5, df1=10, df2=5)
+with(df, tapply(DV, group, mean))
+with(df, tapply(DV, group, sd))
+
+library(ggplot2)
+ggplot(df, aes(group, DV, fill=group)) + geom_violin()
+
+p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
+
+if(FALSE){
+
+  # power given Gaussian distributions
+  Spower(p_t.test, n=100, d=0.5)
+
+  # estimate power given the customized data generating function
+  Spower(p_t.test, n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
+
+  # evaluate Type I error rate to see if liberal/conservative given
+  # assumption violations (should be close to alpha/sig.level)
+  Spower(p_t.test, n=100, d=0, gen_fun=my.gen_fun, df1=10, df2=5)
 
 }
 
