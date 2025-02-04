@@ -41,6 +41,12 @@ when \code{type = 'two.sample'}}
 
 \item{var.equal}{logical; use the classical or Welch corrected t-test?}
 
+\item{means}{(optional) vector of means for each group.
+When specified the input \code{d} is ignored}
+
+\item{sds}{(optional) vector of SDs for each group.
+When specified the input \code{d} is ignored}
+
 \item{gen_fun}{function used to generate the required two-sample data.
 Object returned must be a \code{data.frame} with the columns
 \code{"DV"} and \code{"group"}. Default uses \code{\link{gen_t.test}}
@@ -49,9 +55,6 @@ User defined version of this function must include the argument \code{...}}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
-
-\item{raw_info}{(optional) list of mean and SD inputs for each group,
-each specified as a vector. When specified the input \code{d} is ignored}
 }
 \value{
 a single p-value

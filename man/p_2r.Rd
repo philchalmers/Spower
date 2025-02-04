@@ -22,7 +22,7 @@ p_2r(
   two.tailed = TRUE,
   type = c("independent", "overlap", "nonoverlap"),
   test = "fisher1925",
-  gen_fun = gen_mvtnorm,
+  gen_fun = gen_mvnorm,
   ...
 )
 }

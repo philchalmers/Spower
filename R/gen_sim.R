@@ -99,10 +99,10 @@ gen_r <- function(n, r, ...){
 #' @examples
 #'
 #' sigma <- matrix(c(1,.2,.3,.2,1,.5,.3,.5,1), 3, 3)
-#' dat <- gen_mvtnorm(1000, sigma=sigma)
+#' dat <- gen_mvnorm(1000, sigma=sigma)
 #' pairs(dat)
 #'
-gen_mvtnorm <- function(n, mean = numeric(nrow(sigma)), sigma, ...){
+gen_mvnorm <- function(n, mean = numeric(nrow(sigma)), sigma, ...){
 	dat <- SimDesign::rmvnorm(n, mean=mean, sigma=sigma)
 	dat
 }
@@ -193,7 +193,7 @@ gen_mcnemar.test <- function(n, prop, ...) {
 #' @param n sample size per group
 #' @param P specific power configuration, specified as a numeric vector or matrix
 #' @param ... additional arguments (not used)
-#'
+#' @export
 #' @return a numeric vector or matrix, depending on the supplied \code{P} class
 #' @examples
 #'

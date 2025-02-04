@@ -19,8 +19,10 @@
 #' @param n2_n1 allocation ratio reflecting the same size ratio.
 #'   Default of 1 sets the groups to be the same size. Only applicable
 #'   when \code{type = 'two.sample'}
-#' @param raw_info (optional) list of mean and SD inputs for each group,
-#'   each specified as a vector. When specified the input \code{d} is ignored
+#' @param means (optional) vector of means for each group.
+#'   When specified the input \code{d} is ignored
+#' @param sds (optional) vector of SDs for each group.
+#'   When specified the input \code{d} is ignored
 #' @param gen_fun function used to generate the required two-sample data.
 #'   Object returned must be a \code{data.frame} with the columns
 #'   \code{"DV"} and \code{"group"}. Default uses \code{\link{gen_t.test}}
@@ -850,7 +852,7 @@ p_2r <- function(n, r.ab1, r.ab2, r.ac1, r.ac2, r.bc1, r.bc2,
 				 r.ad1, r.ad2, r.bd1, r.bd2, r.cd1, r.cd2,
 				 n2_n1 = 1, two.tailed=TRUE,
 				 type = c('independent', 'overlap', 'nonoverlap'),
-				 test = 'fisher1925', gen_fun=gen_mvtnorm, ...){
+				 test = 'fisher1925', gen_fun=gen_mvnorm, ...){
 	type <- match.arg(type)
 	if(type == 'independent'){
 		R1 <- matrix(c(1,r.ab1, r.ab1, 1), 2, 2)
