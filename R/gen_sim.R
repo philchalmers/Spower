@@ -15,8 +15,10 @@
 #' @param n2_n1 allocation ratio reflecting the same size ratio.
 #'   Default of 1 sets the groups to be the same size. Only applicable
 #'   when \code{type = 'two.sample'}
-#' @param raw_info (optional) list of mean and SD inputs for each group,
-#'   each specified as a vector. When specified the input \code{d} is ignored
+#' @param means (optional) vector of means for each group.
+#'   When specified the input \code{d} is ignored
+#' @param sds (optional) vector of SDs for each group.
+#'   When specified the input \code{d} is ignored
 #' @param ... additional arguments (not used)
 #'
 #' @return a \code{data.frame} with the columns \code{'DV'} and \code{'group'}
@@ -32,7 +34,7 @@
 #'
 gen_t.test <- function(n, d, n2_n1 = 1, r = NULL,
 					   type = c('two.sample', 'one.sample', 'paired'),
-					   raw_info = list(means=NA, sds=NA), ...){
+					   means=NULL, sds=NULL, ...){
 	type <- match.arg(type)
 	if(!is.null(r)){
 		type <- 'two.sample'
@@ -44,14 +46,14 @@ gen_t.test <- function(n, d, n2_n1 = 1, r = NULL,
 	n.each <- n * n2_n1
 	stopifnot(all.equal(n.each, as.integer(n.each)))
 	if(type == 'one.sample'){
-		DV <- if(!all(is.na(raw_info$means)))
-			with(raw_info, rnorm(n, mean=means, sd=sds)) else rnorm(n, mean=d)
+		DV <- if(!is.null(means))
+			rnorm(n, mean=means, sd=sds) else rnorm(n, mean=d)
 		dat <- data.frame(DV=DV)
 	} else {
-		if(!all(is.na(raw_info$means))){
+		if(!is.null(means)){
 			if(!missing(d)) stop('d argument cannot be used with raw_info')
-			group1 <- with(raw_info, rnorm(n, mean=means[1], sd=sds[1]))
-			group2 <- with(raw_info, rnorm(n * n2_n1, mean=means[2], sd=sds[2]))
+			group1 <- rnorm(n, mean=means[1], sd=sds[1])
+			group2 <- rnorm(n * n2_n1, mean=means[2], sd=sds[2])
 		} else {
 			group1 <- rnorm(n)
 			group2 <- rnorm(n * n2_n1, mean=d)
@@ -79,6 +81,29 @@ gen_t.test <- function(n, d, n2_n1 = 1, r = NULL,
 #'
 gen_r <- function(n, r, ...){
 	dat <- SimDesign::rmvnorm(n, sigma = matrix(c(1,r,r,1), 2, 2))
+	dat
+}
+
+#' Generate multivariate normal data
+#'
+#' Generates correlated X-Y data from a bivariate normal distribution.
+#'
+#' @param n sample size
+#' @param mean vector of means. Defaults to a vector of 0's
+#' @param sigma covariance matrix, though if all diagonal values equal 1
+#'   then understood as a correlation matrix
+#' @param ... additional arguments (not used)
+#' @return a \code{matrix} with two-columns and \code{n} rows
+#' @export
+#' @seealso \code{\link{p_r}} and \code{\link{p_r.cat}}
+#' @examples
+#'
+#' sigma <- matrix(c(1,.2,.3,.2,1,.5,.3,.5,1), 3, 3)
+#' dat <- gen_mvtnorm(1000, sigma=sigma)
+#' pairs(dat)
+#'
+gen_mvtnorm <- function(n, mean = numeric(nrow(sigma)), sigma, ...){
+	dat <- SimDesign::rmvnorm(n, mean=mean, sigma=sigma)
 	dat
 }
 

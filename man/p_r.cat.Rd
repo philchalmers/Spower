@@ -45,10 +45,7 @@ continuous bivariate data (prior to truncation).
 Object returned must be a \code{matrix} with two columns.
 Default uses \code{\link{gen_r}} to generate conditionally
 dependent data from a bivariate normal distribution.
-
-User defined version of this function must, at minimum, accept all the
-arguments in \code{args(gen_r)}, even if they are not used
-explicitly}
+User defined version of this function must include the argument \code{...}}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}

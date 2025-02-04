@@ -13,7 +13,8 @@ p_t.test(
   n2_n1 = 1,
   two.tailed = TRUE,
   var.equal = TRUE,
-  raw_info = list(means = NA, sds = NA),
+  means = NULL,
+  sds = NULL,
   gen_fun = gen_t.test,
   ...
 )
@@ -40,20 +41,17 @@ when \code{type = 'two.sample'}}
 
 \item{var.equal}{logical; use the classical or Welch corrected t-test?}
 
-\item{raw_info}{(optional) list of mean and SD inputs for each group,
-each specified as a vector. When specified the input \code{d} is ignored}
-
 \item{gen_fun}{function used to generate the required two-sample data.
 Object returned must be a \code{data.frame} with the columns
 \code{"DV"} and \code{"group"}. Default uses \code{\link{gen_t.test}}
-to generate conditionally Gaussian distributed samples
-
-User defined version of this function must, at minimum, accept all the
-arguments in \code{args(gen_t.test)}, even if they are not used
-explicitly}
+to generate conditionally Gaussian distributed samples.
+User defined version of this function must include the argument \code{...}}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
+
+\item{raw_info}{(optional) list of mean and SD inputs for each group,
+each specified as a vector. When specified the input \code{d} is ignored}
 }
 \value{
 a single p-value
@@ -76,6 +74,9 @@ p_t.test(n=50, r=.3)
 # second group 2x as large as the first group
 p_t.test(n=50, d=0.5, n2_n1 = 2)
 
+# specify mean/SDs explicitly
+p_t.test(n=50, means = c(0,1), sds = c(2,2))
+
 # paired and one-sample tests
 p_t.test(n=50, d=0.5, type = 'paired')
 p_t.test(n=50, d=0.5, type = 'one.sample')
@@ -95,6 +96,7 @@ if(FALSE){
 
 }
 
+
 ###### Custom data generation function
 
 # Generate data such that:
@@ -102,10 +104,10 @@ if(FALSE){
 #   - group 2 is from a positively skewed distribution (X2(5))
 #   - groups have equal variance, but differ by d = 0.5
 
-args(gen_t.test)   ## at minimum, must use these arguments as a basis
+args(gen_t.test)   ## can use these arguments as a basis, though must include ...
 
-# arguments df1 and df2 added
-my.gen_fun <- function(n, d, n2_n1, r, type, df1, df2, ...){
+# arguments df1 and df2 added; unused arguments caught within ...
+my.gen_fun <- function(n, d, df1, df2, ...){
  	 group1 <- -1 * rchisq(n, df=df1)
 	     group2 <- rchisq(n, df=df2)
 	     # scale groups first given moments of the chi-square distribution,
@@ -130,14 +132,16 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 if(FALSE){
 
   # power given Gaussian distributions
-  Spower(p_t.test, n=100, d=0.5)
+  Spower(p_t.test, n=100, d=0.5, replications=30000)
 
   # estimate power given the customized data generating function
-  Spower(p_t.test, n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
+  Spower(p_t.test, n=100, d=0.5, gen_fun=my.gen_fun,
+    df1=10, df2=5, replications=30000)
 
   # evaluate Type I error rate to see if liberal/conservative given
   # assumption violations (should be close to alpha/sig.level)
-  Spower(p_t.test, n=100, d=0, gen_fun=my.gen_fun, df1=10, df2=5)
+  Spower(p_t.test, n=100, d=0, gen_fun=my.gen_fun,
+    df1=10, df2=5, replications=30000)
 
 }
 

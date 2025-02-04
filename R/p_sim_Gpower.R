@@ -24,11 +24,8 @@
 #' @param gen_fun function used to generate the required two-sample data.
 #'   Object returned must be a \code{data.frame} with the columns
 #'   \code{"DV"} and \code{"group"}. Default uses \code{\link{gen_t.test}}
-#'   to generate conditionally Gaussian distributed samples
-#'
-#'   User defined version of this function must, at minimum, accept all the
-#'   arguments in \code{args(gen_t.test)}, even if they are not used
-#'   explicitly
+#'   to generate conditionally Gaussian distributed samples.
+#'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #'
@@ -44,6 +41,9 @@
 #'
 #' # second group 2x as large as the first group
 #' p_t.test(n=50, d=0.5, n2_n1 = 2)
+#'
+#' # specify mean/SDs explicitly
+#' p_t.test(n=50, means = c(0,1), sds = c(2,2))
 #'
 #' # paired and one-sample tests
 #' p_t.test(n=50, d=0.5, type = 'paired')
@@ -64,6 +64,7 @@
 #'
 #' }
 #'
+#'
 #' ###### Custom data generation function
 #'
 #' # Generate data such that:
@@ -71,10 +72,10 @@
 #' #   - group 2 is from a positively skewed distribution (X2(5))
 #' #   - groups have equal variance, but differ by d = 0.5
 #'
-#' args(gen_t.test)   ## at minimum, must use these arguments as a basis
+#' args(gen_t.test)   ## can use these arguments as a basis, though must include ...
 #'
-#' # arguments df1 and df2 added
-#' my.gen_fun <- function(n, d, n2_n1, r, type, df1, df2, ...){
+#' # arguments df1 and df2 added; unused arguments caught within ...
+#' my.gen_fun <- function(n, d, df1, df2, ...){
 #'  	 group1 <- -1 * rchisq(n, df=df1)
 #' 	     group2 <- rchisq(n, df=df2)
 #' 	     # scale groups first given moments of the chi-square distribution,
@@ -99,14 +100,16 @@
 #' if(FALSE){
 #'
 #'   # power given Gaussian distributions
-#'   Spower(p_t.test, n=100, d=0.5)
+#'   Spower(p_t.test, n=100, d=0.5, replications=30000)
 #'
 #'   # estimate power given the customized data generating function
-#'   Spower(p_t.test, n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
+#'   Spower(p_t.test, n=100, d=0.5, gen_fun=my.gen_fun,
+#'     df1=10, df2=5, replications=30000)
 #'
 #'   # evaluate Type I error rate to see if liberal/conservative given
 #'   # assumption violations (should be close to alpha/sig.level)
-#'   Spower(p_t.test, n=100, d=0, gen_fun=my.gen_fun, df1=10, df2=5)
+#'   Spower(p_t.test, n=100, d=0, gen_fun=my.gen_fun,
+#'     df1=10, df2=5, replications=30000)
 #'
 #' }
 #'
@@ -114,17 +117,17 @@
 p_t.test <- function(n, d, mu = 0, r = NULL,
 					 type = c('two.sample', 'one.sample', 'paired'),
 					 n2_n1 = 1, two.tailed = TRUE, var.equal = TRUE,
-					 raw_info = list(means=NA, sds=NA),
-					 gen_fun=gen_t.test, ...) {
+					 means=NULL, sds=NULL, gen_fun=gen_t.test, ...) {
 	type <- match.arg(type)
-	if(!missing(d) && !is.null(r))
-		stop('Please use either d or r')
+	if(is.null(means))
+		if(!missing(d) && !is.null(r))
+			stop('Please use either d or r')
 	if(!is.null(r)){
 		type <- 'two.sample'
 		stopifnot(var.equal)
 	}
 	dat <- gen_fun(n=n, n2_n1=n2_n1, d=d, r=r, type=type,
-				   raw_info=raw_info, ...)
+				   means=means, sds=sds, ...)
 	p <- if(type == 'paired'){
 		if(n2_n1 != 1) stop('n2_n1 must equal 1 for paired t-tests')
 		lvls <- levels(dat$group)
@@ -156,11 +159,8 @@ p_t.test <- function(n, d, mu = 0, r = NULL,
 #' @param gen_fun function used to generate the required dependent bivariate data.
 #'   Object returned must be a \code{matrix} with two columns and \code{n} rows.
 #'   Default uses \code{\link{gen_r}} to generate conditionally
-#'   dependent data from a bivariate normal distribution
-#'
-#'   User defined version of this function must, at minimum, accept all the
-#'   arguments in \code{args(gen_r)}, even if they are not used
-#'   explicitly
+#'   dependent data from a bivariate normal distribution.
+#'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @seealso \code{\link{gen_r}}
@@ -192,7 +192,7 @@ p_t.test <- function(n, d, mu = 0, r = NULL,
 #' @export
 p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE,
 				gen_fun=gen_r, ...) {
-	dat <- gen_r(n=n, r=r, ...)
+	dat <- gen_fun(n=n, r=r, ...)
 	colnames(dat) <- c('x', 'y')
 	if(rho != 0){
 		out <- cor.test(~ x + y, dat, method=method)
@@ -234,10 +234,7 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE,
 #'   Object returned must be a \code{matrix} with two columns.
 #'   Default uses \code{\link{gen_r}} to generate conditionally
 #'   dependent data from a bivariate normal distribution.
-#'
-#'   User defined version of this function must, at minimum, accept all the
-#'   arguments in \code{args(gen_r)}, even if they are not used
-#'   explicitly
+#'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #'
@@ -314,10 +311,7 @@ p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
 #' @param gen_fun function used to generate the required discrete data.
 #'   Object returned must be a \code{matrix} with two rows and 1 or more
 #'   columns. Default uses \code{\link{gen_prop.test}}.
-#'
-#'   User defined version of this function must, at minimum, accept all the
-#'   arguments in \code{args(gen_prop.test)}, even if they are not used
-#'   explicitly
+#'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @return a single p-value
@@ -416,10 +410,7 @@ p_prop.test <- function(n, h, prop, pi = .5,
 #' @param gen_fun function used to generate the required discrete data.
 #'   Object returned must be a \code{matrix} with k rows and k columns
 #'   of counts. Default uses \code{\link{gen_mcnemar.test}}.
-#'
-#'   User defined version of this function must, at minimum, accept all the
-#'   arguments in \code{args(gen_mcnemar.test)}, even if they are not used
-#'   explicitly
+#'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @return a single p-value
@@ -469,8 +460,8 @@ p_mcnemar.test <- function(n, prop,
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #' @param var.equal logical; use the pooled SE estimate instead of the Welch
 #'   correction for unequal variances?
-#' @param raw_info (optional) list of mean and SD inputs for each group,
-#'   each specified as a vector. When specified the input \code{f} is ignored
+#' @param means (optional) vector of means. When specified the input \code{f} is ignored
+#' @param sds (optional) vector of SDs. When specified the input \code{f} is ignored
 #' @return a single p-value
 #' @examples
 #'
@@ -478,8 +469,7 @@ p_mcnemar.test <- function(n, prop,
 #' p_anova.test(50, k=3, f=.25)
 #'
 #' # explicit means/sds
-#' p_anova.test(50, 3,
-#'             raw_info=list(means=c(0,0,1), sds=c(1,2,1)))
+#' p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
 #'
 #' if(FALSE){
 #'   # compare simulated results to pwr package
@@ -491,16 +481,15 @@ p_mcnemar.test <- function(n, prop,
 p_anova.test <- function(n, k, f,
 						 n.ratios = rep(1, k),
 						 two.tailed = TRUE, var.equal = TRUE,
-						 raw_info = list(means=NA, sds=NA)) {
+						 means=NULL, sds=NULL) {
 	stopifnot(length(n) == 1)
 	stopifnot(length(n.ratios) == k)
 	group <- rep(factor(1:k), times = n*n.ratios)
 	n.each <- n*n.ratios
 	stopifnot(all.equal(n.each, as.integer(n.each)))
-	if(!all(is.na(raw_info$means))){
+	if(!is.null(means)){
 		dv <- sapply(1:k, \(i)
-					  with(raw_info, rnorm(n*n.ratios[i],
-					  					 mean=means[i], sd=sds[i])))
+					  rnorm(n*n.ratios[i], mean=means[i], sd=sds[i]))
 		df <- data.frame(group=group, dv = as.numeric(dv))
 	} else {
 		# use f
@@ -515,7 +504,8 @@ p_anova.test <- function(n, k, f,
 		dv <- rep(gmeans, times=n.each) + rnorm(N, sd=sde)
 		df <- data.frame(dv=dv, group=group)
 	}
-	p <- oneway.test(dv ~ group, data=df, var.equal=var.equal)$p.value
+	p <- oneway.test(dv ~ group, data=df, var.equal=var.equal, subset=NULL,
+					 na.action = NULL)$p.value
 	p <- ifelse(two.tailed, p, p/2)
 	p
 }
@@ -534,10 +524,7 @@ p_anova.test <- function(n, k, f,
 #' @param gen_fun function used to generate the required discrete data.
 #'   Object returned must be a \code{matrix} with k rows and k columns
 #'   of counts. Default uses \code{\link{gen_chisq.test}}.
-#'
-#'   User defined version of this function must, at minimum, accept all the
-#'   arguments in \code{args(gen_chisq.test)}, even if they are not used
-#'   explicitly
+#'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #'
@@ -822,6 +809,12 @@ p_glm <- function(n){
 #' @param two.tailed logical; use two-tailed test?
 #' @param type type of correlation design
 #' @param test hypothesis method to use. Defaults to 'fisher1925'
+#' @param gen_fun function used to generate the required discrete data.
+#'   Object returned must be a \code{matrix} with \code{n} rows.
+#'   Default uses \code{\link{gen_mvnorm}}.
+#'   User defined version of this function must include the argument \code{...}
+#' @param ... additional arguments to be passed to \code{gen_fun}. Not used
+#'   unless a customized \code{gen_fun} is defined
 #' @importFrom cocor cocor
 #' @importFrom methods slot
 #' @export
@@ -829,6 +822,14 @@ p_glm <- function(n){
 #'
 #' # independent (same x-y pairing across groups)
 #' p_2r(100, r.ab1=.5, r.ab2=.6)
+#'
+#' if(FALSE){
+#'     # estimate empirical power
+#'     Spower(p_2r, n=100, r.ab1=.5, r.ab2=.6)
+#'
+#'     # estimate n required to reach 80% power
+#'     Spower(p_2r, n=NA, r.ab1=.5, r.ab2=.6, power=.80, interval=c(100, 5000))
+#' }
 #'
 #' # overlap (same y, different xs)
 #' p_2r(100, r.ab1=.5, r.ab2=.7,
@@ -849,7 +850,7 @@ p_2r <- function(n, r.ab1, r.ab2, r.ac1, r.ac2, r.bc1, r.bc2,
 				 r.ad1, r.ad2, r.bd1, r.bd2, r.cd1, r.cd2,
 				 n2_n1 = 1, two.tailed=TRUE,
 				 type = c('independent', 'overlap', 'nonoverlap'),
-				 test = 'fisher1925'){
+				 test = 'fisher1925', gen_fun=gen_mvtnorm, ...){
 	type <- match.arg(type)
 	if(type == 'independent'){
 		R1 <- matrix(c(1,r.ab1, r.ab1, 1), 2, 2)
@@ -865,19 +866,17 @@ p_2r <- function(n, r.ab1, r.ab2, r.ac1, r.ac2, r.bc1, r.bc2,
 		cnms <- c('y', 'x1', 'x2')
 	} else {
 		R1 <- matrix(c(1,r.ab1, r.ac1, r.ad1,
-					   0, 1, r.bc1, r.bd1,
-					   0,0, 1, r.cd1,
-					   0, 0, 0, 1), 4, 4)
-		R1 <- R1 + t(R1) - diag(4)
+					   r.ab1, 1, r.bc1, r.bd1,
+					   r.ac1, r.bc1, 1, r.cd1,
+					   r.ad1, r.bd1, r.cd1, 1), 4, 4)
 		R2 <- matrix(c(1,r.ab2, r.ac2, r.ad2,
-					   0, 1, r.bc2, r.bd2,
-					   0,0, 1, r.cd2,
-					   0, 0, 0, 1), 4, 4)
-		R2 <- R2 + t(R2) - diag(4)
+					   r.ab2, 1, r.bc2, r.bd2,
+					   r.ac2, r.bc2, 1, r.cd2,
+					   r.ad2, r.bd2, r.cd2, 1), 4, 4)
 		cnms <- c('y1', 'x1', 'y2', 'x2')
 	}
-	df1 <- data.frame(rmvnorm(n, sigma=R1))
-	df2 <- data.frame(rmvnorm(n * n2_n1, sigma=R2))
+	df1 <- data.frame(gen_fun(n, sigma=R1, ...))
+	df2 <- data.frame(gen_fun(n * n2_n1, sigma=R2, ...))
 	colnames(df1) <- colnames(df2) <- cnms
 	dat <- list(sample1=df1, sample2=df2)
 	res <- if(type == 'independent'){

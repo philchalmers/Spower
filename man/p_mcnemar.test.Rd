@@ -26,10 +26,7 @@ p_mcnemar.test(
 \item{gen_fun}{function used to generate the required discrete data.
 Object returned must be a \code{matrix} with k rows and k columns
 of counts. Default uses \code{\link{gen_mcnemar.test}}.
-
-User defined version of this function must, at minimum, accept all the
-arguments in \code{args(gen_mcnemar.test)}, even if they are not used
-explicitly}
+User defined version of this function must include the argument \code{...}}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}

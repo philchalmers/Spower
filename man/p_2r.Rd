@@ -21,7 +21,9 @@ p_2r(
   n2_n1 = 1,
   two.tailed = TRUE,
   type = c("independent", "overlap", "nonoverlap"),
-  test = "fisher1925"
+  test = "fisher1925",
+  gen_fun = gen_mvtnorm,
+  ...
 )
 }
 \arguments{
@@ -58,6 +60,14 @@ p_2r(
 \item{type}{type of correlation design}
 
 \item{test}{hypothesis method to use. Defaults to 'fisher1925'}
+
+\item{gen_fun}{function used to generate the required discrete data.
+Object returned must be a \code{matrix} with \code{n} rows.
+Default uses \code{\link{gen_mvnorm}}.
+User defined version of this function must include the argument \code{...}}
+
+\item{...}{additional arguments to be passed to \code{gen_fun}. Not used
+unless a customized \code{gen_fun} is defined}
 }
 \description{
 Function utilizes \code{\link[cocor]{cocor}} to perform correlation
@@ -67,6 +77,14 @@ comparison for independent, overlapping, and non-overlapping designs.
 
 # independent (same x-y pairing across groups)
 p_2r(100, r.ab1=.5, r.ab2=.6)
+
+if(FALSE){
+    # estimate empirical power
+    Spower(p_2r, n=100, r.ab1=.5, r.ab2=.6)
+
+    # estimate n required to reach 80\% power
+    Spower(p_2r, n=NA, r.ab1=.5, r.ab2=.6, power=.80, interval=c(100, 5000))
+}
 
 # overlap (same y, different xs)
 p_2r(100, r.ab1=.5, r.ab2=.7,

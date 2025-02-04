@@ -22,11 +22,8 @@ Fisher's z-transformation approximation when non-zero}
 \item{gen_fun}{function used to generate the required dependent bivariate data.
 Object returned must be a \code{matrix} with two columns and \code{n} rows.
 Default uses \code{\link{gen_r}} to generate conditionally
-dependent data from a bivariate normal distribution
-
-User defined version of this function must, at minimum, accept all the
-arguments in \code{args(gen_r)}, even if they are not used
-explicitly}
+dependent data from a bivariate normal distribution.
+User defined version of this function must include the argument \code{...}}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}

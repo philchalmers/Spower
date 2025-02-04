@@ -10,7 +10,8 @@ gen_t.test(
   n2_n1 = 1,
   r = NULL,
   type = c("two.sample", "one.sample", "paired"),
-  raw_info = list(means = NA, sds = NA),
+  means = NULL,
+  sds = NULL,
   ...
 )
 }
@@ -30,8 +31,11 @@ into a suitable \code{d} value for the power computations}
 \item{type}{type of data structure to generate; can be \code{'two.sample'},
 \code{'one.sample'}, or \code{'paired'}}
 
-\item{raw_info}{(optional) list of mean and SD inputs for each group,
-each specified as a vector. When specified the input \code{d} is ignored}
+\item{means}{(optional) vector of means for each group.
+When specified the input \code{d} is ignored}
+
+\item{sds}{(optional) vector of SDs for each group.
+When specified the input \code{d} is ignored}
 
 \item{...}{additional arguments (not used)}
 }

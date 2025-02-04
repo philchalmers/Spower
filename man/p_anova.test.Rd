@@ -11,7 +11,8 @@ p_anova.test(
   n.ratios = rep(1, k),
   two.tailed = TRUE,
   var.equal = TRUE,
-  raw_info = list(means = NA, sds = NA)
+  means = NULL,
+  sds = NULL
 )
 }
 \arguments{
@@ -29,8 +30,9 @@ Default of 1 sets the groups to be the same size (n * n.ratio)}
 \item{var.equal}{logical; use the pooled SE estimate instead of the Welch
 correction for unequal variances?}
 
-\item{raw_info}{(optional) list of mean and SD inputs for each group,
-each specified as a vector. When specified the input \code{f} is ignored}
+\item{means}{(optional) vector of means. When specified the input \code{f} is ignored}
+
+\item{sds}{(optional) vector of SDs. When specified the input \code{f} is ignored}
 }
 \value{
 a single p-value
@@ -49,8 +51,7 @@ have equal variance by default, however these may be modified.
 p_anova.test(50, k=3, f=.25)
 
 # explicit means/sds
-p_anova.test(50, 3,
-            raw_info=list(means=c(0,0,1), sds=c(1,2,1)))
+p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
 
 if(FALSE){
   # compare simulated results to pwr package

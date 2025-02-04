@@ -46,10 +46,7 @@ Use of this flag requires that \code{prop} was specified as a matrix}
 \item{gen_fun}{function used to generate the required discrete data.
 Object returned must be a \code{matrix} with two rows and 1 or more
 columns. Default uses \code{\link{gen_prop.test}}.
-
-User defined version of this function must, at minimum, accept all the
-arguments in \code{args(gen_prop.test)}, even if they are not used
-explicitly}
+User defined version of this function must include the argument \code{...}}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
