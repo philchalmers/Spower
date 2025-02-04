@@ -126,13 +126,12 @@ confidence/prediction intervals for the results estimates, safety checks,
 and more.
 }
 \details{
-Five types of power analysis flavors can be performed with \code{Spower},
-which are triggered based on which supplied inputs as set to missing (\code{NA}):
+Five types of power analysis flavours can be performed with \code{Spower},
+which are triggered based on which supplied input is set to missing (\code{NA}):
 
 \describe{
 \item{A Priori}{Solve for a missing sample size component
-(e.g., \code{n}) to achieve a specific target power rate
-(argument \code{power})}
+(e.g., \code{n}) to achieve a specific target power rate}
 \item{Post-hoc}{Estimate the power rate given a set of fixed conditions}
 \item{Sensitivity}{Solve a missing effect size value as a function of
 the other supplied constant components}

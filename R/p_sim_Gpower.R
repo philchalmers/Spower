@@ -721,7 +721,7 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 	p
 }
 
-#' p-value from linear regression model simulation
+#' p-value from global linear regression model simulation
 #'
 #' p-values associated with linear regression model using fixed or random
 #' independent variables.
@@ -735,36 +735,27 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 #'   nested models when fit sequentially (e.g., comparing model A vs B when
 #'   model involves the structure A -> B -> C)
 #' @param fixed.X logical; should the IVs be considered fixed or random?
+#' @param gen_fun function used to generate the required discrete data.
+#'   Object returned must be a \code{data.frame}. Default uses \code{\link{gen_lm}}.
+#'   User defined version of this function must include the argument \code{...}
+#' @param ... additional arguments to be passed to \code{gen_fun}. Not used
+#'   unless a customized \code{gen_fun} is defined
+#' @seealso \code{\link{gen_lm}}
 #' @export
 #' @examples
 #'
 #' # 5 fixed IVs, R^2 = .1, sample size of 95
 #' p_lm(n=95, R2=.1, k=5)
 #'
-p_lm <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, fixed.X=TRUE){
+p_lm <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0,
+				 R2.resid=1-R2, fixed.X=TRUE, gen_fun=gen_lm, ...){
 	stopifnot(R2 > R2_0)
-	if(!fixed.X){
-		X <- matrix(rnorm(k*n), n, k)
-	} else {
-		lst <- vector('list', k)
-		for(i in 1:k) lst[[i]] <- 0:1
-		x <- expand.grid(lst)
-		X <- if(nrow(x) < n)
-			x[rep(1:nrow(x), each=ceiling(n/nrow(x))), ]
-		else
-			x[floor(seq(1, nrow(x), length.out=n)),]
-		X <- X[1:n, ]
-		X <- scale(X)
-	}
-	colnames(X) <- paste0('X', 1:k)
 	if(k.R2_0 == 0)
 		stopifnot(k >= 2)
-	R2s <- R2 - R2_0
-	betas <- c(sqrt(R2s), sqrt(R2_0), rep(0, k-2))
-	y <- colSums(betas * t(X)) + rnorm(n, 0, sqrt(R2.resid))
-	df <- data.frame(y, X)
+	df <- gen_fun(n=n, fixed.X=fixed.X, k=k,
+				  R2=R2, R2_0=R2_0, R2.resid=R2.resid, ...)
 	if(k.R2_0 > 0)
-		df2 <- df[,c(1,3:(k.R2_0 +2))]
+		df2 <- df[,c(1,3:(k.R2_0 + 2))]
 	mod1 <- lm(y ~ ., df)
 	if(!fixed.X && k.R2_0 == 0 && R2_0 != 0){
 		stop('Random X with non-zero R2_0 not currently supported', call.=FALSE)

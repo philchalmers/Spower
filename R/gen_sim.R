@@ -248,3 +248,48 @@ gen_var.test <- function(n, sds, n.ratios = rep(1, length(sds)), ...){
 	}
 	dat
 }
+
+#' Generate data samples for global linear regression model simulation
+#'
+#' Data generation for linear regression model using fixed or random
+#' independent variables.
+#'
+#' @param n sample size
+#' @param R2 R-squared effect size
+#' @param k number of IVs
+#' @param R2_0 null hypothesis for R-squared
+#' @param k.R2_0 number of IVs associated with the null hypothesis model
+#' @param R2.resid residual R-squared value, typically used when comparing
+#'   nested models when fit sequentially (e.g., comparing model A vs B when
+#'   model involves the structure A -> B -> C)
+#' @param fixed.X logical; should the IVs be considered fixed or random?
+#' @param ... additional arguments (not used)
+#' @return a data.frame with the dependent variable in the left-most column
+#'   with the name 'y', while all other columns reflect the independent variables
+#' @seealso \code{\link{p_lm}}
+#' @export
+#' @examples
+#'
+#' # 5 fixed IVs, R^2 = .1, sample size of 95
+#' gen_lm(n=95, R2=.1, k=5)
+#'
+gen_lm <- function(n, fixed.X, k, R2, R2_0, R2.resid, ...){
+	if(!fixed.X){
+		X <- matrix(rnorm(k*n), n, k)
+	} else {
+		lst <- vector('list', k)
+		for(i in 1:k) lst[[i]] <- 0:1
+		x <- expand.grid(lst)
+		X <- if(nrow(x) < n)
+			x[rep(1:nrow(x), each=ceiling(n/nrow(x))), ]
+		else
+			x[floor(seq(1, nrow(x), length.out=n)),]
+		X <- X[1:n, ]
+		X <- scale(X)
+	}
+	colnames(X) <- paste0('X', 1:k)
+	R2s <- R2 - R2_0
+	betas <- c(sqrt(R2s), sqrt(R2_0), rep(0, k-2))
+	y <- colSums(betas * t(X)) + rnorm(n, 0, sqrt(R2.resid))
+	data.frame(y, X)
+}

@@ -2,9 +2,19 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_lm}
 \alias{p_lm}
-\title{p-value from linear regression model simulation}
+\title{p-value from global linear regression model simulation}
 \usage{
-p_lm(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid = 1 - R2, fixed.X = TRUE)
+p_lm(
+  n,
+  R2,
+  k,
+  R2_0 = 0,
+  k.R2_0 = 0,
+  R2.resid = 1 - R2,
+  fixed.X = TRUE,
+  gen_fun = gen_lm,
+  ...
+)
 }
 \arguments{
 \item{n}{sample size}
@@ -22,6 +32,13 @@ nested models when fit sequentially (e.g., comparing model A vs B when
 model involves the structure A -> B -> C)}
 
 \item{fixed.X}{logical; should the IVs be considered fixed or random?}
+
+\item{gen_fun}{function used to generate the required discrete data.
+Object returned must be a \code{data.frame}. Default uses \code{\link{gen_lm}}.
+User defined version of this function must include the argument \code{...}}
+
+\item{...}{additional arguments to be passed to \code{gen_fun}. Not used
+unless a customized \code{gen_fun} is defined}
 }
 \description{
 p-values associated with linear regression model using fixed or random
@@ -32,4 +49,7 @@ independent variables.
 # 5 fixed IVs, R^2 = .1, sample size of 95
 p_lm(n=95, R2=.1, k=5)
 
+}
+\seealso{
+\code{\link{gen_lm}}
 }
