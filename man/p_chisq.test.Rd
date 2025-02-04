@@ -4,7 +4,16 @@
 \alias{p_chisq.test}
 \title{Chi-squared test simulation and p-value}
 \usage{
-p_chisq.test(n, w, df, correct = TRUE, raw_info = list(P0 = NA, P = NA))
+p_chisq.test(
+  n,
+  w,
+  df,
+  correct = TRUE,
+  P0 = NULL,
+  P = NULL,
+  gen_fun = gen_chisq.test,
+  ...
+)
 }
 \arguments{
 \item{n}{sample size per group}
@@ -15,8 +24,20 @@ p_chisq.test(n, w, df, correct = TRUE, raw_info = list(P0 = NA, P = NA))
 
 \item{correct}{logical; apply continuity correction?}
 
-\item{raw_info}{list of raw information to generate multinomial data
-under specific nulls and power configurations}
+\item{P0}{specific null pattern, specified as a numeric vector or matrix}
+
+\item{P}{specific power configuration, specified as a numeric vector or matrix}
+
+\item{gen_fun}{function used to generate the required discrete data.
+Object returned must be a \code{matrix} with k rows and k columns
+of counts. Default uses \code{\link{gen_chisq.test}}.
+
+User defined version of this function must, at minimum, accept all the
+arguments in \code{args(gen_chisq.test)}, even if they are not used
+explicitly}
+
+\item{...}{additional arguments to be passed to \code{gen_fun}. Not used
+unless a customized \code{gen_fun} is defined}
 }
 \value{
 a single p-value
@@ -30,13 +51,13 @@ Generates multinomial data suitable for analysis with
 # effect size w + df
 p_chisq.test(100, w=.2, df=3)
 
-# vector of explicit probabilities
-p_chisq.test(100, raw_info = list(P0 = c(.25, .25, .25, .25),
-                                  P = c(.6, .2, .1, .1)))
+# vector of explicit probabilities (goodness of fit test)
+p_chisq.test(100, P0 = c(.25, .25, .25, .25),
+                   P = c(.6, .2, .1, .1))
 
-# matrix of explicit probabilities
-p_chisq.test(100, raw_info = list(P0 = matrix(c(.25, .25, .25, .25), 2, 2),
-                                  P = matrix(c(.6, .2, .1, .1),2,2)))
+# matrix of explicit probabilities (two-dimensional test of independence)
+p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
+                   P = matrix(c(.6, .2, .1, .1),2,2))
 
 if(FALSE){
     # compare simulated results to pwr package
@@ -47,19 +68,23 @@ if(FALSE){
     df <- 3-1
     pwr::pwr.chisq.test(w=w, df=df, N=100, sig.level=0.05)
 
-    Spower(p_chisq.test, n=100, w=w, df=df)
-    Spower(p_chisq.test, n=100, raw_info=list(P0=P0, P=P))
+    # slightly less power when evaluated empirically
+    Spower(p_chisq.test, n=100, w=w, df=df, replications=100000)
+    Spower(p_chisq.test, n=100, P0=P0, P=P, replications=100000)
 
-    # slightly differ (latter more conservative)
+    # slightly differ (latter more conservative due to finite sampling behaviour)
     pwr::pwr.chisq.test(w=w, df=df, power=.8, sig.level=0.05)
     Spower(p_chisq.test, n=NA, w=w, df=df,
            power=.80, interval=c(50, 200))
+    Spower(p_chisq.test, n=NA, w=w, df=df, correct=FALSE,
+           power=.80, interval=c(50, 200))
 
-    # Spower more conservative even with large N
+    # Spower slightly more conservative even with larger N
     pwr::pwr.chisq.test(w=.1, df=df, power=.95, sig.level=0.05)
-    out <- Spower(p_chisq.test, n=NA, w=.1, df=df,
-                 power=.95, interval=c(1000, 2000))
-    summary(out)
+    Spower(p_chisq.test, n=NA, w=.1, df=df,
+           power=.95, interval=c(1000, 2000))
+    Spower(p_chisq.test, n=NA, w=.1, df=df, correct=FALSE,
+           power=.95, interval=c(1000, 2000))
 
 }
 

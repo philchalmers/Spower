@@ -2,7 +2,7 @@
 % Please edit documentation in R/gen_sim.R
 \name{gen_prop.test}
 \alias{gen_prop.test}
-\title{Generate data for proportion tests}
+\title{Generate binomial data for proportion tests}
 \usage{
 gen_prop.test(n, prop, n.ratios = rep(1, length(prop)), ...)
 }
@@ -23,7 +23,7 @@ an integer vector for one-sample data generation or
 a 2xk matrix of counts for multi-sample problems
 }
 \description{
-Generates single and multi-sample data for proportion tests.
+Generates single and multi-sample binomial data for proportion tests.
 }
 \examples{
 

@@ -529,8 +529,17 @@ p_anova.test <- function(n, k, f,
 #' @param w Cohen's w effect size
 #' @param df degrees of freedom
 #' @param correct logical; apply continuity correction?
-#' @param raw_info list of raw information to generate multinomial data
-#'   under specific nulls and power configurations
+#' @param P0 specific null pattern, specified as a numeric vector or matrix
+#' @param P specific power configuration, specified as a numeric vector or matrix
+#' @param gen_fun function used to generate the required discrete data.
+#'   Object returned must be a \code{matrix} with k rows and k columns
+#'   of counts. Default uses \code{\link{gen_chisq.test}}.
+#'
+#'   User defined version of this function must, at minimum, accept all the
+#'   arguments in \code{args(gen_chisq.test)}, even if they are not used
+#'   explicitly
+#' @param ... additional arguments to be passed to \code{gen_fun}. Not used
+#'   unless a customized \code{gen_fun} is defined
 #'
 #' @return a single p-value
 #' @examples
@@ -538,13 +547,13 @@ p_anova.test <- function(n, k, f,
 #' # effect size w + df
 #' p_chisq.test(100, w=.2, df=3)
 #'
-#' # vector of explicit probabilities
-#' p_chisq.test(100, raw_info = list(P0 = c(.25, .25, .25, .25),
-#'                                   P = c(.6, .2, .1, .1)))
+#' # vector of explicit probabilities (goodness of fit test)
+#' p_chisq.test(100, P0 = c(.25, .25, .25, .25),
+#'                    P = c(.6, .2, .1, .1))
 #'
-#' # matrix of explicit probabilities
-#' p_chisq.test(100, raw_info = list(P0 = matrix(c(.25, .25, .25, .25), 2, 2),
-#'                                   P = matrix(c(.6, .2, .1, .1),2,2)))
+#' # matrix of explicit probabilities (two-dimensional test of independence)
+#' p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
+#'                    P = matrix(c(.6, .2, .1, .1),2,2))
 #'
 #' if(FALSE){
 #'     # compare simulated results to pwr package
@@ -555,47 +564,48 @@ p_anova.test <- function(n, k, f,
 #'     df <- 3-1
 #'     pwr::pwr.chisq.test(w=w, df=df, N=100, sig.level=0.05)
 #'
-#'     Spower(p_chisq.test, n=100, w=w, df=df)
-#'     Spower(p_chisq.test, n=100, raw_info=list(P0=P0, P=P))
+#'     # slightly less power when evaluated empirically
+#'     Spower(p_chisq.test, n=100, w=w, df=df, replications=100000)
+#'     Spower(p_chisq.test, n=100, P0=P0, P=P, replications=100000)
 #'
-#'     # slightly differ (latter more conservative)
+#'     # slightly differ (latter more conservative due to finite sampling behaviour)
 #'     pwr::pwr.chisq.test(w=w, df=df, power=.8, sig.level=0.05)
 #'     Spower(p_chisq.test, n=NA, w=w, df=df,
 #'            power=.80, interval=c(50, 200))
+#'     Spower(p_chisq.test, n=NA, w=w, df=df, correct=FALSE,
+#'            power=.80, interval=c(50, 200))
 #'
-#'     # Spower more conservative even with large N
+#'     # Spower slightly more conservative even with larger N
 #'     pwr::pwr.chisq.test(w=.1, df=df, power=.95, sig.level=0.05)
-#'     out <- Spower(p_chisq.test, n=NA, w=.1, df=df,
-#'                  power=.95, interval=c(1000, 2000))
-#'     summary(out)
+#'     Spower(p_chisq.test, n=NA, w=.1, df=df,
+#'            power=.95, interval=c(1000, 2000))
+#'     Spower(p_chisq.test, n=NA, w=.1, df=df, correct=FALSE,
+#'            power=.95, interval=c(1000, 2000))
 #'
 #' }
 #'
 #' @export
-p_chisq.test <- function(n, w, df,
-						 correct = TRUE,
-						 raw_info = list(P0 = NA, P = NA)) {
+p_chisq.test <- function(n, w, df, correct = TRUE, P0 = NULL, P = NULL,
+						 gen_fun=gen_chisq.test, ...) {
 	stopifnot(length(n) == 1)
 	p <- if(!missing(w)){
 		stopifnot(length(w) == 1)
 		stopifnot(length(df) == 1)
 		w2 <- w^2
-		p0 <- rep(1/(df+1), df+1)
+		P0 <- rep(1/(df+1), df+1)
 		fn <- function(p1, p0, df, w2){
 			ps <- c(p1, rep((1 - p1)/ df, df))
 			(sum((ps - p0)^2 / p0) - w2)^2
 		}
 		# strange that optimize(fn, c(0,1)) gives right w2 but wrong p?
-		opt <- optimize(fn, c(p0[1],1), p0=p0, df=df, w2=w2)
+		opt <- optimize(fn, c(P0[1],1), p0=P0, df=df, w2=w2)
 		P <- with(opt, c(minimum, rep((1 - minimum)/df, df)))
-		# sum((P - p0)^2 / p0) # == w2
-		tab <- as.vector(rmultinom(1, size = n, prob = P))
-		p <- chisq.test(tab, correct=correct, p=p0)$p.value
+		# sum((P - P0)^2 / P0) # == w2
+		tab <- gen_fun(n=n, P=P, ...)
+		chisq.test(tab, correct=correct, p=P0)$p.value
 	} else {
-		tab <- as.vector(with(raw_info, rmultinom(1, size = n, prob = P)))
-		if(is.matrix(raw_info$P))
-			tab <- with(raw_info, matrix(tab, nrow=nrow(P), ncol=ncol(P)))
-		p <- chisq.test(tab, correct=correct, p=raw_info$P0)$p.value
+		tab <- gen_fun(n=n, P=P, ...)
+		chisq.test(tab, correct=correct, p=P0)$p.value
 	}
 	p
 }

@@ -82,9 +82,9 @@ gen_r <- function(n, r, ...){
 	dat
 }
 
-#' Generate data for proportion tests
+#' Generate binomial data for proportion tests
 #'
-#' Generates single and multi-sample data for proportion tests.
+#' Generates single and multi-sample binomial data for proportion tests.
 #'
 #' @param n sample size per group
 #' @param prop sample probability/proportions of success.
@@ -158,4 +158,31 @@ gen_mcnemar.test <- function(n, prop, ...) {
 	draws <- rmultinom(1, n, prob = as.numeric(prop))
 	dat <- matrix(draws, nrow(prop), ncol(prop))
 	dat
+}
+
+#' Generate multinomial data for chi-squared test
+#'
+#' Generates multinomial data suitable for analysis with
+#' \code{\link{chisq.test}}.
+#'
+#' @param n sample size per group
+#' @param P specific power configuration, specified as a numeric vector or matrix
+#' @param ... additional arguments (not used)
+#'
+#' @return a numeric vector or matrix, depending on the supplied \code{P} class
+#' @examples
+#'
+#' # vector of explicit probabilities (goodness of fit test)
+#' gen_chisq.test(100, P0 = c(.25, .25, .25, .25),
+#'                      P = c(.6, .2, .1, .1))
+#'
+#' # matrix of explicit probabilities (two-dimensional test of independence)
+#' gen_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
+#'                      P = matrix(c(.6, .2, .1, .1),2,2))
+#'
+gen_chisq.test <- function(n, P, ...) {
+	tab <- as.vector(rmultinom(1, size = n, prob = as.vector(P)))
+	if(is.matrix(P))
+		tab <- matrix(tab, nrow=nrow(P), ncol=ncol(P))
+	tab
 }
