@@ -273,7 +273,8 @@ gen_var.test <- function(n, sds, n.ratios = rep(1, length(sds)), ...){
 #' # 5 fixed IVs, R^2 = .1, sample size of 95
 #' gen_lm(n=95, R2=.1, k=5)
 #'
-gen_lm <- function(n, fixed.X, k, R2, R2_0, R2.resid, ...){
+gen_lm <- function(n, k, R2, R2_0 = 0, k.R2_0 = 0,
+				   R2.resid=1-R2, fixed.X=TRUE, ...){
 	if(!fixed.X){
 		X <- matrix(rnorm(k*n), n, k)
 	} else {

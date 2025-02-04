@@ -4,12 +4,10 @@
 \alias{gen_lm}
 \title{Generate data samples for global linear regression model simulation}
 \usage{
-gen_lm(n, fixed.X, k, R2, R2_0, R2.resid, ...)
+gen_lm(n, k, R2, R2_0 = 0, k.R2_0 = 0, R2.resid = 1 - R2, fixed.X = TRUE, ...)
 }
 \arguments{
 \item{n}{sample size}
-
-\item{fixed.X}{logical; should the IVs be considered fixed or random?}
 
 \item{k}{number of IVs}
 
@@ -17,13 +15,15 @@ gen_lm(n, fixed.X, k, R2, R2_0, R2.resid, ...)
 
 \item{R2_0}{null hypothesis for R-squared}
 
+\item{k.R2_0}{number of IVs associated with the null hypothesis model}
+
 \item{R2.resid}{residual R-squared value, typically used when comparing
 nested models when fit sequentially (e.g., comparing model A vs B when
 model involves the structure A -> B -> C)}
 
-\item{...}{additional arguments (not used)}
+\item{fixed.X}{logical; should the IVs be considered fixed or random?}
 
-\item{k.R2_0}{number of IVs associated with the null hypothesis model}
+\item{...}{additional arguments (not used)}
 }
 \value{
 a data.frame with the dependent variable in the left-most column
