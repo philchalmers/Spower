@@ -316,6 +316,8 @@ p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
 #'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
+#'
+#' @seealso \code{\link{gen_prop.test}}
 #' @return a single p-value
 #' @examples
 #'
@@ -415,6 +417,8 @@ p_prop.test <- function(n, h, prop, pi = .5,
 #'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
+#'
+#' @seealso \code{\link{gen_mcnemar.test}}
 #' @return a single p-value
 #' @examples
 #'
@@ -465,6 +469,7 @@ p_mcnemar.test <- function(n, prop,
 #' @param means (optional) vector of means. When specified the input \code{f} is ignored
 #' @param sds (optional) vector of SDs. When specified the input \code{f} is ignored
 #' @return a single p-value
+# @seealso \code{\link{gen_anova.test}}
 #' @examples
 #'
 #' # n=50 in 3 groups, "medium" effect size
@@ -530,6 +535,7 @@ p_anova.test <- function(n, k, f,
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #'
+#' @seealso \code{\link{gen_chisq.test}}
 #' @return a single p-value
 #' @examples
 #'
@@ -609,8 +615,6 @@ p_chisq.test <- function(n, w, df, correct = TRUE, P0 = NULL, P = NULL,
 #'
 #' @param n sample size per group, assumed equal across groups
 #' @param sds a vector of standard deviations to use for each group
-#' @param ratio hypothesized ratio of the population variance (only
-#'   used in two-sample case)
 #' @param n.ratios allocation ratios reflecting the sample size ratios.
 #'   Default of 1 sets the groups to be the same size (n * n.ratio)
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
@@ -618,7 +622,14 @@ p_chisq.test <- function(n, w, df, correct = TRUE, P0 = NULL, P = NULL,
 #'   Can be either \code{'Levene'} (default) or \code{'Bartlett'}
 #' @param sigma standard deviation value to test against in one-sample test
 #' @param correct logical; use correction when \code{test = 'Bartlett'}?
+#' @param gen_fun function used to generate the required discrete data.
+#'   Object returned must be a \code{matrix} with k rows and k columns
+#'   of counts. Default uses \code{\link{gen_var.test}}.
+#'   User defined version of this function must include the argument \code{...}
+#' @param ... additional arguments to be passed to \code{gen_fun}. Not used
+#'   unless a customized \code{gen_fun} is defined
 #'
+#' @seealso \code{\link{gen_var.test}}
 #' @return a single p-value
 #' @export
 #' @importFrom EnvStats varTest varGroupTest
@@ -640,21 +651,16 @@ p_chisq.test <- function(n, w, df, correct = TRUE, P0 = NULL, P = NULL,
 #' }
 #'
 p_var.test <- function(n, sds, n.ratios = rep(1, length(sds)),
-					   ratio = 1, sigma = 1, two.tailed = TRUE,
-					   test = 'Levene', correct = TRUE){
+					   sigma = 1, two.tailed = TRUE,
+					   test = 'Levene', correct = TRUE,
+					   gen_fun=gen_var.test, ...){
+	dat <- gen_fun(n=n, n.ratios=n.ratios, sds=sds, ...)
 	p <- if(length(sds) == 1){
-		dv <- rnorm(n, sd=sds)
-		out <- EnvStats::varTest(dv, sigma.squared = sigma^2)
-		out$p.value
+		EnvStats::varTest(dat$DV, sigma.squared = sigma^2)$p.value
 	} else {
-		dv <- sapply(1:length(sds), \(i){
-			rnorm(n * n.ratios[i], sd=sds[i])
-		}) |> as.vector()
-		group <- rep(paste0('G', 1:length(sds)), times=n*n.ratios)
-		out <- if(length(sds) == 2) var.test(dv ~ group)
-			else EnvStats::varGroupTest(dv ~ group, test=test,
-									  correct=correct)
-		out$p.value
+		if(length(sds) == 2) with(dat, var.test(DV ~ group)$p.value)
+		else with(dat,
+				  EnvStats::varGroupTest(DV ~ group, test=test, correct=correct)$p.value)
 	}
 	p <- ifelse(two.tailed, p, p/2)
 	p

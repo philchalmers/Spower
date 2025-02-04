@@ -31,3 +31,6 @@ gen_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
                      P = matrix(c(.6, .2, .1, .1),2,2))
 
 }
+\seealso{
+\code{\link{p_chisq.test}}
+}

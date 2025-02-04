@@ -86,3 +86,6 @@ if(FALSE){
 }
 
 }
+\seealso{
+\code{\link{gen_chisq.test}}
+}

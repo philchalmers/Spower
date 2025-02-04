@@ -8,11 +8,12 @@ p_var.test(
   n,
   sds,
   n.ratios = rep(1, length(sds)),
-  ratio = 1,
   sigma = 1,
   two.tailed = TRUE,
   test = "Levene",
-  correct = TRUE
+  correct = TRUE,
+  gen_fun = gen_var.test,
+  ...
 )
 }
 \arguments{
@@ -23,9 +24,6 @@ p_var.test(
 \item{n.ratios}{allocation ratios reflecting the sample size ratios.
 Default of 1 sets the groups to be the same size (n * n.ratio)}
 
-\item{ratio}{hypothesized ratio of the population variance (only
-used in two-sample case)}
-
 \item{sigma}{standard deviation value to test against in one-sample test}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
@@ -34,6 +32,14 @@ used in two-sample case)}
 Can be either \code{'Levene'} (default) or \code{'Bartlett'}}
 
 \item{correct}{logical; use correction when \code{test = 'Bartlett'}?}
+
+\item{gen_fun}{function used to generate the required discrete data.
+Object returned must be a \code{matrix} with k rows and k columns
+of counts. Default uses \code{\link{gen_var.test}}.
+User defined version of this function must include the argument \code{...}}
+
+\item{...}{additional arguments to be passed to \code{gen_fun}. Not used
+unless a customized \code{gen_fun} is defined}
 }
 \value{
 a single p-value
@@ -61,4 +67,7 @@ if(FALSE){
          power=.80, interval=c(100, 1000))
 }
 
+}
+\seealso{
+\code{\link{gen_var.test}}
 }

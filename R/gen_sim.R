@@ -195,6 +195,7 @@ gen_mcnemar.test <- function(n, prop, ...) {
 #' @param ... additional arguments (not used)
 #' @export
 #' @return a numeric vector or matrix, depending on the supplied \code{P} class
+#' @seealso \code{\link{p_chisq.test}}
 #' @examples
 #'
 #' # vector of explicit probabilities (goodness of fit test)
@@ -210,4 +211,40 @@ gen_chisq.test <- function(n, P, ...) {
 	if(is.matrix(P))
 		tab <- matrix(tab, nrow=nrow(P), ncol=ncol(P))
 	tab
+}
+
+#' Generate sample data for variance test
+#'
+#' Generates one or or more sets of continuous data group-level data
+#' to perform a variance test.
+#'
+#' @param n sample size per group, assumed equal across groups
+#' @param sds a vector of standard deviations to use for each group
+#' @param n.ratios allocation ratios reflecting the sample size ratios.
+#'   Default of 1 sets the groups to be the same size (n * n.ratio)
+#' @param ... additional arguments (not used)
+#'
+#' @seealso \code{\link{p_var.test}}
+#' @return a data.frame with the variables 'DV' and (potentially) 'group' when
+#'   constructing multi-sample data
+#' @export
+#' @examples
+#'
+#' # one sample
+#' gen_var.test(100, sds=10)
+#'
+#' # three sample
+#' gen_var.test(100, sds=c(10, 9, 11))
+#'
+gen_var.test <- function(n, sds, n.ratios = rep(1, length(sds)), ...){
+	dat <- if(length(sds) == 1){
+		data.frame(DV=rnorm(n, sd=sds))
+	} else {
+		dv <- sapply(1:length(sds), \(i){
+			rnorm(n * n.ratios[i], sd=sds[i])
+		})
+		group <- rep(paste0('G', 1:length(sds)), times=n*n.ratios)
+		data.frame(DV=as.vector(dv), group=group)
+	}
+	dat
 }

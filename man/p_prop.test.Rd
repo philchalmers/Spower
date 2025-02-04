@@ -110,3 +110,6 @@ if(FALSE){
 }
 
 }
+\seealso{
+\code{\link{gen_prop.test}}
+}

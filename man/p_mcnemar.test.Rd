@@ -58,3 +58,6 @@ Spower(p_mcnemar.test, n=sum(Performance), prop=prop)
 }
 
 }
+\seealso{
+\code{\link{gen_mcnemar.test}}
+}
