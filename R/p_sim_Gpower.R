@@ -413,6 +413,15 @@ p_prop.test <- function(n, h, prop, pi = .5,
 # @param exact logical; use fisher's exact test via \code{\link{fisher.test}}?
 #' @param correct logical; use continuity correction? Only applicable for
 #'   2x2 tables
+#' @param gen_fun function used to generate the required discrete data.
+#'   Object returned must be a \code{matrix} with k rows and k columns
+#'   of counts. Default uses \code{\link{gen_mcnemar.test}}.
+#'
+#'   User defined version of this function must, at minimum, accept all the
+#'   arguments in \code{args(gen_mcnemar.test)}, even if they are not used
+#'   explicitly
+#' @param ... additional arguments to be passed to \code{gen_fun}. Not used
+#'   unless a customized \code{gen_fun} is defined
 #' @return a single p-value
 #' @examples
 #'
@@ -435,10 +444,10 @@ p_prop.test <- function(n, h, prop, pi = .5,
 #'
 #' @export
 p_mcnemar.test <- function(n, prop,
-						   two.tailed = TRUE, correct=TRUE) {
-	draws <- rmultinom(1, n, prob = as.numeric(prop))
-	p <- mcnemar.test(matrix(draws, nrow(prop), ncol(prop)),
-					  correct=correct)$p.value
+						   two.tailed = TRUE, correct=TRUE,
+						   gen_fun=gen_mcnemar.test, ...) {
+	dat <- gen_fun(n=n, prop=prop, ...)
+	p <- mcnemar.test(dat, correct=correct)$p.value
 	p <- ifelse(two.tailed, p, p/2)
 	p
 }

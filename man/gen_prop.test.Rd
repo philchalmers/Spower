@@ -44,3 +44,6 @@ gen_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 
 
 }
+\seealso{
+\code{\link{p_prop.test}}
+}

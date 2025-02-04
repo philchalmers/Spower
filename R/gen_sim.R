@@ -95,6 +95,7 @@ gen_r <- function(n, r, ...){
 #' @param ... additional arguments (not used)
 #' @return an integer vector for one-sample data generation or
 #'   a 2xk matrix of counts for multi-sample problems
+#' @seealso \code{\link{p_prop.test}}
 #' @examples
 #'
 #' # one sample, 50 observations
@@ -126,5 +127,35 @@ gen_prop.test <- function(n, prop, n.ratios = rep(1, length(prop)), ...) {
 	} else {
 		matrix(c(sum(rbinom(n, 1, prob = prop)), n), nrow=2)
 	}
+	dat
+}
+
+#' Generate multinomial data for McNemar test
+#'
+#' Generates two-dimensional sample data for McNemar test
+#' from a multinomial distribution.
+#'
+#' @param n total sample size
+#' @param prop two-dimensional matrix of proportions/probabilities
+#' @param ... additional arguments (not used)
+#' @return a matrix of counts
+#' @seealso \code{\link{p_mcnemar.test}}
+#' @examples
+#'
+#' # from ?mcnemar.test
+#' Performance <- matrix(c(794, 86, 150, 570),
+#' 		   nrow = 2,
+#' 		   dimnames = list("1st Survey" = c("Approve", "Disapprove"),
+#' 		               "2nd Survey" = c("Approve", "Disapprove")))
+#' (prop <- prop.table(Performance))
+#'
+#' # table of counts given prop input
+#' gen_mcnemar.test(n=sum(Performance), prop=prop)
+#'
+#'
+#' @export
+gen_mcnemar.test <- function(n, prop, ...) {
+	draws <- rmultinom(1, n, prob = as.numeric(prop))
+	dat <- matrix(draws, nrow(prop), ncol(prop))
 	dat
 }

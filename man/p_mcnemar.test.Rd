@@ -4,7 +4,14 @@
 \alias{p_mcnemar.test}
 \title{McNemar test simulation and p-value}
 \usage{
-p_mcnemar.test(n, prop, two.tailed = TRUE, correct = TRUE)
+p_mcnemar.test(
+  n,
+  prop,
+  two.tailed = TRUE,
+  correct = TRUE,
+  gen_fun = gen_mcnemar.test,
+  ...
+)
 }
 \arguments{
 \item{n}{total sample size}
@@ -15,6 +22,17 @@ p_mcnemar.test(n, prop, two.tailed = TRUE, correct = TRUE)
 
 \item{correct}{logical; use continuity correction? Only applicable for
 2x2 tables}
+
+\item{gen_fun}{function used to generate the required discrete data.
+Object returned must be a \code{matrix} with k rows and k columns
+of counts. Default uses \code{\link{gen_mcnemar.test}}.
+
+User defined version of this function must, at minimum, accept all the
+arguments in \code{args(gen_mcnemar.test)}, even if they are not used
+explicitly}
+
+\item{...}{additional arguments to be passed to \code{gen_fun}. Not used
+unless a customized \code{gen_fun} is defined}
 }
 \value{
 a single p-value
