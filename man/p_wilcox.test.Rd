@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_wilcox.test}
 \alias{p_wilcox.test}
-\title{Wilcox test simulation and p-value}
+\title{p-value from Wilcox test simulation}
 \usage{
 p_wilcox.test(
   n,

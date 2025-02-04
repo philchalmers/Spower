@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_mcnemar.test}
 \alias{p_mcnemar.test}
-\title{McNemar test simulation and p-value}
+\title{p-value from McNemar test simulation}
 \usage{
 p_mcnemar.test(
   n,

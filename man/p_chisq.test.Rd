@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_chisq.test}
 \alias{p_chisq.test}
-\title{Chi-squared test simulation and p-value}
+\title{p-value from chi-squared test simulation}
 \usage{
 p_chisq.test(
   n,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_r.cat}
 \alias{p_r.cat}
-\title{Polychoric and polyserial simulation and p-value}
+\title{p-value from tetrachoric/polychoric or polyserial}
 \usage{
 p_r.cat(
   n,

@@ -1,4 +1,4 @@
-#' Independent/paired samples t-test simulation and p-value
+#' p-value from independent/paired samples t-test simulation
 #'
 #' Generates one or two sets of continuous data group-level data
 #' according to Cohen's effect size 'd', and return a p-value.
@@ -140,7 +140,7 @@ p_t.test <- function(n, d, mu = 0, r = NULL,
 	p
 }
 
-#' Correlation simulation and p-value
+#' p-value from correlation simulation
 #'
 #' Generates correlated X-Y data and returns a p-value to assess the null
 #' of no correlation in the population. The X-Y data are generated
@@ -208,7 +208,7 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE,
 	p
 }
 
-#' Polychoric and polyserial simulation and p-value
+#' p-value from tetrachoric/polychoric or polyserial
 #'
 #' Generates correlated X-Y data and returns a p-value to assess the null
 #' of no correlation in the population. The X-Y data are generated
@@ -288,7 +288,7 @@ p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
 	p
 }
 
-#' Proportion test simulation and p-value
+#' p-value from proportion test simulation
 #'
 #' Generates single and multi-sample data
 #' for proportion tests and return a p-value. Uses \code{\link{binom.test}}
@@ -402,7 +402,7 @@ p_prop.test <- function(n, h, prop, pi = .5,
 	p
 }
 
-#' McNemar test simulation and p-value
+#' p-value from McNemar test simulation
 #'
 #' Generates two-dimensional sample data for McNemar test and
 #' return a p-value. Uses \code{\link{mcnemar.test}}.
@@ -452,7 +452,7 @@ p_mcnemar.test <- function(n, prop,
 	p
 }
 
-#' One-way ANOVA simulation and p-value
+#' p-value from one-way ANOVA simulation
 #'
 #' Generates continuous multi-sample data to be analysed by
 #' a one-way ANOVA, and return a p-value.
@@ -520,7 +520,7 @@ p_anova.test <- function(n, k, f,
 	p
 }
 
-#' Chi-squared test simulation and p-value
+#' p-value from chi-squared test simulation
 #'
 #' Generates multinomial data suitable for analysis with
 #' \code{\link{chisq.test}}.
@@ -610,7 +610,7 @@ p_chisq.test <- function(n, w, df, correct = TRUE, P0 = NULL, P = NULL,
 	p
 }
 
-#' Variance test simulation and p-value
+#' p-value from variance test simulation
 #'
 #' Generates one or or more sets of continuous data group-level data
 #' to perform a variance test, and return a p-value. When two-samples
@@ -671,7 +671,7 @@ p_var.test <- function(n, sds, n.ratios = rep(1, length(sds)),
 	p
 }
 
-#' Wilcox test simulation and p-value
+#' p-value from Wilcox test simulation
 #'
 #' Simulates data given one or two parent distributions and
 #' returns a p-value. Can also be used for power analyses related
@@ -726,7 +726,7 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 	p
 }
 
-#' Linear regression model and p-value
+#' p-value from linear regression model simulation
 #'
 #' p-values associated with linear regression model using fixed or random
 #' independent variables.
@@ -800,7 +800,7 @@ p_glm <- function(n){
 
 }
 
-#' Compare two correlations and p-value
+#' p-value from comparing two or more correlations simulation
 #'
 #' Function utilizes \code{\link[cocor]{cocor}} to perform correlation
 #' comparison for independent, overlapping, and non-overlapping designs.

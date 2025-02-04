@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_r}
 \alias{p_r}
-\title{Correlation simulation and p-value}
+\title{p-value from correlation simulation}
 \usage{
 p_r(n, r, rho = 0, method = "pearson", two.tailed = TRUE, gen_fun = gen_r, ...)
 }

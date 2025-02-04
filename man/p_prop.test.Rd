@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_prop.test}
 \alias{p_prop.test}
-\title{Proportion test simulation and p-value}
+\title{p-value from proportion test simulation}
 \usage{
 p_prop.test(
   n,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_var.test}
 \alias{p_var.test}
-\title{Variance test simulation and p-value}
+\title{p-value from variance test simulation}
 \usage{
 p_var.test(
   n,

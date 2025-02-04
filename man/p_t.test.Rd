@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_t.test}
 \alias{p_t.test}
-\title{Independent/paired samples t-test simulation and p-value}
+\title{p-value from independent/paired samples t-test simulation}
 \usage{
 p_t.test(
   n,

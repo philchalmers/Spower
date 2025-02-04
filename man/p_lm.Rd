@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_lm}
 \alias{p_lm}
-\title{Linear regression model and p-value}
+\title{p-value from linear regression model simulation}
 \usage{
 p_lm(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid = 1 - R2, fixed.X = TRUE)
 }

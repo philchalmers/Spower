@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_2r}
 \alias{p_2r}
-\title{Compare two correlations and p-value}
+\title{p-value from comparing two or more correlations simulation}
 \usage{
 p_2r(
   n,

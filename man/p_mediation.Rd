@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_extras.R
 \name{p_mediation}
 \alias{p_mediation}
-\title{Three-variable mediation analysis and p-value}
+\title{p-value from three-variable mediation analysis simulation}
 \usage{
 p_mediation(
   n,

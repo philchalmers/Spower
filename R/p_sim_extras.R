@@ -1,4 +1,4 @@
-#' Three-variable mediation analysis and p-value
+#' p-value from three-variable mediation analysis simulation
 #'
 #' Simple 3-variable mediation analysis simulation to test the hypothesis that
 #' X -> Y is mediated by the relationship X -> M -> Y. Currently,

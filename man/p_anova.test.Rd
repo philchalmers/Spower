@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_sim_Gpower.R
 \name{p_anova.test}
 \alias{p_anova.test}
-\title{One-way ANOVA simulation and p-value}
+\title{p-value from one-way ANOVA simulation}
 \usage{
 p_anova.test(
   n,
