@@ -52,8 +52,8 @@ User defined version of this function must, at minimum, accept all the
 arguments in \code{args(gen_t.test)}, even if they are not used
 explicitly}
 
-\item{...}{additional arguments to be passed to \code{gen_fun}. Not necessary
-unless a customized \code{gen_fun} was defined}
+\item{...}{additional arguments to be passed to \code{gen_fun}. Not used
+unless a customized \code{gen_fun} is defined}
 }
 \value{
 a single p-value

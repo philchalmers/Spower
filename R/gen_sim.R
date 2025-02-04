@@ -81,3 +81,50 @@ gen_r <- function(n, r, ...){
 	dat <- SimDesign::rmvnorm(n, sigma = matrix(c(1,r,r,1), 2, 2))
 	dat
 }
+
+#' Generate data for proportion tests
+#'
+#' Generates single and multi-sample data for proportion tests.
+#'
+#' @param n sample size per group
+#' @param prop sample probability/proportions of success.
+#'   If a vector with two-values or more elements are supplied then
+#'   a multi-samples test will be used. Matrices are also supported
+#' @param n.ratios allocation ratios reflecting the sample size ratios.
+#'   Default of 1 sets the groups to be the same size (n * n.ratio)
+#' @param ... additional arguments (not used)
+#' @return an integer vector for one-sample data generation or
+#'   a 2xk matrix of counts for multi-sample problems
+#' @examples
+#'
+#' # one sample, 50 observations
+#' gen_prop.test(50, prop=.65)
+#'
+#' # two-sample test
+#' gen_prop.test(50, prop=c(.5, .65))
+#'
+#' # two-sample test, unequal ns
+#' gen_prop.test(50, prop=c(.5, .65), n.ratios = c(1,2))
+#'
+#' # three-sample test, group2 twice as large as others
+#' gen_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
+#'
+#' # data for Fisher exact test
+#' gen_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
+#'
+#'
+#' @export
+gen_prop.test <- function(n, prop, n.ratios = rep(1, length(prop)), ...) {
+	stopifnot(length(n) == 1)
+	n.each <- n * n.ratios
+	stopifnot(all.equal(n.each, as.integer(n.each)))
+	dat <- if(length(prop) > 1){
+		sapply(1:length(prop), \(i){
+			vals <- rbinom(n * n.ratios[i], 1, prob=prop[i])
+			c(sum(vals), length(vals))
+		})
+	} else {
+		matrix(c(sum(rbinom(n, 1, prob = prop)), n), nrow=2)
+	}
+	dat
+}

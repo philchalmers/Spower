@@ -12,7 +12,9 @@ p_prop.test(
   n.ratios = rep(1, length(prop)),
   two.tailed = TRUE,
   correct = TRUE,
-  exact = FALSE
+  exact = FALSE,
+  gen_fun = gen_prop.test,
+  ...
 )
 }
 \arguments{
@@ -40,6 +42,17 @@ Default of 1 sets the groups to be the same size (n * n.ratio)}
 
 \item{exact}{logical; use fisher's exact test via \code{\link{fisher.test}}?
 Use of this flag requires that \code{prop} was specified as a matrix}
+
+\item{gen_fun}{function used to generate the required discrete data.
+Object returned must be a \code{matrix} with two rows and 1 or more
+columns. Default uses \code{\link{gen_prop.test}}.
+
+User defined version of this function must, at minimum, accept all the
+arguments in \code{args(gen_prop.test)}, even if they are not used
+explicitly}
+
+\item{...}{additional arguments to be passed to \code{gen_fun}. Not used
+unless a customized \code{gen_fun} is defined}
 }
 \value{
 a single p-value

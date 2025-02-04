@@ -29,8 +29,8 @@
 #'   User defined version of this function must, at minimum, accept all the
 #'   arguments in \code{args(gen_t.test)}, even if they are not used
 #'   explicitly
-#' @param ... additional arguments to be passed to \code{gen_fun}. Not necessary
-#'   unless a customized \code{gen_fun} was defined
+#' @param ... additional arguments to be passed to \code{gen_fun}. Not used
+#'   unless a customized \code{gen_fun} is defined
 #'
 #' @seealso \code{\link{gen_t.test}}
 #' @return a single p-value
@@ -161,7 +161,8 @@ p_t.test <- function(n, d, mu = 0, r = NULL,
 #'   User defined version of this function must, at minimum, accept all the
 #'   arguments in \code{args(gen_r)}, even if they are not used
 #'   explicitly
-#' @param ... additional arguments (not used)
+#' @param ... additional arguments to be passed to \code{gen_fun}. Not used
+#'   unless a customized \code{gen_fun} is defined
 #' @seealso \code{\link{gen_r}}
 #' @return a single p-value
 #' @examples
@@ -237,7 +238,8 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE,
 #'   User defined version of this function must, at minimum, accept all the
 #'   arguments in \code{args(gen_r)}, even if they are not used
 #'   explicitly
-#' @param ... additional arguments (not used)
+#' @param ... additional arguments to be passed to \code{gen_fun}. Not used
+#'   unless a customized \code{gen_fun} is defined
 #'
 #' @seealso \code{\link{gen_r}}
 #' @return a single p-value
@@ -309,6 +311,15 @@ p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
 #' @param exact logical; use fisher's exact test via \code{\link{fisher.test}}?
 #'   Use of this flag requires that \code{prop} was specified as a matrix
 #' @param correct logical; use Yates' continuity correction?
+#' @param gen_fun function used to generate the required discrete data.
+#'   Object returned must be a \code{matrix} with two rows and 1 or more
+#'   columns. Default uses \code{\link{gen_prop.test}}.
+#'
+#'   User defined version of this function must, at minimum, accept all the
+#'   arguments in \code{args(gen_prop.test)}, even if they are not used
+#'   explicitly
+#' @param ... additional arguments to be passed to \code{gen_fun}. Not used
+#'   unless a customized \code{gen_fun} is defined
 #' @return a single p-value
 #' @examples
 #'
@@ -363,11 +374,11 @@ p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
 #' @export
 p_prop.test <- function(n, h, prop, pi = .5,
 						n.ratios = rep(1, length(prop)),
-						two.tailed = TRUE, correct=TRUE, exact=FALSE) {
-	root.h <- function(p1, p2, h)
-		(2 * asin(sqrt(p1)) - 2 * asin(sqrt(p2))) - h
-	stopifnot(length(n) == 1)
+						two.tailed = TRUE, correct=TRUE, exact=FALSE,
+						gen_fun=gen_prop.test, ...) {
 	if(!missing(h)){
+		root.h <- function(p1, p2, h)
+			(2 * asin(sqrt(p1)) - 2 * asin(sqrt(p2))) - h
 		n.ratios <- 1
 		int <- if(h > 0) c(pi, 1) else c(0, pi)
 		root <- uniroot(root.h, interval=int,
@@ -375,23 +386,17 @@ p_prop.test <- function(n, h, prop, pi = .5,
 		prop <- root
 		# pwr::ES.h(prop, pi) == h
 	}
-	n.each <- n * n.ratios
-	stopifnot(all.equal(n.each, as.integer(n.each)))
-	p <- if(length(prop) > 1){
-		draws <- sapply(1:length(prop), \(i){
-			vals <- rbinom(n * n.ratios[i], 1, prob=prop[i])
-			c(sum(vals), length(vals))
-		})
-		A <- draws[1,]
-		B <- draws[2,]
-		if(exact){
+	dat <- gen_prop.test(n=n, n.ratios=n.ratios, prop=prop, ...)
+	if(length(prop) > 1){
+		A <- dat[1,]
+		B <- dat[2,]
+		p <- if(exact){
 			stopifnot(is.matrix(prop))
 			A <- matrix(A, nrow(prop), ncol(prop))
 			fisher.test(A)$p.value
 		} else prop.test(A, B, correct=correct)$p.value
 	} else {
-		dat <- rbinom(n, 1, prob = prop)
-		binom.test(sum(dat), n=n, p=pi)$p.value
+		p <- binom.test(dat[1,1], n=n, p=pi)$p.value
 	}
 	p <- ifelse(two.tailed, p, p/2)
 	p
