@@ -907,7 +907,7 @@ p_2r <- function(n, r.ab1, r.ab2, r.ac1, r.ac2, r.bc1, r.bc2,
 #'
 #'   # sample size estimate for .95 power
 #'   Spower(p_mediation, n=NA, a=sqrt(.35), b=sqrt(.35),
-#'          cprime=.39, power=.95, interval=c(50, 300),
+#'          cprime=.39, power=.95, interval=c(50, 200),
 #'          parallel=TRUE)
 #'
 #'
