@@ -294,3 +294,56 @@ gen_lm <- function(n, k, R2, R2_0 = 0, k.R2_0 = 0,
 	y <- colSums(betas * t(X)) + rnorm(n, 0, sqrt(R2.resid))
 	data.frame(y, X)
 }
+
+#' Generate sample data for one-way ANOVA simulations
+#'
+#' Generates continuous multi-sample data to be analysed by
+#' a one-way ANOVA. Samples are generated given conditional
+#' observations are normally distributed and have
+#' have equal variance by default, however these may be modified.
+#'
+#' @param n sample size per group
+#' @param k number of groups
+#' @param f Cohen's f effect size
+#' @param n.ratios allocation ratios reflecting the sample size ratios.
+#'   Default of 1 sets the groups to be the same size (n * n.ratio)
+#' @param means (optional) vector of means. When specified the input \code{f} is ignored
+#' @param sds (optional) vector of SDs. When specified the input \code{f} is ignored
+#' @param ... additional arguments (not used)
+#' @return returns a data.frame with the variables 'DV' and 'group'
+#' @seealso \code{\link{p_anova.test}}
+#' @examples
+#'
+#' # n=50 in 3 groups, "medium" effect size
+#' gen_anova.test(50, k=3, f=.25)
+#'
+#' # explicit means/sds
+#' gen_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
+#'
+#' @export
+gen_anova.test <- function(n, k, f, n.ratios = rep(1, k),
+						   means=NULL, sds=NULL, ...){
+	stopifnot(length(n) == 1)
+	stopifnot(length(n.ratios) == k)
+	group <- rep(factor(1:k), times = n*n.ratios)
+	n.each <- n*n.ratios
+	stopifnot(all.equal(n.each, as.integer(n.each)))
+	if(!is.null(means)){
+		dv <- sapply(1:k, \(i)
+					 rnorm(n*n.ratios[i], mean=means[i], sd=sds[i]))
+		df <- data.frame(group=group, DV = as.numeric(dv))
+	} else {
+		# use f
+		f2 <- f^2
+		N <- sum(n.each)
+		eta2 <- 1 / (1/f2 + 1)
+		# pick a nice SSG from mu=0 deviation form, and solve for SSE
+		gmeans <- seq(-2, 2, length.out=k)
+		SSG <- sum(n.each * gmeans^2)
+		SSE <- SSG*(1/eta2 - 1)
+		sde <- sqrt(SSE / N)
+		dv <- rep(gmeans, times=n.each) + rnorm(N, sd=sde)
+		df <- data.frame(DV=dv, group=group)
+	}
+	df
+}

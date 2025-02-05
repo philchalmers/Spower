@@ -12,7 +12,9 @@ p_anova.test(
   two.tailed = TRUE,
   var.equal = TRUE,
   means = NULL,
-  sds = NULL
+  sds = NULL,
+  gen_fun = gen_anova.test,
+  ...
 )
 }
 \arguments{
@@ -33,6 +35,14 @@ correction for unequal variances?}
 \item{means}{(optional) vector of means. When specified the input \code{f} is ignored}
 
 \item{sds}{(optional) vector of SDs. When specified the input \code{f} is ignored}
+
+\item{gen_fun}{function used to generate the required discrete data.
+Object returned must be a \code{matrix} with k rows and k columns
+of counts. Default uses \code{\link{gen_anova.test}}.
+User defined version of this function must include the argument \code{...}}
+
+\item{...}{additional arguments to be passed to \code{gen_fun}. Not used
+unless a customized \code{gen_fun} is defined}
 }
 \value{
 a single p-value
@@ -59,4 +69,7 @@ if(FALSE){
   Spower(p_anova.test, n=20, k=4, f=.28)
 }
 
+}
+\seealso{
+\code{\link{gen_anova.test}}
 }
