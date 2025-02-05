@@ -117,6 +117,9 @@ gen_mvnorm <- function(n, mean = numeric(nrow(sigma)), sigma, ...){
 #'   a multi-samples test will be used. Matrices are also supported
 #' @param n.ratios allocation ratios reflecting the sample size ratios.
 #'   Default of 1 sets the groups to be the same size (n * n.ratio)
+#' @param h Cohen's h effect size; only supported for one-sample analysis
+#' @param pi probability of success to test against (default is .5). Ignored
+#'   for two-sample tests
 #' @param ... additional arguments (not used)
 #' @return an integer vector for one-sample data generation or
 #'   a 2xk matrix of counts for multi-sample problems
@@ -125,6 +128,11 @@ gen_mvnorm <- function(n, mean = numeric(nrow(sigma)), sigma, ...){
 #'
 #' # one sample, 50 observations
 #' gen_prop.test(50, prop=.65)
+#'
+#' # specified using h and pi
+#' h <- pwr::ES.h(.65, .4)
+#' gen_prop.test(50, h=h, pi=.4)
+#' gen_prop.test(50, h=-h, pi=.65)
 #'
 #' # two-sample test
 #' gen_prop.test(50, prop=c(.5, .65))
@@ -138,9 +146,18 @@ gen_mvnorm <- function(n, mean = numeric(nrow(sigma)), sigma, ...){
 #' # data for Fisher exact test
 #' gen_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #'
-#'
 #' @export
-gen_prop.test <- function(n, prop, n.ratios = rep(1, length(prop)), ...) {
+gen_prop.test <- function(n, h, prop, pi = .5, n.ratios = rep(1, length(prop)), ...) {
+	if(!missing(h)){
+		root.h <- function(p1, p2, h)
+			(2 * asin(sqrt(p1)) - 2 * asin(sqrt(p2))) - h
+		n.ratios <- 1
+		int <- if(h > 0) c(pi, 1) else c(0, pi)
+		root <- uniroot(root.h, interval=int,
+						p2=ifelse(length(n.ratios) == 2, prop, pi), h=h)$root
+		prop <- root
+		# pwr::ES.h(prop, pi) == h
+	}
 	stopifnot(length(n) == 1)
 	n.each <- n * n.ratios
 	stopifnot(all.equal(n.each, as.integer(n.each)))

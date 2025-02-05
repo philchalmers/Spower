@@ -4,14 +4,19 @@
 \alias{gen_prop.test}
 \title{Generate binomial data for proportion tests}
 \usage{
-gen_prop.test(n, prop, n.ratios = rep(1, length(prop)), ...)
+gen_prop.test(n, h, prop, pi = 0.5, n.ratios = rep(1, length(prop)), ...)
 }
 \arguments{
 \item{n}{sample size per group}
 
+\item{h}{Cohen's h effect size; only supported for one-sample analysis}
+
 \item{prop}{sample probability/proportions of success.
 If a vector with two-values or more elements are supplied then
 a multi-samples test will be used. Matrices are also supported}
+
+\item{pi}{probability of success to test against (default is .5). Ignored
+for two-sample tests}
 
 \item{n.ratios}{allocation ratios reflecting the sample size ratios.
 Default of 1 sets the groups to be the same size (n * n.ratio)}
@@ -30,6 +35,11 @@ Generates single and multi-sample binomial data for proportion tests.
 # one sample, 50 observations
 gen_prop.test(50, prop=.65)
 
+# specified using h and pi
+h <- pwr::ES.h(.65, .4)
+gen_prop.test(50, h=h, pi=.4)
+gen_prop.test(50, h=-h, pi=.65)
+
 # two-sample test
 gen_prop.test(50, prop=c(.5, .65))
 
@@ -41,7 +51,6 @@ gen_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
 
 # data for Fisher exact test
 gen_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
-
 
 }
 \seealso{

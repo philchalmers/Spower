@@ -374,17 +374,7 @@ p_prop.test <- function(n, h, prop, pi = .5,
 						n.ratios = rep(1, length(prop)),
 						two.tailed = TRUE, correct=TRUE, exact=FALSE,
 						gen_fun=gen_prop.test, ...) {
-	if(!missing(h)){
-		root.h <- function(p1, p2, h)
-			(2 * asin(sqrt(p1)) - 2 * asin(sqrt(p2))) - h
-		n.ratios <- 1
-		int <- if(h > 0) c(pi, 1) else c(0, pi)
-		root <- uniroot(root.h, interval=int,
-						p2=ifelse(length(n.ratios) == 2, prop, pi), h=h)$root
-		prop <- root
-		# pwr::ES.h(prop, pi) == h
-	}
-	dat <- gen_prop.test(n=n, n.ratios=n.ratios, prop=prop, ...)
+	dat <- gen_prop.test(n=n, h=h, pi=pi, n.ratios=n.ratios, prop=prop, ...)
 	if(length(prop) > 1){
 		A <- dat[1,]
 		B <- dat[2,]
