@@ -364,3 +364,35 @@ gen_anova.test <- function(n, k, f, n.ratios = rep(1, k),
 	}
 	df
 }
+
+#' Generates three-variable mediation analysis data
+#'
+#' Generates continuous X and Y data and continuous or dichotomous X data
+#' in a three variable mediation model, assuming Gaussian errors.
+#'
+#' @param n total sample size unless \code{dichotomous.X = TRUE}, in which the
+#'   value represents the size per group
+#' @param a regression coefficient for the path X -> M
+#' @param b regression coefficient for the path M -> Y
+#' @param cprime partial regression coefficient for the path X -> Y
+#' @param dichotomous.X logical; should the X variable be generated as though it
+#'  were dichotomous? If TRUE then \code{n} represents the sample size per group
+#' @return a data.frame with the variables X, M, and Y for the independent variable,
+#'  mediator, and dependent variable, respectively
+#' @seealso \code{\link{p_mediate}}
+#' @examples
+#'
+#' gen_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
+#' gen_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
+#'
+#' @export
+gen_mediation <- function(n, a, b, cprime, dichotomous.X=FALSE, ...){
+	if(dichotomous.X){
+		X <- rep(0:1, each=n)
+		n <- n*2
+	} else X <- rnorm(n)
+	M <- a*X + rnorm(n)
+	Y <- b*M + cprime*X + rnorm(n)
+	dat <- data.frame(X, Y, M)
+	dat
+}
