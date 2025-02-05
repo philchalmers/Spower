@@ -8,7 +8,7 @@
 p_prop.test(
   n,
   h,
-  prop,
+  prop = NULL,
   pi = 0.5,
   n.ratios = rep(1, length(prop)),
   two.tailed = TRUE,
@@ -18,7 +18,14 @@ p_prop.test(
   ...
 )
 
-gen_prop.test(n, h, prop, pi = 0.5, n.ratios = rep(1, length(prop)), ...)
+gen_prop.test(
+  n,
+  h,
+  prop = NULL,
+  pi = 0.5,
+  n.ratios = rep(1, length(prop)),
+  ...
+)
 }
 \arguments{
 \item{n}{sample size per group}

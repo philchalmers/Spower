@@ -22,7 +22,7 @@
 #' @param test hypothesis method to use. Defaults to 'fisher1925'
 #' @param gen_fun function used to generate the required discrete data.
 #'   Object returned must be a \code{matrix} with \code{n} rows.
-#'   Default uses \code{\link{gen_mvnorm}}.
+#'   Default uses \code{\link{gen_2r}}.
 #'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
@@ -61,7 +61,7 @@ p_2r <- function(n, r.ab1, r.ab2, r.ac1, r.ac2, r.bc1, r.bc2,
 				 r.ad1, r.ad2, r.bd1, r.bd2, r.cd1, r.cd2,
 				 n2_n1 = 1, two.tailed=TRUE,
 				 type = c('independent', 'overlap', 'nonoverlap'),
-				 test = 'fisher1925', gen_fun=gen_mvnorm, ...){
+				 test = 'fisher1925', gen_fun=gen_2r, ...){
 	type <- match.arg(type)
 	if(type == 'independent'){
 		R1 <- matrix(c(1,r.ab1, r.ab1, 1), 2, 2)
@@ -86,8 +86,8 @@ p_2r <- function(n, r.ab1, r.ab2, r.ac1, r.ac2, r.bc1, r.bc2,
 					   r.ad2, r.bd2, r.cd2, 1), 4, 4)
 		cnms <- c('y1', 'x1', 'y2', 'x2')
 	}
-	df1 <- data.frame(gen_fun(n, sigma=R1, ...))
-	df2 <- data.frame(gen_fun(n * n2_n1, sigma=R2, ...))
+	df1 <- data.frame(gen_fun(n, R=R1, ...))
+	df2 <- data.frame(gen_fun(n * n2_n1, R=R2, ...))
 	colnames(df1) <- colnames(df2) <- cnms
 	dat <- list(sample1=df1, sample2=df2)
 	res <- if(type == 'independent'){
@@ -104,8 +104,10 @@ p_2r <- function(n, r.ab1, r.ab2, r.ac1, r.ac2, r.bc1, r.bc2,
 }
 
 #' @rdname p_2r
+#' @param R a correlation matrix constructed from the inputs
+#'   to \code{\link{p_2r}}
 #' @export
-gen_mvnorm <- function(n, mean = numeric(nrow(sigma)), sigma, ...){
-	dat <- SimDesign::rmvnorm(n, mean=mean, sigma=sigma)
+gen_2r <- function(n, R, ...){
+	dat <- SimDesign::rmvnorm(n, mean=numeric(nrow(R)), sigma=R)
 	dat
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_2r.R
 \name{p_2r}
 \alias{p_2r}
-\alias{gen_mvnorm}
+\alias{gen_2r}
 \title{p-value from comparing two or more correlations simulation}
 \usage{
 p_2r(
@@ -23,11 +23,11 @@ p_2r(
   two.tailed = TRUE,
   type = c("independent", "overlap", "nonoverlap"),
   test = "fisher1925",
-  gen_fun = gen_mvnorm,
+  gen_fun = gen_2r,
   ...
 )
 
-gen_mvnorm(n, mean = numeric(nrow(sigma)), sigma, ...)
+gen_2r(n, R, ...)
 }
 \arguments{
 \item{n}{sample size}
@@ -66,11 +66,14 @@ gen_mvnorm(n, mean = numeric(nrow(sigma)), sigma, ...)
 
 \item{gen_fun}{function used to generate the required discrete data.
 Object returned must be a \code{matrix} with \code{n} rows.
-Default uses \code{\link{gen_mvnorm}}.
+Default uses \code{\link{gen_2r}}.
 User defined version of this function must include the argument \code{...}}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
+
+\item{R}{a correlation matrix constructed from the inputs
+to \code{\link{p_2r}}}
 }
 \description{
 Function utilizes \code{\link[cocor]{cocor}} to perform correlation
