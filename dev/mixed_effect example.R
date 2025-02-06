@@ -6,7 +6,7 @@ simulate_binary <- function (n) {
 	t_max <- 15 # maximum follow-up time
 
 	# we constuct a data frame with the design:
-	# everyone has a baseline measurment, and then measurements at random follow-up times
+	# everyone has a baseline measurement, and then measurements at random follow-up times
 	DF <- data.frame(id = rep(seq_len(n), each = K),
 					 time = c(replicate(n, c(0, sort(runif(K - 1, 0, t_max))))),
 					 sex = rep(gl(2, n/2, labels = c("male", "female")), each = K))
@@ -30,23 +30,25 @@ simulate_binary <- function (n) {
 
 ###################################################################
 
-library("GLMMadaptive")
-M <- 1000 # number of simulations to estimate power
-p_values <- numeric(M)
-for (m in seq_len(M)) {
-	DF_m <- simulate_binary(n = 100)
-	fm_m <- mixed_model(y ~ sex * time, random = ~ time | id,
-						data = DF_m, family = binomial())
-	p_values[m] <- coef(summary(fm_m))["sexfemale:time", "p-value"]
+if(FALSE){
+	library("GLMMadaptive")
+	M <- 1000 # number of simulations to estimate power
+	p_values <- numeric(M)
+	for (m in seq_len(M)) {
+		DF_m <- simulate_binary(n = 100)
+		fm_m <- mixed_model(y ~ sex * time, random = ~ time | id,
+							data = DF_m, family = binomial())
+		p_values[m] <- coef(summary(fm_m))["sexfemale:time", "p-value"]
+	}
+	# assuming a significance level of 5%, the power will be
+	mean(p_values < 0.05)
 }
-# assuming a significance level of 5%, the power will be
-mean(p_values < 0.05)
 
 
 ###############
 # for Spower
 p_mixed_model <- function(n){
-	DF_m <- simulate_binary(n = 100)
+	DF_m <- simulate_binary(n = n)
 	fm_m <- mixed_model(y ~ sex * time, random = ~ time | id,
 						data = DF_m, family = binomial())
 	p <- coef(summary(fm_m))["sexfemale:time", "p-value"]
@@ -54,8 +56,9 @@ p_mixed_model <- function(n){
 }
 
 # estimate power given n
-Spower(p_mixed_model, n=100, replications=1000, parallel=TRUE)
+Spower(p_mixed_model, n=100, replications=1000, parallel=TRUE,
+	   packages="GLMMadaptive")
 
 # estimate n to achieve 80% power
 Spower(p_mixed_model, n=NA, power=.8,
-	   interval=c(100, 1000), parallel=TRUE)
+	   interval=c(100, 1000), parallel=TRUE, packages="GLMMadaptive")

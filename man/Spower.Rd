@@ -18,6 +18,7 @@ Spower(
   prior = NULL,
   parallel = FALSE,
   cl = NULL,
+  packages = NULL,
   ncores = parallelly::availableCores(omit = 1L),
   predCI = 0.95,
   predCI.tol = 0.01,
@@ -85,6 +86,8 @@ a named \code{list} or \code{numeric} vector.}
 (see \code{\link[SimDesign]{runSimulation}} for details).}
 
 \item{cl}{see \code{\link[SimDesign]{runSimulation}}}
+
+\item{packages}{see \code{\link[SimDesign]{runSimulation}}}
 
 \item{ncores}{see \code{\link[SimDesign]{runSimulation}}}
 

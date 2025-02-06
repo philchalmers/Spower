@@ -93,6 +93,8 @@
 #'
 #' @param ncores see \code{\link[SimDesign]{runSimulation}}
 #'
+#' @param packages see \code{\link[SimDesign]{runSimulation}}
+#'
 #' @param control a list of control parameters to pass to
 #'   \code{\link[SimDesign]{runSimulation}} or \code{\link[SimDesign]{SimSolve}}
 #'
@@ -297,7 +299,7 @@
 Spower <- function(p_sim, ..., interval, power = NA,
 				   sig.level=.05, summarise=NULL, beta_alpha = NULL,
 				   replications=10000, integer, prior = NULL,
-				   parallel = FALSE, cl = NULL,
+				   parallel = FALSE, cl = NULL, packages = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = TRUE, maxiter=150, wait.time = NULL,
@@ -357,7 +359,7 @@ Spower <- function(p_sim, ..., interval, power = NA,
 					  analyse=sim_function_aug, summarise=summarise,
 					  fixed_objects=fixed_objects, save=FALSE,
 					  cl=cl, parallel=parallel, ncores=ncores,
-					  verbose=verbose, control=control)
+					  verbose=verbose, packages=packages, control=control)
 		alpha <- 1 - predCI
 		conditions$power <- as.numeric(NA)
 		CI <- tmp$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
@@ -378,7 +380,7 @@ Spower <- function(p_sim, ..., interval, power = NA,
 							verbose=ifelse(verbose, 2, FALSE),
 							predCI=predCI, predCI.tol=predCI.tol,
 							control=control, check.interval=check.interval,
-							maxiter=maxiter, wait.time=wait.time)
+							maxiter=maxiter, wait.time=wait.time, packages=packages)
 	}
 	if(!is.null(beta_alpha)){
 		out <- uniroot(compromise_root, c(.0001, .9999), beta_alpha=beta_alpha,
