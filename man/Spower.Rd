@@ -178,8 +178,9 @@ summary(out)   # extra information
 # increase precision
 Spower(p_t.test, n = 50, d = .5, replications=30000)
 
-# Same as above, but executed with multiple cores (not run)
-# Spower(p_t.test, n = 50, d = .5, replications=30000, parallel=TRUE)
+# Same as above, but executed with multiple cores
+Spower(p_t.test, n = 50, d = .5, replications=30000,
+  parallel=TRUE, ncores=2)
 
 # Solve N to get .80 power (a priori power analysis)
 out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
@@ -190,14 +191,20 @@ plot(out, type = 'history')
 # total sample size required
 ceiling(out$n) * 2
 
+# same as above, but in parallel with 2 cores
+out.par <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500),
+  parallel=TRUE, ncores=2)
+summary(out.par)
+
 # similar information from pwr package
 (pwr <- pwr::pwr.t.test(d=.5, power=.80))
 ceiling(pwr$n) * 2
 
 # If greater precision is required and the user has a specific amount of time
 # they are willing to wait (e.g., 5 minutes) then wait.time can be used. Below
-# estimates root after searching for 1 minute
-Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500), wait.time='1')
+# estimates root after searching for 1 minute, and run in parallel with 2 cores
+Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500), wait.time='1',
+  parallel=TRUE, ncores=3)
 
 # Solve d to get .80 power (sensitivity power analysis)
 Spower(p_t.test, n = 50, d = NA, power=.8, interval=c(.1, 2))

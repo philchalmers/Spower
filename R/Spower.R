@@ -155,13 +155,9 @@
 #' # increase precision
 #' Spower(p_t.test, n = 50, d = .5, replications=30000)
 #'
-#' # Same as above, but executed with multiple cores (not run)
-#' # Spower(p_t.test, n = 50, d = .5, replications=30000, parallel=TRUE)
-# #
-# # Note: additional runs with parallel=TRUE will use previously defined
-# # cluster object. To remove this global definition behavior see
-# # help(SpowerCluster)
-# # Spower(p_t.test, n = 50, d = .5, replications=30000, parallel=TRUE)
+#' # Same as above, but executed with multiple cores
+#' Spower(p_t.test, n = 50, d = .5, replications=30000,
+#'   parallel=TRUE, ncores=2)
 #'
 #' # Solve N to get .80 power (a priori power analysis)
 #' out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
@@ -172,14 +168,20 @@
 #' # total sample size required
 #' ceiling(out$n) * 2
 #'
+#' # same as above, but in parallel with 2 cores
+#' out.par <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500),
+#'   parallel=TRUE, ncores=2)
+#' summary(out.par)
+#'
 #' # similar information from pwr package
 #' (pwr <- pwr::pwr.t.test(d=.5, power=.80))
 #' ceiling(pwr$n) * 2
 #'
 #' # If greater precision is required and the user has a specific amount of time
 #' # they are willing to wait (e.g., 5 minutes) then wait.time can be used. Below
-#' # estimates root after searching for 1 minute
-#' Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500), wait.time='1')
+#' # estimates root after searching for 1 minute, and run in parallel with 2 cores
+#' Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500), wait.time='1',
+#'   parallel=TRUE, ncores=3)
 #'
 #' # Solve d to get .80 power (sensitivity power analysis)
 #' Spower(p_t.test, n = 50, d = NA, power=.8, interval=c(.1, 2))
@@ -307,6 +309,7 @@ Spower <- function(p_sim, ..., interval, power = NA,
 	if(!is.null(cl)) parallel <- TRUE
 	# if(parallel && is.null(cl))
 	# 	cl <- SpowerCluster(spec = ncores)
+	packages <- c(packages, 'Spower')
 	fixed_objects <- dots <- list(...)
 	dots <- lapply(dots, \(x) if(!is.atomic(x) || length(x) > 1) list(x) else x)
 	names(dots) <- names(fixed_objects)
@@ -355,6 +358,7 @@ Spower <- function(p_sim, ..., interval, power = NA,
 	}
 	if(is.null(summarise)) summarise <- Internal_Summarise
 	ret <- if(is.na(power) || !is.null(beta_alpha)){
+		control$global_fun_level <- 3
 		tmp <- SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug, summarise=summarise,
 					  fixed_objects=fixed_objects, save=FALSE,
@@ -372,6 +376,7 @@ Spower <- function(p_sim, ..., interval, power = NA,
 								  'save_info')] <- NULL
 		tmp
 	} else {
+		control$global_fun_level <- 4
 		SimDesign::SimSolve(conditions, interval=interval,
 							analyse=sim_function_aug, save=FALSE,
 							summarise=summarise, b=power,
