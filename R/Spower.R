@@ -307,8 +307,19 @@ Spower <- function(p_sim, ..., interval, power = NA,
 				   check.interval = TRUE, maxiter=150, wait.time = NULL,
 				   control = list()){
 	if(!is.null(cl)) parallel <- TRUE
-	# if(parallel && is.null(cl))
-	# 	cl <- SpowerCluster(spec = ncores)
+	export_funs <- parent_env_fun()
+	if(parallel){
+		type <- if(is.null(control$type))
+			ifelse(.Platform$OS.type == 'windows', 'PSOCK', 'FORK')
+		else control$type
+		if(is.null(cl)){
+			cl <- parallel::makeCluster(ncores, type=type)
+			on.exit(parallel::stopCluster(cl), add = TRUE)
+		}
+		parallel::clusterExport(cl=cl, export_funs, envir = parent.frame(1L))
+		if(verbose)
+			message(sprintf("\nNumber of parallel clusters in use: %i", length(cl)))
+	}
 	packages <- c(packages, 'Spower')
 	fixed_objects <- dots <- list(...)
 	dots <- lapply(dots, \(x) if(!is.atomic(x) || length(x) > 1) list(x) else x)
@@ -318,6 +329,7 @@ Spower <- function(p_sim, ..., interval, power = NA,
 	stopifnot(nrow(conditions) == 1)
 	fixed_objects$ID <- 1
 	fixed_objects$prior <- prior
+	fixed_objects$p_sim <- p_sim
 	if(is.na(sig.level) && missing(interval)) interval <- c(0, 1)
 	if(is.na(sig.level)) integer <- FALSE
 	conditions$sig.level <- fixed_objects$sig.level <- sig.level
@@ -337,17 +349,6 @@ Spower <- function(p_sim, ..., interval, power = NA,
 	if(sum(sapply(conditions, \(x) isTRUE(is.na(x))), is.na(power)) != 1)
 		stop(c('Exactly one argument for the inputs \'power\', \'sig.level\',',
 			   '\n  or the \'...\' list must be set to NA'), call.=FALSE)
-	sim_function_aug <- function(condition, dat, fixed_objects){
-		if(!is.null(fixed_objects$prior)){
-			prior_list <- as.list(fixed_objects$prior())
-			fixed_objects[names(prior_list)] <- prior_list
-		}
-		pick <- which(sapply(fixed_objects, \(x) all(is.na(x))))
-		nm <- names(pick)
-		if(length(pick)) fixed_objects[[nm]] <- condition[[nm]]
-		do.call(p_sim,
-				fixed_objects[!(names(fixed_objects) %in% c('ID', 'sig.level', 'prior'))])
-	}
 	if(!is.null(prior)){
 		prior_list <- as.list(fixed_objects$prior())
 		fixed_objects <- c(fixed_objects, prior_list)
@@ -358,7 +359,6 @@ Spower <- function(p_sim, ..., interval, power = NA,
 	}
 	if(is.null(summarise)) summarise <- Internal_Summarise
 	ret <- if(is.na(power) || !is.null(beta_alpha)){
-		control$global_fun_level <- 3
 		tmp <- SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug, summarise=summarise,
 					  fixed_objects=fixed_objects, save=FALSE,
@@ -376,7 +376,6 @@ Spower <- function(p_sim, ..., interval, power = NA,
 								  'save_info')] <- NULL
 		tmp
 	} else {
-		control$global_fun_level <- 4
 		SimDesign::SimSolve(conditions, interval=interval,
 							analyse=sim_function_aug, save=FALSE,
 							summarise=summarise, b=power,
@@ -403,6 +402,20 @@ Spower <- function(p_sim, ..., interval, power = NA,
 		return(invisible(ret))
 	}
 	ret
+}
+
+sim_function_aug <- function(condition, dat, fixed_objects){
+	p_sim <- fixed_objects$p_sim
+	if(!is.null(fixed_objects$prior)){
+		prior_list <- as.list(fixed_objects$prior())
+		fixed_objects[names(prior_list)] <- prior_list
+	}
+	pick <- which(sapply(fixed_objects, \(x) all(is.na(x))))
+	nm <- names(pick)
+	if(length(pick)) fixed_objects[[nm]] <- condition[[nm]]
+	do.call(p_sim,
+			fixed_objects[!(names(fixed_objects) %in%
+								c('ID', 'sig.level', 'prior', 'p_sim'))])
 }
 
 #' @rdname Spower
@@ -448,3 +461,4 @@ print.Spower <- function(x, ...){
 	}
 	invisible(NULL)
 }
+

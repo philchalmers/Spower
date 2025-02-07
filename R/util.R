@@ -42,3 +42,14 @@ r2d <- function(rho, n0, n1){
 	d <- (N*rho) / sqrt(n0*n1*(1-rho^2))
 	d
 }
+
+parent_env_fun <- function(level=2){
+	ret <- NULL
+	for(lev in level:2){
+		nms <- ls(envir = parent.frame(lev))
+		is_fun <- sapply(nms, function(x, envir) is.function(get(x, envir=envir)),
+						 envir = parent.frame(lev))
+		if(any(is_fun)) ret <- c(ret, nms[is_fun])
+	}
+	ret
+}

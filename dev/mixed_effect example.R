@@ -59,7 +59,7 @@ p_mixed_model <- function(n){
 }
 
 # estimate power given n
-Spower(p_mixed_model, n=100, replications=1000,
+Spower(p_mixed_model, n=100, replications=10,
 	   packages="GLMMadaptive")
 
 # estimate n to achieve 80% power
