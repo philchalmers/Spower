@@ -204,7 +204,7 @@ ceiling(pwr$n) * 2
 # they are willing to wait (e.g., 5 minutes) then wait.time can be used. Below
 # estimates root after searching for 1 minute, and run in parallel with 2 cores
 Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500), wait.time='1',
-  parallel=TRUE, ncores=3)
+  parallel=TRUE, ncores=2)
 
 # Solve d to get .80 power (sensitivity power analysis)
 Spower(p_t.test, n = 50, d = NA, power=.8, interval=c(.1, 2))
