@@ -89,13 +89,13 @@
 #' powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
 #'            replications = 10000)
 #'
-#' # get information from last printed graphic instead of saving
-#' gg <- last_plot()
-#' gg + coord_flip() # flip coordinates
-#'
 #' # estimate sample sizes given varying power
 #' powerCurve(p_t.test, n=NA, d=0.2, interval=c(10, 1000),
 #' 		   power=c(.2, .4, .6, .8))
+#'
+#' # get information from last printed graphic instead of saving
+#' gg <- last_plot()
+#' gg + coord_flip() # flip coordinates to put power on y-axis
 #'
 #' # estimate power varying d
 #' powerCurve(p_t.test, varying=seq(.1, 1, by=.2), n=50, d=NA)
