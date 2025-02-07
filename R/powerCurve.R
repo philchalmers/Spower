@@ -135,7 +135,15 @@ powerCurve <- function(p_sim, varying, ..., interval = NULL, power = NA,
 					   check.interval=FALSE, maxiter=50, wait.time = NULL,
 					   control = list()){
 	dots <- dotse <- list(...)
+	if(length(power) > 1 && !missing(varying))
+		stop('Either power is fixed to NA or varying is specified, not both')
+	if(is.na(sig.level))
+		stop('NA for sig.level not supported')
+	if(all(is.na(power)) && missing(varying))
+		stop('Must specify varying')
 	opower <- power
+	if(missing(varying))
+		varying <- data.frame(power = power)
 	if(!missing(varying) && is.numeric(varying)){
 		pick <- sapply(dots, \(x) all(is.na(x)))
 		column <- names(dots)[pick]
@@ -144,12 +152,6 @@ powerCurve <- function(p_sim, varying, ..., interval = NULL, power = NA,
 	}
 	if(!missing(varying))
 		column <- colnames(varying)
-	if(is.na(sig.level))
-		stop('NA for sig.level not supported')
-	if(length(power) > 1 && !missing(varying))
-		stop('Either power is fixed to NA or varying is specified, not both')
-	if(all(is.na(power)) && missing(varying))
-		stop('Must specify varying')
 	if(length(opower) == 1)
 		opower <- rep(opower, nrow(varying))
 	out <- vector('list', length(opower))
@@ -162,7 +164,7 @@ powerCurve <- function(p_sim, varying, ..., interval = NULL, power = NA,
 			if(missing(integer)){
 				integer <- !(has.decimals(interval) || diff(interval) < 5)
 				if(!integer && verbose)
-					message('\nUsing continuous search interval (set manually by passing integer = FALSE).')
+					message('\nUsing continuous search interval (integer = FALSE).')
 			}
 		} else integer <- FALSE
 		out[[i]] <- do.call(Spower, c(p_sim=p_sim, dotse,

@@ -275,7 +275,7 @@
 #' # Solve N to get .80 power (a priori power analysis), assuming
 #' #   equal variances, group2 2x as large as group1, large skewness
 #' (out <- Spower(p_my_t.test, n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
-#'                power=.8, interval=c(2,500)))
+#'                power=.8, interval=c(30,100)))
 #'
 #' # total sample size required
 #' with(out, ceiling(n) + ceiling(n * 2))
@@ -292,8 +292,9 @@
 #'   ret
 #' }
 #'
-#' # for simulations with many more conditions using runSimulation() is recommended
-#' out <- Spower(sim_t.test, n = 100, d = .5, summarise=Summarise)
+#' # for simulations with many more condition combinations to
+#' #  explore runSimulation() is recommended instead
+#' out <- Spower(p_my_t.test, n = 100, d = .5, summarise=Summarise)
 #' out |> as.data.frame()
 #'
 #'
@@ -343,7 +344,7 @@ Spower <- function(p_sim, ..., interval, power = NA,
 		if(missing(integer)){
 			integer <- !(has.decimals(interval) || diff(interval) < 5)
 			if(!integer && verbose)
-				message('\nUsing continuous search interval (set manually by passing integer = FALSE).')
+				message('\nUsing continuous search interval (integer = FALSE).')
 		}
 	} else integer <- FALSE
 	if(sum(sapply(conditions, \(x) isTRUE(is.na(x))), is.na(power)) != 1)

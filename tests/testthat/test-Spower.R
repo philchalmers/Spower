@@ -62,7 +62,7 @@ test_that('Spower', {
 
 test_that('scope', {
 
-	gen_fun <- function(n, d, df, ...){
+	mygen_fun <- function(n, n2_n1, d, df, ...){
 		group1 <- rchisq(n, df=df)
 		group1 <-  (group1 - df) / sqrt(2*df)   # Adjusted mean to 0, sd = 1
 		group2 <- rnorm(n*n2_n1, mean=d)
@@ -72,8 +72,8 @@ test_that('scope', {
 		dat
 	}
 
-	p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
-		dat <- gen_fun(n=n, d=d, df=df, ...)
+	p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10, ...){
+		dat <- mygen_fun(n=n, n2_n1=n2_n1, d=d, df=df, ...)
 		obj <- t.test(DV ~ group, dat, var.equal=var.equal)
 
 		# p-value must be first element when using default summarise()
