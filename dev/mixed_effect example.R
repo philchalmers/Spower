@@ -50,26 +50,30 @@ if(FALSE){
 #
 library(Spower)
 
-p_mixed_model <- function(n){
+p_mixed_model <- function(n, estimator='lme4'){
 	DF_m <- simulate_binary(n = n)
-	fm_m <- mixed_model(y ~ sex * time, random = ~ time | id,
-						data = DF_m, family = binomial())
-	p <- coef(summary(fm_m))["sexfemale:time", "p-value"]
+	if(estimator == 'lme4'){
+		out <- lme4::glmer(y ~ sex * time + (time | id),
+						   data = DF_m, family = binomial())
+		p <- coef(summary(out))["sexfemale:time", "Pr(>|z|)"]
+	} else if(estimator == 'GLMMadaptive'){
+		out <- GLMMadaptive::mixed_model(y ~ sex * time, random = ~ time | id,
+										 data = DF_m, family = binomial())
+		p <- coef(summary(out))["sexfemale:time", "p-value"]
+	}
 	p
 }
 
 # estimate power given n
-Spower(p_mixed_model, n=100, replications=10,
-	   packages="GLMMadaptive")
+Spower(p_mixed_model, n=100, replications=10)
+Spower(p_mixed_model, n=100, estimator = 'GLMMadaptive', replications=10)
 
 # estimate n to achieve 80% power
-Spower(p_mixed_model, n=NA, power=.8,
-	   interval=c(100, 1000), packages="GLMMadaptive")
+Spower(p_mixed_model, n=NA, power=.8, interval=c(100, 1000))
 
 # estimate power given n
-Spower(p_mixed_model, n=100, replications=1000, parallel=TRUE,
-	   packages="GLMMadaptive")
+Spower(p_mixed_model, n=100, replications=1000, parallel=TRUE)
 
 # estimate n to achieve 80% power
 Spower(p_mixed_model, n=NA, power=.8,
-	   interval=c(100, 1000), parallel=TRUE, packages="GLMMadaptive")
+	   interval=c(100, 1000), parallel=TRUE, check.interval = FALSE)
