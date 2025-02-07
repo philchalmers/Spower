@@ -359,6 +359,11 @@ Spower <- function(p_sim, ..., interval, power = NA,
 		predCI.tol <- NULL
 	}
 	if(is.null(summarise)) summarise <- Internal_Summarise
+	pick <- which(sapply(fixed_objects, \(x) !is.function(x) && all(is.na(x))))
+	if(length(pick))
+		fixed_objects$replace_name <- names(pick)
+	fixed_objects$pick_me <- which(!(names(fixed_objects) %in%
+									 	c('ID', 'sig.level', 'prior', 'p_sim', 'replace_name')))
 	ret <- if(is.na(power) || !is.null(beta_alpha)){
 		tmp <- SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug, summarise=summarise,
@@ -411,12 +416,10 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 		prior_list <- as.list(fixed_objects$prior())
 		fixed_objects[names(prior_list)] <- prior_list
 	}
-	pick <- which(sapply(fixed_objects, \(x) all(is.na(x))))
-	nm <- names(pick)
-	if(length(pick)) fixed_objects[[nm]] <- condition[[nm]]
-	do.call(p_sim,
-			fixed_objects[!(names(fixed_objects) %in%
-								c('ID', 'sig.level', 'prior', 'p_sim'))])
+	if(!is.null(fixed_objects$replace_name))
+		fixed_objects[[fixed_objects$replace_name]] <-
+			condition[[fixed_objects$replace_name]]
+	do.call(p_sim, fixed_objects[fixed_objects$pick_me])
 }
 
 #' @rdname Spower
