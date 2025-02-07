@@ -47,6 +47,9 @@ if(FALSE){
 
 ###############
 # for Spower
+#
+library(Spower)
+
 p_mixed_model <- function(n){
 	DF_m <- simulate_binary(n = n)
 	fm_m <- mixed_model(y ~ sex * time, random = ~ time | id,
