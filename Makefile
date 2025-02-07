@@ -19,7 +19,7 @@ precompile:
 	Rscript -e "source('vignettes/precompile.R')"
 
 test:
-	Rscript -e "library('testthat',quietly=TRUE);library('mirt',quietly=TRUE);options(warn=2);test_dir('tests/testthat')"
+	Rscript -e "library('testthat',quietly=TRUE);library('Spower',quietly=TRUE);options(warn=2);test_dir('tests/testthat')"
 
 kniterrors:
 	grep -Hrn '## Error'

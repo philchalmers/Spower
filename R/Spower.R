@@ -243,13 +243,13 @@
 #'
 #' #   Make edits to the function for customization
 #' if(interactive()){
-#'     sim_t.test <- edit(p_t.test)
-#'     args(sim_t.test)
-#'     body(sim_t.test)
+#'     p_my_t.test <- edit(p_t.test)
+#'     args(p_my_t.test)
+#'     body(p_my_t.test)
 #' }
 #'
 #' # Alternatively, define a custom function (potentially based on the template)
-#' sim_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
+#' p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
 #'
 #'     # Welch power analysis with asymmetric distributions
 #'     # group2 as large as group1 by default
@@ -270,11 +270,11 @@
 #' }
 #'
 #' # Solve N to get .80 power (a priori power analysis), using defaults
-#' Spower(sim_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
+#' Spower(p_my_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
 #'
 #' # Solve N to get .80 power (a priori power analysis), assuming
 #' #   equal variances, group2 2x as large as group1, large skewness
-#' (out <- Spower(sim_t.test, n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
+#' (out <- Spower(p_my_t.test, n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
 #'                power=.8, interval=c(2,500)))
 #'
 #' # total sample size required
