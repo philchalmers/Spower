@@ -297,15 +297,18 @@ p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
 }
 
 # Solve N to get .80 power (a priori power analysis), using defaults
-Spower(p_my_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
-
-# Solve N to get .80 power (a priori power analysis), assuming
-#   equal variances, group2 2x as large as group1, large skewness
-(out <- Spower(p_my_t.test, n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
-               power=.8, interval=c(30,100)))
+out <- Spower(p_my_t.test, n = NA, d = .5, power=.8, n2_n1=2, interval=c(2,500))
 
 # total sample size required
 with(out, ceiling(n) + ceiling(n * 2))
+
+# Solve N to get .80 power (a priori power analysis), assuming
+#   equal variances, group2 2x as large as group1, large skewness
+(out2 <- Spower(p_my_t.test, n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
+                power=.8, interval=c(30,100)))
+
+# total sample size required
+with(out2, ceiling(n) + ceiling(n * 2))
 
 #######
 # compute power and associated estimates using customized summarise function
