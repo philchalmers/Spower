@@ -194,11 +194,11 @@
 #' # Solve beta/alpha ratio to specific error trade-off constant
 #' #   (compromise power analysis)
 #' (out <- Spower(p_t.test, n = 50, d = .5, beta_alpha = 2))
-#' with(out, (1-power)/sig.level)   # check ratio
+#' with(out, (1-power)/sig.level)   # solved ratio
 #'
 #' # update beta_alpha criteria without re-simulating
 #' (out2 <- update(out, beta_alpha=4))
-#' with(out2, (1-power)/sig.level)   # check ratio
+#' with(out2, (1-power)/sig.level)   # solved ratio
 #'
 #' ##############
 #' # Power Curves
@@ -445,6 +445,8 @@ print.Spower <- function(x, ...){
 			alpha <- 1 - lste$predCI
 			CI <- x$sig.level + c(qnorm(c(alpha/2, lste$predCI+alpha/2))) *
 				sqrt((x$sig.level * (1-x$sig.level))/x$REPLICATIONS)
+			CI[CI < 0] <- 0
+			CI[CI > 1] <- 1
 			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
 						lste$predCI*100, CI[1], CI[2]))
 			power <- x$power
@@ -452,6 +454,8 @@ print.Spower <- function(x, ...){
 						if(lste$expected) 'expected ' else "", power))
 			CI <- power + c(qnorm(c(alpha/2, lste$predCI + alpha/2))) *
 				sqrt((power * (1-power))/x$REPLICATIONS)
+			CI[CI < 0] <- 0
+			CI[CI > 1] <- 1
 			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
 						lste$predCI*100, CI[1], CI[2]))
 		} else {

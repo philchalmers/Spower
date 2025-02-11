@@ -217,11 +217,11 @@ Spower(p_t.test, n = 50, d = .5, power=.80, sig.level=NA)
 # Solve beta/alpha ratio to specific error trade-off constant
 #   (compromise power analysis)
 (out <- Spower(p_t.test, n = 50, d = .5, beta_alpha = 2))
-with(out, (1-power)/sig.level)   # check ratio
+with(out, (1-power)/sig.level)   # solved ratio
 
 # update beta_alpha criteria without re-simulating
 (out2 <- update(out, beta_alpha=4))
-with(out2, (1-power)/sig.level)   # check ratio
+with(out2, (1-power)/sig.level)   # solved ratio
 
 ##############
 # Power Curves
