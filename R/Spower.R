@@ -379,8 +379,7 @@ Spower <- function(p_sim, ..., interval, power = NA,
 		conditions$power <- as.numeric(NA)
 		CI <- tmp$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
 			sqrt((tmp$power * (1-tmp$power))/replications)
-		CI[CI > 1] <- 1
-		CI[CI < 0] <- 0
+		CI <- clip_CI(CI)
 		names(CI) <- paste0('CI_', c(alpha/2, predCI+alpha/2)*100)
 		attr(tmp, 'extra_info')$power.CI <- CI
 		attr(tmp, 'extra_info')[c("number_of_conditions", "Design.ID",
@@ -451,8 +450,7 @@ print.Spower <- function(x, ...){
 			alpha <- 1 - lste$predCI
 			CI <- x$sig.level + c(qnorm(c(alpha/2, lste$predCI+alpha/2))) *
 				sqrt((x$sig.level * (1-x$sig.level))/x$REPLICATIONS)
-			CI[CI < 0] <- 0
-			CI[CI > 1] <- 1
+			CI <- clip_CI(CI)
 			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
 						lste$predCI*100, CI[1], CI[2]))
 			power <- x$power
@@ -460,8 +458,7 @@ print.Spower <- function(x, ...){
 						if(lste$expected) 'expected ' else "", power))
 			CI <- power + c(qnorm(c(alpha/2, lste$predCI + alpha/2))) *
 				sqrt((power * (1-power))/x$REPLICATIONS)
-			CI[CI < 0] <- 0
-			CI[CI > 1] <- 1
+			CI <- clip_CI(CI)
 			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
 						lste$predCI*100, CI[1], CI[2]))
 		} else {

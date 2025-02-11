@@ -66,3 +66,9 @@ parent_env_fun <- function(level=2){
 	}
 	ret
 }
+
+clip_CI <- function(CI){
+	CI[CI > 1] <- 1
+	CI[CI < 0] <- 0
+	CI
+}

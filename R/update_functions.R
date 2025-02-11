@@ -82,8 +82,7 @@ update_sig.level <- function(x, sig.level, predCI=.95){
 	alpha <- 1 - predCI
 	CI <- x$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
 		sqrt((x$power * (1-x$power))/replications)
-	CI[CI > 1] <- 1
-	CI[CI < 0] <- 0
+	CI <- clip_CI(CI)
 	names(CI) <- paste0('CI_', c(alpha/2, predCI+alpha/2)*100)
 	attr(x, 'extra_info')$power.CI <- CI
 	x
