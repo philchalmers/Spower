@@ -125,7 +125,8 @@
 #' @return an invisible \code{tibble}/\code{data.frame}-type object of
 #' class \code{'Spower'}
 #'
-#' @seealso \code{\link{update}}, \code{\link{powerCurve}}
+#' @seealso \code{\link{update}}, \code{\link{powerCurve}},
+#'   \code{\link{getLastSpower}}
 #'
 #' @export
 #'
@@ -154,6 +155,10 @@
 #'
 #' # increase precision
 #' Spower(p_t.test, n = 50, d = .5, replications=30000)
+#'
+#' # previous analysis not stored to object, but can be retrieved
+#' out <- getLastSpower()
+#' out   # as though it were stored from Spower()
 #'
 #' # Same as above, but executed with multiple cores
 #' Spower(p_t.test, n = 50, d = .5, replications=30000,
@@ -403,6 +408,7 @@ Spower <- function(p_sim, ..., interval, power = NA,
 	attr(ret, 'Spower_extra') <- list(predCI=predCI, conditions=conditions,
 							   beta_alpha=beta_alpha, expected=!is.null(prior))
 	class(ret) <- c('Spower', class(ret))
+	.SpowerEnv$lastSim <- ret
 	if(verbose){
 		print(ret)
 		return(invisible(ret))

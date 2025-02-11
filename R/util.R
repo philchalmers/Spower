@@ -1,3 +1,16 @@
+.SpowerEnv <- new.env(parent = emptyenv())
+
+#' Get previously evaluated Spower execution
+#'
+#' If the result of \code{\link{Spower}} was not stored into
+#' an object this function will retrieve the last evaluation.
+#'
+#' @return the last object returned from \code{\link{Spower}}
+#' @seealso \code{\link{Spower}}
+#' @export
+#'
+getLastSpower <- function() .SpowerEnv$lastSim
+
 Internal_Summarise <- function(condition, results, fixed_objects) {
 	ret <- if(is.null(dim(results)))
 		c(power = EDR(results, alpha = condition$sig.level))

@@ -178,6 +178,10 @@ summary(out)   # extra information
 # increase precision
 Spower(p_t.test, n = 50, d = .5, replications=30000)
 
+# previous analysis not stored to object, but can be retrieved
+out <- getLastSpower()
+out   # as though it were stored from Spower()
+
 # Same as above, but executed with multiple cores
 Spower(p_t.test, n = 50, d = .5, replications=30000,
   parallel=TRUE, ncores=2)
@@ -324,5 +328,6 @@ out |> as.data.frame()
 }
 }
 \seealso{
-\code{\link{update}}, \code{\link{powerCurve}}
+\code{\link{update}}, \code{\link{powerCurve}},
+\code{\link{getLastSpower}}
 }
