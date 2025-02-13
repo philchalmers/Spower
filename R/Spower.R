@@ -307,10 +307,9 @@
 #'
 #'
 #' }
-Spower <- function(p_sim, ..., interval, power = NA,
-				   sig.level=.05, summarise=NULL, beta_alpha = NULL,
-				   replications=10000, integer, prior = NULL,
-				   parallel = FALSE, cl = NULL, packages = NULL,
+Spower <- function(p_sim, ..., power = NA, sig.level=.05, beta_alpha = NULL,
+				   replications=10000, prior = NULL, interval, integer,
+				   summarise=NULL, parallel = FALSE, cl = NULL, packages = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = TRUE, maxiter=150, wait.time = NULL,

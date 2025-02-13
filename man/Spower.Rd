@@ -8,14 +8,14 @@
 Spower(
   p_sim,
   ...,
-  interval,
   power = NA,
   sig.level = 0.05,
-  summarise = NULL,
   beta_alpha = NULL,
   replications = 10000,
-  integer,
   prior = NULL,
+  interval,
+  integer,
+  summarise = NULL,
   parallel = FALSE,
   cl = NULL,
   packages = NULL,
@@ -41,10 +41,6 @@ are passed to either \code{\link[SimDesign]{SimSolve}} or
 \code{\link[SimDesign]{runSimulation}} depending on which element (including
 the \code{power} and \code{sig.level} arguments) is set to \code{NA}}
 
-\item{interval}{search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
-Note that for compromise analyses, where the \code{sig.level} is set to
-\code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}}
-
 \item{power}{power level to use. If set to \code{NA} then the empirical power
 will be estimated given the fixed \code{...} inputs
 (e.g., for post-hoc power analysis)}
@@ -52,13 +48,6 @@ will be estimated given the fixed \code{...} inputs
 \item{sig.level}{alpha level to use. If set to \code{NA} then the empirical
 alpha will be estimated given the fixed \code{conditions} input
 (e.g., for criterion power analysis)}
-
-\item{summarise}{(optional) user-defined function for the \code{summarise}
-step in \code{\link[SimDesign]{runSimulation}}, with the constraint that the first
-element returned is should be the empirical detection rate estimate.
-If not specified an internal function
-will be used where the first element of the analysis output will be
-passed to \code{\link[SimDesign]{EDR}} to compute the empirical detection rate}
 
 \item{beta_alpha}{ratio to use in compromise analyses corresponding to
 the Type II errors (beta) over the Type I error (alpha). Ratios greater
@@ -69,6 +58,16 @@ between Type I and Type II errors}
 \item{replications}{number of replications to use when
 \code{\link[SimDesign]{runSimulation}} is required}
 
+\item{prior}{an optional user-defined function defining any prior distributions
+to use in order to compute an expected power output. No arguments are
+required for this function, however the return must replace one or more
+of the original arguments from the \code{...} input using either
+a named \code{list} or \code{numeric} vector.}
+
+\item{interval}{search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
+Note that for compromise analyses, where the \code{sig.level} is set to
+\code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}}
+
 \item{integer}{a logical value indicating whether the search iterations
 use integers or doubles.
 
@@ -76,11 +75,12 @@ If missing, automatically set to \code{FALSE} if \code{interval} contains
 non-integer numbers or the range is less than 5, as well as
 when \code{sig.level = NA}, though in general this should be set explicitly}
 
-\item{prior}{an optional user-defined function defining any prior distributions
-to use in order to compute an expected power output. No arguments are
-required for this function, however the return must replace one or more
-of the original arguments from the \code{...} input using either
-a named \code{list} or \code{numeric} vector.}
+\item{summarise}{(optional) user-defined function for the \code{summarise}
+step in \code{\link[SimDesign]{runSimulation}}, with the constraint that the first
+element returned is should be the empirical detection rate estimate.
+If not specified an internal function
+will be used where the first element of the analysis output will be
+passed to \code{\link[SimDesign]{EDR}} to compute the empirical detection rate}
 
 \item{parallel}{for parallel computing for slower simulation experiments
 (see \code{\link[SimDesign]{runSimulation}} for details).}
