@@ -316,6 +316,7 @@ Spower <- function(p_sim, ..., interval, power = NA,
 				   check.interval = TRUE, maxiter=150, wait.time = NULL,
 				   control = list()){
 	if(!is.null(cl)) parallel <- TRUE
+	control$useAnalyseHandler <- FALSE
 	export_funs <- parent_env_fun()
 	if(parallel){
 		type <- if(is.null(control$type))
