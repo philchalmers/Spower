@@ -65,8 +65,8 @@ updateCompromise <- function(x,  beta_alpha = NULL){
 	ret$sig.level <- out$root
 	ret$power <- 1 - beta_alpha * out$root
 	conditions$sig.level <- as.numeric(NA)
-	conditions$beta_alpha <- beta_alpha
 	attr(ret, 'Spower_extra')$conditions <- conditions
+	attr(ret, 'Spower_extra')$beta_alpha <- beta_alpha
 	ret
 }
 
