@@ -40,6 +40,10 @@
 #' # update beta_alpha criteria without re-simulating
 #' update(out, beta_alpha=4)
 #'
+#' # also works if compromise not initially run but post-hoc power was
+#' out <- Spower(p_t.test, n = 50, d = .5)
+#' update(out, beta_alpha=4)
+#'
 #' }
 #'
 #' @importFrom stats update
@@ -65,6 +69,7 @@ updateCompromise <- function(x,  beta_alpha = NULL){
 	ret$sig.level <- out$root
 	ret$power <- 1 - beta_alpha * out$root
 	conditions$sig.level <- as.numeric(NA)
+	conditions$beta_alpha <- beta_alpha
 	attr(ret, 'Spower_extra')$conditions <- conditions
 	attr(ret, 'Spower_extra')$beta_alpha <- beta_alpha
 	ret

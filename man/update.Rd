@@ -50,6 +50,10 @@ out <- Spower(p_t.test, n = 50, d = .5, beta_alpha = 2)
 # update beta_alpha criteria without re-simulating
 update(out, beta_alpha=4)
 
+# also works if compromise not initially run but post-hoc power was
+out <- Spower(p_t.test, n = 50, d = .5)
+update(out, beta_alpha=4)
+
 }
 
 }
