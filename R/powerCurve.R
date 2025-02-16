@@ -123,7 +123,7 @@
 #' varying <- createDesign(n=c(30, 90, 270),
 #'                         var.equal=c(FALSE, TRUE),
 #'                         d=c(.2, .5))
-#' powerCurve(p_t.test, varying=varying, plotCI=FALSE)
+#' powerCurve(p_t.test, varying=varying)
 #'
 #' }
 #'
@@ -182,7 +182,8 @@ powerCurve <- function(p_sim, varying, ..., interval = NULL, power = NA,
 		if(ncol(varying) > 1 && nrow(unique(varying[,2])) > 1){
 			df[[column[2]]] <- factor(df[[column[2]]])
 			gg <- ggplot(df, aes(.data[[column[1]]], power,
-								 color=.data[[column[2]]]))
+								 color=.data[[column[2]]],
+								 fill=.data[[column[2]]]))
 			if(plotCI){
 				gg <- gg + geom_ribbon(aes(ymin=CI.low, ymax=CI.high),
 									   alpha=.2, linetype='dashed')

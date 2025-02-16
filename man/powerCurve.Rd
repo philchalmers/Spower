@@ -162,7 +162,7 @@ ggplot(df, aes(n, power, linetype=d)) + geom_line()
 varying <- createDesign(n=c(30, 90, 270),
                         var.equal=c(FALSE, TRUE),
                         d=c(.2, .5))
-powerCurve(p_t.test, varying=varying, plotCI=FALSE)
+powerCurve(p_t.test, varying=varying)
 
 }
 
