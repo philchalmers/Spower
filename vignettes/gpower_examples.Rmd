@@ -13,12 +13,6 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
 ---
 
-
-
-
-
-
-
 This vignette replicates several of the examples found in the G\*Power manual (version 3.1). It is not meant to be exhaustive but instead demonstrates how power analyses could be computed and extended using simulation methodology by either editing the default functions found within the package or by creating a new user-defined function for yet-to-be-defined statistical analysis contexts.
 
 # Correlation
@@ -31,13 +25,12 @@ where $\rho$ is the population correlation and $\rho_0$ the null hypothesis cons
 
 Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.65$.
 
-
 ``` r
 (out <- Spower(p_r, n = NA, r = .65, rho = .60,
-			   power = .95, interval=c(500,3000)))
+               power = .95, interval=c(500,3000)))
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -56,12 +49,11 @@ G\*power estimates $n$ to be 1929 using the same Fisher z-transformation approxi
 
 Unlike the previous section, this is the more canonical version of the hypotheses involving correlation coefficients. Power associated with $\rho = .3$ with 100 pairs of observations, tested against $\rho_0=0$.
 
-
 ``` r
 Spower(p_r, n = 100, r = .3)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -76,13 +68,12 @@ Spower(p_r, n = 100, r = .3)
 
 Sample size estimate to reject $H_0:\, \rho_0=0$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.3$.
 
-
 ``` r
 (out <- Spower(p_r, n = NA, r = .3,
-			   power = .95, interval=c(50,1000)))
+               power = .95, interval=c(50,1000)))
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -97,12 +88,11 @@ Sample size estimate to reject $H_0:\, \rho_0=0$ in correlation analysis with $1
 
 Compare to approximate result from `pwr` package.
 
-
 ``` r
 pwr::pwr.r.test(r=.3, power=.95)
 ```
 
-```
+```         
 ## 
 ##      approximate correlation power calculation (arctangh transformation) 
 ## 
@@ -115,14 +105,13 @@ pwr::pwr.r.test(r=.3, power=.95)
 
 ### Example 27.3; Correlation - inequality of two independent Pearson r’s
 
-
 ``` r
 n <- 206
 n2_n1 <- 51/n
 Spower(p_2r, n=n, r.ab1=.75, r.ab2=.88, n2_n1=n2_n1)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -139,15 +128,14 @@ G\*power gives power of .726.
 
 ### Example 16.3; Point-biserial correlation
 
-
 ``` r
 # solution per group
 out <- Spower(p_t.test, r = .25, power = .95, n = NA,
-			  two.tailed=FALSE, interval=c(50, 200))
+              two.tailed=FALSE, interval=c(50, 200))
 out
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -165,7 +153,7 @@ out
 ceiling(out$n) * 2
 ```
 
-```
+```         
 ## [1] 162
 ```
 
@@ -175,15 +163,13 @@ Relatedly, one can specify $d$, Cohen's standardized mean-difference effect size
 
 ### Example 31.3; tetrachoric correlation
 
-
-
 ``` r
 F <- matrix(c(203, 186, 167, 374), 2, 2)
 N <- sum(F)
 (marginal.x <- colSums(F)/N)
 ```
 
-```
+```         
 ## [1] 0.4183 0.5817
 ```
 
@@ -191,7 +177,7 @@ N <- sum(F)
 (marginal.y <- rowSums(F)/N)
 ```
 
-```
+```         
 ## [1] 0.3978 0.6022
 ```
 
@@ -202,21 +188,18 @@ tauY <- qnorm(marginal.y)[2]
 c(tauX, tauY)
 ```
 
-```
+```         
 ## [1] 0.2063 0.2589
 ```
 
-G\*power gives $n=463$, though uses the SE value at the null (Score test). `p_r.cat()`, on 
-the other hand, defaults to the Wald approach where the SE is at the MLE. To switch, use 
-`score=FALSE`, though note that this requires twice as many computations.
-
+G\*power gives $n=463$, though uses the SE value at the null (Score test). `p_r.cat()`, on the other hand, defaults to the Wald approach where the SE is at the MLE. To switch, use `score=FALSE`, though note that this requires twice as many computations.
 
 ``` r
 Spower(p_r.cat, n=NA, r=0.2399846, tauX=tauX, tauY=tauY, score=FALSE, two.tailed=FALSE,
        power = .95, interval=c(100, 500), parallel=TRUE, check.interval=FALSE)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -229,15 +212,11 @@ Spower(p_r.cat, n=NA, r=0.2399846, tauX=tauX, tauY=tauY, score=FALSE, two.tailed
 ## 95% Prediction Interval: [458.5, 466.6]
 ```
 
-
-
-
 # Proportions
 
 ### Example 4.3; One sample proportion tests
 
 One sample, one-tailed proportions test given data generated from a population tested against $\pi_0 = .65$ with $g=.15$ (hence, $\pi = .65+g=.80$) with $n=20$.
-
 
 ``` r
 pi <- .65
@@ -245,10 +224,10 @@ g <- .15
 p <- pi + g
 
 Spower(p_prop.test, n=20, prop=p, pi=pi, 
-	   two.tailed=FALSE, interval=c(5,50))
+       two.tailed=FALSE, interval=c(5,50))
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -265,14 +244,13 @@ G\*power gives the estimate $1-\beta=.4112$.
 
 Fisher's exact test is also supported by using the argument `exact = TRUE`.
 
-
 ``` r
 # Fisher exact test
 Spower(p_prop.test, n=20, prop=p, pi=pi, exact=TRUE, 
-	   two.tailed=FALSE, interval=c(5,50))
+       two.tailed=FALSE, interval=c(5,50))
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -289,12 +267,11 @@ Spower(p_prop.test, n=20, prop=p, pi=pi, exact=TRUE,
 
 Normal as the parent distribution.
 
-
 ``` r
 Spower(p_wilcox.test, n=649, d=.1, type='one.sample',  two.tailed=FALSE)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -306,23 +283,23 @@ Spower(p_wilcox.test, n=649, d=.1, type='one.sample',  two.tailed=FALSE)
 ## Estimate of power (1 - beta): 0.802
 ## 95% Confidence Interval: [0.794, 0.809]
 ```
-G\*power gives the power estimate of .800. 
+
+G\*power gives the power estimate of .800.
 
 A one-sample sign test with Laplace distribution as the parent:
-
 
 ``` r
 library(VGAM)
 
 # generate data with scale 0-1 for d effect size to be same as mean
 parent <- function(n, d, scale=sqrt(1/2)) 
-	VGAM::rlaplace(n, d, scale=scale)
+    VGAM::rlaplace(n, d, scale=scale)
 
 Spower(p_wilcox.test, n=11, d=.8, parent1=parent, type='one.sample',
-	   two.tailed=FALSE, correct = FALSE)
+       two.tailed=FALSE, correct = FALSE)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -335,20 +312,18 @@ Spower(p_wilcox.test, n=11, d=.8, parent1=parent, type='one.sample',
 ## 95% Confidence Interval: [0.789, 0.805]
 ```
 
-G\*power gives the estimate .830. 
-
+G\*power gives the estimate .830.
 
 ### Example 5.3; Two dependent proportions test (McNemar's test)
 
-
 ``` r
 obrien2002 <- matrix(c(.54, .32, .08, .06), 2, 2,
-					 dimnames = list('Treatment' = c('Yes', 'No'),
-					 				'Standard' = c('Yes', 'No')))
+                     dimnames = list('Treatment' = c('Yes', 'No'),
+                                    'Standard' = c('Yes', 'No')))
 obrien2002
 ```
 
-```
+```         
 ##          Standard
 ## Treatment  Yes   No
 ##       Yes 0.54 0.08
@@ -357,10 +332,10 @@ obrien2002
 
 ``` r
 Spower(p_mcnemar.test, n=50, prop=obrien2002, replications=30000,
-	   two.tailed=FALSE)
+       two.tailed=FALSE)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -375,13 +350,12 @@ Spower(p_mcnemar.test, n=50, prop=obrien2002, replications=30000,
 
 G\*Power gives .839 ($\alpha = .032$). Slightly more power can be achieved when not using the continuity correction, though in general this is not recommended in practice.
 
-
 ``` r
 Spower(p_mcnemar.test, n=50, prop=obrien2002, 
-	   two.tailed=FALSE, correct=FALSE)
+       two.tailed=FALSE, correct=FALSE)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -396,14 +370,13 @@ Spower(p_mcnemar.test, n=50, prop=obrien2002,
 
 # Multiple Linear Regression (Random IVs)
 
-### Example 7.3 
-
+### Example 7.3
 
 ``` r
 Spower(p_lm, n=95, R2=.1, k=5, fixed.X=FALSE)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -422,12 +395,11 @@ G\*power gives 0.662, though note that G\*power claims this a one-tailed test.
 
 ### Example 13.1
 
-
 ``` r
 Spower(p_lm, n=95, R2=.1, k=5)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -446,12 +418,11 @@ G\*power gives $1-\beta = .673$.
 
 Note that `k` is total IVs, `k.R2_0` is number of IVs for baseline model.
 
-
 ``` r
 Spower(p_lm, n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5, sig.level=.01)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -466,13 +437,12 @@ Spower(p_lm, n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5, sig.level=.01)
 
 G\*power gives $1-\beta = .241$. Solving the sample size to achieve 80% power
 
-
 ``` r
 Spower(p_lm, n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5,
-	   sig.level=.01, power=.8, interval=c(100, 400))
+       sig.level=.01, power=.8, interval=c(100, 400))
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -491,13 +461,12 @@ G\*power gives $n = 242$.
 
 Compare model with 12 IVs to model with 9 IVs.
 
-
 ``` r
 Spower(p_lm, n=200, R2=.16, R2_0 = .1, k=12, 
-	   k.R2_0=9, R2.resid=.8, sig.level=.01)
+       k.R2_0=9, R2.resid=.8, sig.level=.01)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -512,16 +481,15 @@ Spower(p_lm, n=200, R2=.16, R2_0 = .1, k=12,
 
 G\*power gives $1-\beta = .767$.
 
-# Fixed effects ANOVA - One way (F-test) 
+# Fixed effects ANOVA - One way (F-test)
 
 ### Example 10.3
-
 
 ``` r
 Spower(p_anova.test, n=NA, k=10, f=.25, power=.95, interval=c(20, 300))
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -538,12 +506,11 @@ G\*power gives the estimate $n=39$.
 
 Fixing $n=200$ in total (hence, $n=200/k=20$) and performing a compromise analysis assuming $q=\frac{\beta}{\alpha}=1$,
 
-
 ``` r
 Spower(p_anova.test, n=20, k=10, f=.25, beta_alpha=1, replications=30000)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -566,14 +533,13 @@ G\*Power gives $\alpha=\beta=0.159$.
 
 ### Example 26.3; Difference from constant (one sample case)
 
-
 ``` r
 # solve n for variance ratio of 1/1.5 = 2/3, one.tailed, 80% power
 Spower(p_var.test, n=NA, sds=sqrt(1), sigma=sqrt(1.5), 
-	   two.tailed=FALSE, power=.80, interval=c(10, 200))
+       two.tailed=FALSE, power=.80, interval=c(10, 200))
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -592,14 +558,13 @@ G\*power gives sample size of 81.
 
 For a two-sample equality of variance test with equal sample sizes,
 
-
 ``` r
 # solve n for variance ratio of 1/1.5 = 2/3, two.tailed, 80% power
 Spower(p_var.test, n=NA, sds=sqrt(c(1, 1.5)), 
-	   two.tailed=TRUE, power=.80, interval=c(50, 300))
+       two.tailed=TRUE, power=.80, interval=c(50, 300))
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -618,13 +583,12 @@ G\*Power gives estimate of 193 per group.
 
 Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
 
-
 ``` r
 (out <- Spower(p_t.test, n = NA, d = .5, two.tailed=FALSE, 
-			   power = .95, interval=c(10,500)))
+               power = .95, interval=c(10,500)))
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -637,19 +601,15 @@ Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed
 ## 95% Prediction Interval: [86.8, 91.3]
 ```
 
-
-
 G\*power estimate is 88 per group, `Spower` estimate is 89.0296 with the 95% CI [86.7583, 91.329].
 
-
 ### Example 19.3; Paired samples t-test
-
 
 ``` r
 Spower(p_t.test, n=50, d=0.421637, type = 'paired')
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -666,13 +626,12 @@ G\*power gives power estimate of .832.
 
 ### Example 20.3; One-sample t-test
 
-
 ``` r
 Spower(p_t.test, n=NA, d=.625, power=.95, 
-	   two.tailed=FALSE, type='one.sample', interval=c(10, 100))
+       two.tailed=FALSE, type='one.sample', interval=c(10, 100))
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -687,13 +646,12 @@ Spower(p_t.test, n=NA, d=.625, power=.95,
 
 G\*power gives sample size of $n=30$.
 
-
 ``` r
 Spower(p_t.test, n=NA, d=.1, power=.9, 
-	   type='one.sample', sig.level=.01, interval=c(100,2000))
+       type='one.sample', sig.level=.01, interval=c(100,2000))
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -712,12 +670,11 @@ G\*power gives sample size of $n=1492$.
 
 ### Example 22.3; One-sample test with normal distribution
 
-
 ``` r
 Spower(p_wilcox.test, n=649, d=.1, type='one.sample', two.tailed=FALSE)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -734,7 +691,6 @@ G\*power provide power estimate of .800.
 
 ### Two-sample test with Laplace distributions
 
-
 ``` r
 library(VGAM)
 
@@ -743,10 +699,10 @@ parent2 <- function(n, d) VGAM::rlaplace(n, scale=sqrt(1/2))
 
 nr <- 134/67
 Spower(p_wilcox.test, n=67, n2_n1=nr,
-	   d=0.375, parent1=parent1, parent2=parent2)
+       d=0.375, parent1=parent1, parent2=parent2)
 ```
 
-```
+```         
 ## 
 ## Design conditions: 
 ## 
@@ -759,4 +715,4 @@ Spower(p_wilcox.test, n=67, n2_n1=nr,
 ## 95% Confidence Interval: [0.838, 0.852]
 ```
 
-G\*power gives power of .847. 
+G\*power gives power of .847.

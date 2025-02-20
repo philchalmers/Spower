@@ -22,10 +22,10 @@
 #' @examples
 #'
 #' # 5 fixed IVs, R^2 = .1, sample size of 95
-#' p_lm(n=95, R2=.1, k=5)
+#' p_lm.R2(n=95, R2=.1, k=5)
 #'
-p_lm <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0,
-				 R2.resid=1-R2, fixed.X=TRUE, gen_fun=gen_lm, ...){
+p_lm.R2 <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0,
+				 R2.resid=1-R2, fixed.X=TRUE, gen_fun=gen_lm.R2, ...){
 	stopifnot(R2 > R2_0)
 	if(k.R2_0 == 0)
 		stopifnot(k >= 2)
@@ -48,19 +48,19 @@ if(FALSE){
 
 	# Example 7.3b
 	# G*power gives 0.3464 (broken)
-	Spower(p_lm, n=100, R2=.4, R2_0 = .3, k=5, fixed.X=FALSE)
+	Spower(p_lm.R2, n=100, R2=.4, R2_0 = .3, k=5, fixed.X=FALSE)
 
 	# Example 7.3c
 	# G*power gives N=153 (broken)
-	Spower(p_lm, n=NA, R2=.05, R2_0 = .2, k=5, fixed.X=FALSE, power=.9,
+	Spower(p_lm.R2, n=NA, R2=.05, R2_0 = .2, k=5, fixed.X=FALSE, power=.9,
 		   interval=c(50,300))
 
 
 }
 
-#' @rdname p_lm
+#' @rdname p_lm.R2
 #' @export
-gen_lm <- function(n, k, R2, R2_0 = 0, k.R2_0 = 0,
+gen_lm.R2 <- function(n, k, R2, R2_0 = 0, k.R2_0 = 0,
 				   R2.resid=1-R2, fixed.X=TRUE, ...){
 	if(!fixed.X){
 		X <- matrix(rnorm(k*n), n, k)

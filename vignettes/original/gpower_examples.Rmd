@@ -213,7 +213,7 @@ Spower(p_mcnemar.test, n=50, prop=obrien2002,
 ### Example 7.3 
 
 ```{r}
-Spower(p_lm, n=95, R2=.1, k=5, fixed.X=FALSE)
+Spower(p_lm.R2, n=95, R2=.1, k=5, fixed.X=FALSE)
 ```
 
 G\*power gives 0.662, though note that G\*power claims this a one-tailed test.
@@ -223,7 +223,7 @@ G\*power gives 0.662, though note that G\*power claims this a one-tailed test.
 ### Example 13.1
 
 ```{r}
-Spower(p_lm, n=95, R2=.1, k=5)
+Spower(p_lm.R2, n=95, R2=.1, k=5)
 ```
 
 G\*power gives $1-\beta = .673$.
@@ -233,13 +233,13 @@ G\*power gives $1-\beta = .673$.
 Note that `k` is total IVs, `k.R2_0` is number of IVs for baseline model.
 
 ```{r}
-Spower(p_lm, n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5, sig.level=.01)
+Spower(p_lm.R2, n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5, sig.level=.01)
 ```
 
 G\*power gives $1-\beta = .241$. Solving the sample size to achieve 80% power
 
 ```{r}
-Spower(p_lm, n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5,
+Spower(p_lm.R2, n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5,
 	   sig.level=.01, power=.8, interval=c(100, 400))
 ```
 
@@ -250,7 +250,7 @@ G\*power gives $n = 242$.
 Compare model with 12 IVs to model with 9 IVs.
 
 ```{r}
-Spower(p_lm, n=200, R2=.16, R2_0 = .1, k=12, 
+Spower(p_lm.R2, n=200, R2=.16, R2_0 = .1, k=12, 
 	   k.R2_0=9, R2.resid=.8, sig.level=.01)
 ```
 
