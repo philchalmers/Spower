@@ -32,14 +32,19 @@
 #' See the example below for a demonstration with an independent samples t-test
 #' analysis.
 #'
-#' @param ... a set of conditions to use in the simulation that must match the
-#'   arguments in the function \code{sim}. Internally these arguments
-#'   are passed to either \code{\link[SimDesign]{SimSolve}} or
+#' @param ... the expression to use in the simulation that returns a single p-value.
+#'   Internally this expression is passed to either \code{\link[SimDesign]{SimSolve}} or
 #'  \code{\link[SimDesign]{runSimulation}} depending on which element (including
-#'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}
+#'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}. For instance,
+#'  \code{Spower(p_t.test(n=50, d=.5))} will perform a post-hoc power evaluation since
+#'  \code{power = NA} by default, while \code{Spower(p_t.test(n=NA, d=.5), power = .80)}
+#'  will perform an a priori power analysis to solve the missing \code{n} argument.
 #'
-#' @param p_sim function that both creates the data and returns a single
-#'   p-value for the analysis of interest
+#'  For expected power computations the arguments to this expression can themselves
+#'  be specified as a function to reflect the prior uncertainty. For instance, if
+#'  \code{d_prior <- function() rnorm(1, mean=.5, sd=1/8)} then
+#'  \code{Spower(p_t.test(n=50, d=d_prior())} will compute the expected power
+#'  over the prior sampling distribution for \code{d}
 #'
 #' @param power power level to use. If set to \code{NA} then the empirical power
 #'   will be estimated given the fixed \code{...} inputs
@@ -111,16 +116,6 @@
 #'
 #' @param verbose logical; should information be printed to the console?
 #'
-#' @param prior an optional user-defined function defining any prior distributions
-#'  to use in order to compute an expected power output. No arguments are
-#'  required for this function, however the return must replace one or more
-#'  of the original arguments from the \code{...} input using either
-#'  a named \code{list} or \code{numeric} vector.
-#'
-# @param extra_args additional parameters to pass to \code{\link{runSimulation}} or
-#   \code{\link{SimSolve}}, specified as a list
-#   (e.g., \code{extra_args = list(verbose=FALSE)})
-#'
 #' @import SimDesign stats
 #' @return an invisible \code{tibble}/\code{data.frame}-type object of
 #' class \code{'Spower'}
@@ -145,7 +140,7 @@
 #' p_t.test(n=50, d=.5)
 #'
 #' # test that it works
-#' Spower(p_t.test, n = 50, d = .5, replications=10)
+#' Spower(p_t.test(n = 50, d = .5), replications=10)
 #'
 #' \dontrun{
 #'
@@ -307,7 +302,7 @@
 #'
 #'
 #' }
-Spower <- function(p_sim, ..., power = NA, sig.level=.05, beta_alpha = NULL,
+Spower <- function(..., power = NA, sig.level=.05, beta_alpha = NULL,
 				   replications=10000, prior = NULL, interval, integer,
 				   summarise=NULL, parallel = FALSE, cl = NULL, packages = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
@@ -330,21 +325,34 @@ Spower <- function(p_sim, ..., power = NA, sig.level=.05, beta_alpha = NULL,
 			message(sprintf("\nNumber of parallel clusters in use: %i", length(cl)))
 	}
 	packages <- c(packages, 'Spower')
-	fixed_objects <- dots <- list(...)
-	dots <- lapply(dots, \(x) if(!is.atomic(x) || length(x) > 1) list(x) else x)
-	names(dots) <- names(fixed_objects)
-	conditions <- do.call(SimDesign::createDesign, dots)
-	class(conditions) <- class(conditions)[-1]
-	stopifnot(nrow(conditions) == 1)
-	fixed_objects$ID <- 1
+	if(is.na(sig.level)){
+		integer <- FALSE
+		if(missing(interval)) interval <- c(0, 1)
+		stopifnot(interval[2] <= 1 && interval[1] >= 0)
+	}
+	if(!is.null(wait.time) && maxiter == 150){
+		maxiter <- 3000
+		predCI.tol <- NULL
+	}
+	if(is.null(summarise)) summarise <- Internal_Summarise
+	fixed_objects <- list(sig.level=sig.level)
+	expr <- match.call(expand.dots = FALSE)$...[[1]]
+	pick <- names(which(sapply(expr[-1], \(x){
+		ret <- try(is.na(x), silent = TRUE)
+		if(!is.logical(ret)) ret <- FALSE
+		ret
+	})))
+	fixed_objects$expr <- expr
+	fixed_objects$pick <- pick
 	fixed_objects$prior <- prior
-	fixed_objects$p_sim <- p_sim
-	if(is.na(sig.level) && missing(interval)) interval <- c(0, 1)
-	if(is.na(sig.level)) integer <- FALSE
-	conditions$sig.level <- fixed_objects$sig.level <- sig.level
-	if(!is.na(power)) conditions$power <- power
+	if((is.na(power) + is.na(sig.level) + length(pick)) != 1)
+		stop('Exactly *one* argument must be set to \'NA\' in Spower(..., power, sig.level)',
+			 call.=FALSE)
+	lst_expr <- as.list(expr)[-1]
+	lst_expr <- lst_expr[!sapply(lst_expr, is.call)]
+	conditions <- do.call(SimDesign::createDesign, c(lst_expr, sig.level=sig.level, power=power))
 	if(missing(interval)){
-		if(is.na(sig.level) || any(is.na(conditions)))
+		if(is.na(sig.level) || length(fixed_objects$pick))
 			stop('Must provide a search interval to solve the missing NA', call.=FALSE)
 		interval <- c(NA, NA)
 	}
@@ -355,24 +363,8 @@ Spower <- function(p_sim, ..., power = NA, sig.level=.05, beta_alpha = NULL,
 				message('\nUsing continuous search interval (integer = FALSE).')
 		}
 	} else integer <- FALSE
-	if(sum(sapply(conditions, \(x) isTRUE(is.na(x))), is.na(power)) != 1)
-		stop(c('Exactly one argument for the inputs \'power\', \'sig.level\',',
-			   '\n  or the \'...\' list must be set to NA'), call.=FALSE)
-	if(!is.null(prior)){
-		prior_list <- as.list(fixed_objects$prior())
-		fixed_objects <- c(fixed_objects, prior_list)
-	}
-	if(!is.null(wait.time) && maxiter == 150){
-		maxiter <- 3000
-		predCI.tol <- NULL
-	}
-	if(is.null(summarise)) summarise <- Internal_Summarise
-	pick <- which(sapply(fixed_objects, \(x) !is.function(x) && all(is.na(x))))
-	if(length(pick))
-		fixed_objects$replace_name <- names(pick)
-	fixed_objects$pick_me <- which(!(names(fixed_objects) %in%
-									 	c('ID', 'sig.level', 'prior', 'p_sim', 'replace_name')))
 	ret <- if(is.na(power) || !is.null(beta_alpha)){
+		conditions$power <- NULL
 		tmp <- SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug, summarise=summarise,
 					  fixed_objects=fixed_objects, save=FALSE,
@@ -419,15 +411,14 @@ Spower <- function(p_sim, ..., power = NA, sig.level=.05, beta_alpha = NULL,
 }
 
 sim_function_aug <- function(condition, dat, fixed_objects){
-	p_sim <- fixed_objects$p_sim
+	pick <- fixed_objects$pick
+	if(length(pick))
+		fixed_objects$expr[pick] <- condition[pick]
 	if(!is.null(fixed_objects$prior)){
-		prior_list <- as.list(fixed_objects$prior())
-		fixed_objects[names(prior_list)] <- prior_list
+		prior <- prior()
+		fixed_objects$expr[names(prior)] <- prior
 	}
-	if(!is.null(fixed_objects$replace_name))
-		fixed_objects[[fixed_objects$replace_name]] <-
-			condition[[fixed_objects$replace_name]]
-	do.call(p_sim, fixed_objects[fixed_objects$pick_me])
+	eval(fixed_objects$expr)
 }
 
 #' @rdname Spower
@@ -439,10 +430,10 @@ print.Spower <- function(x, ...){
 	print(lste$conditions)
 	if(inherits(x, 'SimSolve')){
 		lst <- attr(x, 'roots')[[1]]
-		pick <- is.na(lste$conditions[1,])
+		pick <- which(is.na(lste$conditions[1,]))
 		cat(sprintf(paste0("\nEstimate of %s: ", if(lst$integer) "%.1f" else "%.3f"),
 					names(lste$conditions)[pick],
-					x[names(lste$conditions)[pick]]))
+					x[[pick]]))
 		cat(sprintf(paste0("\n%s%% Prediction Interval: ",
 						   if(lst$integer) "[%.1f, %.1f]" else "[%.3f, %.3f]", '\n'),
 					lste$predCI*100, lst$predCIs_root[1], lst$predCIs_root[2]))

@@ -6,7 +6,6 @@
 \title{Simulation-based Power Analyses}
 \usage{
 Spower(
-  p_sim,
   ...,
   power = NA,
   sig.level = 0.05,
@@ -32,14 +31,19 @@ Spower(
 \method{print}{Spower}(x, ...)
 }
 \arguments{
-\item{p_sim}{function that both creates the data and returns a single
-p-value for the analysis of interest}
-
-\item{...}{a set of conditions to use in the simulation that must match the
-arguments in the function \code{sim}. Internally these arguments
-are passed to either \code{\link[SimDesign]{SimSolve}} or
+\item{...}{the expression to use in the simulation that returns a single p-value.
+Internally this expression is passed to either \code{\link[SimDesign]{SimSolve}} or
 \code{\link[SimDesign]{runSimulation}} depending on which element (including
-the \code{power} and \code{sig.level} arguments) is set to \code{NA}}
+the \code{power} and \code{sig.level} arguments) is set to \code{NA}. For instance,
+\code{Spower(p_t.test(n=50, d=.5))} will perform a post-hoc power evaluation since
+\code{power = NA} by default, while \code{Spower(p_t.test(n=NA, d=.5), power = .80)}
+will perform an a priori power analysis to solve the missing \code{n} argument.
+
+For expected power computations the arguments to this expression can themselves
+be specified as a function to reflect the prior uncertainty. For instance, if
+\code{d_prior <- function() rnorm(1, mean=.5, sd=1/8)} then
+\code{Spower(p_t.test(n=50, d=d_prior())} will compute the expected power
+over the prior sampling distribution for \code{d}}
 
 \item{power}{power level to use. If set to \code{NA} then the empirical power
 will be estimated given the fixed \code{...} inputs
@@ -57,12 +61,6 @@ between Type I and Type II errors}
 
 \item{replications}{number of replications to use when
 \code{\link[SimDesign]{runSimulation}} is required}
-
-\item{prior}{an optional user-defined function defining any prior distributions
-to use in order to compute an expected power output. No arguments are
-required for this function, however the return must replace one or more
-of the original arguments from the \code{...} input using either
-a named \code{list} or \code{numeric} vector.}
 
 \item{interval}{search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
 Note that for compromise analyses, where the \code{sig.level} is set to
@@ -167,7 +165,7 @@ p_t.test(n=50, d=.5)
 p_t.test(n=50, d=.5)
 
 # test that it works
-Spower(p_t.test, n = 50, d = .5, replications=10)
+Spower(p_t.test(n = 50, d = .5), replications=10)
 
 \dontrun{
 
