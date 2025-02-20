@@ -13,11 +13,24 @@ p_mediation(
   dichotomous.X = FALSE,
   two.tailed = TRUE,
   method = "wald",
+  sd.X = 1,
+  sd.Y = 1,
+  sd.M = 1,
   gen_fun = gen_mediation,
   ...
 )
 
-gen_mediation(n, a, b, cprime, dichotomous.X = FALSE, ...)
+gen_mediation(
+  n,
+  a,
+  b,
+  cprime,
+  dichotomous.X = FALSE,
+  sd.X = 1,
+  sd.Y = 1,
+  sd.M = 1,
+  ...
+)
 }
 \arguments{
 \item{n}{total sample size unless \code{dichotomous.X = TRUE}, in which the
@@ -36,6 +49,12 @@ were dichotomous? If TRUE then \code{n} represents the sample size per group}
 
 \item{method}{type of inferential method to use. Default uses the Wald
 (a.k.a., Sobel) test}
+
+\item{sd.X}{standard deviation for X}
+
+\item{sd.Y}{standard deviation for Y}
+
+\item{sd.M}{standard deviation for M}
 
 \item{gen_fun}{function used to generate the required two-sample data.
 Object returned must be a \code{data.frame} with the columns

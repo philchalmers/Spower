@@ -20,6 +20,9 @@
 #'   \code{"DV"} and \code{"group"}. Default uses \code{\link{gen_mediation}}
 #'   to generate conditionally Gaussian distributed samples.
 #'   User defined version of this function must include the argument \code{...}
+#' @param sd.X standard deviation for X
+#' @param sd.M standard deviation for M
+#' @param sd.Y standard deviation for Y
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #'
@@ -49,8 +52,10 @@
 #' @export
 p_mediation <- function(n, a, b, cprime, dichotomous.X=FALSE,
 						two.tailed=TRUE, method = 'wald',
+						sd.X=1, sd.Y=1, sd.M=1,
 						gen_fun=gen_mediation, ...){
 	dat <- gen_fun(n, a=a, b=b, cprime=cprime,
+				   sd.X=sd.X, sd.Y=sd.Y, sd.M=sd.M,
 				   dichotomous.X=dichotomous.X, ...)
 	model <- '
 	       # direct effect
@@ -74,13 +79,15 @@ p_mediation <- function(n, a, b, cprime, dichotomous.X=FALSE,
 
 #' @rdname p_mediation
 #' @export
-gen_mediation <- function(n, a, b, cprime, dichotomous.X=FALSE, ...){
+gen_mediation <- function(n, a, b, cprime, dichotomous.X=FALSE,
+						  sd.X=1, sd.Y=1, sd.M=1, ...){
 	if(dichotomous.X){
 		X <- rep(0:1, each=n)
+		X <- X * sd.X / sqrt(.25)
 		n <- n*2
 	} else X <- rnorm(n)
-	M <- a*X + rnorm(n)
-	Y <- b*M + cprime*X + rnorm(n)
-	dat <- data.frame(X, Y, M)
+	M <- a*X + rnorm(n, sd=sd.M - a^2)
+	Y <- b*M + cprime*X + rnorm(n, sd=sd.Y - b^2 - cprime^2)
+	dat <- data.frame(X=X * sd.X, Y=Y * sd.Y, M=M * sd.M)
 	dat
 }
