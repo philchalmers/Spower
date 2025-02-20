@@ -142,6 +142,9 @@
 #' # test that it works
 #' Spower(p_t.test(n = 50, d = .5), replications=10)
 #'
+#' # also behaves naturally with a pipe
+#' p_t.test(n = 50, d = .5) |> Spower(replications=10)
+#'
 #' \dontrun{
 #'
 #' # Estimate power given fixed inputs (post-hoc power analysis)
