@@ -5,15 +5,12 @@
 \title{Draw power curve from simulation functions}
 \usage{
 powerCurve(
-  p_sim,
-  varying,
   ...,
   interval = NULL,
   power = NA,
   sig.level = 0.05,
   replications = 1000,
   integer,
-  prior = NULL,
   plotCI = TRUE,
   plotly = TRUE,
   parallel = FALSE,
@@ -29,21 +26,16 @@ powerCurve(
 )
 }
 \arguments{
-\item{p_sim}{function that both creates the data and returns a single
-p-value for the analysis of interest}
+\item{...}{first expression input must be identical to \code{...} in
+\code{\link{Spower}}, while the remaining named inputs must match the arguments
+to this expression to indicate which variables should be modified in the
+resulting power curves. Providing \code{NA} values is also supported to
+solve the missing component
 
-\item{varying}{either a vector of values to substitute into the missing \code{...}
-terms or a structure created from \code{\link[SimDesign]{createDesign}}.
-The benefit of the ladder is that multiple factors can vary, and NA
-placeholders will not be required. Requires \code{power} to be set to \code{NA}.
-
-Note that only the first three columns in this object will be plotted using
+Note that only the first three named arguments will be plotted using
 the x-y, colour, and facet wrap aesthetics, respectively. However,
 if necessary the data can be extracted for further visualizations via
 \code{\link[ggplot2]{ggplot_build}} to provide more customized control}
-
-\item{...}{a set of conditions to use in the simulation that must match the
-arguments in the function \code{p_sim}. See \code{\link{Spower}}}
 
 \item{interval}{search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
 Can be a vector of length two to apply the same interval across
@@ -61,8 +53,6 @@ can be specified as a vector to solve the missing elements in
 10000}
 
 \item{integer}{see \code{\link{Spower}}}
-
-\item{prior}{see \code{\link{Spower}}}
 
 \item{plotCI}{logical; include confidence/prediction intervals in plots?}
 
@@ -106,49 +96,36 @@ variable inputs rather than precision of a given input.
 \dontrun{
 
 # estimate power given varying sample sizes
-gg <- powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2)
+gg <- p_t.test(d=0.2) |> powerCurve(n=c(30, 90, 270, 550))
 
-# alternatively, specifying varying as a createDesign() object (does not
-# require NA placeholders)
-varying <- createDesign(n=c(30, 90, 270, 550))
-gg <- powerCurve(p_t.test, varying=varying, d=0.2)
-
-# also equivalent, though no CIs plotted
-varying <- createDesign(n=c(30, 90, 270, 550), d=0.2)
-gg <- powerCurve(p_t.test, varying=varying, plotCI=FALSE)
-
-#####
-
-# Because output is a ggplot2 object can be modified
+# Output is a ggplot2 (rendered with plotly by default);hence, can be modified
 gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05) +
   ylab(expression(1-beta)) + theme_grey()
 
-# increase precision by using 10000 replications. Parallel computations
-# generally recommended in this case to save time
-powerCurve(p_t.test, varying=c(30, 90, 270, 550), n=NA, d=0.2,
-           replications = 10000)
+# Increase precision by using 10000 replications. Parallel computations
+#   generally recommended in this case to save time
+p_t.test(d=0.2) |> powerCurve(n=c(30, 90, 270, 550), replications=10000)
 
 # estimate sample sizes given varying power
-powerCurve(p_t.test, n=NA, d=0.2, interval=c(10, 1000),
-		   power=c(.2, .4, .6, .8))
+p_t.test(n=NA, d=0.2) |>
+  powerCurve(power=c(.2, .4, .6, .8), interval=c(10, 1000))
 
 # get information from last printed graphic instead of saving
 gg <- last_plot()
 gg + coord_flip() # flip coordinates to put power on y-axis
 
 # estimate power varying d
-powerCurve(p_t.test, varying=seq(.1, 1, by=.2), n=50, d=NA)
+p_t.test(n=50) |> powerCurve(d=seq(.1, 1, by=.2))
 
 # estimate d varying power
-powerCurve(p_t.test, n=50, d=NA, interval=c(.01, 1),
-		   power=c(.2, .4, .6, .8))
+p_t.test(n=50, d=NA) |>
+  powerCurve(power=c(.2, .4, .6, .8), interval=c(.01, 1))
 
 #####
 
-# vary two inputs instead of one (second column uses colour aesthetic)
-varying <- createDesign(n=c(30, 90, 270, 550),
-                        d=c(.2, .5, .8))
-powerCurve(p_t.test, varying=varying)
+# vary two inputs instead of one (second input uses colour aesthetic)
+p_t.test() |> powerCurve(n=c(30, 90, 270, 550),
+                         d=c(.2, .5, .8))
 
 # extract data for alternative presentations
 build <- ggplot_build(last_plot())
@@ -158,11 +135,13 @@ df <- build$plot$data
 head(df)
 ggplot(df, aes(n, power, linetype=d)) + geom_line()
 
-# vary three inputs (third column uses facet_wrap)
-varying <- createDesign(n=c(30, 90, 270),
-                        var.equal=c(FALSE, TRUE),
-                        d=c(.2, .5))
+# vary three arguments (third uses facet_wrap ... any more than that and
+#   you're on your own!)
 powerCurve(p_t.test, varying=varying)
+
+p_t.test() |> powerCurve(n=c(30, 90, 270, 550),
+                         d=c(.2, .5, .8),
+                         var.equal=c(FALSE, TRUE))
 
 }
 
