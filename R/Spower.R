@@ -345,7 +345,7 @@ Spower <- function(..., power = NA, sig.level=.05, beta_alpha = NULL,
 	expr <- match.call(expand.dots = FALSE)$...[[1]]
 	expr <- match.call(eval(expr[[1]]), expr)
 	pick <- names(which(sapply(expr[-1], \(x){
-		ret <- suppressWarnings(try(is.na(x), silent = TRUE))
+		ret <- suppressWarnings(try(all(is.na(x)), silent = TRUE))
 		if(!is.logical(ret)) ret <- FALSE
 		ret
 	})))

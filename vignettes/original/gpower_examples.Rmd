@@ -147,11 +147,11 @@ p_r.cat(n=NA, r=0.2399846, tauX=tauX, tauY=tauY,
 One sample, one-tailed proportions test given data generated from a population tested against $\pi_0 = .65$ with $g=.15$ (hence, $\pi = .65+g=.80$) with $n=20$.
 
 ```{r}
-PI <- .65
+pi <- .65
 g <- .15
-p <- PI + g
+p <- pi + g
 
-p_(n=20, prop=p, pi=PI, two.tailed=FALSE) |>
+p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |>
 	Spower()
 ```
 
@@ -161,7 +161,7 @@ Fisher's exact test is also supported by using the argument `exact = TRUE`.
 
 ```{r}
 # Fisher exact test
-p_(n=20, prop=p, pi=PI, exact=TRUE, 
+p_prop.test(n=20, prop=p, pi=pi, exact=TRUE, 
 			two.tailed=FALSE) |> Spower()
 ```
 
