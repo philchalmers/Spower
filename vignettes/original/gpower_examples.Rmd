@@ -151,7 +151,7 @@ PI <- .65
 g <- .15
 p <- PI + g
 
-p_prop.test(n=20, prop=p, pi=PI, two.tailed=FALSE) |>
+p_(n=20, prop=p, pi=PI, two.tailed=FALSE) |>
 	Spower()
 ```
 
@@ -161,7 +161,7 @@ Fisher's exact test is also supported by using the argument `exact = TRUE`.
 
 ```{r}
 # Fisher exact test
-p_prop.test(n=20, prop=p, pi=PI, exact=TRUE, 
+p_(n=20, prop=p, pi=PI, exact=TRUE, 
 			two.tailed=FALSE) |> Spower()
 ```
 

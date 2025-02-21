@@ -350,6 +350,7 @@ Spower <- function(..., power = NA, sig.level=.05, beta_alpha = NULL,
 	})))
 	fixed_objects$expr <- expr
 	fixed_objects$pick <- pick
+	fixed_objects$parent_frame <- parent.frame()
 	if((is.na(power) + is.na(sig.level) + length(pick)) != 1)
 		stop('Exactly *one* argument must be set to \'NA\' in Spower(..., power, sig.level)',
 			 call.=FALSE)
@@ -423,7 +424,7 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 		prior <- prior()
 		fixed_objects$expr[names(prior)] <- prior
 	}
-	eval(fixed_objects$expr)
+	eval(fixed_objects$expr, envir = fixed_objects$parent_frame)
 }
 
 #' @rdname Spower
