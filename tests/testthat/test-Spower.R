@@ -123,9 +123,9 @@ test_that('scope', {
 		Spower(replications=10, verbose=FALSE) -> out
 	expect_equal(out$power, .6)
 
-	# TODO this should be fixed
-	expect_error(suppressWarnings(p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |>
-		Spower(replications=10, verbose=FALSE)))
-
+	# global pi
+	p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |>
+		Spower(replications=10, verbose=FALSE) -> out2
+	expect_equal(out2$power, .2)
 })
 
