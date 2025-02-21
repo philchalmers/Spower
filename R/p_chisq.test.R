@@ -41,22 +41,22 @@
 #'     pwr::pwr.chisq.test(w=w, df=df, N=100, sig.level=0.05)
 #'
 #'     # slightly less power when evaluated empirically
-#'     Spower(p_chisq.test, n=100, w=w, df=df, replications=100000)
-#'     Spower(p_chisq.test, n=100, P0=P0, P=P, replications=100000)
+#'     p_chisq.test(n=100, w=w, df=df) |> Spower(replications=100000)
+#'     p_chisq.test, n=100, P0=P0, P=P) |> Spower(replications=100000)
 #'
 #'     # slightly differ (latter more conservative due to finite sampling behaviour)
 #'     pwr::pwr.chisq.test(w=w, df=df, power=.8, sig.level=0.05)
-#'     Spower(p_chisq.test, n=NA, w=w, df=df,
-#'            power=.80, interval=c(50, 200))
-#'     Spower(p_chisq.test, n=NA, w=w, df=df, correct=FALSE,
-#'            power=.80, interval=c(50, 200))
+#'     p_chisq.test(n=NA, w=w, df=df) |>
+#'            Spower(power=.80, interval=c(50, 200))
+#'     p_chisq.test(n=NA, w=w, df=df, correct=FALSE) |>
+#'            Spower(power=.80, interval=c(50, 200))
 #'
 #'     # Spower slightly more conservative even with larger N
 #'     pwr::pwr.chisq.test(w=.1, df=df, power=.95, sig.level=0.05)
-#'     Spower(p_chisq.test, n=NA, w=.1, df=df,
-#'            power=.95, interval=c(1000, 2000))
-#'     Spower(p_chisq.test, n=NA, w=.1, df=df, correct=FALSE,
-#'            power=.95, interval=c(1000, 2000))
+#'     p_chisq.test(n=NA, w=.1, df=df) |>
+#'            Spower(power=.95, interval=c(1000, 2000))
+#'     p_chisq.test(n=NA, w=.1, df=df, correct=FALSE) |>
+#'            Spower(power=.95, interval=c(1000, 2000))
 #'
 #' }
 #'

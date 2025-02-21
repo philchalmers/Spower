@@ -56,13 +56,13 @@
 #'
 #'   pwr::pwr.t.test(d=0.2, n=60, sig.level=0.10,
 #'              type="one.sample", alternative="two.sided")
-#'   Spower(p_t.test, n=60, d=0.2, type = 'one.sample', two.tailed=TRUE,
-#'          sig.level=.10)
+#'   p_t.test(n=60, d=0.2, type = 'one.sample', two.tailed=TRUE) |>
+#'          Spower(sig.level=.10)
 #'
 #'   pwr::pwr.t.test(d=0.3, power=0.80, type="two.sample",
 #'                   alternative="greater")
-#'   Spower(p_t.test, n=NA, d=0.3, type='two.sample', two.tailed=FALSE,
-#'          power=0.80, interval=c(10,200))
+#'   p_t.test(n=NA, d=0.3, type='two.sample', two.tailed=FALSE) |>
+#'          Spower(power=0.80, interval=c(10,200))
 #'
 #' }
 #'

@@ -60,23 +60,25 @@
 #'     pwr::pwr.p.test(h=h, n=60)
 #'
 #'     # uses binom.test (need to specify null location as this matters!)
-#'     Spower(p_prop.test, n=60, h=h, pi=.4)
-#'     Spower(p_prop.test, n=60, prop=.5, pi=.4)
+#'     Spower(p_prop.test(n=60, h=h, pi=.4))
+#'     Spower(p_prop.test(n=60, prop=.5, pi=.4))
 #'
 #'     # compare with switched null
-#'     Spower(p_prop.test, n=60, h=h, pi=.5)
-#'     Spower(p_prop.test, n=60, prop=.4, pi=.5)
+#'     Spower(p_prop.test(n=60, h=h, pi=.5))
+#'     Spower(p_prop.test(n=60, prop=.4, pi=.5))
 #'
 #'     # two-sample test, one-tailed
 #'     (h <- pwr::ES.h(0.67, 0.5))
 #'     pwr::pwr.2p.test(h=h, n=80, alternative="greater")
-#'     Spower(p_prop.test, n=80, prop=c(.67, .5), two.tailed=FALSE, correct=FALSE)
+#'     p_prop.test(n=80, prop=c(.67, .5), two.tailed=FALSE,
+#'       correct=FALSE) |> Spower()
 #'
 #'     # same as above, but with continuity correction (default)
-#'     Spower(p_prop.test, n=80, prop=c(.67, .5), two.tailed=FALSE)
+#'     p_prop.test(n=80, prop=c(.67, .5), two.tailed=FALSE) |>
+#'       Spower()
 #'
 #'     # three-sample joint test, equal n's
-#'     Spower(p_prop.test, n=50, prop=c(.6,.4,.7))
+#'     p_prop.test(n=50, prop=c(.6,.4,.7)) |> Spower()
 #'
 #' }
 #'

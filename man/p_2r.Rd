@@ -86,10 +86,11 @@ p_2r(100, r.ab1=.5, r.ab2=.6)
 
 if(FALSE){
     # estimate empirical power
-    Spower(p_2r, n=100, r.ab1=.5, r.ab2=.6)
+    p_2r(n=100, r.ab1=.5, r.ab2=.6) |> Spower()
 
     # estimate n required to reach 80\% power
-    Spower(p_2r, n=NA, r.ab1=.5, r.ab2=.6, power=.80, interval=c(100, 5000))
+    p_2r(n=NA, r.ab1=.5, r.ab2=.6) |>
+      Spower(power=.80, interval=c(100, 5000))
 }
 
 # overlap (same y, different xs)

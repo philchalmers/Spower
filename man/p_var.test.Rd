@@ -63,11 +63,11 @@ p_var.test(100, sds=c(10, 9, 11))
 
 if(FALSE){
   # power to detect three-group variance differences
-  Spower(p_var.test, n=100, sds=c(10,9,11))
+  p_var.test(n=100, sds=c(10,9,11)) |> Spower()
 
   # sample size per group to achieve 80\% power
-  Spower(p_var.test, n=NA, sds=c(10,9,11),
-         power=.80, interval=c(100, 1000))
+  p_var.test(n=NA, sds=c(10,9,11)) |>
+         Spower(power=.80, interval=c(100, 1000))
 }
 
 }

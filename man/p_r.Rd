@@ -53,13 +53,13 @@ if(FALSE){
     # compare simulated results to pwr package
 
     pwr::pwr.r.test(r=0.3, n=50)
-    Spower(p_r, n=50, r=0.3)
+    p_r(n=50, r=0.3) |> Spower()
 
     pwr::pwr.r.test(r=0.3, power=0.80)
-    Spower(p_r, n=NA, r=0.3, power=.80, interval=c(10, 200))
+    p_r(n=NA, r=0.3, power=.80, interval=c(10, 200)) |> Spower()
 
     pwr::pwr.r.test(r=0.1, power=0.80)
-    Spower(p_r, n=NA, r=0.1, power=.80, interval=c(200, 1000))
+    p_r(n=NA, r=0.1, power=.80, interval=c(200, 1000)) |> Spower()
 
 }
 

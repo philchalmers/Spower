@@ -33,7 +33,7 @@
 #' \dontrun{
 #'
 #' # post-hoc power (not recommended)
-#' Spower(p_mcnemar.test, n=sum(Performance), prop=prop)
+#' Spower(p_mcnemar.test(n=sum(Performance), prop=prop))
 #'
 #' }
 #'
