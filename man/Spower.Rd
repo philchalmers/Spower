@@ -9,9 +9,9 @@ Spower(
   ...,
   power = NA,
   sig.level = 0.05,
+  interval,
   beta_alpha = NULL,
   replications = 10000,
-  interval,
   integer,
   summarise = NULL,
   parallel = FALSE,
@@ -52,6 +52,10 @@ will be estimated given the fixed \code{...} inputs
 alpha will be estimated given the fixed \code{conditions} input
 (e.g., for criterion power analysis)}
 
+\item{interval}{search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
+Note that for compromise analyses, where the \code{sig.level} is set to
+\code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}}
+
 \item{beta_alpha}{ratio to use in compromise analyses corresponding to
 the Type II errors (beta) over the Type I error (alpha). Ratios greater
 than 1 indicate that Type I errors are worse than Type II, while ratios
@@ -60,10 +64,6 @@ between Type I and Type II errors}
 
 \item{replications}{number of replications to use when
 \code{\link[SimDesign]{runSimulation}} is required}
-
-\item{interval}{search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
-Note that for compromise analyses, where the \code{sig.level} is set to
-\code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}}
 
 \item{integer}{a logical value indicating whether the search iterations
 use integers or doubles.

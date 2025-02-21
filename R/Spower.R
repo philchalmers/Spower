@@ -308,8 +308,8 @@
 #'
 #'
 #' }
-Spower <- function(..., power = NA, sig.level=.05, beta_alpha = NULL,
-				   replications=10000, interval, integer,
+Spower <- function(..., power = NA, sig.level=.05, interval,
+				   beta_alpha = NULL, replications=10000, integer,
 				   summarise=NULL, parallel = FALSE, cl = NULL, packages = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
