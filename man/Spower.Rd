@@ -173,22 +173,23 @@ p_t.test(n = 50, d = .5) |> Spower(replications=10)
 \dontrun{
 
 # Estimate power given fixed inputs (post-hoc power analysis)
-out <- Spower(p_t.test, n = 50, d = .5)
+out <- Spower(p_t.test(n = 50, d = .5))
 summary(out)   # extra information
 
 # increase precision
-Spower(p_t.test, n = 50, d = .5, replications=30000)
+p_t.test(n = 50, d = .5) |> Spower(replications=30000)
 
 # previous analysis not stored to object, but can be retrieved
 out <- getLastSpower()
 out   # as though it were stored from Spower()
 
 # Same as above, but executed with multiple cores
-Spower(p_t.test, n = 50, d = .5, replications=30000,
-  parallel=TRUE, ncores=2)
+p_t.test(n = 50, d = .5) |>
+  Spower(replications=30000, parallel=TRUE, ncores=2)
 
 # Solve N to get .80 power (a priori power analysis)
-out <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500))
+p_t.test(n = NA, d = .5) |>
+  Spower(power=.8, interval=c(2,500)) -> out
 summary(out)  # extra information
 plot(out)
 plot(out, type = 'history')
@@ -197,8 +198,8 @@ plot(out, type = 'history')
 ceiling(out$n) * 2
 
 # same as above, but in parallel with 2 cores
-out.par <- Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500),
-  parallel=TRUE, ncores=2)
+out.par <- p_t.test(n = NA, d = .5) |>
+  Spower(power=.8, interval=c(2,500), parallel=TRUE, ncores=2)
 summary(out.par)
 
 # similar information from pwr package
@@ -208,20 +209,20 @@ ceiling(pwr$n) * 2
 # If greater precision is required and the user has a specific amount of time
 # they are willing to wait (e.g., 5 minutes) then wait.time can be used. Below
 # estimates root after searching for 1 minute, and run in parallel with 2 cores
-Spower(p_t.test, n = NA, d = .5, power=.8, interval=c(2,500), wait.time='1',
-  parallel=TRUE, ncores=2)
+p_t.test(n = NA, d = .5) |>
+  Spower(power=.8, interval=c(2,500), wait.time='1', parallel=TRUE, ncores=2)
 
 # Solve d to get .80 power (sensitivity power analysis)
-Spower(p_t.test, n = 50, d = NA, power=.8, interval=c(.1, 2))
+p_t.test(n = 50, d = NA) |> Spower(power=.8, interval=c(.1, 2))
 pwr::pwr.t.test(n=50, power=.80) # compare
 
 # Solve alpha that would give power of .80 (criterion power analysis)
 #    interval not required (set to interval = c(0, 1))
-Spower(p_t.test, n = 50, d = .5, power=.80, sig.level=NA)
+p_t.test(n = 50, d = .5) |> Spower(power=.80, sig.level=NA)
 
 # Solve beta/alpha ratio to specific error trade-off constant
 #   (compromise power analysis)
-(out <- Spower(p_t.test, n = 50, d = .5, beta_alpha = 2))
+out <- p_t.test(n = 50, d = .5) |> Spower(beta_alpha = 2)
 with(out, (1-power)/sig.level)   # solved ratio
 
 # update beta_alpha criteria without re-simulating
@@ -253,15 +254,16 @@ dprior <- function(x, mean=.5, sd=1/8) dnorm(x, mean=mean, sd=sd)
 curve(dprior, -1, 2, main=expression(d \%~\% N(0.5, 1/8)),
       xlab='d', ylab='density')
 
-# define prior sampler and returned named object (list or numeric vector)
-prior <- function() c(d=rnorm(1, mean=.5, sd=1/8))
-prior(); prior(); prior()
+# For Spower, define prior sampler for specific parameter(s)
+d_prior <- function() rnorm(1, mean=.5, sd=1/8)
+d_prior(); d_prior(); d_prior()
 
-# Expected power (d no longer in ... since it's returned from prior())
-Spower(p_t.test, n = 50, prior=prior)
+# Replace d constant with d_prior to compute expected power
+p_t.test(n = 50, d = d_prior()) |> Spower()
 
 # A priori power analysis using expected power
-Spower(p_t.test, n = NA, power=.8, interval=c(2,500), prior=prior)
+p_t.test(n = NA, d = d_prior()) |>
+  Spower(power=.8, interval=c(2,500))
 pwr::pwr.t.test(d=.5, power=.80) # expected power result higher than fixed d
 
 
@@ -298,15 +300,16 @@ p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
 }
 
 # Solve N to get .80 power (a priori power analysis), using defaults
-out <- Spower(p_my_t.test, n = NA, d = .5, power=.8, n2_n1=2, interval=c(2,500))
+p_my_t.test(n = NA, d = .5, n2_n1=2) |>
+  Spower(power=.8, interval=c(2,500)) -> out
 
 # total sample size required
 with(out, ceiling(n) + ceiling(n * 2))
 
 # Solve N to get .80 power (a priori power analysis), assuming
 #   equal variances, group2 2x as large as group1, large skewness
-(out2 <- Spower(p_my_t.test, n = NA, d = .5, var.equal=TRUE, n2_n1=2, df=3,
-                power=.8, interval=c(30,100)))
+p_my_t.test(n = NA, d=.5, var.equal=TRUE, n2_n1=2, df=3) |>
+  Spower(power=.8, interval=c(30,100)) -> out2
 
 # total sample size required
 with(out2, ceiling(n) + ceiling(n * 2))
@@ -325,7 +328,7 @@ Summarise <- function(condition, results, fixed_objects) {
 
 # for simulations with many more condition combinations to
 #  explore runSimulation() is recommended instead
-out <- Spower(p_my_t.test, n = 100, d = .5, summarise=Summarise)
+out <- p_my_t.test(n = 100, d = .5) |> Spower(summarise=Summarise)
 out |> as.data.frame()
 
 

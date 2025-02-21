@@ -7,20 +7,20 @@ test_that('Spower', {
     library(Spower)
 
 	set.seed(1234)
-	out1 <- Spower(p_t.test, n = 50, d = .5, replications=10, verbose=FALSE)
+	out1 <- Spower(p_t.test(n = 50, d = .5), replications=10, verbose=FALSE)
 	expect_class(out1, 'Spower')
 	expect_equal(out1$power, .6)
 	outu <- update(out1, sig.level = .10)
 	expect_equal(outu$power, .8)
 
 	set.seed(4321)
-	out2 <- Spower(p_t.test, n = NA, d = .5, power=.5, interval=c(10, 100),
+	out2 <- Spower(p_t.test(n = NA, d = .5), power=.5, interval=c(10, 100),
 				   maxiter = 40, verbose=FALSE)
 	expect_class(out2, 'Spower')
 	expect_equal(out2$n, 32.15, tolerance=.01)
 
 	set.seed(42)
-	out <- Spower(p_t.test, n = 50, d = .5, beta_alpha = 2,
+	out <- Spower(p_t.test(n = 50, d = .5), beta_alpha = 2,
 				  verbose=FALSE, replications=1000)
 	expect_class(out, 'Spower')
 	expect_equal(out$power, .813, tolerance=.01)
@@ -32,7 +32,7 @@ test_that('Spower', {
 
 	# same, but in parallel
 	set.seed(1234)
-	out1 <- Spower(p_t.test, n = 50, d = .5, replications=10, verbose=FALSE,
+	out1 <- Spower(p_t.test(n = 50, d = .5), replications=10, verbose=FALSE,
 				   parallel=TRUE, ncores=2)
 	expect_class(out1, 'Spower')
 	expect_equal(out1$power, .7)
@@ -40,12 +40,12 @@ test_that('Spower', {
 	expect_equal(outu$power, .8)
 
 	set.seed(4321)
-	out2 <- Spower(p_t.test, n = NA, d = .5, power=.5, interval=c(10, 100),
+	out2 <- Spower(p_t.test(n = NA, d = .5), power=.5, interval=c(10, 100),
 				   maxiter = 40, verbose=FALSE,  parallel=TRUE, ncores=2)
 	expect_equal(out2$n, 31.00, tolerance=.01)
 
 	set.seed(42)
-	out <- Spower(p_t.test, n = 50, d = .5, beta_alpha = 2,
+	out <- Spower(p_t.test(n = 50, d = .5), beta_alpha = 2,
 				  verbose=FALSE, replications=1000,
 				  parallel=TRUE, ncores=2)
 	expect_equal(out$power, 0.790, tolerance=.01)
@@ -82,21 +82,23 @@ test_that('scope', {
 
 	# Solve N to get .80 power (a priori power analysis), using defaults
 	set.seed(1234)
-	out <- Spower(p_my_t.test, n = NA, d = .5, power=.8,
+	out <- Spower(p_my_t.test(n = NA, d = .5), power=.8,
 				  interval=c(2,500), maxiter=40, verbose=FALSE)
 	expect_equal(out$n, 64.42, tolerance=.01)
 
-	out2 <- Spower(p_my_t.test, n = 100, d = .5, replications=1000, verbose=FALSE)
+	out2 <- Spower(p_my_t.test(n = 100, d = .5),
+				   replications=1000, verbose=FALSE)
 	expect_equal(out2$power, 0.928, tolerance=.01)
 
 	# in parallel
 	set.seed(1234)
-	out <- Spower(p_my_t.test, n = NA, d = .5, power=.8,
+	out <- Spower(p_my_t.test(n = NA, d = .5), power=.8,
 				  interval=c(2,500), maxiter=40, verbose=FALSE,
 				  parallel=TRUE, ncores = 2)
 	expect_equal(out$n, 66.01, tolerance=.01)
 
-	out2 <- Spower(p_my_t.test, n = 100, d = .5, verbose=FALSE, replications=1000,
+	out2 <- Spower(p_my_t.test(n = 100, d = .5),
+				   verbose=FALSE, replications=1000,
 				   parallel=TRUE, ncores = 2)
 	expect_equal(out2$power, 0.934, tolerance=.01)
 
