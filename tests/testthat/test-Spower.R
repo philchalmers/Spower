@@ -102,5 +102,24 @@ test_that('scope', {
 				   parallel=TRUE, ncores = 2)
 	expect_equal(out2$power, 0.934, tolerance=.01)
 
+	# constants
+	set.seed(4321)
+	n <- 206
+	n2_n1 <- 51/n
+	p_2r(n=n, r.ab1=.75, r.ab2=.88, n2_n1=n2_n1) |>
+		Spower(replications=100, verbose=FALSE) -> out
+	expect_equal(out$power, .72)
+	p_2r(n=n, r.ab1=.75, r.ab2=.88, n2_n1=n2_n1) |>
+		Spower(replications=100, verbose=FALSE,
+			   parallel=TRUE, ncores=2) -> out2
+	expect_equal(out2$power, .68)
+
+	# conflicting constants (failing)
+	pi <- .65
+	g <- .15
+	p <- pi + g
+	# p_prop.test(n=20, prop=p, pi=.65, two.tailed=FALSE) |> Spower()
+	# p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |> Spower() # fails
+
 })
 

@@ -60,9 +60,7 @@ parent_env_fun <- function(level=2){
 	ret <- NULL
 	for(lev in level:2){
 		nms <- ls(envir = parent.frame(lev))
-		is_fun <- sapply(nms, function(x, envir) is.function(get(x, envir=envir)),
-						 envir = parent.frame(lev))
-		if(any(is_fun)) ret <- c(ret, nms[is_fun])
+		ret <- c(ret, nms)
 	}
 	ret
 }
