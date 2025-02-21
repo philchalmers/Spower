@@ -309,7 +309,7 @@
 #'
 #' }
 Spower <- function(..., power = NA, sig.level=.05, beta_alpha = NULL,
-				   replications=10000, prior = NULL, interval, integer,
+				   replications=10000, interval, integer,
 				   summarise=NULL, parallel = FALSE, cl = NULL, packages = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
@@ -350,7 +350,6 @@ Spower <- function(..., power = NA, sig.level=.05, beta_alpha = NULL,
 	})))
 	fixed_objects$expr <- expr
 	fixed_objects$pick <- pick
-	fixed_objects$prior <- prior
 	if((is.na(power) + is.na(sig.level) + length(pick)) != 1)
 		stop('Exactly *one* argument must be set to \'NA\' in Spower(..., power, sig.level)',
 			 call.=FALSE)
@@ -406,7 +405,7 @@ Spower <- function(..., power = NA, sig.level=.05, beta_alpha = NULL,
 		conditions$beta_alpha <- beta_alpha
 	}
 	attr(ret, 'Spower_extra') <- list(predCI=predCI, conditions=conditions,
-							   beta_alpha=beta_alpha, expected=!is.null(prior))
+							   beta_alpha=beta_alpha, expected=FALSE)
 	class(ret) <- c('Spower', class(ret))
 	.SpowerEnv$lastSim <- ret
 	if(verbose){

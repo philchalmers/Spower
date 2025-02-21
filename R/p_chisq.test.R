@@ -42,7 +42,7 @@
 #'
 #'     # slightly less power when evaluated empirically
 #'     p_chisq.test(n=100, w=w, df=df) |> Spower(replications=100000)
-#'     p_chisq.test, n=100, P0=P0, P=P) |> Spower(replications=100000)
+#'     p_chisq.test(n=100, P0=P0, P=P) |> Spower(replications=100000)
 #'
 #'     # slightly differ (latter more conservative due to finite sampling behaviour)
 #'     pwr::pwr.chisq.test(w=w, df=df, power=.8, sig.level=0.05)

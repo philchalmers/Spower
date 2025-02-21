@@ -11,7 +11,6 @@ Spower(
   sig.level = 0.05,
   beta_alpha = NULL,
   replications = 10000,
-  prior = NULL,
   interval,
   integer,
   summarise = NULL,

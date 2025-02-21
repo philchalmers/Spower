@@ -13,11 +13,11 @@
 #'   model involves the structure A -> B -> C)
 #' @param fixed.X logical; should the IVs be considered fixed or random?
 #' @param gen_fun function used to generate the required discrete data.
-#'   Object returned must be a \code{data.frame}. Default uses \code{\link{gen_lm}}.
+#'   Object returned must be a \code{data.frame}. Default uses \code{\link{gen_lm.R2}}.
 #'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
-#' @seealso \code{\link{gen_lm}}
+#' @seealso \code{\link{gen_lm.R2}}
 #' @export
 #' @examples
 #'

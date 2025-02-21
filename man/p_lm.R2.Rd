@@ -46,7 +46,7 @@ model involves the structure A -> B -> C)}
 \item{fixed.X}{logical; should the IVs be considered fixed or random?}
 
 \item{gen_fun}{function used to generate the required discrete data.
-Object returned must be a \code{data.frame}. Default uses \code{\link{gen_lm}}.
+Object returned must be a \code{data.frame}. Default uses \code{\link{gen_lm.R2}}.
 User defined version of this function must include the argument \code{...}}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
@@ -63,5 +63,5 @@ p_lm.R2(n=95, R2=.1, k=5)
 
 }
 \seealso{
-\code{\link{gen_lm}}
+\code{\link{gen_lm.R2}}
 }
