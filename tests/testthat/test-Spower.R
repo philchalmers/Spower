@@ -127,5 +127,9 @@ test_that('scope', {
 	p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |>
 		Spower(replications=10, verbose=FALSE) -> out2
 	expect_equal(out2$power, .2)
+
+	# unnamed inputs
+	p_t.test(100, .5) |> Spower(replications=10, verbose=FALSE) -> out
+	expect_is(out, 'Spower')
 })
 
