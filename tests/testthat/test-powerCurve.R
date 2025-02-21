@@ -14,17 +14,21 @@ test_that('powerCurve', {
 	expect_class(out, 'gg')
 
 	p_t.test(n=NA, d=0.2) |>
-	   powerCurve(power=c(.2, .4), interval=c(10, 1000), verbose=F) -> out
+	   powerCurve(power=c(.2, .4), interval=c(10, 1000), verbose=F, plotly = FALSE) -> out
 	expect_class(out, 'gg')
 
 	p_t.test() |>
 		powerCurve(n=c(30, 90, 270, 550),
-				   d=c(.2, .5, .8), replications=10, verbose=F) -> out
+				   d=c(.2, .5, .8), replications=10, verbose=F, plotly = FALSE) -> out
 	expect_class(out, 'gg')
 
 	p_t.test(n=NA) |>
-		powerCurve(d=c(.2, .5, .8), power=.80, interval=c(10, 1000), verbose=F) -> out
+		powerCurve(d=c(.2, .5, .8), power=.80, interval=c(10, 1000), verbose=F, plotly = FALSE) -> out
 	expect_class(out, 'gg')
+
+	# p_t.test(n=250) |>
+	# 	powerCurve(d=c(.2, .5, .6), power=.80, sig.level=NA, verbose=F) -> out
+	# expect_class(out, 'gg')
 
 
 

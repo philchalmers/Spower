@@ -121,6 +121,7 @@ p_t.test(n=50) |> powerCurve(d=seq(.1, 1, by=.2))
 p_t.test(n=50, d=NA) |>
   powerCurve(power=c(.2, .4, .6, .8), interval=c(.01, 1))
 
+
 #####
 
 # vary two inputs instead of one (second input uses colour aesthetic)

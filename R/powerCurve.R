@@ -87,6 +87,7 @@
 #' p_t.test(n=50, d=NA) |>
 #'   powerCurve(power=c(.2, .4, .6, .8), interval=c(.01, 1))
 #'
+#'
 #' #####
 #'
 #' # vary two inputs instead of one (second input uses colour aesthetic)
@@ -119,6 +120,12 @@ powerCurve <- function(..., interval = NULL, power = NA,
 					   check.interval=FALSE, maxiter=50, wait.time = NULL,
 					   control = list()){
 	dots <- match.call(expand.dots = FALSE)$...
+	if(is.na(sig.level))
+		stop('solving for sig.level not yet supported', call.=FALSE)
+	if(all(is.na(sig.level))){
+		interval <- c(0,1)
+		integer <- FALSE
+	}
 	expr <- dots[[1]]
 	expr <- match.call(eval(expr[[1]]), expr)
 	pick <- if(length(dots) > 1) names(dots[-1]) else NULL
@@ -128,8 +135,10 @@ powerCurve <- function(..., interval = NULL, power = NA,
 		if(is.null(interval))
 			stop('search interval must be included', call.=FALSE)
 		lst_expr <- as.list(expr)[-1]
-		lst_expr <- lst_expr[sapply(lst_expr, \(x) is.atomic(x) || is.list(x))]
+		if(length(lst_expr))
+			lst_expr <- lst_expr[sapply(lst_expr, \(x) is.atomic(x) || is.list(x))]
 		conditions <- do.call(SimDesign::createDesign, c(lst_expr,
+														 dots[-1],
 														 sig.level=list(sig.level),
 														 power=list(power)))
 	}
@@ -179,6 +188,25 @@ powerCurve <- function(..., interval = NULL, power = NA,
 				gg <- gg + facet_wrap( ~ .data[[cnms[3]]])
 		} else {   # one varying
 			gg <- ggplot(df, aes(.data[[cnms[1]]], power))
+			if(plotCI){
+				gg <- gg + geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
+					geom_line(aes(y=CI.low), linetype='dashed') +
+					geom_line(aes(y=CI.high), linetype='dashed')
+			}
+			gg <- gg + geom_line() + geom_point() + ggtitle(main) +
+				theme_bw() + theme(plot.title = element_text(hjust = 0.5))
+		}
+	} else if(var(conditions$power) == 0){
+		CI <- unname(t(sapply(out, \(x) summary(x)$predCIs_root)))
+		df <- cbind(do.call(rbind, out), CI.low=CI[,1], CI.high=CI[,2])
+		pick <- cnms[is.na(conditions[1,])]
+		pick2 <- cnms[min(which(pick != cnms))]
+		main <- sprintf("Constant Power (%.3f)", power[1])
+		if(var(conditions$sig.level) > 0){
+
+
+		} else {
+			gg <- ggplot(df, aes(.data[[pick2]], .data[[pick]]))
 			if(plotCI){
 				gg <- gg + geom_ribbon(aes(ymin=CI.low, ymax=CI.high), alpha=.2) +
 					geom_line(aes(y=CI.low), linetype='dashed') +
