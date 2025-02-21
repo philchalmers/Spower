@@ -115,11 +115,17 @@ test_that('scope', {
 	expect_equal(out2$power, .68)
 
 	# conflicting constants (failing)
-	pi <- .65
+	set.seed(123)
+	PI <- pi <- .65
 	g <- .15
-	p <- pi + g
-	# p_prop.test(n=20, prop=p, pi=.65, two.tailed=FALSE) |> Spower()
-	# p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |> Spower() # fails
+	p <- PI + g
+	p_prop.test(n=20, prop=p, pi=PI, two.tailed=FALSE) |>
+		Spower(replications=10, verbose=FALSE) -> out
+	expect_equal(out$power, .6)
+
+	# TODO this should be fixed
+	expect_error(suppressWarnings(p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |>
+		Spower(replications=10, verbose=FALSE)))
 
 })
 
