@@ -318,6 +318,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	if(!is.null(cl)) parallel <- TRUE
 	control$useAnalyseHandler <- FALSE
 	pf <- control$parent_frame
+	control$parent_frame <- NULL
 	if(is.null(pf)) pf <- parent.frame()
 	export_funs <- ls(envir = pf)
 	if(parallel){
