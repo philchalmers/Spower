@@ -34,4 +34,39 @@ test_that('powerCurve', {
 
 })
 
+test_that('scope', {
+
+	mygen_fun <- function(n, n2_n1, d, df, ...){
+		group1 <- rchisq(n, df=df)
+		group1 <-  (group1 - df) / sqrt(2*df)   # Adjusted mean to 0, sd = 1
+		group2 <- rnorm(n*n2_n1, mean=d)
+		dat <- data.frame(group = factor(rep(c('G1', 'G2'),
+											 times = c(n, n*n2_n1))),
+						  DV = c(group1, group2))
+		dat
+	}
+
+	p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10, ...){
+		dat <- mygen_fun(n=n, n2_n1=n2_n1, d=d, df=df, ...)
+		obj <- t.test(DV ~ group, dat, var.equal=var.equal)
+
+		# p-value must be first element when using default summarise()
+		with(obj, c(p=p.value,
+					mean_diff=unname(estimate[2] - estimate[1]),
+					SE=stderr))
+	}
+
+	# Solve N to get .80 power (a priori power analysis), using defaults
+	gg <- p_my_t.test(d = .5) |>
+		powerCurve(n=c(30, 60, 90), verbose=F, replications=10, plotly=F)
+	expect_is(gg, 'gg')
+
+	gg <- p_my_t.test(d = .5) |>
+		powerCurve(n=c(30, 60, 90), verbose=F, replications=50, plotly=F,
+				   parallel=TRUE, ncores=2)
+	expect_is(gg, 'gg')
+
+
+})
+
 

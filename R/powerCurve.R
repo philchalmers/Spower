@@ -127,7 +127,7 @@ powerCurve <- function(..., interval = NULL, power = NA,
 		integer <- FALSE
 	}
 	expr <- dots[[1]]
-	expr <- match.call(eval(expr[[1]]), expr)
+	expr <- match.call(eval(expr[[1]], envir = parent.frame()), expr)
 	pick <- if(length(dots) > 1) names(dots[-1]) else NULL
 	if(all(is.na(power))){
 		conditions <- do.call(SimDesign::createDesign, c(dots[-1], sig.level=sig.level, power=power))
@@ -154,6 +154,7 @@ powerCurve <- function(..., interval = NULL, power = NA,
 				message('\nUsing continuous search interval (integer = FALSE).')
 		}
 	} else integer <- FALSE
+	control$parent_frame <- parent.frame()
 	out <- vector('list', nrow(conditions))
 	for(i in 1:length(out)){
 		row <- conditions[i, ]

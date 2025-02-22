@@ -317,7 +317,9 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 				   control = list()){
 	if(!is.null(cl)) parallel <- TRUE
 	control$useAnalyseHandler <- FALSE
-	export_funs <- parent_env_fun()
+	pf <- control$parent_frame
+	if(is.null(pf)) pf <- parent.frame()
+	export_funs <- ls(envir = pf)
 	if(parallel){
 		type <- if(is.null(control$type))
 			ifelse(.Platform$OS.type == 'windows', 'PSOCK', 'FORK')
@@ -326,7 +328,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 			cl <- parallel::makeCluster(ncores, type=type)
 			on.exit(parallel::stopCluster(cl), add = TRUE)
 		}
-		parallel::clusterExport(cl=cl, export_funs, envir = parent.frame(1L))
+		parallel::clusterExport(cl=cl, export_funs, envir = pf)
 		if(verbose)
 			message(sprintf("\nNumber of parallel clusters in use: %i", length(cl)))
 	}
@@ -343,7 +345,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	if(is.null(summarise)) summarise <- Internal_Summarise
 	fixed_objects <- list(sig.level=sig.level)
 	expr <- match.call(expand.dots = FALSE)$...[[1]]
-	expr <- match.call(eval(expr[[1]]), expr)
+	expr <- match.call(eval(expr[[1]], envir = pf), expr)
 	pick <- names(which(sapply(expr[-1], \(x){
 		ret <- suppressWarnings(try(all(is.na(x)), silent = TRUE))
 		if(!is.logical(ret)) ret <- FALSE
@@ -351,7 +353,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	})))
 	fixed_objects$expr <- expr
 	fixed_objects$pick <- pick
-	fixed_objects$parent_frame <- parent.frame()
+	fixed_objects$parent_frame <- pf
 	if((is.na(power) + is.na(sig.level) + length(pick)) != 1)
 		stop('Exactly *one* argument must be set to \'NA\' in Spower(..., power, sig.level)',
 			 call.=FALSE)
@@ -425,7 +427,7 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 		prior <- prior()
 		fixed_objects$expr[names(prior)] <- prior
 	}
-	eval(fixed_objects$expr, envir = fixed_objects$parent_frame)
+	eval(fixed_objects$expr)
 }
 
 #' @rdname Spower
