@@ -161,7 +161,6 @@ powerCurve <- function(..., interval = NULL, power = NA,
 		tmpexpr <- expr
 		if(length(pick))
 			tmpexpr[pick] <- row[,pick]
-		browser()
 		out[[i]] <- do.call(Spower, c(tmpexpr,
 									  list(power=power[i], sig.level=sig.level[i], beta_alpha=NULL,
 									  interval=interval, integer=integer, replications=replications,
