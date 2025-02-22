@@ -104,7 +104,9 @@ within \code{.01/2} of the target power}
 \item{maxiter}{maximum number of stochastic root-solving iterations}
 
 \item{wait.time}{(optional) argument to indicate the time to wait
-(specified in minutes). See \code{\link[SimDesign]{SimSolve}} for details}
+(specified in minutes if supplied as a numeric vector).
+See \code{\link[SimDesign]{SimSolve}} for details and
+See \code{\link[SimDesign]{timeFormater}} for further specifications}
 
 \item{control}{a list of control parameters to pass to
 \code{\link[SimDesign]{runSimulation}} or \code{\link[SimDesign]{SimSolve}}}

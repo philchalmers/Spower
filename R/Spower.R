@@ -68,7 +68,9 @@
 #'   \code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}
 #'
 #' @param wait.time (optional) argument to indicate the time to wait
-#'  (specified in minutes). See \code{\link[SimDesign]{SimSolve}} for details
+#'  (specified in minutes if supplied as a numeric vector).
+#'  See \code{\link[SimDesign]{SimSolve}} for details and
+#'  See \code{\link[SimDesign]{timeFormater}} for further specifications
 #'
 #' @param replications number of replications to use when
 #'   \code{\link[SimDesign]{runSimulation}} is required

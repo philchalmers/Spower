@@ -282,7 +282,7 @@ G\*Power gives $\alpha=\beta=0.159$.
 
 ```{r}
 # solve n for variance ratio of 1/1.5 = 2/3, one.tailed, 80% power
-p_var.test(n=NA, sds=sqrt(1), sigma=sqrt(1.5), two.tailed=FALSE) |> 
+p_var.test(n=NA, vars=1, sigma2=1.5, two.tailed=FALSE) |> 
 	Spower(power=.80, interval=c(10, 200))
 ```
 
@@ -294,7 +294,7 @@ For a two-sample equality of variance test with equal sample sizes,
 
 ```{r}
 # solve n for variance ratio of 1/1.5 = 2/3, two.tailed, 80% power
-p_var.test(n=NA, sds=sqrt(c(1, 1.5)), two.tailed=TRUE) |> 
+p_var.test(n=NA, vars=c(1, 1.5), two.tailed=TRUE) |> 
 	Spower(power=.80, interval=c(50, 300))
 ```
 

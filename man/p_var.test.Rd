@@ -7,9 +7,9 @@
 \usage{
 p_var.test(
   n,
-  sds,
-  n.ratios = rep(1, length(sds)),
-  sigma = 1,
+  vars,
+  n.ratios = rep(1, length(vars)),
+  sigma2 = 1,
   two.tailed = TRUE,
   test = "Levene",
   correct = TRUE,
@@ -17,17 +17,18 @@ p_var.test(
   ...
 )
 
-gen_var.test(n, sds, n.ratios = rep(1, length(sds)), ...)
+gen_var.test(n, vars, n.ratios = rep(1, length(vars)), ...)
 }
 \arguments{
 \item{n}{sample size per group, assumed equal across groups}
 
-\item{sds}{a vector of standard deviations to use for each group}
+\item{vars}{a vector of variances to use for each group; length of 1 for
+one-sample tests}
 
 \item{n.ratios}{allocation ratios reflecting the sample size ratios.
 Default of 1 sets the groups to be the same size (n * n.ratio)}
 
-\item{sigma}{standard deviation value to test against in one-sample test}
+\item{sigma2}{population variance to test against in one-sample test}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 
@@ -56,17 +57,17 @@ otherwise functions from the \code{EnvStats} package will be used.
 \examples{
 
 # one sample
-p_var.test(100, sds=10, sigma=9)
+p_var.test(100, vars=10, sigma2=9)
 
 # three sample
-p_var.test(100, sds=c(10, 9, 11))
+p_var.test(100, vars=c(10, 9, 11))
 
 if(FALSE){
   # power to detect three-group variance differences
-  p_var.test(n=100, sds=c(10,9,11)) |> Spower()
+  p_var.test(n=100, vars=c(10,9,11)) |> Spower()
 
   # sample size per group to achieve 80\% power
-  p_var.test(n=NA, sds=c(10,9,11)) |>
+  p_var.test(n=NA, vars=c(10,9,11)) |>
          Spower(power=.80, interval=c(100, 1000))
 }
 
