@@ -154,7 +154,7 @@ powerCurve <- function(..., interval = NULL, power = NA,
 				message('\nUsing continuous search interval (integer = FALSE).')
 		}
 	} else integer <- FALSE
-	control$nparent <- 3
+	control$nparent <- 2
 	out <- vector('list', nrow(conditions))
 	for(i in 1:length(out)){
 		row <- conditions[i, ]
