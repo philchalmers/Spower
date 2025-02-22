@@ -317,7 +317,10 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 				   control = list()){
 	if(!is.null(cl)) parallel <- TRUE
 	control$useAnalyseHandler <- FALSE
-	pf <- globalenv()
+	nparent <- control$nparent
+	control$nparent <- NULL
+	if(is.null(nparent)) nparent <- 1
+	pf <- parent.frame(nparent)
 	export_funs <- ls(envir = pf)
 	if(parallel){
 		type <- if(is.null(control$type))
@@ -426,7 +429,7 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 		prior <- prior()
 		fixed_objects$expr[names(prior)] <- prior
 	}
-	eval(fixed_objects$expr, envir = globalenv())
+	eval(fixed_objects$expr, envir = fixed_objects$parent_frame)
 }
 
 #' @rdname Spower

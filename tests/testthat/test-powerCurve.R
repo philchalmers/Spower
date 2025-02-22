@@ -68,5 +68,3 @@ test_that('scope', {
 
 
 })
-
-
