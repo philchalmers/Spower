@@ -131,7 +131,6 @@ p_t.test <- function(n, d, mu = 0, r = NULL,
 	dat <- gen_fun(n=n, n2_n1=n2_n1, d=d, r=r, type=type,
 				   means=means, sds=sds, ...)
 	p <- if(type == 'paired'){
-		if(n2_n1 != 1) stop('n2_n1 must equal 1 for paired t-tests')
 		lvls <- levels(dat$group)
 		group1 <- with(dat, DV[group == lvls[1]])
 		group2 <- with(dat, DV[group == lvls[2]])
@@ -153,11 +152,12 @@ gen_t.test <- function(n, d, n2_n1 = 1, r = NULL,
 	type <- match.arg(type)
 	if(!is.null(r)){
 		type <- 'two.sample'
-		stopifnot(n2_n1 == 1)
-	}
-	if(!is.null(r))
 		d <- r2d(r, n0=n, n1=n*n2_n1)
-	if(type == 'paired') n <- n * 2
+	}
+	if(type == 'paired'){
+		n <- n * 2
+		n2_n1 <- 1
+	}
 	n.each <- n * n2_n1
 	stopifnot(all.equal(n.each, as.integer(n.each)))
 	if(type == 'one.sample'){
