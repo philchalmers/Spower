@@ -118,7 +118,7 @@
 #'    within \code{.01/2} of the target power
 #'
 #' @param check.interval logical; check the interval range validity
-#'   (see \code{\link[SimDesign]{SimSolve}})
+#'   (see \code{\link[SimDesign]{SimSolve}}). Disabled by default
 #'
 #' @param verbose logical; should information be printed to the console?
 #'
@@ -331,7 +331,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 				   summarise=NULL, parallel = FALSE, cl = NULL, packages = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
-				   check.interval = TRUE, maxiter=150, wait.time = NULL,
+				   check.interval = FALSE, maxiter=150, wait.time = NULL,
 				   control = list()){
 	if(!is.null(cl)) parallel <- TRUE
 	control$useAnalyseHandler <- FALSE

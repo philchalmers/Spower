@@ -21,7 +21,7 @@ Spower(
   predCI = 0.95,
   predCI.tol = 0.01,
   verbose = TRUE,
-  check.interval = TRUE,
+  check.interval = FALSE,
   maxiter = 150,
   wait.time = NULL,
   control = list()
@@ -103,7 +103,7 @@ within \code{.01/2} of the target power}
 \item{verbose}{logical; should information be printed to the console?}
 
 \item{check.interval}{logical; check the interval range validity
-(see \code{\link[SimDesign]{SimSolve}})}
+(see \code{\link[SimDesign]{SimSolve}}). Disabled by default}
 
 \item{maxiter}{maximum number of stochastic root-solving iterations}
 
