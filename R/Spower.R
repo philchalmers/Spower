@@ -9,7 +9,7 @@
 #' confidence/prediction intervals for the results estimates, safety checks,
 #' and more.
 #'
-#' Five types of power analysis flavours can be performed with \code{Spower},
+#' Five types of power analysis flavors can be performed with \code{Spower},
 #' which are triggered based on which supplied input is set to missing (\code{NA}):
 #'
 #' \describe{
@@ -290,6 +290,18 @@
 #'
 #' # total sample size required
 #' with(out2, ceiling(n) + ceiling(n * 2))
+#'
+#' # post-hoc power, can be used to extract the adjacent information
+#' p_my_t.test(n = 100, d = .5) |> Spower() -> post
+#'
+#' # define new summary function for the stored information
+#' new_summarise <- function(results){
+#'   c(power=EDR(results[,1], unname=TRUE),
+#'     colMeans(results[,-1, drop=FALSE]))
+#' }
+#'
+#' # resummarise the stored results to obtain E(mean_diff) and E(SE)
+#' reSummarise(new_summarise, results=post)
 #'
 #' #######
 #' # compute power and associated estimates using customized summarise function
