@@ -70,8 +70,9 @@ test_that('scope', {
 		dat
 	}
 
-	p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10, ...){
-		dat <- mygen_fun(n=n, n2_n1=n2_n1, d=d, df=df, ...)
+	p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10,
+							gen_fun=mygen_fun, ...){
+		dat <- gen_fun(n=n, n2_n1=n2_n1, d=d, df=df, ...)
 		obj <- t.test(DV ~ group, dat, var.equal=var.equal)
 
 		# p-value must be first element when using default summarise()
@@ -114,7 +115,7 @@ test_that('scope', {
 			   parallel=TRUE, ncores=2) -> out2
 	expect_equal(out2$power, .68)
 
-	# conflicting constants (failing)
+	# conflicting constants
 	set.seed(123)
 	PI <- pi <- .65
 	g <- .15
