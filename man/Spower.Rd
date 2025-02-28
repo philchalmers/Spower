@@ -30,8 +30,12 @@ Spower(
 \method{print}{Spower}(x, ...)
 }
 \arguments{
-\item{...}{the expression to use in the simulation that returns a single p-value.
-Internally this expression is passed to either \code{\link[SimDesign]{SimSolve}} or
+\item{...}{expression to use in the simulation that returns a \code{numeric}
+vector with a single p-value as the first argument. Further information can be
+returned, however will only be accessible by defining an updated summarise function
+and passed to \code{\link[SimDesign]{reSummarise}}.
+
+Internally the first expression is passed to either \code{\link[SimDesign]{SimSolve}} or
 \code{\link[SimDesign]{runSimulation}} depending on which element (including
 the \code{power} and \code{sig.level} arguments) is set to \code{NA}. For instance,
 \code{Spower(p_t.test(n=50, d=.5))} will perform a post-hoc power evaluation since
