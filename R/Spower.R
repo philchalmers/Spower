@@ -366,11 +366,13 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	fixed_objects <- list(sig.level=sig.level)
 	expr <- match.call(expand.dots = FALSE)$...[[1]]
 	expr <- match.call(eval(expr[[1]], envir = pf), expr)
-	pick <- names(which(sapply(expr[-1], \(x){
-		ret <- suppressWarnings(try(all(is.na(x)), silent = TRUE))
-		if(!is.logical(ret)) ret <- FALSE
-		ret
-	})))
+	if(!is.null(expr[-1])){
+		pick <- names(which(sapply(expr[-1], \(x){
+			ret <- suppressWarnings(try(all(is.na(x)), silent = TRUE))
+			if(!is.logical(ret)) ret <- FALSE
+			ret
+		})))
+	} else pick <- character(0)
 	fixed_objects$expr <- expr
 	fixed_objects$pick <- pick
 	fixed_objects$parent_frame <- pf
@@ -378,7 +380,8 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 		stop('Exactly *one* argument must be set to \'NA\' in Spower(..., power, sig.level)',
 			 call.=FALSE)
 	lst_expr <- as.list(expr)[-1]
-	lst_expr <- lst_expr[sapply(lst_expr, \(x) is.atomic(x) || is.list(x))]
+	if(length(lst_expr))
+		lst_expr <- lst_expr[sapply(lst_expr, \(x) is.atomic(x) || is.list(x))]
 	conditions <- do.call(SimDesign::createDesign, c(lst_expr, sig.level=sig.level, power=power))
 	if(missing(interval)){
 		if(is.na(sig.level) || length(fixed_objects$pick))

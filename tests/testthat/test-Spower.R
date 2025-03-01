@@ -81,6 +81,18 @@ test_that('scope', {
 					SE=stderr))
 	}
 
+	p_my_t.test.defaults <- function(n = 30, d = .5,
+									 var.equal=FALSE, n2_n1=1, df=10,
+							gen_fun=mygen_fun, ...){
+		dat <- gen_fun(n=n, n2_n1=n2_n1, d=d, df=df, ...)
+		obj <- t.test(DV ~ group, dat, var.equal=var.equal)
+
+		# p-value must be first element when using default summarise()
+		with(obj, c(p=p.value,
+					mean_diff=unname(estimate[2] - estimate[1]),
+					SE=stderr))
+	}
+
 	# Solve N to get .80 power (a priori power analysis), using defaults
 	set.seed(1234)
 	out <- Spower(p_my_t.test(n = NA, d = .5), power=.8,
@@ -88,6 +100,28 @@ test_that('scope', {
 	expect_equal(out$n, 64.42, tolerance=.01)
 
 	out2 <- Spower(p_my_t.test(n = 100, d = .5),
+				   replications=1000, verbose=FALSE)
+	expect_equal(out2$power, 0.928, tolerance=.01)
+
+	# in parallel
+	set.seed(1234)
+	out <- Spower(p_my_t.test(n = NA, d = .5), power=.8,
+				  interval=c(2,500), maxiter=40, verbose=FALSE,
+				  parallel=TRUE, ncores = 2)
+	expect_equal(out$n, 66.01, tolerance=.01)
+
+	out2 <- Spower(p_my_t.test(n = 100, d = .5),
+				   verbose=FALSE, replications=1000,
+				   parallel=TRUE, ncores = 2)
+	expect_equal(out2$power, 0.934, tolerance=.01)
+
+	# with assigned defaults
+	set.seed(1234)
+	out <- Spower(p_my_t.test.defaults(n=NA), power=.8,
+				  interval=c(2,500), maxiter=40, verbose=FALSE)
+	expect_equal(out$n, 64.42, tolerance=.01)
+
+	out2 <- Spower(p_my_t.test.defaults(),
 				   replications=1000, verbose=FALSE)
 	expect_equal(out2$power, 0.928, tolerance=.01)
 
