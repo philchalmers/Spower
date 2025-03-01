@@ -62,7 +62,7 @@
 #' \dontrun{
 #'
 #' # estimate power given varying sample sizes
-#' gg <- p_t.test(d=0.2) |> powerCurve(n=c(30, 90, 270, 550))
+#' gg <- p_t.test(d=0.2) |> SpowerCurve(n=c(30, 90, 270, 550))
 #'
 #' # Output is a ggplot2 (rendered with plotly by default);hence, can be modified
 #' gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05) +
@@ -70,28 +70,28 @@
 #'
 #' # Increase precision by using 10000 replications. Parallel computations
 #' #   generally recommended in this case to save time
-#' p_t.test(d=0.2) |> powerCurve(n=c(30, 90, 270, 550), replications=10000)
+#' p_t.test(d=0.2) |> SpowerCurve(n=c(30, 90, 270, 550), replications=10000)
 #'
 #' # estimate sample sizes given varying power
 #' p_t.test(n=NA, d=0.2) |>
-#'   powerCurve(power=c(.2, .4, .6, .8), interval=c(10, 1000))
+#'   SpowerCurve(power=c(.2, .4, .6, .8), interval=c(10, 1000))
 #'
 #' # get information from last printed graphic instead of saving
 #' gg <- last_plot()
 #' gg + coord_flip() # flip coordinates to put power on y-axis
 #'
 #' # estimate power varying d
-#' p_t.test(n=50) |> powerCurve(d=seq(.1, 1, by=.2))
+#' p_t.test(n=50) |> SpowerCurve(d=seq(.1, 1, by=.2))
 #'
 #' # estimate d varying power
 #' p_t.test(n=50, d=NA) |>
-#'   powerCurve(power=c(.2, .4, .6, .8), interval=c(.01, 1))
+#'   SpowerCurve(power=c(.2, .4, .6, .8), interval=c(.01, 1))
 #'
 #'
 #' #####
 #'
 #' # vary two inputs instead of one (second input uses colour aesthetic)
-#' p_t.test() |> powerCurve(n=c(30, 90, 270, 550),
+#' p_t.test() |> SpowerCurve(n=c(30, 90, 270, 550),
 #'                          d=c(.2, .5, .8))
 #'
 #' # extract data for alternative presentations
@@ -104,15 +104,15 @@
 #'
 #' # vary three arguments (third uses facet_wrap ... any more than that and
 #' #   you're on your own!)
-#' powerCurve(p_t.test, varying=varying)
+#' SpowerCurve(p_t.test, varying=varying)
 #'
-#' p_t.test() |> powerCurve(n=c(30, 90, 270, 550),
+#' p_t.test() |> SpowerCurve(n=c(30, 90, 270, 550),
 #'                          d=c(.2, .5, .8),
 #'                          var.equal=c(FALSE, TRUE))
 #'
 #' }
 #'
-powerCurve <- function(..., interval = NULL, power = NA,
+SpowerCurve <- function(..., interval = NULL, power = NA,
 					   sig.level=.05, replications=1000, integer,
 					   plotCI=TRUE, plotly=TRUE, parallel = FALSE, cl = NULL,
 					   ncores = parallelly::availableCores(omit = 1L),
@@ -143,7 +143,7 @@ powerCurve <- function(..., interval = NULL, power = NA,
 														 power=list(power)))
 	}
 	if(!all(rowSums(is.na(conditions)) == 1))
-		stop('Exactly *one* argument must be set to \'NA\' in powerCurve(..., power, sig.level)',
+		stop('Exactly *one* argument must be set to \'NA\' in SpowerCurve(..., power, sig.level)',
 			 call.=FALSE)
 	power <- conditions$power
 	sig.level <- conditions$sig.level

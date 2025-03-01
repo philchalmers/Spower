@@ -1,33 +1,33 @@
-context('powerCurve')
+context('SpowerCurve')
 
-test_that('powerCurve', {
+test_that('SpowerCurve', {
 
 	expect_class <- function(x, class) expect_true(inherits(x, class))
     library(Spower)
 
 	p_t.test(n=NA, d=.2) |>
-		powerCurve(n=c(30, 90, 270), verbose=FALSE, replications=10, plotly = FALSE) -> out
+		SpowerCurve(n=c(30, 90, 270), verbose=FALSE, replications=10, plotly = FALSE) -> out
 	expect_class(out, 'gg')
 
 	p_t.test(d=.2) |>
-		powerCurve(n=c(30, 90, 270), verbose=FALSE, replications=10, plotly = FALSE) -> out
+		SpowerCurve(n=c(30, 90, 270), verbose=FALSE, replications=10, plotly = FALSE) -> out
 	expect_class(out, 'gg')
 
 	p_t.test(n=NA, d=0.2) |>
-	   powerCurve(power=c(.2, .4), interval=c(10, 1000), verbose=F, plotly = FALSE) -> out
+	   SpowerCurve(power=c(.2, .4), interval=c(10, 1000), verbose=F, plotly = FALSE) -> out
 	expect_class(out, 'gg')
 
 	p_t.test() |>
-		powerCurve(n=c(30, 90, 270, 550),
+		SpowerCurve(n=c(30, 90, 270, 550),
 				   d=c(.2, .5, .8), replications=10, verbose=F, plotly = FALSE) -> out
 	expect_class(out, 'gg')
 
 	p_t.test(n=NA) |>
-		powerCurve(d=c(.2, .5, .8), power=.80, interval=c(10, 1000), verbose=F, plotly = FALSE) -> out
+		SpowerCurve(d=c(.2, .5, .8), power=.80, interval=c(10, 1000), verbose=F, plotly = FALSE) -> out
 	expect_class(out, 'gg')
 
 	# p_t.test(n=250) |>
-	# 	powerCurve(d=c(.2, .5, .6), power=.80, sig.level=NA, verbose=F) -> out
+	# 	SpowerCurve(d=c(.2, .5, .6), power=.80, sig.level=NA, verbose=F) -> out
 	# expect_class(out, 'gg')
 
 
@@ -58,11 +58,11 @@ test_that('scope', {
 
 	# Solve N to get .80 power (a priori power analysis), using defaults
 	gg <- p_my_t.test(d = .5) |>
-		powerCurve(n=c(30, 60, 90), verbose=F, replications=10, plotly=F)
+		SpowerCurve(n=c(30, 60, 90), verbose=F, replications=10, plotly=F)
 	expect_is(gg, 'gg')
 
 	gg <- p_my_t.test(d = .5) |>
-		powerCurve(n=c(30, 60, 90), verbose=F, replications=50, plotly=F,
+		SpowerCurve(n=c(30, 60, 90), verbose=F, replications=50, plotly=F,
 				   parallel=TRUE, ncores=2)
 	expect_is(gg, 'gg')
 

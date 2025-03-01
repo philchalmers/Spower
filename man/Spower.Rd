@@ -238,16 +238,16 @@ with(out2, (1-power)/sig.level)   # solved ratio
 # Power Curves
 ##############
 
-# powerCurve() has similar input, though requires a varying argument
-powerCurve(p_t.test, varying=c(30, 60, 90), n = NA, d = .5)
+# SpowerCurve() has similar input, though requires a varying argument
+SpowerCurve(p_t.test, varying=c(30, 60, 90), n = NA, d = .5)
 
 # solve n given power
-powerCurve(p_t.test, n = NA, d = .5, power=c(.2, .5, .8), interval=c(2,500))
+SpowerCurve(p_t.test, n = NA, d = .5, power=c(.2, .5, .8), interval=c(2,500))
 
 # multiple varying components
 varying <- createDesign(n=c(30, 60, 90),
                         d=c(.2, .5))
-powerCurve(p_t.test, varying=varying, replications=2000)
+SpowerCurve(p_t.test, varying=varying, replications=2000)
 
 ################
 # Expected Power
@@ -352,6 +352,6 @@ out |> as.data.frame()
 }
 }
 \seealso{
-\code{\link{update}}, \code{\link{powerCurve}},
+\code{\link{update}}, \code{\link{SpowerCurve}},
 \code{\link{getLastSpower}}
 }
