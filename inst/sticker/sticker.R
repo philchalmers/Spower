@@ -1,4 +1,5 @@
 library(pwr)
+library(hexSticker)
 
 N <- 250
 
@@ -17,16 +18,21 @@ ggplot(dd, aes(ds, ps)) +
 	theme_void() + theme_transparent() -> gg
 gg
 
-library(hexSticker)
+# main_col <- "#FDE725"
+main_col <- "white"
+
 sticker(gg, package='Spower', filename='S.png',
 		s_x = 1,
-		s_y = 1.15,
+		s_y = 1.1,
 		s_width = 1.4,
 		s_height = 1,
 		p_x = 1,
 		p_y = 0.5,
-		p_color = "#FDE725",
-		p_size = 95,
-		h_size = 0,
+		p_color = main_col,
+		p_size = 80,
+		p_family = "sans",
+		h_size = 1,
 		h_fill = "#212529",
-		dpi = 1200)
+		h_color = main_col,
+		dpi = 1200,
+		spotlight = TRUE, l_y=1, l_alpha = .3)
