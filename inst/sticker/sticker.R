@@ -34,5 +34,5 @@ sticker(gg, package='Spower', filename='S.png',
 		h_size = 1,
 		h_fill = "#212529",
 		h_color = main_col,
-		dpi = 1200,
+		dpi = 1600,
 		spotlight = TRUE, l_y=1, l_alpha = .3)
