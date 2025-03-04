@@ -63,5 +63,5 @@ p_lm.R2(n=95, R2=.1, k=5)
 
 }
 \seealso{
-\code{\link{gen_lm.R2}}
+\code{\link{p_glm}}, \code{\link{gen_lm.R2}}
 }

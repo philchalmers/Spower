@@ -17,7 +17,7 @@
 #'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
-#' @seealso \code{\link{gen_lm.R2}}
+#' @seealso \code{\link{p_glm}}, \code{\link{gen_lm.R2}}
 #' @export
 #' @examples
 #'
@@ -80,9 +80,4 @@ gen_lm.R2 <- function(n, k, R2, R2_0 = 0, k.R2_0 = 0,
 	betas <- c(sqrt(R2s), sqrt(R2_0), rep(0, k-2))
 	y <- colSums(betas * t(X)) + rnorm(n, 0, sqrt(R2.resid))
 	data.frame(y, X)
-}
-
-# example should include Poisson distribution to match
-p_glm <- function(n){
-
 }
