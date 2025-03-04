@@ -77,7 +77,7 @@ add.sample2family <- function(family){
 	if(family$family == 'gaussian') return(family)
 	if(family$family == 'binomial'){
 		family$sample <- function(mus)
-			sapply(mus, \(mu) rbinom(1, size = 1, prob=mu))
+			rbinom(length(mus), size=1, prob=mus)
 	} else {
 		stop('family data generator not yet supported')
 	}
