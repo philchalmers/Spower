@@ -56,7 +56,12 @@ p_glm(y ~ G + C, test="Gtreatment = 0",
 
 # ANCOVA setup with logistic regression
 p_glm(y ~ G + C, test="Gtreatment = 0",
-  X=X, betas=c(-2, .5, .01), family=binomial()) |> Spower()
+  X=X, betas=c(-2, .5, .01), family=binomial())
+
+# ANCOVA setup with poisson regression
+p_glm(y ~ G + C, test="Gtreatment = 0",
+  X=X, betas=c(-2, .5, .01), family=poisson())
+
 
 }
 \seealso{

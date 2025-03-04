@@ -33,7 +33,12 @@
 #'
 #' # ANCOVA setup with logistic regression
 #' p_glm(y ~ G + C, test="Gtreatment = 0",
-#'   X=X, betas=c(-2, .5, .01), family=binomial()) |> Spower()
+#'   X=X, betas=c(-2, .5, .01), family=binomial())
+#'
+#' # ANCOVA setup with poisson regression
+#' p_glm(y ~ G + C, test="Gtreatment = 0",
+#'   X=X, betas=c(-2, .5, .01), family=poisson())
+#'
 #'
 p_glm <- function(formula, X, betas, test, sigma = NULL,
 				  family = gaussian(), gen_fun=gen_glm, ...){
@@ -41,6 +46,7 @@ p_glm <- function(formula, X, betas, test, sigma = NULL,
 	X <- gen_fun(formula=formula, X=X, betas=betas, sigma=sigma,
 				 family=family, ...)
 	mod <- if(family$family == 'gaussian'){
+		stopifnot(!is.null(sigma))
 		lm(formula=formula, data=X, ...)
 	} else {
 		glm(formula=formula, data=X, family=family, ...)
@@ -64,7 +70,7 @@ gen_glm <- function(formula, X, betas, sigma = NULL,
 	N <- length(yhat)
 	if(family$family == 'gaussian'){
 		stopifnot(!is.null(sigma))
-		y <- yhat + rnorm(N, sd=sigma)
+		y <- as.vector(yhat + rnorm(N, sd=sigma))
 	} else {
 		mus <- as.vector(family$linkinv(yhat))
 		y <- family$sample(mus)
@@ -78,7 +84,11 @@ add.sample2family <- function(family){
 	if(family$family == 'binomial'){
 		family$sample <- function(mus)
 			rbinom(length(mus), size=1, prob=mus)
-	} else {
+	} else if(family$family == 'poisson'){
+		family$sample <- function(mus)
+			rpois(length(mus), lambda=mus)
+	}
+	else {
 		stop('family data generator not yet supported')
 	}
 	family
