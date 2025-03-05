@@ -389,36 +389,25 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	} else integer <- FALSE
 	ret <- if(is.na(power) || !is.null(beta_alpha)){
 		conditions$power <- NULL
-		if(is.null(beta_alpha)){
+		if(is.null(beta_alpha))
 			summarise <- Internal_Summarise.Full
-
-		}
 		tmp <- SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug, summarise=summarise,
 					  fixed_objects=fixed_objects, save=FALSE, resume=FALSE,
 					  cl=cl, parallel=parallel, ncores=ncores,
 					  verbose=verbose, packages=packages, control=control)
 		alpha <- 1 - predCI
-		pick <- grepl('^power\\.', colnames(tmp))
-		if(any(pick)){
-			pwrnms <- colnames(tmp)[grepl('^power\\.', colnames(tmp))]
-			conditions[pwrnms] <- NA
-			CI.lst <- lapply(pwrnms, \(pwrnm){
-				CI <- tmp[[pwrnm]] + qnorm(c(alpha/2, predCI+alpha/2)) *
-					sqrt((tmp[[pwrnm]] * (1-tmp[[pwrnm]]))/replications)
-				CI <- clip_CI(CI)
-				CI
-			})
-			CI <- do.call(rbind, CI.lst)
-			rownames(CI) <- pwrnms
-		} else {
-			conditions$power <- as.numeric(NA)
-			CI <- tmp$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
-				sqrt((tmp$power * (1-tmp$power))/replications)
+		pick <- grepl('^power', colnames(tmp))
+		pwrnms <- colnames(tmp)[grepl('^power', colnames(tmp))]
+		conditions[pwrnms] <- NA
+		CI.lst <- lapply(pwrnms, \(pwrnm){
+			CI <- tmp[[pwrnm]] + qnorm(c(alpha/2, predCI+alpha/2)) *
+				sqrt((tmp[[pwrnm]] * (1-tmp[[pwrnm]]))/replications)
 			CI <- clip_CI(CI)
-			CI <- matrix(CI, nrow=1)
-			rownames(CI) <- 'power'
-		}
+			CI
+		})
+		CI <- do.call(rbind, CI.lst)
+		rownames(CI) <- pwrnms
 		colnames(CI) <- paste0('CI_', c(alpha/2, predCI+alpha/2)*100)
 		attr(tmp, 'extra_info')$power.CI <- CI
 		attr(tmp, 'extra_info')[c("number_of_conditions", "Design.ID",

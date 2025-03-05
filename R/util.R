@@ -15,7 +15,7 @@ Internal_Summarise <- function(condition, results, fixed_objects) {
 	ret <- if(is.null(dim(results)))
 		c(power = EDR(results, alpha = condition$sig.level))
 	else {
-		c(power = EDR(results[,1], alpha = condition$sig.level))
+		c(power = EDR(results[,1], alpha = condition$sig.level, unname=TRUE))
 	}
 	ret
 }
