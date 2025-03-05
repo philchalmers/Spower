@@ -49,11 +49,8 @@ test_that('scope', {
 	p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10, ...){
 		dat <- mygen_fun(n=n, n2_n1=n2_n1, d=d, df=df, ...)
 		obj <- t.test(DV ~ group, dat, var.equal=var.equal)
-
-		# p-value must be first element when using default summarise()
-		with(obj, c(p=p.value,
-					mean_diff=unname(estimate[2] - estimate[1]),
-					SE=stderr))
+		obj2 <- t.test(DV ~ group, dat, var.equal=TRUE)
+		c(obj$p.value, obj2$p.value) # only first used
 	}
 
 	# Solve N to get .80 power (a priori power analysis), using defaults
