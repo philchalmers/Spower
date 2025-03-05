@@ -171,7 +171,6 @@ SpowerCurve <- function(..., interval = NULL, power = NA,
 	CI.low <- CI.high <- NULL # for check?
 	main <- "Power Curve"
 	cnms <- colnames(conditions)
-	browser()
 	if(is.na(conditions$power[1])){
 		CI <- unname(t(sapply(out, \(x) summary(x)$power.CI)))
 		df <- data.frame(do.call(rbind, out), CI.low=CI[,1], CI.high=CI[,2])

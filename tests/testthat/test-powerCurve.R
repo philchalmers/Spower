@@ -30,6 +30,19 @@ test_that('SpowerCurve', {
 	# 	SpowerCurve(d=c(.2, .5, .6), power=.80, sig.level=NA, verbose=F) -> out
 	# expect_class(out, 'gg')
 
+	# multi-output (only first used)
+	p_my_t.test <- function(n, d){
+		g1 <- rnorm(n)
+		g2 <- rnorm(n, mean=d)
+		p1 <- t.test(g1, g2, var.equal=FALSE)$p.value
+		p2 <- t.test(g1, g2, var.equal=TRUE)$p.value
+		c(welch=p1, ind=p2)
+	}
+
+	p_my_t.test(n=100, d=.2) |>
+		SpowerCurve(n=c(30, 90, 270), verbose=FALSE, replications=10, plotly=FALSE) -> out
+	expect_class(out, 'gg')
+
 
 
 })
