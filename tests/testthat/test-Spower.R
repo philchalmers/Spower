@@ -1,8 +1,8 @@
 context('Spower')
 
-test_that('Spower', {
+expect_class <- function(x, class) expect_true(inherits(x, class))
 
-	expect_class <- function(x, class) expect_true(inherits(x, class))
+test_that('Spower', {
 
     library(Spower)
 
