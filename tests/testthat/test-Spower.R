@@ -68,9 +68,16 @@ test_that('multi', {
 		c(welch=p1, ind=p2)
 	}
 
+	set.seed(90210)
 	p_my_t.test(n=100, d=.2) |>
 		Spower(replications=100, verbose=FALSE) -> sim
 	expect_class(sim, 'Spower')
+	expect_equal(sim$power.welch, .31)
+	new_sim <- update(sim, sig.level=.01)
+	expect_equal(new_sim$power.welch, .1)
+	new_sim2 <- update(sim, beta_alpha=4)
+	expect_equal(new_sim2$power, .494, tolerance=1e-2)
+
 })
 
 test_that('scope', {

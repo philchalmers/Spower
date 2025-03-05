@@ -80,15 +80,30 @@ update_sig.level <- function(x, sig.level, predCI=.95){
 		stop('Must specify sig.level')
 	stopifnot(sig.level > 0 && sig.level < 1)
 	x$sig.level <- attr(x, "Spower_extra")$conditions$sig.level <- sig.level
-	out <- SimDesign::reSummarise(Internal_Summarise, results=x)
+	tmp <- SimDesign::reSummarise(Internal_Summarise.Full, results=x)
 	design_names <- attr(x, 'design_names')$design
-	x$power <- as.numeric(out[,length(design_names)+1])
+	alpha <- sig.level
+	pick <- grepl('^power\\.', colnames(tmp))
 	replications <- x$REPLICATIONS
-	alpha <- 1 - predCI
-	CI <- x$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
-		sqrt((x$power * (1-x$power))/replications)
-	CI <- clip_CI(CI)
+	if(any(pick)){
+		pwrnms <- colnames(tmp)[grepl('^power\\.', colnames(tmp))]
+		CI.lst <- lapply(pwrnms, \(pwrnm){
+			CI <- tmp[[pwrnm]] + qnorm(c(alpha/2, predCI+alpha/2)) *
+				sqrt((tmp[[pwrnm]] * (1-tmp[[pwrnm]]))/replications)
+			CI <- clip_CI(CI)
+			CI
+		})
+		CI <- do.call(rbind, CI.lst)
+		rownames(CI) <- pwrnms
+	} else {
+		CI <- tmp$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
+			sqrt((tmp$power * (1-tmp$power))/replications)
+		CI <- clip_CI(CI)
+		CI <- matrix(CI, nrow=1)
+		rownames(CI) <- 'power'
+	}
 	names(CI) <- paste0('CI_', c(alpha/2, predCI+alpha/2)*100)
 	attr(x, 'extra_info')$power.CI <- CI
+	x[pwrnms] <- tmp[pwrnms]
 	x
 }
