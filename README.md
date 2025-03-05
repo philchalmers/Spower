@@ -56,6 +56,10 @@ simulation function to `Spower()`.
 set.seed(42)
 p_t.test(n=100, d= 0.5) |> Spower()
 
+## Replications: 10000;   RAM Used: 55.4 Mb;   
+##  Conditions: n=100, d=0.5, sig.level=0.05
+##   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=03s 
+##
 ## Design conditions: 
 ##
 ## # A tibble: 1 × 4
@@ -74,11 +78,13 @@ while within `Spower()` the target power rate must be included along
 with a suitable search `interval`.
 
 ``` r
-set.seed(90210)
+set.seed(01123581321)
 
 # estimate the require n value to achieve a power of 1 - beta = .95 
 p_t.test(n=NA, d= 0.5) |> Spower(power=.95, interval=c(50, 300))
 
+## Iter: 55; Median = 103; E(f(x)) = 0.00; Total.reps = 10550; k.tol = 2; Pred = 104.7
+##
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
@@ -86,8 +92,8 @@ p_t.test(n=NA, d= 0.5) |> Spower(power=.95, interval=c(50, 300))
 ##   <dbl> <dbl>     <dbl> <dbl>
 ## 1    NA   0.5      0.05  0.95
 ## 
-## Estimate of n: 105.1
-## 95% Prediction Interval: [103.0, 107.3]
+## Estimate of n: 105.0
+## 95% Prediction Interval: [103.7, 106.3]
 ```
 
 ## Vignettes
