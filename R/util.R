@@ -21,7 +21,9 @@ Internal_Summarise <- function(condition, results, fixed_objects) {
 }
 
 Internal_Summarise.Full <- function(condition, results, fixed_objects) {
-	c(power = EDR(results, alpha = condition$sig.level))
+	c(power = EDR(results, alpha = condition$sig.level,
+				  unname=ifelse(is.matrix(results) && ncol(results) > 1,
+				  			  FALSE, TRUE)))
 }
 
 Internal_Summarise4Compromise <- function(condition, results, fixed_objects = NULL) {

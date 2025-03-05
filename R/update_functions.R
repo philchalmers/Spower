@@ -95,15 +95,16 @@ update_sig.level <- function(x, sig.level, predCI=.95){
 		})
 		CI <- do.call(rbind, CI.lst)
 		rownames(CI) <- pwrnms
+		x[pwrnms] <- tmp[pwrnms]
 	} else {
 		CI <- tmp$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
 			sqrt((tmp$power * (1-tmp$power))/replications)
 		CI <- clip_CI(CI)
 		CI <- matrix(CI, nrow=1)
 		rownames(CI) <- 'power'
+		x$power <- tmp$power
 	}
 	names(CI) <- paste0('CI_', c(alpha/2, predCI+alpha/2)*100)
 	attr(x, 'extra_info')$power.CI <- CI
-	x[pwrnms] <- tmp[pwrnms]
 	x
 }
