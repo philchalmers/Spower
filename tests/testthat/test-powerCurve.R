@@ -1,8 +1,9 @@
 context('SpowerCurve')
 
+expect_class <- function(x, class) expect_true(inherits(x, class))
+
 test_that('SpowerCurve', {
 
-	expect_class <- function(x, class) expect_true(inherits(x, class))
     library(Spower)
 
 	p_t.test(n=NA, d=.2) |>
