@@ -20,6 +20,7 @@
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @seealso \code{\link{gen_lm.R2}}
+#' @importFrom car lht
 #' @export
 #' @examples
 #'
