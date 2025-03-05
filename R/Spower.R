@@ -33,7 +33,9 @@
 #' analysis.
 #'
 #' @param ... expression to use in the simulation that returns a \code{numeric}
-#'   vector with a single p-value as the first argument. Further information can be
+#'   vector containing only p-value information, where the first p-value
+#'   in this vector is treated as the focus for all analyses other than post-hoc power.
+#'   Further information can be
 #'   returned, however will only be accessible by defining an updated summarise function
 #'   and passed to \code{\link[SimDesign]{reSummarise}}.
 #'
@@ -55,13 +57,6 @@
 #'   (e.g., for post-hoc power analysis)
 #'
 #' @param maxiter maximum number of stochastic root-solving iterations
-#'
-#' @param summarise (optional) user-defined function for the \code{summarise}
-#'   step in \code{\link[SimDesign]{runSimulation}}, with the constraint that the first
-#'   element returned is should be the empirical detection rate estimate.
-#'   If not specified an internal function
-#'   will be used where the first element of the analysis output will be
-#'   passed to \code{\link[SimDesign]{EDR}} to compute the empirical detection rate
 #'
 #' @param sig.level alpha level to use. If set to \code{NA} then the empirical
 #'   alpha will be estimated given the fixed \code{conditions} input
@@ -273,11 +268,8 @@
 #'                                      times = c(n, n*n2_n1))),
 #'     				  DV = c(group1, group2))
 #'     obj <- t.test(DV ~ group, dat, var.equal=var.equal)
-#'
-#'     # p-value must be first element when using default summarise()
-#'     with(obj, c(p=p.value,
-#'                 mean_diff=unname(estimate[2] - estimate[1]),
-#'                 SE=stderr))
+#'     p <- obj$p.value
+#'     p
 #' }
 #'
 #' # Solve N to get .80 power (a priori power analysis), using defaults
@@ -328,7 +320,7 @@
 #' }
 Spower <- function(..., power = NA, sig.level=.05, interval,
 				   beta_alpha = NULL, replications=10000, integer,
-				   summarise=NULL, parallel = FALSE, cl = NULL, packages = NULL,
+				   parallel = FALSE, cl = NULL, packages = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = FALSE, maxiter=150, wait.time = NULL,
@@ -362,7 +354,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 		maxiter <- 3000
 		predCI.tol <- NULL
 	}
-	if(is.null(summarise)) summarise <- Internal_Summarise
+	summarise <- Internal_Summarise
 	fixed_objects <- list(sig.level=sig.level)
 	expr <- match.call(expand.dots = FALSE)$...[[1]]
 	expr <- match.call(eval(expr[[1]], envir = pf), expr)
@@ -397,17 +389,37 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	} else integer <- FALSE
 	ret <- if(is.na(power) || !is.null(beta_alpha)){
 		conditions$power <- NULL
+		if(is.null(beta_alpha)){
+			summarise <- Internal_Summarise.Full
+
+		}
 		tmp <- SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug, summarise=summarise,
-					  fixed_objects=fixed_objects, save=FALSE,
+					  fixed_objects=fixed_objects, save=FALSE, resume=FALSE,
 					  cl=cl, parallel=parallel, ncores=ncores,
 					  verbose=verbose, packages=packages, control=control)
 		alpha <- 1 - predCI
-		conditions$power <- as.numeric(NA)
-		CI <- tmp$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
-			sqrt((tmp$power * (1-tmp$power))/replications)
-		CI <- clip_CI(CI)
-		names(CI) <- paste0('CI_', c(alpha/2, predCI+alpha/2)*100)
+		pick <- grepl('^power\\.', colnames(tmp))
+		if(any(pick)){
+			pwrnms <- colnames(tmp)[grepl('^power\\.', colnames(tmp))]
+			conditions[pwrnms] <- NA
+			CI.lst <- lapply(pwrnms, \(pwrnm){
+				CI <- tmp[[pwrnm]] + qnorm(c(alpha/2, predCI+alpha/2)) *
+					sqrt((tmp[[pwrnm]] * (1-tmp[[pwrnm]]))/replications)
+				CI <- clip_CI(CI)
+				CI
+			})
+			CI <- do.call(rbind, CI.lst)
+			rownames(CI) <- pwrnms
+		} else {
+			conditions$power <- as.numeric(NA)
+			CI <- tmp$power + c(qnorm(c(alpha/2, predCI+alpha/2))) *
+				sqrt((tmp$power * (1-tmp$power))/replications)
+			CI <- clip_CI(CI)
+			CI <- matrix(CI, nrow=1)
+			rownames(CI) <- 'power'
+		}
+		colnames(CI) <- paste0('CI_', c(alpha/2, predCI+alpha/2)*100)
 		attr(tmp, 'extra_info')$power.CI <- CI
 		attr(tmp, 'extra_info')[c("number_of_conditions", "Design.ID",
 								  'save_info')] <- NULL
@@ -489,11 +501,14 @@ print.Spower <- function(x, ...){
 						lste$predCI*100, CI[1], CI[2]))
 		} else {
 			CI <- attr(x, 'extra_info')$power.CI
-			cat(sprintf("\nEstimate of %spower (1 - beta): %.3f",
-						if(lste$expected) 'expected ' else "", x$power))
-			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
-						lste$predCI*100, CI[1], CI[2]))
-
+			nms <- if(is.matrix(CI)){
+				rownames(CI)
+			} else 'power'
+			for(nm in nms){
+				cat(sprintf("\nEstimate of %s: %.3f", nm, x[[nm]]))
+				cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
+							lste$predCI*100, CI[nm,1], CI[nm,2]))
+			}
 		}
 	}
 	invisible(NULL)

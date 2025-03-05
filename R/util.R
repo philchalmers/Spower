@@ -20,6 +20,10 @@ Internal_Summarise <- function(condition, results, fixed_objects) {
 	ret
 }
 
+Internal_Summarise.Full <- function(condition, results, fixed_objects) {
+	c(power = EDR(results, alpha = condition$sig.level))
+}
+
 Internal_Summarise4Compromise <- function(condition, results, fixed_objects = NULL) {
 	rate <- EDR(results, alpha=condition$sig.level)
 	ret <- c(beta_alpha = unname((1-rate) / condition$sig.level))

@@ -58,6 +58,21 @@ test_that('Spower', {
 
 })
 
+test_that('multi', {
+
+	p_my_t.test <- function(n, d){
+		g1 <- rnorm(n)
+		g2 <- rnorm(n, mean=d)
+		p1 <- t.test(g1, g2, var.equal=FALSE)$p.value
+		p2 <- t.test(g1, g2, var.equal=TRUE)$p.value
+		c(welch=p1, ind=p2)
+	}
+
+	p_my_t.test(n=100, d=.2) |>
+		Spower(replications=100, verbose=FALSE) -> sim
+	expect_class(sim, 'Spower')
+})
+
 test_that('scope', {
 
 	mygen_fun <- function(n, n2_n1, d, df, ...){
@@ -76,9 +91,8 @@ test_that('scope', {
 		obj <- t.test(DV ~ group, dat, var.equal=var.equal)
 
 		# p-value must be first element when using default summarise()
-		with(obj, c(p=p.value,
-					mean_diff=unname(estimate[2] - estimate[1]),
-					SE=stderr))
+		p <- obj$p.value
+		p
 	}
 
 	p_my_t.test.defaults <- function(n = 30, d = .5,
@@ -88,9 +102,8 @@ test_that('scope', {
 		obj <- t.test(DV ~ group, dat, var.equal=var.equal)
 
 		# p-value must be first element when using default summarise()
-		with(obj, c(p=p.value,
-					mean_diff=unname(estimate[2] - estimate[1]),
-					SE=stderr))
+		p <- obj$p.value
+		p
 	}
 
 	# Solve N to get .80 power (a priori power analysis), using defaults

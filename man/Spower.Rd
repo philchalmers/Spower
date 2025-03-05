@@ -13,7 +13,6 @@ Spower(
   beta_alpha = NULL,
   replications = 10000,
   integer,
-  summarise = NULL,
   parallel = FALSE,
   cl = NULL,
   packages = NULL,
@@ -31,7 +30,9 @@ Spower(
 }
 \arguments{
 \item{...}{expression to use in the simulation that returns a \code{numeric}
-vector with a single p-value as the first argument. Further information can be
+vector containing only p-value information, where the first p-value
+in this vector is treated as the focus for all analyses other than post-hoc power.
+Further information can be
 returned, however will only be accessible by defining an updated summarise function
 and passed to \code{\link[SimDesign]{reSummarise}}.
 
@@ -75,13 +76,6 @@ use integers or doubles.
 If missing, automatically set to \code{FALSE} if \code{interval} contains
 non-integer numbers or the range is less than 5, as well as
 when \code{sig.level = NA}, though in general this should be set explicitly}
-
-\item{summarise}{(optional) user-defined function for the \code{summarise}
-step in \code{\link[SimDesign]{runSimulation}}, with the constraint that the first
-element returned is should be the empirical detection rate estimate.
-If not specified an internal function
-will be used where the first element of the analysis output will be
-passed to \code{\link[SimDesign]{EDR}} to compute the empirical detection rate}
 
 \item{parallel}{for parallel computing for slower simulation experiments
 (see \code{\link[SimDesign]{runSimulation}} for details).}
@@ -297,11 +291,8 @@ p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
                                      times = c(n, n*n2_n1))),
     				  DV = c(group1, group2))
     obj <- t.test(DV ~ group, dat, var.equal=var.equal)
-
-    # p-value must be first element when using default summarise()
-    with(obj, c(p=p.value,
-                mean_diff=unname(estimate[2] - estimate[1]),
-                SE=stderr))
+    p <- obj$p.value
+    p
 }
 
 # Solve N to get .80 power (a priori power analysis), using defaults
