@@ -4,46 +4,111 @@ output:
     html_preview: true
 ---
 
-# Spower <img src="inst/sticker/S.png" height="139" align="right"/>
+# *Spower*: General-Purpose Simulation-Based Power Analyses <img src="inst/sticker/S.png" height="139" align="right"/>
 
-Something
+*Spower* provides a general purpose simulation-based power analysis 
+   API for routine and customizable simulation experiment designs. 
+   Supports Monte Carlo simulation variants of (expected) a priori power analysis, 
+   criterion power analysis, compromise power analysis, sensitivity analysis, and post-hoc
+   power analysis. Default generator functions found within the package 
+   provide stochastic variants of the power analyses found in the 
+   *GPower* software (Faul, Erdfelder, Buchner, and Lang, 2009)
+   along with various other power analysis examples (e.g., mediation analyses), 
+   as well as the ability to write user-defined simulation functions and 
+   prior distributions for greater flexibility.
 
 ## Installation
 
 You can install `Spower` from CRAN:
 
-```{r, echo=TRUE, eval=FALSE}
+``` r
 install.packages("Spower")
 ```
 
-To install the development version of the `Spower` package, you need to install the `remotes` package then the `Spower` package.
+To install the development version of the `Spower` package, you need to
+install the `remotes` package then the `Spower` package.
 
-```{r, echo=TRUE, eval=FALSE}
+``` r
 install.packages("remotes")
 remotes::install_github("philchalmers/Spower")
 ```
 
 ## Quick Start
 
-To see the layers that are available, run the `available_layers()` function:
+*Spower* requires only two components: an available function used to generate exactly
+one simulation experiment that returns one or more *p*-values given the null
+hypothesis of interest, and the use of either `Spower()` or `SpowerCurve()` to perform
+the desired post-hoc, a priori, sensitivity, compromise, or criterion power analysis. 
 
-```{r, echo=FALSE, warning=FALSE}
+For example, the built-in `p_t.test()` function performs *t*-tests using various inputs, where
+below a sample size of $N=200$ is supplied (`n = 100` per group) and a Cohen's 
+$d$ of .5 (medium effect). This returns a single $p$-value given the null hypotheses tested
+of no mean difference, which in this single case returns a 'suprising' result given this
+null position tested.
+
+```r
 library(Spower)
+p_t.test(n=100, d= 0.5)
+## [1] 0.001231514
 ```
 
-```{r, eval=FALSE}
-library(Spower)
+To evaluate the post-hoc power of this test requires passing the simulation function 
+to `Spower()`.
+
+```r
+set.seed(42)
+p_t.test(n=100, d= 0.5) |> Spower()
+
+## Design conditions: 
+##
+## # A tibble: 1 × 4
+##       n     d sig.level power
+##   <dbl> <dbl>     <dbl> <lgl>
+## 1   100   0.5      0.05 NA   
+## 
+## Estimate of power: 0.939
+## 95% Confidence Interval: [0.934, 0.943]
 ```
+
+To evaluate the post-hoc power of this test requires passing the simulation function 
+to `Spower()`. For a priori and sensitive analyses, the respective input to the 
+simulation function must be set to `NA`, while within `Spower()` the target power 
+rate must be included along with a suitable search `interval`.
+
+```r
+set.seed(90210)
+
+# estimate the require n value to achieve a power of 1 - beta = .95 
+p_t.test(n=NA, d= 0.5) |> Spower(power=.95, interval=c(50, 300))
+
+## Design conditions: 
+## 
+## # A tibble: 1 × 4
+##       n     d sig.level power
+##   <dbl> <dbl>     <dbl> <dbl>
+## 1    NA   0.5      0.05  0.95
+## 
+## Estimate of n: 105.1
+## 95% Prediction Interval: [103.0, 107.3]
+```
+
 
 ## Vignettes
 
-Something
-
+The package currently contains a vignette demonstrating several of the examples from
+the *GPower 3* manual, providing simulation-based replications of the same analyses.
 
 ## Getting Help or Reporting an Issue
 
-To report bugs/issues/feature requests, please file an [issue](https://github.com/philchalmers/Spower/issues/).
+To report bugs/issues/feature requests, please file an
+[issue](https://github.com/philchalmers/Spower/issues/).
 
 ## How to Contribute
 
-Something
+If you have a simulation experiment you'd like to contribute in the form of 
+
+```r
+p_yourSimulation()
+```
+then feel free to document this function using the `roxygen2` style syntax and 
+open a pull request. Otherwise, contributions can be made to the online Wiki.

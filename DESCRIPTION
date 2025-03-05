@@ -1,18 +1,18 @@
 Package: Spower
-Title: Simulation-Based Power Analyses
+Title: General-Purpose Simulation-Based Power Analyses
 Version: 0.1
 Authors@R: 
    person("Phil", family="Chalmers", email =
                      "rphilip.chalmers@gmail.com", role = c("aut", "cre"), 
                      comment = c(ORCID="0000-0001-5332-2810"))
-Description: Provides general purpose simulation-based power analysis 
-   functionality for routine and customizable designs. 
+Description: Provides a general purpose simulation-based power analysis 
+   API for routine and customizable simulation experiment designs. 
    Supports Monte Carlo simulation variants of (expected) a priori power analysis, 
-   criterion power analysis, compromise power analysis, and post-hoc
+   criterion power analysis, compromise power analysis, sensitivity analysis, and post-hoc
    power analysis. Default generator functions found within the package 
    provide stochastic variants of the power analyses found in the 
    G*Power software (Faul, Erdfelder, Buchner, and Lang, 2009) <doi:10.3758/brm.41.4.1149>, 
-   along with various other power analyses (e.g., mediation analyses), 
+   along with various other power analysis examples (e.g., mediation analyses), 
    as well as the ability to write user-defined simulation functions and 
    prior distributions for greater flexibility.
 Depends:
