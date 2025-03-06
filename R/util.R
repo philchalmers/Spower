@@ -12,21 +12,20 @@
 getLastSpower <- function() .SpowerEnv$lastSim
 
 Internal_Summarise <- function(condition, results, fixed_objects) {
-	ret <- if(is.null(dim(results)))
-		c(power = EDR(results, alpha = condition$sig.level))
-	else {
-		c(power = EDR(results[,1], alpha = condition$sig.level, unname=TRUE))
-	}
+	results <- as.matrix(results)
+	ret <- c(power = EDR(results[,1], alpha = condition$sig.level, unname=TRUE))
 	ret
 }
 
 Internal_Summarise.Full <- function(condition, results, fixed_objects) {
-	c(power = EDR(results, alpha = condition$sig.level,
-				  unname=ifelse(!is.null(dim(results)) && ncol(results) > 1,
-				  			  FALSE, TRUE)))
+	results <- as.matrix(results)
+	ret<- c(power = EDR(results, alpha = condition$sig.level,
+						unname=ifelse(ncol(results) > 1, FALSE, TRUE)))
+	ret
 }
 
 Internal_Summarise4Compromise <- function(condition, results, fixed_objects = NULL) {
+	browser()
 	rate <- EDR(results[,1], alpha=condition$sig.level)
 	ret <- c(beta_alpha = unname((1-rate) / condition$sig.level))
 	ret
