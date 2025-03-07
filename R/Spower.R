@@ -451,7 +451,9 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 		prior <- prior()
 		fixed_objects$expr[names(prior)] <- prior
 	}
-	eval(fixed_objects$expr, envir = fixed_objects$parent_frame)
+	ret <- eval(fixed_objects$expr, envir = fixed_objects$parent_frame)
+	if(is.logical(ret)) ret <- as.integer(!ret)
+	ret
 }
 
 #' @rdname Spower
