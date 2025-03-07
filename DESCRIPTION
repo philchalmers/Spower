@@ -1,5 +1,5 @@
 Package: Spower
-Title: General-Purpose Simulation-Based Power Analyses
+Title: General Power Analyses with Monte Carlo Simulations
 Version: 0.1
 Authors@R: 
    person("Phil", family="Chalmers", email =

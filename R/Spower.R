@@ -34,10 +34,8 @@
 #'
 #' @param ... expression to use in the simulation that returns a \code{numeric}
 #'   vector containing only p-value information, where the first p-value
-#'   in this vector is treated as the focus for all analyses other than post-hoc power.
-#'   Further information can be
-#'   returned, however will only be accessible by defining an updated summarise function
-#'   and passed to \code{\link[SimDesign]{reSummarise}}.
+#'   in this vector is treated as the focus for all analyses other than post-hoc power,
+#'   or a similarly structure \code{logical} vector when utilizing confidience intervals (CIs).
 #'
 #'   Internally the first expression is passed to either \code{\link[SimDesign]{SimSolve}} or
 #'  \code{\link[SimDesign]{runSimulation}} depending on which element (including

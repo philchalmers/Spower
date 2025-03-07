@@ -1,5 +1,5 @@
 
-# *Spower*: General-Purpose Simulation-Based Power Analyses <img src="inst/sticker/S.png" height="139" align="right"/>
+# *Spower*: General Power Analyses with Monte Carlo Simulations <img src="inst/sticker/S.png" height="139" align="right"/>
 
 *Spower* provides a general purpose simulation-based power analysis API
 for routine and customizable simulation experiment designs. Supports
