@@ -25,16 +25,9 @@ Internal_Summarise.Full <- function(condition, results, fixed_objects) {
 }
 
 Internal_Summarise4Compromise <- function(condition, results, fixed_objects = NULL) {
-	browser()
+	results <- as.matrix(results)
 	rate <- EDR(results[,1], alpha=condition$sig.level)
 	ret <- c(beta_alpha = unname((1-rate) / condition$sig.level))
-	ret
-}
-
-Internal_Summarise4Compromise.empirical <- function(condition,
-													results, fixed_objects = NULL) {
-	rates <- EDR(results, alpha=condition$sig.level)
-	ret <- c(beta_alpha = unname((1-rates['power']) / rates['alpha']))
 	ret
 }
 
