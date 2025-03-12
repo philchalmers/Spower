@@ -15,9 +15,9 @@
 #' \describe{
 #'    \item{A Priori}{Solve for a missing sample size component
 #'      (e.g., \code{n}) to achieve a specific target power rate}
-#'    \item{Prospective}{Estimate the power rate given a set of fixed conditions.
-#'      If estimates of effect sizes and other empirical characteristics are supplied instead
-#'      this results in post-hoc/observed/retrospective power instead (not recommended)}
+#'    \item{Prospective (and post-hoc)}{Estimate the power rate given a set of fixed conditions.
+#'      If estimates of effect sizes and other empirical characteristics (e.g., observed sample size)
+#'      are supplied instead this results in post-hoc/observed/retrospective power (not recommended)}
 #'    \item{Sensitivity}{Solve a missing effect size value as a function of
 #'      the other supplied constant components}
 #'    \item{Criterion}{Solve the error rate (argument \code{sig.level}) as a
