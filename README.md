@@ -1,16 +1,17 @@
 
-# *Spower*: General Power Analyses with Monte Carlo Simulations <img src="inst/sticker/S.png" height="139" align="right"/>
+# *Spower*: Power Analysis using Monte Carlo Simulations <img src="inst/sticker/S.png" height="139" align="right"/>
 
 *Spower* provides a general purpose simulation-based power analysis API
-for routine and customizable simulation experiment designs. Supports
-Monte Carlo simulation variants of (expected) a priori power analysis,
-criterion power analysis, compromise power analysis, sensitivity
-analysis, and post-hoc power analysis. Default generator functions found
-within the package provide stochastic variants of the power analyses
-found in the *GPower* software (Faul, Erdfelder, Buchner, and Lang,
-2009) along with various other power analysis examples (e.g., mediation
-analyses), as well as the ability to write user-defined simulation
-functions and prior distributions for greater flexibility.
+for routine and customized simulation experimental designs. The package
+focuses exclusively on Monte Carlo simulation variants of (expected) a
+priori power analyses, criterion power analyses, compromise power
+analyses, sensitivity analyses, and post-hoc power analyses. The default
+simulation experiment functions found within the package provide
+stochastic variants of the power analyses subroutines found in the
+*GPower* 3 software (Faul, Erdfelder, Buchner, and Lang, 2009) along
+with various other power analysis examples (e.g., mediation analyses).
+Supporting functions are also included, such as for building empirical
+power curve estimates, which utilize a similar API structure.
 
 ## Installation
 
