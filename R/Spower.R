@@ -1,7 +1,7 @@
 #' Simulation-based Power Analyses
 #'
 #' General purpose function that provides power-focused estimates for
-#' a priori, post-hoc, compromise, sensitivity, and criterion power analysis.
+#' a priori, prospective/post-hoc, compromise, sensitivity, and criterion power analysis.
 #' Function provides a general wrapper to the
 #' \code{SimDesign} package's \code{\link[SimDesign]{runSimulation}} and
 #' \code{\link[SimDesign]{SimSolve}} functions. As such, parallel processing is
@@ -15,7 +15,9 @@
 #' \describe{
 #'    \item{A Priori}{Solve for a missing sample size component
 #'      (e.g., \code{n}) to achieve a specific target power rate}
-#'    \item{Post-hoc}{Estimate the power rate given a set of fixed conditions}
+#'    \item{Prospective}{Estimate the power rate given a set of fixed conditions.
+#'      If estimates of effect sizes and other empirical characteristics are supplied instead
+#'      this results in post-hoc/observed/retrospective power instead (not recommended)}
 #'    \item{Sensitivity}{Solve a missing effect size value as a function of
 #'      the other supplied constant components}
 #'    \item{Criterion}{Solve the error rate (argument \code{sig.level}) as a
@@ -25,7 +27,7 @@
 #'      target ratio \eqn{q = \beta/\alpha} (argument \code{beta_alpha})}
 #' }
 #'
-#' Post-hoc and compromise analyses utilize the
+#' Prospective and compromise analyses utilize the
 #' \code{\link[SimDesign]{runSimulation}} function, while the remaining three
 #' approaches utilize the stochastic root solving methods in the function
 #' \code{\link[SimDesign]{SimSolve}}.
@@ -34,13 +36,13 @@
 #'
 #' @param ... expression to use in the simulation that returns a \code{numeric}
 #'   vector containing only p-value information, where the first p-value
-#'   in this vector is treated as the focus for all analyses other than post-hoc power,
-#'   or a similarly structure \code{logical} vector when utilizing confidience intervals (CIs).
+#'   in this vector is treated as the focus for all analyses other than prospective/post-hoc power,
+#'   or a similarly structure \code{logical} vector when utilizing confidence intervals (CIs).
 #'
 #'   Internally the first expression is passed to either \code{\link[SimDesign]{SimSolve}} or
 #'  \code{\link[SimDesign]{runSimulation}} depending on which element (including
 #'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}. For instance,
-#'  \code{Spower(p_t.test(n=50, d=.5))} will perform a post-hoc power evaluation since
+#'  \code{Spower(p_t.test(n=50, d=.5))} will perform a prospective/post-hoc power evaluation since
 #'  \code{power = NA} by default, while \code{Spower(p_t.test(n=NA, d=.5), power = .80)}
 #'  will perform an a priori power analysis to solve the missing \code{n} argument.
 #'
@@ -52,7 +54,7 @@
 #'
 #' @param power power level to use. If set to \code{NA} then the empirical power
 #'   will be estimated given the fixed \code{...} inputs
-#'   (e.g., for post-hoc power analysis)
+#'   (e.g., for prospective/post-hoc power analysis)
 #'
 #' @param maxiter maximum number of stochastic root-solving iterations
 #'
@@ -146,7 +148,7 @@
 #'
 #' \dontrun{
 #'
-#' # Estimate power given fixed inputs (post-hoc power analysis)
+#' # Estimate power given fixed inputs (prospective power analysis)
 #' out <- Spower(p_t.test(n = 50, d = .5))
 #' summary(out)   # extra information
 #'
@@ -285,7 +287,7 @@
 #' # total sample size required
 #' with(out2, ceiling(n) + ceiling(n * 2))
 #'
-#' # post-hoc power, can be used to extract the adjacent information
+#' # prospective power, can be used to extract the adjacent information
 #' p_my_t.test(n = 100, d = .5) |> Spower() -> post
 #'
 #' # define new summary function for the stored information

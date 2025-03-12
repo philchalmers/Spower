@@ -1,10 +1,10 @@
-#' Update compromise or post-hoc power analysis without re-simulating
+#' Update compromise or prospective/post-hoc power analysis without re-simulating
 #'
 #' When a power or compromise analysis was performed in
 #' \code{\link{Spower}} this function can be used to
 #' update the compromise or power criteria without the need for re-simulating
 #' the experiment. For compromise analyses a \code{beta_alpha} criteria
-#' must be supplied, while for post-hoc power analyses the \code{sig.level}
+#' must be supplied, while for prospective/post-hoc power analyses the \code{sig.level}
 #' must be supplied.
 #'
 #' @param object object returned from \code{\link{Spower}} where \code{power}
@@ -21,7 +21,7 @@
 #' \dontrun{
 #'
 #' ########
-#' ## Post-hoc power analysis update
+#' ## Prospective power analysis update
 #'
 #' # Estimate power using sig.level = .05 (default)
 #' out <- Spower(p_t.test, n = 50, d = .5)
@@ -40,7 +40,7 @@
 #' # update beta_alpha criteria without re-simulating
 #' update(out, beta_alpha=4)
 #'
-#' # also works if compromise not initially run but post-hoc power was
+#' # also works if compromise not initially run but prospective/post-hoc power was
 #' out <- Spower(p_t.test, n = 50, d = .5)
 #' update(out, beta_alpha=4)
 #'
