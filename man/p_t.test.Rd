@@ -73,7 +73,7 @@ a single p-value
 }
 \description{
 Generates one or two sets of continuous data group-level data
-according to Cohen's effect size 'd', and return a p-value.
+according to Cohen's effect size 'd', and returns a p-value.
 The data and associated t-test
 assume that the conditional observations are normally distributed and have
 have equal variance by default, however these may be modified.
