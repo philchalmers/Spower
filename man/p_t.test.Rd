@@ -96,7 +96,7 @@ p_t.test(n=50, means = c(0,1), sds = c(2,2))
 p_t.test(n=50, d=0.5, type = 'paired')
 p_t.test(n=50, d=0.5, type = 'one.sample')
 
-if(FALSE){
+\dontrun{
   # compare simulated results to pwr package
 
   pwr::pwr.t.test(d=0.2, n=60, sig.level=0.10,
@@ -144,7 +144,7 @@ ggplot(df, aes(group, DV, fill=group)) + geom_violin()
 
 p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 
-if(FALSE){
+\dontrun{
 
   # power given Gaussian distributions
   Spower(p_t.test, n=100, d=0.5, replications=30000)

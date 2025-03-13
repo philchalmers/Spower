@@ -84,13 +84,15 @@ comparison for independent, overlapping, and non-overlapping designs.
 # independent (same x-y pairing across groups)
 p_2r(100, r.ab1=.5, r.ab2=.6)
 
-if(FALSE){
-    # estimate empirical power
-    p_2r(n=100, r.ab1=.5, r.ab2=.6) |> Spower()
+\dontrun{
 
-    # estimate n required to reach 80\% power
-    p_2r(n=NA, r.ab1=.5, r.ab2=.6) |>
-      Spower(power=.80, interval=c(100, 5000))
+   # estimate empirical power
+   p_2r(n=100, r.ab1=.5, r.ab2=.6) |> Spower()
+
+   # estimate n required to reach 80\% power
+   p_2r(n=NA, r.ab1=.5, r.ab2=.6) |>
+        Spower(power=.80, interval=c(100, 5000))
+
 }
 
 # overlap (same y, different xs)

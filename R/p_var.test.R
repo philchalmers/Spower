@@ -35,7 +35,7 @@
 #' # three sample
 #' p_var.test(100, vars=c(10, 9, 11))
 #'
-#' if(FALSE){
+#' \dontrun{
 #'   # power to detect three-group variance differences
 #'   p_var.test(n=100, vars=c(10,9,11)) |> Spower()
 #'

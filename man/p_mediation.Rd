@@ -80,7 +80,7 @@ X may be continuous or dichotomous.
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
 
-if(FALSE){
+\dontrun{
 
   # power to detect mediation
   p_mediation(n=50, a=sqrt(.35), b=sqrt(.35), cprime=.39) |>

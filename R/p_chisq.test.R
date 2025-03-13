@@ -31,7 +31,7 @@
 #' p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #'                    P = matrix(c(.6, .2, .1, .1),2,2))
 #'
-#' if(FALSE){
+#' \dontrun{
 #'     # compare simulated results to pwr package
 #'
 #'     P0 <- c(1/3, 1/3, 1/3)

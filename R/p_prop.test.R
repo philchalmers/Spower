@@ -52,7 +52,7 @@
 #' # Fisher exact test
 #' p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #'
-#' if(FALSE){
+#' \dontrun{
 #'     # compare simulated results to pwr package
 #'
 #'     # one-sample tests
