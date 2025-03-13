@@ -8,8 +8,6 @@ p_shapiro.test(dist)
 }
 \arguments{
 \item{dist}{expression used to generate the required sample data}
-
-\item{n}{sample size}
 }
 \value{
 a single p-value

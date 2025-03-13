@@ -2,6 +2,7 @@
 % Please edit documentation in R/p_kruskal.test.R
 \name{p_kruskal.test}
 \alias{p_kruskal.test}
+\alias{gen_kruskal.test}
 \title{p-value from Kruskal-Wallis Rank Sum Test simulation}
 \usage{
 p_kruskal.test(
@@ -12,6 +13,8 @@ p_kruskal.test(
   gen_fun = gen_kruskal.test,
   ...
 )
+
+gen_kruskal.test(n, k, n.ratios, means, ...)
 }
 \arguments{
 \item{n}{sample size per group}

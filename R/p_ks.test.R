@@ -41,7 +41,7 @@
 #'
 #' @export
 p_ks.test <- function(n, p1, p2, n2_n1 = 1, two.tailed = TRUE,
-					  gen_fun=gen_ks.test, parent = NULL, ...) {
+					  parent = NULL, ...) {
 	n2 <- n2_n1 * n
 	dat1 <- p1(n=n)
 	if(is.null(parent)){

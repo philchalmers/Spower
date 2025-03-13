@@ -4,16 +4,7 @@
 \alias{p_ks.test}
 \title{p-value from Kolmogorov-Smirnov one- or two-sample simulation}
 \usage{
-p_ks.test(
-  n,
-  p1,
-  p2,
-  n2_n1 = 1,
-  two.tailed = TRUE,
-  gen_fun = gen_ks.test,
-  parent = NULL,
-  ...
-)
+p_ks.test(n, p1, p2, n2_n1 = 1, two.tailed = TRUE, parent = NULL, ...)
 }
 \arguments{
 \item{n}{sample size per group, assumed equal across groups}

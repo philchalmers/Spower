@@ -10,7 +10,7 @@
 #' @param n sample size per group
 #' @param scale the scale to multiply the second group by (1 reflects equal scaling)
 #' @param n2_n1 sample size ratio
-#' @param type type of method to use. Can be either \code{'Ansari'} or \code{'Mood'}
+#' @param test type of method to use. Can be either \code{'Ansari'} or \code{'Mood'}
 #' @param exact a logical indicating whether an exact p-value should be computed
 #' @param parent data generation function (default assumes Gaussian shape). Must be
 #'   population mean centered

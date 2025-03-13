@@ -26,12 +26,12 @@ p_scale(
 
 \item{exact}{a logical indicating whether an exact p-value should be computed}
 
+\item{test}{type of method to use. Can be either \code{'Ansari'} or \code{'Mood'}}
+
 \item{parent}{data generation function (default assumes Gaussian shape). Must be
 population mean centered}
 
 \item{...}{additional arguments to pass to simulation functions (if used)}
-
-\item{type}{type of method to use. Can be either \code{'Ansari'} or \code{'Mood'}}
 }
 \description{
 Simulates data given one or two parent distributions and

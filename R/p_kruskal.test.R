@@ -48,6 +48,8 @@ p_kruskal.test <- function(n, k, means, n.ratios = rep(1, k),
 	p
 }
 
+#' @rdname p_kruskal.test
+#' @export
 gen_kruskal.test <- function(n, k, n.ratios, means, ...){
 	dat <- vector('list', k)
 	ns <- n * n.ratios

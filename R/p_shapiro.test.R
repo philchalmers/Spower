@@ -4,7 +4,6 @@
 #' that the population follows a Gaussian distribution shape. Uses
 #' \code{\link{shapiro.test}}.
 #'
-#' @param n sample size
 #' @param dist expression used to generate the required sample data
 #' @return a single p-value
 #' @examples
