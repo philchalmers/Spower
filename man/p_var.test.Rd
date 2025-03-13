@@ -33,7 +33,7 @@ Default of 1 sets the groups to be the same size (n * n.ratio)}
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 
 \item{test}{type of test to use in multi-sample applications.
-Can be either \code{'Levene'} (default) or \code{'Bartlett'}}
+Can be either \code{'Levene'} (default), \code{'Bartlett'}, or \code{'Fligner'}}
 
 \item{correct}{logical; use correction when \code{test = 'Bartlett'}?}
 
@@ -61,6 +61,8 @@ p_var.test(100, vars=10, sigma2=9)
 
 # three sample
 p_var.test(100, vars=c(10, 9, 11))
+p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
+p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 
 \dontrun{
   # power to detect three-group variance differences

@@ -13,7 +13,7 @@
 #'   Default of 1 sets the groups to be the same size (n * n.ratio)
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #' @param test type of test to use in multi-sample applications.
-#'   Can be either \code{'Levene'} (default) or \code{'Bartlett'}
+#'   Can be either \code{'Levene'} (default), \code{'Bartlett'}, or \code{'Fligner'}
 #' @param sigma2 population variance to test against in one-sample test
 #' @param correct logical; use correction when \code{test = 'Bartlett'}?
 #' @param gen_fun function used to generate the required discrete data.
@@ -34,6 +34,8 @@
 #'
 #' # three sample
 #' p_var.test(100, vars=c(10, 9, 11))
+#' p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
+#' p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #'
 #' \dontrun{
 #'   # power to detect three-group variance differences
@@ -48,13 +50,23 @@ p_var.test <- function(n, vars, n.ratios = rep(1, length(vars)),
 					   sigma2 = 1, two.tailed = TRUE,
 					   test = 'Levene', correct = TRUE,
 					   gen_fun=gen_var.test, ...){
+	stopifnot(test %in% c('Levene', 'Bartlett', 'Fligner'))
 	dat <- gen_fun(n=n, n.ratios=n.ratios, vars=vars, ...)
 	p <- if(length(vars) == 1){
 		EnvStats::varTest(dat$DV, sigma.squared = sigma2)$p.value
 	} else {
-		if(length(vars) == 2) with(dat, var.test(DV ~ group)$p.value)
-		else with(dat,
+		if(length(vars) == 2){
+			if(test == 'Fligner'){
+				with(dat, fligner.test(DV ~ group)$p.value)
+			} else {
+				with(dat, var.test(DV ~ group)$p.value)
+			}
+		} else {
+			if(test == 'Fligner'){
+				with(dat, fligner.test(DV ~ group)$p.value)
+			} else with(dat,
 				  EnvStats::varGroupTest(DV ~ group, test=test, correct=correct)$p.value)
+		}
 	}
 	p <- ifelse(two.tailed, p, p/2)
 	p
