@@ -17,9 +17,9 @@
 #'   correction for unequal variances?
 #' @param means (optional) vector of means. When specified the input \code{f} is ignored
 #' @param sds (optional) vector of SDs. When specified the input \code{f} is ignored
-#' @param gen_fun function used to generate the required discrete data.
-#'   Object returned must be a \code{matrix} with k rows and k columns
-#'   of counts. Default uses \code{\link{gen_anova.test}}.
+#' @param gen_fun function used to generate the required data.
+#'   Object returned must be a \code{matrix} with k rows and k columns of numeric data.
+#'   Default uses \code{\link{gen_anova.test}}.
 #'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined

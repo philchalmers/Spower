@@ -39,9 +39,9 @@ correction for unequal variances?}
 
 \item{sds}{(optional) vector of SDs. When specified the input \code{f} is ignored}
 
-\item{gen_fun}{function used to generate the required discrete data.
-Object returned must be a \code{matrix} with k rows and k columns
-of counts. Default uses \code{\link{gen_anova.test}}.
+\item{gen_fun}{function used to generate the required data.
+Object returned must be a \code{matrix} with k rows and k columns of numeric data.
+Default uses \code{\link{gen_anova.test}}.
 User defined version of this function must include the argument \code{...}}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
