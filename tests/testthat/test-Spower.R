@@ -30,6 +30,14 @@ test_that('Spower', {
 	expect_equal(out2$power, .751, tolerance=.01)
 	expect_equal(out2$sig.level, .062, tolerance=.01)
 
+	set.seed(90210)
+	out <- p_t.test(n = 50, d = .5) |>
+		Spower(power=.90, sig.level=NA, verbose=FALSE, maxiter = 40)
+	expect_class(out, 'Spower')
+	expect_equal(out$power, .9, tolerance=.01)
+	expect_equal(out$sig.level, .224, tolerance=.01)
+
+
 	# same, but in parallel
 	set.seed(1234)
 	out1 <- Spower(p_t.test(n = 50, d = .5), replications=10, verbose=FALSE,
