@@ -10,7 +10,7 @@ Spower(
   power = NA,
   sig.level = 0.05,
   interval,
-  beta_alpha = NULL,
+  beta_alpha,
   replications = 10000,
   integer,
   parallel = FALSE,
@@ -59,7 +59,7 @@ alpha will be estimated given the fixed \code{conditions} input
 Note that for compromise analyses, where the \code{sig.level} is set to
 \code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}}
 
-\item{beta_alpha}{ratio to use in compromise analyses corresponding to
+\item{beta_alpha}{(optional) ratio to use in compromise analyses corresponding to
 the Type II errors (beta) over the Type I error (alpha). Ratios greater
 than 1 indicate that Type I errors are worse than Type II, while ratios
 less than one the opposite. A ratio equal to 1 gives an equal trade-off

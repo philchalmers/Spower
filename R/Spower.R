@@ -81,7 +81,7 @@
 #'   non-integer numbers or the range is less than 5, as well as
 #'   when \code{sig.level = NA}, though in general this should be set explicitly
 #'
-#' @param beta_alpha ratio to use in compromise analyses corresponding to
+#' @param beta_alpha (optional) ratio to use in compromise analyses corresponding to
 #'   the Type II errors (beta) over the Type I error (alpha). Ratios greater
 #'   than 1 indicate that Type I errors are worse than Type II, while ratios
 #'   less than one the opposite. A ratio equal to 1 gives an equal trade-off
@@ -291,12 +291,13 @@
 #'
 #' }
 Spower <- function(..., power = NA, sig.level=.05, interval,
-				   beta_alpha = NULL, replications=10000, integer,
+				   beta_alpha, replications=10000, integer,
 				   parallel = FALSE, cl = NULL, packages = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = FALSE, maxiter=150, wait.time = NULL,
 				   control = list()){
+	if(missing(beta_alpha)) beta_alpha <- NULL
 	if(!is.null(cl)) parallel <- TRUE
 	control$useAnalyseHandler <- FALSE
 	nparent <- control$nparent
