@@ -232,16 +232,14 @@ with(out2, (1-power)/sig.level)   # solved ratio
 # Power Curves
 ##############
 
-# SpowerCurve() has similar input, though requires a varying argument
-SpowerCurve(p_t.test, varying=c(30, 60, 90), n = NA, d = .5)
+# SpowerCurve() has similar input, though requires varying argument
+p_t.test(d=.5) |> SpowerCurve(n=c(30, 60, 90))
 
-# solve n given power
-SpowerCurve(p_t.test, n = NA, d = .5, power=c(.2, .5, .8), interval=c(2,500))
+# solve n given power and plot
+p_t.test(n=NA, d=.5) |> SpowerCurve(power=c(.2, .5, .8), interval=c(2,500))
 
 # multiple varying components
-varying <- createDesign(n=c(30, 60, 90),
-                        d=c(.2, .5))
-SpowerCurve(p_t.test, varying=varying, replications=2000)
+p_t.test() |> SpowerCurve(n=c(30,60,90), d=c(.2, .5, .8))
 
 ################
 # Expected Power
@@ -312,32 +310,6 @@ with(out2, ceiling(n) + ceiling(n * 2))
 
 # prospective power, can be used to extract the adjacent information
 p_my_t.test(n = 100, d = .5) |> Spower() -> post
-
-# define new summary function for the stored information
-new_summarise <- function(results){
-  c(power=EDR(results[,1], unname=TRUE),
-    colMeans(results[,-1, drop=FALSE]))
-}
-
-# resummarise the stored results to obtain E(mean_diff) and E(SE)
-reSummarise(new_summarise, results=post)
-
-#######
-# compute power and associated estimates using customized summarise function
-
-# make template:
-# SimDesign::SimFunctions()
-
-Summarise <- function(condition, results, fixed_objects) {
-  ret <- c(power = EDR(results[,1], alpha=.05),
-           colMeans(results[,2:3]))
-  ret
-}
-
-# for simulations with many more condition combinations to
-#  explore runSimulation() is recommended instead
-out <- p_my_t.test(n = 100, d = .5) |> Spower(summarise=Summarise)
-out |> as.data.frame()
 
 
 }

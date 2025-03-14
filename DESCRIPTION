@@ -17,7 +17,7 @@ Description: This package provides a general purpose simulation-based power anal
    functions are also included, such as for building empirical power curve estimates,
    which utilize a similar API structure.
 Depends:
-	SimDesign,
+	SimDesign (> 2.18),
     stats
 Imports:
 	cocor,
