@@ -9,7 +9,7 @@ SpowerCurve(
   interval = NULL,
   power = NA,
   sig.level = 0.05,
-  replications = 1000,
+  replications = 2500,
   integer,
   plotCI = TRUE,
   plotly = TRUE,
@@ -49,7 +49,7 @@ can be specified as a vector to solve the missing elements in
 
 \item{sig.level}{see \code{\link{Spower}}}
 
-\item{replications}{see \code{\link{Spower}}, though set to 1000 instead of
+\item{replications}{see \code{\link{Spower}}, though set to 2500 instead of
 10000}
 
 \item{integer}{see \code{\link{Spower}}}

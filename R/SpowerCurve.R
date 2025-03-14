@@ -37,7 +37,7 @@
 #' @param plotCI logical; include confidence/prediction intervals in plots?
 #'
 #' @param wait.time see \code{\link{Spower}}
-#' @param replications see \code{\link{Spower}}, though set to 1000 instead of
+#' @param replications see \code{\link{Spower}}, though set to 2500 instead of
 #'   10000
 #' @param integer see \code{\link{Spower}}
 #' @param parallel see \code{\link{Spower}}
@@ -113,7 +113,7 @@
 #' }
 #'
 SpowerCurve <- function(..., interval = NULL, power = NA,
-					   sig.level=.05, replications=1000, integer,
+					   sig.level=.05, replications=2500, integer,
 					   plotCI=TRUE, plotly=TRUE, parallel = FALSE, cl = NULL,
 					   ncores = parallelly::availableCores(omit = 1L),
 					   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
