@@ -3,14 +3,14 @@
 \name{p_mauchly.test}
 \alias{p_mauchly.test}
 \alias{gen_mauchly.test}
-\alias{mauchly.test}
+\alias{mauchlys.test}
 \title{p-value from Mauchly's Test of Sphericity simulation}
 \usage{
 p_mauchly.test(n, sigma, gen_fun = gen_mauchly.test, ...)
 
 gen_mauchly.test(n, sigma, ...)
 
-mauchly.test(X)
+mauchlys.test(X)
 }
 \arguments{
 \item{n}{sample size}
@@ -33,7 +33,7 @@ a single p-value
 }
 \description{
 Perform simulation experiment for Mauchly's Test of Sphericity using
-the function \code{mauchly.test}, returning a p-value.
+the function \code{mauchlys.test}, returning a p-value.
 Assumes the data are from a multivariate
 normal distribution, however this can be modified.
 }

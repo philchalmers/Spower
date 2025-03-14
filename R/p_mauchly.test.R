@@ -1,7 +1,7 @@
 #' p-value from Mauchly's Test of Sphericity simulation
 #'
 #' Perform simulation experiment for Mauchly's Test of Sphericity using
-#' the function \code{mauchly.test}, returning a p-value.
+#' the function \code{mauchlys.test}, returning a p-value.
 #' Assumes the data are from a multivariate
 #' normal distribution, however this can be modified.
 #'
@@ -51,7 +51,7 @@ gen_mauchly.test <- function(n, sigma, ...){
 #' @rdname p_mauchly.test
 #' @param X a matrix with \code{k} columns and \code{n} rows
 #' @export
-mauchly.test <- function(X) {
+mauchlys.test <- function(X) {
 	# code borrowed and modified from superb::MauchlySphericityTest,
 	# version 0.95.9; date: 2025-03-13
 	p   <- ncol(X)
