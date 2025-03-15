@@ -38,7 +38,7 @@
 #' @export
 p_mauchly.test <- function(n, sigma, gen_fun=gen_mauchly.test, ...){
 	dat <- gen_fun(n, sigma=sigma, ...)
-	p <- mauchly.test(dat)
+	p <- mauchlys.test(dat)
 	p
 }
 

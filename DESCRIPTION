@@ -18,6 +18,7 @@ Description: This package provides a general purpose simulation-based power anal
    which utilize a similar API structure.
 Depends:
 	SimDesign (> 2.18),
+	R (>= 4.1.0),
     stats
 Imports:
 	cocor,
