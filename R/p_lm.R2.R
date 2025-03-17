@@ -26,8 +26,8 @@
 #'
 p_lm.R2 <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, ...){
 	stopifnot(R2 >= R2_0)
-	gen_fun <- gen_lm.R2
 	fixed.X <- TRUE
+	gen_fun <- gen_lm.R2
 	if(k.R2_0 == 0)
 		stopifnot(k >= 2)
 	df <- gen_fun(n=n, fixed.X=fixed.X, k=k,
@@ -47,12 +47,13 @@ if(FALSE){
 
 	# Example 7.3b
 	# G*power gives 0.3464 (broken)
-	Spower(p_lm.R2, n=100, R2=.4, R2_0 = .3, k=5, fixed.X=FALSE)
+	p_lm.R2(n=100, R2=.4, R2_0 = .3, k=5, k.R2_0=1, fixed.X=FALSE) |>
+		Spower()
 
 	# Example 7.3c
 	# G*power gives N=153 (broken)
-	Spower(p_lm.R2, n=NA, R2=.05, R2_0 = .2, k=5, fixed.X=FALSE, power=.9,
-		   interval=c(50,300))
+	p_lm.R2(n=NA, R2=.05, R2_0 = .2, k=5, fixed.X=FALSE) |>
+		Spower(power=.9, interval=c(50,300))
 
 
 }
@@ -61,19 +62,22 @@ if(FALSE){
 # @export
 gen_lm.R2 <- function(n, k, R2, R2_0 = 0, k.R2_0 = 0,
 				   R2.resid=1-R2, fixed.X=TRUE, ...){
+	lst <- vector('list', k)
+	for(i in 1:k) lst[[i]] <- 0:1
+	x <- expand.grid(lst)
+	X <- if(nrow(x) < n)
+		x[rep(1:nrow(x), each=ceiling(n/nrow(x))), ]
+	else
+		x[floor(seq(1, nrow(x), length.out=n)),]
 	if(!fixed.X){
-		X <- matrix(rnorm(k*n), n, k)
-	} else {
-		lst <- vector('list', k)
-		for(i in 1:k) lst[[i]] <- 0:1
-		x <- expand.grid(lst)
-		X <- if(nrow(x) < n)
-			x[rep(1:nrow(x), each=ceiling(n/nrow(x))), ]
-		else
-			x[floor(seq(1, nrow(x), length.out=n)),]
-		X <- X[1:n, ]
-		X <- scale(X)
-	}
+		vec <- 1:nrow(X)
+		while(TRUE){
+			Xtmp <- X[sample(vec, n, replace=TRUE), , drop=FALSE]
+			if(all(apply(Xtmp, 2, var) > 0)) break
+		}
+		X <- Xtmp
+	} else X <- X[1:n, ]
+	X <- scale(X)
 	colnames(X) <- paste0('X', 1:k)
 	R2s <- R2 - R2_0
 	betas <- c(sqrt(R2s), sqrt(R2_0), rep(0, k-2))
