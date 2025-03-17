@@ -210,15 +210,15 @@ p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE, correct=FALSE) |>
 	Spower()
 ```
 
-# Multiple Linear Regression (Random IVs)
+<!-- # Multiple Linear Regression (Random IVs) -->
 
-### Example 7.3 
+<!-- ### Example 7.3  -->
 
-```{r}
-p_lm.R2(n=95, R2=.1, k=5, fixed.X=FALSE) |> Spower()
-```
+<!-- ```{r} -->
+<!-- p_lm.R2(n=95, R2=.1, k=5, fixed.X=FALSE) |> Spower() -->
+<!-- ``` -->
 
-G\*power gives 0.662, though note that G\*power states that this is a one-tailed test.
+<!-- G\*power gives 0.662, though note that G\*power states that this is a one-tailed test. -->
 
 # Multiple Linear Regression (Fixed IVs)
 

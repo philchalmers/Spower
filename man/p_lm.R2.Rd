@@ -5,17 +5,7 @@
 \alias{gen_lm.R2}
 \title{p-value from global linear regression model simulation}
 \usage{
-p_lm.R2(
-  n,
-  R2,
-  k,
-  R2_0 = 0,
-  k.R2_0 = 0,
-  R2.resid = 1 - R2,
-  fixed.X = TRUE,
-  gen_fun = gen_lm.R2,
-  ...
-)
+p_lm.R2(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid = 1 - R2, ...)
 
 gen_lm.R2(
   n,
@@ -43,18 +33,13 @@ gen_lm.R2(
 nested models when fit sequentially (e.g., comparing model A vs B when
 model involves the structure A -> B -> C)}
 
-\item{fixed.X}{logical; should the IVs be considered fixed or random?}
-
-\item{gen_fun}{function used to generate the required discrete data.
-Object returned must be a \code{data.frame}. Default uses \code{\link{gen_lm.R2}}.
-User defined version of this function must include the argument \code{...}}
-
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
 \description{
-p-values associated with linear regression model using fixed or random
-independent variables.
+p-values associated with linear regression model using fixed
+independent variables. Focus is on the omnibus behavior of the
+R^2 statistic.
 }
 \examples{
 
@@ -63,5 +48,5 @@ p_lm.R2(n=95, R2=.1, k=5)
 
 }
 \seealso{
-\code{\link{p_glm}}, \code{\link{gen_lm.R2}}
+\code{\link{p_glm}}
 }
