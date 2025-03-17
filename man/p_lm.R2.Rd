@@ -2,21 +2,9 @@
 % Please edit documentation in R/p_lm.R2.R
 \name{p_lm.R2}
 \alias{p_lm.R2}
-\alias{gen_lm.R2}
 \title{p-value from global linear regression model simulation}
 \usage{
 p_lm.R2(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid = 1 - R2, ...)
-
-gen_lm.R2(
-  n,
-  k,
-  R2,
-  R2_0 = 0,
-  k.R2_0 = 0,
-  R2.resid = 1 - R2,
-  fixed.X = TRUE,
-  ...
-)
 }
 \arguments{
 \item{n}{sample size}

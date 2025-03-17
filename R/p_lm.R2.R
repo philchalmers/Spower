@@ -57,8 +57,8 @@ if(FALSE){
 
 }
 
-#' @rdname p_lm.R2
-#' @export
+# @rdname p_lm.R2
+# @export
 gen_lm.R2 <- function(n, k, R2, R2_0 = 0, k.R2_0 = 0,
 				   R2.resid=1-R2, fixed.X=TRUE, ...){
 	if(!fixed.X){
