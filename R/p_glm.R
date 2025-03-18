@@ -61,6 +61,8 @@ p_glm <- function(formula, X, betas, test, sigma = NULL,
 	ps
 }
 
+#' @rdname p_glm
+#' @export
 gen_glm <- function(formula, X, betas, sigma = NULL,
 					family = gaussian(), ...){
 	ynm <- as.character(formula[2])

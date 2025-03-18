@@ -2,6 +2,7 @@
 % Please edit documentation in R/p_glm.R
 \name{p_glm}
 \alias{p_glm}
+\alias{gen_glm}
 \title{p-value from (generalized) linear regression model simulations with fixed predictors}
 \usage{
 p_glm(
@@ -14,6 +15,8 @@ p_glm(
   gen_fun = gen_glm,
   ...
 )
+
+gen_glm(formula, X, betas, sigma = NULL, family = gaussian(), ...)
 }
 \arguments{
 \item{formula}{formula passed to either \code{\link{lm}} or

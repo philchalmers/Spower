@@ -5,7 +5,7 @@ Authors@R:
    person("Phil", family="Chalmers", email =
                      "rphilip.chalmers@gmail.com", role = c("aut", "cre"), 
                      comment = c(ORCID="0000-0001-5332-2810"))
-Description: This package provides a general purpose simulation-based power analysis 
+Description: Provides a general purpose simulation-based power analysis 
    API for routine and customized simulation experimental designs. 
    The package focuses exclusively on Monte Carlo simulation variants of 
    (expected) prospective power analyses, 
@@ -42,7 +42,7 @@ License: GPL (>= 3)
 Encoding: UTF-8
 Repository: CRAN
 Maintainer: Phil Chalmers <rphilip.chalmers@gmail.com>
-URL: https://philchalmers.github.io/Spower/
+URL: https://github.com/philchalmers/Spower
 BugReports: https://github.com/philchalmers/Spower/issues?state=open
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
