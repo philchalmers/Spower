@@ -51,7 +51,7 @@ unless a customized \code{gen_fun} is defined}
 a single p-value
 }
 \description{
-Generates continuous multi-sample data to be analysed by
+Generates continuous multi-sample data to be analyzed by
 a one-way ANOVA, and return a p-value.
 Uses the function \code{\link{oneway.test}} to perform the analyses.
 The data and associated

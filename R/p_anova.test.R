@@ -1,6 +1,6 @@
 #' p-value from one-way ANOVA simulation
 #'
-#' Generates continuous multi-sample data to be analysed by
+#' Generates continuous multi-sample data to be analyzed by
 #' a one-way ANOVA, and return a p-value.
 #' Uses the function \code{\link{oneway.test}} to perform the analyses.
 #' The data and associated
