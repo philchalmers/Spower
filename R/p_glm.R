@@ -15,7 +15,7 @@
 #'  used when \code{family = 'gaussian'}
 #' @param family family of distributions to use (see \code{\link{family}})
 #' @param gen_fun function used to generate the required discrete data.
-#'   Object returned must be a \code{data.frame}. Default uses \code{\link{gen_lm.R2}}.
+#'   Object returned must be a \code{data.frame}. Default uses \code{\link{gen_glm}}.
 #'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined

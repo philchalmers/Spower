@@ -34,7 +34,7 @@ used when \code{family = 'gaussian'}}
 \item{family}{family of distributions to use (see \code{\link{family}})}
 
 \item{gen_fun}{function used to generate the required discrete data.
-Object returned must be a \code{data.frame}. Default uses \code{\link{gen_lm.R2}}.
+Object returned must be a \code{data.frame}. Default uses \code{\link{gen_glm}}.
 User defined version of this function must include the argument \code{...}}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
