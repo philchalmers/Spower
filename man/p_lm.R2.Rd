@@ -38,3 +38,6 @@ p_lm.R2(n=95, R2=.1, k=5)
 \seealso{
 \code{\link{p_glm}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

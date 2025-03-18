@@ -125,3 +125,6 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 \seealso{
 \code{\link{gen_prop.test}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

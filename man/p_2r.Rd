@@ -111,3 +111,6 @@ p_2r(100, r.ab1=.5, r.ab2=.6,
 
 
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

@@ -64,3 +64,6 @@ p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
 }
 
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

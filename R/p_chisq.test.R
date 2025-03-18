@@ -18,6 +18,7 @@
 #'
 #' @seealso \code{\link{gen_chisq.test}}
 #' @return a single p-value
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' # effect size w + df

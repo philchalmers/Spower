@@ -96,3 +96,6 @@ p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
 \seealso{
 \code{\link{gen_mediation}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

@@ -58,3 +58,6 @@ p_mauchly.test(100, sigma=sigma.H0)
 }
 
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

@@ -92,3 +92,6 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 \seealso{
 \code{\link{gen_chisq.test}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

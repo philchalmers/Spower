@@ -67,3 +67,6 @@ p_r(50, .5, rho=.60)
 \seealso{
 \code{\link{gen_r}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

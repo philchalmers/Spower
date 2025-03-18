@@ -33,6 +33,7 @@
 #'
 #' @seealso \code{\link{gen_t.test}}
 #' @return a single p-value
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' # sample size of 50 per group, "medium" effect size

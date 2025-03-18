@@ -20,6 +20,7 @@
 #'   unless a customized \code{gen_fun} is defined
 #' @seealso \code{\link{gen_r}}
 #' @return a single p-value
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' # 50 observations, .5 correlation

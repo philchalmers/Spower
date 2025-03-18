@@ -19,6 +19,7 @@
 #'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @seealso \code{\link{gen_lm.R2}}
 #' @importFrom car lht
 #' @export

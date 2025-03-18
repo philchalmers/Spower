@@ -76,3 +76,6 @@ p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
 \seealso{
 \code{\link{gen_anova.test}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

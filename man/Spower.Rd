@@ -318,3 +318,6 @@ p_my_t.test(n = 100, d = .5) |> Spower() -> post
 \code{\link{update}}, \code{\link{SpowerCurve}},
 \code{\link{getLastSpower}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

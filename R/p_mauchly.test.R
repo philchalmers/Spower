@@ -15,6 +15,7 @@
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @return a single p-value
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' sigma <- diag(c(1,2,1))

@@ -18,6 +18,7 @@
 #'
 #' @seealso \code{\link{gen_mcnemar.test}}
 #' @return a single p-value
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' # from ?mcnemar.test

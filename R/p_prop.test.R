@@ -30,6 +30,7 @@
 #'
 #' @seealso \code{\link{gen_prop.test}}
 #' @return a single p-value
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' # one sample, 50 observations, tested against pi = .5 by default

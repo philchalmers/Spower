@@ -59,3 +59,6 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 \seealso{
 \code{\link{gen_t.test}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

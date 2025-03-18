@@ -18,6 +18,7 @@
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @seealso \code{\link{p_glm}}
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @export
 #' @examples
 #'

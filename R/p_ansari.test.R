@@ -16,6 +16,7 @@
 #'   population mean centered
 #' @param two.tailed logical; use two-tailed test?
 #' @param ... additional arguments to pass to simulation functions (if used)
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @export
 #' @examples
 #'

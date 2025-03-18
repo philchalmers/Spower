@@ -6,6 +6,7 @@
 #'
 #' @param dist expression used to generate the required sample data
 #' @return a single p-value
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' # 50 observations drawn from normal distribution (null is true)

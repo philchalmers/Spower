@@ -74,3 +74,6 @@ p_r.cat(50, r=.5, tauX=0)
 \seealso{
 \code{\link{gen_r}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

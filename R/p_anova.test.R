@@ -25,6 +25,7 @@
 #'   unless a customized \code{gen_fun} is defined
 #' @return a single p-value
 #' @seealso \code{\link{gen_anova.test}}
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' # n=50 in 3 groups, "medium" effect size

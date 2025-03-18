@@ -67,3 +67,6 @@ p_glm(y ~ G + C, test="Gtreatment = 0",
 \seealso{
 \code{\link{gen_lm.R2}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

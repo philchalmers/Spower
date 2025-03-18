@@ -57,3 +57,6 @@ update(out, beta_alpha=4)
 }
 
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

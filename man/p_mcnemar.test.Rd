@@ -64,3 +64,6 @@ Spower(p_mcnemar.test(n=sum(Performance), prop=prop))
 \seealso{
 \code{\link{gen_mcnemar.test}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

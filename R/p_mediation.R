@@ -29,6 +29,7 @@
 #' @seealso \code{\link{gen_mediation}}
 #' @importFrom lavaan sem lavInspect parameterEstimates
 #' @return a single p-value
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' # joint test H0: a*b = 0

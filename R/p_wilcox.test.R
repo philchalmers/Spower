@@ -18,6 +18,7 @@
 #' @param parent2 same as \code{parent1}, but for the second group
 #' @param two.tailed logical; use two-tailed test?
 #' @export
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' # with normal distributions defaults d is standardized

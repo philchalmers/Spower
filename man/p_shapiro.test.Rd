@@ -34,3 +34,6 @@ p_shapiro.test(rchisq(50, df=100))
 }
 
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

@@ -27,6 +27,7 @@
 #' @return a single p-value
 #' @export
 #' @importFrom EnvStats varTest varGroupTest
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' # one sample

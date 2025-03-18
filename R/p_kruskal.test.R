@@ -14,6 +14,7 @@
 #'   contains the sample data in each group. Default uses \code{\link{gen_kruskal.test}}.
 #'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to pass to \code{gen_fun}
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @export
 #' @examples
 #'

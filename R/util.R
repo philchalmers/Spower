@@ -6,6 +6,7 @@
 #' an object this function will retrieve the last evaluation.
 #'
 #' @return the last object returned from \code{\link{Spower}}
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @seealso \code{\link{Spower}}
 #' @export
 #'

@@ -28,6 +28,7 @@
 #'   unless a customized \code{gen_fun} is defined
 #' @importFrom cocor cocor
 #' @importFrom methods slot
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @export
 #' @examples
 #'

@@ -61,3 +61,6 @@ p_wilcox.test(100, .5,
    parent2 = function(n, d) (rchisq(n, df=10) - 10)/sqrt(20))
 
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

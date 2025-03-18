@@ -20,6 +20,7 @@
 #'   relevant parameter to \code{ks.test} (e.g., \code{exact = TRUE})
 #' @seealso \code{\link{gen_t.test}}
 #' @return a single p-value
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'
 #' # two-sample test from two Gaussian distributions with different locations

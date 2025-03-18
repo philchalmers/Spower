@@ -15,6 +15,8 @@
 #'   similar input)
 #' @param ... arguments to be passed
 #'
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
+#'
 #' @export
 #'
 #' @examples

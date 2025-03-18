@@ -62,3 +62,6 @@ p_scale(30, scale=2, parent=parent, df=3)
 
 }
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

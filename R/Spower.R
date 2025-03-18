@@ -121,6 +121,8 @@
 #' @return an invisible \code{tibble}/\code{data.frame}-type object of
 #' class \code{'Spower'}
 #'
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
+#'
 #' @seealso \code{\link{update}}, \code{\link{SpowerCurve}},
 #'   \code{\link{getLastSpower}}
 #'

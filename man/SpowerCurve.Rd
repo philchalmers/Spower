@@ -150,3 +150,6 @@ p_t.test() |> SpowerCurve(n=c(30, 90, 270, 550),
 \seealso{
 \code{\link{Spower}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

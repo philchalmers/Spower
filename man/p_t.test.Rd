@@ -164,3 +164,6 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 \seealso{
 \code{\link{gen_t.test}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

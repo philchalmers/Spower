@@ -77,3 +77,6 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 \seealso{
 \code{\link{gen_var.test}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}

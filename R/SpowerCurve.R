@@ -56,6 +56,8 @@
 #' @importFrom plotly ggplotly
 #' @export
 #'
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
+#'
 #' @seealso \code{\link{Spower}}
 #'
 #' @examples

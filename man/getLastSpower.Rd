@@ -16,3 +16,6 @@ an object this function will retrieve the last evaluation.
 \seealso{
 \code{\link{Spower}}
 }
+\author{
+Phil Chalmers \email{rphilip.chalmers@gmail.com}
+}
