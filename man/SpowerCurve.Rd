@@ -139,8 +139,6 @@ ggplot(df, aes(n, power, linetype=d)) + geom_line()
 
 # vary three arguments (third uses facet_wrap ... any more than that and
 #   you're on your own!)
-SpowerCurve(p_t.test, varying=varying)
-
 p_t.test() |> SpowerCurve(n=c(30, 90, 270, 550),
                          d=c(.2, .5, .8),
                          var.equal=c(FALSE, TRUE))
