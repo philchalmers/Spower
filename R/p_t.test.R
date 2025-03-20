@@ -103,16 +103,16 @@
 #' \donttest{
 #'
 #'   # power given Gaussian distributions
-#'   Spower(p_t.test, n=100, d=0.5, replications=30000)
+#'   p_t.test(n=100, d=0.5) |> Spower(replications=30000)
 #'
 #'   # estimate power given the customized data generating function
-#'   Spower(p_t.test, n=100, d=0.5, gen_fun=my.gen_fun,
-#'     df1=10, df2=5, replications=30000)
+#'   p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5) |>
+#'     Spower(replications=30000)
 #'
 #'   # evaluate Type I error rate to see if liberal/conservative given
 #'   # assumption violations (should be close to alpha/sig.level)
-#'   Spower(p_t.test, n=100, d=0, gen_fun=my.gen_fun,
-#'     df1=10, df2=5, replications=30000)
+#'   p_t.test(n=100, d=0, gen_fun=my.gen_fun, df1=10, df2=5) |>
+#'     Spower(replications=30000)
 #'
 #' }
 #'
