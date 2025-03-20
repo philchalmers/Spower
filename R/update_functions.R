@@ -26,7 +26,7 @@
 #' ## Prospective power analysis update
 #'
 #' # Estimate power using sig.level = .05 (default)
-#' out <- Spower(p_t.test, n = 50, d = .5)
+#' out <- p_t.test(n = 50, d = .5) |> Spower()
 #'
 #' # update power estimate given sig.level=.01 and .20
 #' update(out, sig.level=.01)
@@ -37,13 +37,13 @@
 #' ## Compromise analysis update
 #'
 #' # Solve beta/alpha ratio to specific error trade-off constant
-#' out <- Spower(p_t.test, n = 50, d = .5, beta_alpha = 2)
+#' out <- p_t.test(n = 50, d = .5) |> Spower(beta_alpha = 2)
 #'
 #' # update beta_alpha criteria without re-simulating
 #' update(out, beta_alpha=4)
 #'
 #' # also works if compromise not initially run but prospective/post-hoc power was
-#' out <- Spower(p_t.test, n = 50, d = .5)
+#' out <- p_t.test(n = 50, d = .5) |> Spower()
 #' update(out, beta_alpha=4)
 #'
 #' }
@@ -89,7 +89,10 @@ update_sig.level <- function(x, sig.level, predCI=.95){
 	replications <- x$REPLICATIONS
 	pwrnms <- colnames(tmp)[grepl('^power', colnames(tmp))]
 	CI.lst <- lapply(pwrnms, \(pwrnm){
-		CI <- tmp[[pwrnm]] + qnorm(c(alpha/2, predCI+alpha/2)) *
+		probLU <- c(alpha/2, predCI+alpha/2)
+		probLU[probLU < 0] <- 0
+		probLU[probLU > 1] <- 1
+		CI <- tmp[[pwrnm]] + qnorm(probLU) *
 			sqrt((tmp[[pwrnm]] * (1-tmp[[pwrnm]]))/replications)
 		CI <- clip_CI(CI)
 		CI
