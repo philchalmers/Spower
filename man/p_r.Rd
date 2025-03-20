@@ -56,10 +56,10 @@ p_r(50, .5, rho=.60)
     p_r(n=50, r=0.3) |> Spower()
 
     pwr::pwr.r.test(r=0.3, power=0.80)
-    p_r(n=NA, r=0.3, power=.80, interval=c(10, 200)) |> Spower()
+    p_r(n=NA, r=0.3) |> Spower(power=.80, interval=c(10, 200))
 
     pwr::pwr.r.test(r=0.1, power=0.80)
-    p_r(n=NA, r=0.1, power=.80, interval=c(200, 1000)) |> Spower()
+    p_r(n=NA, r=0.1) |> Spower(power=.80, interval=c(200, 1000))
 
 }
 
