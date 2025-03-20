@@ -34,7 +34,7 @@
 #' # explicit means/sds
 #' p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
 #'
-#' \dontrun{
+#' \donttest{
 #'   # compare simulated results to pwr package
 #'   pwr::pwr.anova.test(f=0.28, k=4, n=20)
 #'   p_anova.test(n=20, k=4, f=.28) |> Spower()

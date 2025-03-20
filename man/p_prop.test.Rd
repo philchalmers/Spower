@@ -91,7 +91,7 @@ p_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
 # Fisher exact test
 p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 
-\dontrun{
+\donttest{
     # compare simulated results to pwr package
 
     # one-sample tests

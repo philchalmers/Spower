@@ -96,7 +96,7 @@ p_t.test(n=50, means = c(0,1), sds = c(2,2))
 p_t.test(n=50, d=0.5, type = 'paired')
 p_t.test(n=50, d=0.5, type = 'one.sample')
 
-\dontrun{
+\donttest{
   # compare simulated results to pwr package
 
   pwr::pwr.t.test(d=0.2, n=60, sig.level=0.10,

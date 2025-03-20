@@ -31,7 +31,7 @@
 #' p_r(50, .5, rho=.60)
 #'
 #'
-#' \dontrun{
+#' \donttest{
 #'     # compare simulated results to pwr package
 #'
 #'     pwr::pwr.r.test(r=0.3, n=50)
