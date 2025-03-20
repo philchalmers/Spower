@@ -31,7 +31,7 @@
 #' # one sample + test and resulting p-value
 #' p_mcnemar.test(n=sum(Performance), prop=prop)
 #'
-#' \dontrun{
+#' \donttest{
 #'
 #' # post-hoc power (not recommended)
 #' Spower(p_mcnemar.test(n=sum(Performance), prop=prop))

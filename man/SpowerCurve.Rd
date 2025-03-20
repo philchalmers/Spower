@@ -93,7 +93,7 @@ that fewer replications/iterations are used compared to
 variable inputs rather than precision of a given input.
 }
 \examples{
-\dontrun{
+\donttest{
 
 # estimate power given varying sample sizes
 gg <- p_t.test(d=0.2) |> SpowerCurve(n=c(30, 90, 270, 550))

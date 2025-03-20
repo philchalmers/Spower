@@ -144,7 +144,7 @@ ggplot(df, aes(group, DV, fill=group)) + geom_violin()
 
 p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 
-\dontrun{
+\donttest{
 
   # power given Gaussian distributions
   Spower(p_t.test, n=100, d=0.5, replications=30000)

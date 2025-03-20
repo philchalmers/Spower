@@ -29,7 +29,7 @@
 #' parent <- function(n, df, ...) rchisq(n, df=df) - df
 #' p_scale(30, scale=2, parent=parent, df=3)
 #'
-#' \dontrun{
+#' \donttest{
 #'   # empirical power of the experiments
 #'   p_scale(30, scale=2) |> Spower()
 #'   p_scale(30, scale=2, test='Mood') |> Spower()

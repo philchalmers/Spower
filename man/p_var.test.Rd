@@ -64,7 +64,7 @@ p_var.test(100, vars=c(10, 9, 11))
 p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
 p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 
-\dontrun{
+\donttest{
   # power to detect three-group variance differences
   p_var.test(n=100, vars=c(10,9,11)) |> Spower()
 

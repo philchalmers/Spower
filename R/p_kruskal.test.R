@@ -33,7 +33,7 @@
 #' p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
 #'    gen_fun=gen_chisq, dfs=c(10, 15, 20))
 #'
-#' \dontrun{
+#' \donttest{
 #'   # empirical power estimate
 #'   p_kruskal.test(n=30, k=3, means=c(0, .5, .6)) |> Spower()
 #'   p_kruskal.test(n=30, k=3, means=c(0, 1, 2), gen_fun=gen_chisq,

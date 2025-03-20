@@ -148,11 +148,12 @@
 #' # also behaves naturally with a pipe
 #' p_t.test(n = 50, d = .5) |> Spower(replications=10)
 #'
-#' \dontrun{
+#' \donttest{
 #'
 #' # Estimate power given fixed inputs (prospective power analysis)
 #' out <- Spower(p_t.test(n = 50, d = .5))
 #' summary(out)   # extra information
+#' as.data.frame(out)  # coerced to data.frame
 #'
 #' # increase precision
 #' p_t.test(n = 50, d = .5) |> Spower(replications=30000)

@@ -33,7 +33,7 @@
 #' pc <- function(n, df=15) (rchisq(n, df=df) - df) / sqrt(2*df)
 #' p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #'
-#' \dontrun{
+#' \donttest{
 #'   # empirical power estimates
 #'   p_ks.test(n=100, p1, p2) |> Spower()
 #'   p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1) |> Spower()

@@ -15,7 +15,7 @@
 #' # 50 observations from slightly skewed chi-squared distribution (power)
 #' p_shapiro.test(rchisq(50, df=100))
 #'
-#' \dontrun{
+#' \donttest{
 #'     # empirical Type I error rate estimate
 #'     p_shapiro.test(rnorm(50)) |> Spower()
 #'

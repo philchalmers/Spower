@@ -84,7 +84,7 @@ comparison for independent, overlapping, and non-overlapping designs.
 # independent (same x-y pairing across groups)
 p_2r(100, r.ab1=.5, r.ab2=.6)
 
-\dontrun{
+\donttest{
 
    # estimate empirical power
    p_2r(n=100, r.ab1=.5, r.ab2=.6) |> Spower()

@@ -28,7 +28,7 @@ must be supplied, while for prospective/post-hoc power analyses the \code{sig.le
 must be supplied.
 }
 \examples{
-\dontrun{
+\donttest{
 
 ########
 ## Prospective power analysis update

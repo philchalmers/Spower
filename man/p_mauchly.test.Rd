@@ -49,7 +49,7 @@ sigma.H0 <- diag(3)
 p_mauchly.test(100, sigma=sigma.H0)
 
 
-\dontrun{
+\donttest{
     # empirical power estimate
     p_mauchly.test(100, sigma=sigma) |> Spower()
 
