@@ -98,7 +98,8 @@ variable inputs rather than precision of a given input.
 # estimate power given varying sample sizes
 gg <- p_t.test(d=0.2) |> SpowerCurve(n=c(30, 90, 270, 550))
 
-# Output is a ggplot2 (rendered with plotly by default);hence, can be modified
+# Output is a ggplot2 (rendered with plotly by default); hence, can be modified
+library(ggplot2)
 gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05) +
   ylab(expression(1-beta)) + theme_grey()
 
