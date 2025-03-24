@@ -4,7 +4,7 @@
 \alias{p_lm.R2}
 \title{p-value from global linear regression model simulation}
 \usage{
-p_lm.R2(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid = 1 - R2, ...)
+p_lm.R2(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid = 1 - R2, fixed = TRUE, ...)
 }
 \arguments{
 \item{n}{sample size}
@@ -21,6 +21,9 @@ p_lm.R2(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid = 1 - R2, ...)
 nested models when fit sequentially (e.g., comparing model A vs B when
 model involves the structure A -> B -> C)}
 
+\item{fixed}{logical; if FALSE then the data are random generated
+according to a joint multivariate normal distribution}
+
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
@@ -28,7 +31,7 @@ unless a customized \code{gen_fun} is defined}
 a single p-value
 }
 \description{
-p-values associated with linear regression model using fixed
+p-values associated with linear regression model using fixed/random
 independent variables. Focus is on the omnibus behavior of the
 R^2 statistic.
 }
@@ -36,6 +39,9 @@ R^2 statistic.
 
 # 5 fixed IVs, R^2 = .1, sample size of 95
 p_lm.R2(n=95, R2=.1, k=5)
+
+# random model
+p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE)
 
 }
 \seealso{
