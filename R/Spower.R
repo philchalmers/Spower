@@ -119,7 +119,8 @@
 #'
 #' @import SimDesign stats
 #' @return an invisible \code{tibble}/\code{data.frame}-type object of
-#' class \code{'Spower'}
+#' class \code{'Spower'} containing the power results from the
+#' simulation experiment
 #'
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #'

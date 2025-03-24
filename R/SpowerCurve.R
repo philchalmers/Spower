@@ -51,7 +51,8 @@
 #' @param plotly logical; draw the graphic into the interactive \code{plotly}
 #'   interface? If \code{FALSE} the ggplot2 object will be returned instead
 #' @param verbose see \code{\link{Spower}}
-#' @return a ggplot2 object
+#' @return a ggplot2 object automatically rendered with
+#'   \code{plotly} for interactivity
 #' @import ggplot2
 #' @importFrom plotly ggplotly
 #' @export

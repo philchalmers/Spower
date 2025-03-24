@@ -111,7 +111,8 @@ See \code{\link[SimDesign]{timeFormater}} for further specifications}
 }
 \value{
 an invisible \code{tibble}/\code{data.frame}-type object of
-class \code{'Spower'}
+class \code{'Spower'} containing the power results from the
+simulation experiment
 }
 \description{
 General purpose function that provides power-focused estimates for

@@ -81,7 +81,8 @@ by default instead}
 \item{control}{see \code{\link{Spower}}}
 }
 \value{
-a ggplot2 object
+a ggplot2 object automatically rendered with
+\code{plotly} for interactivity
 }
 \description{
 Draws power curves that either a) estimate the power given a
