@@ -33,6 +33,9 @@ User defined version of this function must include the argument \code{...}}
 
 \item{...}{additional arguments to pass to \code{gen_fun}}
 }
+\value{
+a single p-value
+}
 \description{
 Simulates data given two or more parent distributions and
 returns a p-value using \code{\link{kruskal.test}}. Default generates data

@@ -43,6 +43,9 @@ User defined version of this function must include the argument \code{...}}
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
+\value{
+a single p-value
+}
 \description{
 p-values associated with (generalized) linear regression model.
 Requires a prespecified design matrix (\code{X}).

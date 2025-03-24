@@ -14,6 +14,7 @@
 #' @param predCI confidence interval precision (see \code{\link{Spower}} for
 #'   similar input)
 #' @param ... arguments to be passed
+#' @return object of class \code{Spower} with updated information
 #'
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #'

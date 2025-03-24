@@ -75,6 +75,9 @@ unless a customized \code{gen_fun} is defined}
 \item{R}{a correlation matrix constructed from the inputs
 to \code{\link{p_2r}}}
 }
+\value{
+a single p-value
+}
 \description{
 Function utilizes \code{\link[cocor]{cocor}} to perform correlation
 comparison for independent, overlapping, and non-overlapping designs.

@@ -15,6 +15,7 @@
 #'   User defined version of this function must include the argument \code{...}
 #' @param ... additional arguments to pass to \code{gen_fun}
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
+#' @return a single p-value
 #' @export
 #' @examples
 #'

@@ -21,6 +21,7 @@
 #'   unless a customized \code{gen_fun} is defined
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @seealso \code{\link{p_lm.R2}}
+#' @return a single p-value
 #' @importFrom car lht
 #' @export
 #' @examples

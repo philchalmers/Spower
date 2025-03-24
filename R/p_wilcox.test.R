@@ -18,6 +18,7 @@
 #' @param parent2 same as \code{parent1}, but for the second group
 #' @param two.tailed logical; use two-tailed test?
 #' @export
+#' @return a single p-value
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @examples
 #'

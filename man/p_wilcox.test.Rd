@@ -41,6 +41,9 @@ difference}
 
 \item{parent2}{same as \code{parent1}, but for the second group}
 }
+\value{
+a single p-value
+}
 \description{
 Simulates data given one or two parent distributions and
 returns a p-value. Can also be used for power analyses related

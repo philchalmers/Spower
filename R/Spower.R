@@ -163,8 +163,8 @@
 #' out   # as though it were stored from Spower()
 #'
 #' # Same as above, but executed with multiple cores (not run)
-#' # p_t.test(n = 50, d = .5) |>
-#' #   Spower(replications=30000, parallel=TRUE, ncores=2)
+#' p_t.test(n = 50, d = .5) |>
+#'    Spower(replications=30000, parallel=TRUE, ncores=2)
 #'
 #' # Solve N to get .80 power (a priori power analysis)
 #' p_t.test(n = NA, d = .5) |>
@@ -176,10 +176,10 @@
 #' # total sample size required
 #' ceiling(out$n) * 2
 #'
-#' # same as above, but in parallel with 2 cores (not run)
-#' # out.par <- p_t.test(n = NA, d = .5) |>
-#' #   Spower(power=.8, interval=c(2,500), parallel=TRUE, ncores=2)
-#' # summary(out.par)
+#' # same as above, but in parallel with 2 cores
+#' out.par <- p_t.test(n = NA, d = .5) |>
+#'   Spower(power=.8, interval=c(2,500), parallel=TRUE, ncores=2)
+#' summary(out.par)
 #'
 #' # similar information from pwr package
 #' (pwr <- pwr::pwr.t.test(d=.5, power=.80))
@@ -189,8 +189,8 @@
 #' # they are willing to wait (e.g., 5 minutes) then wait.time can be used. Below
 #' # estimates root after searching for 1 minute, and run in parallel
 #' #  with 2 cores (not run)
-#' # p_t.test(n = NA, d = .5) |>
-#' #   Spower(power=.8, interval=c(2,500), wait.time='1', parallel=TRUE, ncores=2)
+#' p_t.test(n = NA, d = .5) |>
+#'   Spower(power=.8, interval=c(2,500), wait.time='1', parallel=TRUE, ncores=2)
 #'
 #' # Solve d to get .80 power (sensitivity power analysis)
 #' p_t.test(n = 50, d = NA) |> Spower(power=.8, interval=c(.1, 2))

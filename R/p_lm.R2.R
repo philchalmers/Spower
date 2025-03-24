@@ -19,6 +19,7 @@
 #'   unless a customized \code{gen_fun} is defined
 #' @seealso \code{\link{p_glm}}
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
+#' @return a single p-value
 #' @export
 #' @examples
 #'

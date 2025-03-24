@@ -29,6 +29,7 @@
 #' @importFrom cocor cocor
 #' @importFrom methods slot
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
+#' @return a single p-value
 #' @export
 #' @examples
 #'

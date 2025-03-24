@@ -24,6 +24,9 @@ model involves the structure A -> B -> C)}
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
+\value{
+a single p-value
+}
 \description{
 p-values associated with linear regression model using fixed
 independent variables. Focus is on the omnibus behavior of the

@@ -19,6 +19,9 @@ similar input)}
 
 \item{...}{arguments to be passed}
 }
+\value{
+object of class \code{Spower} with updated information
+}
 \description{
 When a power or compromise analysis was performed in
 \code{\link{Spower}} this function can be used to
