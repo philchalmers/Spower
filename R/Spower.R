@@ -425,10 +425,6 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 	pick <- fixed_objects$pick
 	if(length(pick))
 		fixed_objects$expr[pick] <- condition[pick]
-	if(!is.null(fixed_objects$prior)){
-		prior <- prior()
-		fixed_objects$expr[names(prior)] <- prior
-	}
 	ret <- eval(fixed_objects$expr, envir = fixed_objects$parent_frame)
 	if(is.logical(ret)) ret <- as.integer(!ret)
 	ret
