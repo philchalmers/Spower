@@ -12,7 +12,7 @@ Description: Provides a general purpose simulation-based power analysis
    criterion analyses, compromise analyses, sensitivity analyses, and 
    a priori analyses. The default simulation experiment functions found within the package 
    provide stochastic variants of the power analyses subroutines found in the 
-   G*Power 3 software (Faul, Erdfelder, Buchner, and Lang, 2009) <doi:10.3758/brm.41.4.1149>,
+   G*Power 3.1 software (Faul, Erdfelder, Buchner, and Lang, 2009) <doi:10.3758/brm.41.4.1149>,
    along with various other parametric and non-parametric power analysis 
    examples (e.g., mediation analyses). Supporting functions are also included, 
    such as for building empirical power curve estimates,
