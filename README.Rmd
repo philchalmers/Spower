@@ -4,6 +4,8 @@ output:
     html_preview: true
 ---
 
+[![](http://www.r-pkg.org/badges/version/Spower)](https://www.r-pkg.org:443/pkg/Spower) [![](http://cranlogs.r-pkg.org/badges/grand-total/Spower)](https://CRAN.R-project.org/package=Spower)
+
 # *Spower*: Power Analyses using Monte Carlo Simulations <img src="inst/sticker/S.png" height="139" align="right"/>
 
 *Spower* provides a general purpose simulation-based power analysis 
