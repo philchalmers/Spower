@@ -299,9 +299,9 @@ $$H_0:\, \beta_3 = 0$$
 We start by defining the population generating model to replace the `gen_glm()` function that is the default in `p_glm()`. This generating function is organized such that a `data.frame` is returned with the columns `y`, `X`, and `S`, where the interaction effect reflects the magnitude of the difference between the $\beta$ coefficients across the independent samples. 
 
 ```{r}
-gen_twogroup <- function(n, n2_n1, dbeta, sdx, sdy, sigma, ...){
-	X1 <- rnorm(n, sd=sdx)
-	X2 <- rnorm(n*n2_n1, sd=sdy)
+gen_twogroup <- function(n, dbeta, sdx1, sdx2, sigma, n2_n1 = 1, ...){
+	X1 <- rnorm(n, sd=sdx1)
+	X2 <- rnorm(n*n2_n1, sd=sdx2)
 	X <- c(X1, X2)
 	N <- length(X)
 	S <- c(rep(0, n), rep(1, N-n))
@@ -314,7 +314,7 @@ gen_twogroup <- function(n, n2_n1, dbeta, sdx, sdy, sigma, ...){
 To demonstrate, the post-hoc power for the described example in G*Power is the following.
 ```{r}
 p_glm(formula=y~X*S, test="X:S = 0",
-	  n=28, n2_n1=44/28, sdx=9.02914, sdy=11.86779, dbeta=0.01592,
+	  n=28, n2_n1=44/28, sdx1=9.02914, sdx2=11.86779, dbeta=0.01592,
 	  sigma=0.5578413, gen_fun=gen_twogroup) |> Spower()
 ```
 
