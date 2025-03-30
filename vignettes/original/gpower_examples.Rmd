@@ -210,15 +210,15 @@ p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE, correct=FALSE) |>
 	Spower()
 ```
 
-<!-- # Multiple Linear Regression (Random IVs) -->
+# Multiple Linear Regression (Random IVs)
 
-<!-- ### Example 7.3  -->
+### Example 7.3
 
-<!-- ```{r} -->
-<!-- p_lm.R2(n=95, R2=.1, k=5, fixed.X=FALSE) |> Spower() -->
-<!-- ``` -->
+```{r}
+p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE) |> Spower()
+```
 
-<!-- G\*power gives 0.662, though note that G\*power states that this is a one-tailed test. -->
+G\*power gives 0.662 using a one-tailed test criterion.
 
 # Multiple Linear Regression (Fixed IVs)
 
@@ -275,6 +275,60 @@ p_anova.test(n=20, k=10, f=.25) |> Spower(beta_alpha=1, replications=30000)
 ```
 
 G\*Power gives $\alpha=\beta=0.159$.
+
+# $t$-test: Linear regression (two groups)
+
+Test coefficients across distinct datasets with similar form. In this case
+
+$$Y_1 = \beta_0 + \beta_1 X_1 + \epsilon$$
+$$Y_2 = \beta_0 + \beta_2 X_2 + \epsilon$$
+
+where the null of interest is 
+
+$$H_0:\, \beta_1 - \beta_2 = 0$$
+
+To do this a multiple linear regression model is setup with three variables
+
+$$Y = \beta_0 + \beta_1 X + \beta_2 S + \beta_3 S\cdot X + \epsilon$$
+where $Y=[Y_1, Y_2]$, $X = [X_1, X_2]$, and $S$ is a binary indicator variable indicating whether the observations were in the second sample. 
+Hence, the same null hypothesis can be evaluated using this augmented model testing the null
+$$H_0:\, \beta_3 = 0$$
+
+### Example 17.3
+
+We start by defining the population generating model to replace the `gen_glm()` function that is the default in `p_glm()`. This generating function is organized such that a `data.frame` is returned with the columns `y`, `X`, and `S`, where the interaction effect reflects the magnitude of the difference between the $\beta$ coefficients across the independent samples. 
+
+```{r}
+gen_twogroup <- function(n, n2_n1, dbeta, sdx, sdy, sigma, ...){
+	X1 <- rnorm(n, sd=sdx)
+	X2 <- rnorm(n*n2_n1, sd=sdy)
+	X <- c(X1, X2)
+	N <- length(X)
+	S <- c(rep(0, n), rep(1, N-n))
+	y <- dbeta * X*S + rnorm(N, sd=sigma)
+	dat <- data.frame(y, X, S)
+	dat
+}
+```
+
+To demonstrate, the post-hoc power for the described example in G*Power is the following.
+```{r}
+p_glm(formula=y~X*S, test="X:S = 0",
+	  n=28, n2_n1=44/28, sdx=9.02914, sdy=11.86779, dbeta=0.01592,
+	  sigma=0.5578413, gen_fun=gen_twogroup) |> Spower()
+```
+
+For the a priori power analysis to achieve a power of .80
+```{r}
+p_glm(formula=y~X*S, test="X:S = 0",
+	  n=NA, n2_n1=44/28, sdx=9.02914, sdy=11.86779, dbeta=0.01592,
+	  sigma=0.5578413, gen_fun=gen_twogroup) |> 
+	Spower(power=.8, interval=c(100, 1000))
+```
+
+G*Power gives the estimate for $n$ to be 163 (and therefore 256 in the second group given $n2_n1$). 
+
+
 
 # Variance tests
 

@@ -50,9 +50,9 @@ p_glm <- function(formula, X, betas, test, sigma = NULL,
 				 family=family, ...)
 	mod <- if(family$family == 'gaussian'){
 		stopifnot(!is.null(sigma))
-		lm(formula=formula, data=X, ...)
+		lm(formula=formula, data=X)
 	} else {
-		glm(formula=formula, data=X, family=family, ...)
+		glm(formula=formula, data=X, family=family)
 	}
 	if(!is.list(test))
 		test <- list(test)
