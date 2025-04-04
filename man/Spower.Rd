@@ -314,12 +314,63 @@ with(out2, ceiling(n) + ceiling(n * 2))
 # prospective power, can be used to extract the adjacent information
 p_my_t.test(n = 100, d = .5) |> Spower() -> post
 
+###############################
+# Using CIs instead of p-values
+###############################
+
+# CI test returning TRUE if psi0 is outside the 95\% CI
+ci_ind.t.test <- function(n, d, psi0=0, conf.level=.95){
+  g1 <- rnorm(n)
+  g2 <- rnorm(n, mean=d)
+  CI <- t.test(g2, g1, var.equal=TRUE,conf.level=conf.level)$conf.int
+  is.outside_CI(psi0, CI)
+}
+
+# returns logical
+ci_ind.t.test(n=100, d=.2)
+ci_ind.t.test(n=100, d=.2)
+
+# simulated prospective power
+ci_ind.t.test(n=100, d=.2) |> Spower()
+
+# compare to pwr package
+pwr::pwr.t.test(n=100, d=.2)
+
+############################
+# Equivalence test power using CIs
+#
+# H0: population d is outside interval [LB, UB]
+# H1: population d is within interval [LB, UB]
+
+# CI test returning TRUE if CI is within
+ci_equiv.t.test <- function(n, d, tol, conf.level=.95){
+  g1 <- rnorm(n)
+  g2 <- rnorm(n, mean=d)
+  CI <- t.test(g2, g1, var.equal=TRUE,conf.level=conf.level)$conf.int
+  is.CI_within(CI, tol)
+}
+
+# evaluate if CI is within tolerable interval (tol)
+ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .3))
+
+# simulated prospective power
+ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .3)) |> Spower()
+
+# higher power with wider interval
+ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .5)) |> Spower()
+
+# superiority test (one-tailed)
+# H0: population d is greater than LB
+# H1: population d is less than LB
+ci_equiv.t.test(n=1000, d=.2, tol=c(.1, Inf), conf.level=.90) |>
+  Spower()
 
 }
 }
 \seealso{
 \code{\link{update}}, \code{\link{SpowerCurve}},
-\code{\link{getLastSpower}}
+\code{\link{getLastSpower}}, \code{\link{is.CI_within}},
+\code{\link{is.outside_CI}}
 }
 \author{
 Phil Chalmers \email{rphilip.chalmers@gmail.com}

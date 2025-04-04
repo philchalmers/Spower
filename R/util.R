@@ -14,48 +14,64 @@ getLastSpower <- function() .SpowerEnv$lastSim
 
 #' Evaluate whether parameter is outside a given confidence interval
 #'
-#' Return a logical if parameter reflecting a null hypothesis
-#' falls outside a given confidence interval.
+#' Returns \code{TRUE} if parameter reflecting a null hypothesis
+#' falls outside a given confidence interval. This is an alternative approach
+#' to writing an experiment that returns a p-value.
 #'
 #' @param P0 parameter to evaluate
 #' @param CI confidence interval
 #' @return logical
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
-#' @seealso \code{\link{is.within_CI}}
+#' @seealso \code{\link{is.CI_within}}, \code{\link{Spower}}
 #' @export
 #' @examples
 #'
 #' p0 <- .3
 #' CI <- c(.2, .4)
 #' is.outside_CI(p0, CI)
-#' is.within_CI(p0, CI)
+#'
+#' # complement indicates if p0 is within CI
+#' !is.outside_CI(p0, CI)
 #'
 #'
 is.outside_CI <- function(P0, CI){
+	stopifnot(length(P0) == 1 || length(CI) == 2)
 	P0 < CI[1] || CI[2] < P0
 }
 
-#' Evaluate whether parameter is within a given confidence interval
+#' Evaluate whether a confidence interval is within a tolerable interval
 #'
-#' Return a logical if parameter reflecting a null hypothesis
-#' falls within a given confidence interval.
+#' Return \code{TRUE} if an estimated confidence interval falls within
+#' a tolerable \code{interval} range. Typically used for
+#' equivalence, superiority, or non-inferiority testing.
 #'
-#' @param P0 parameter to evaluate
-#' @param CI confidence interval
+#' @param CI estimated confidence interval (length 2)
+#' @param interval tolerable interval range (length 2)
 #' @return logical
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
-#' @seealso \code{\link{is.outside_CI}}
+#' @seealso \code{\link{is.outside_CI}}, \code{\link{Spower}}
 #' @export
 #'
 #' @examples
 #'
-#' p0 <- .3
 #' CI <- c(.2, .4)
-#' is.outside_CI(p0, CI)
-#' is.within_CI(p0, CI)
+#' LU <- c(.1, .3)
+#' is.CI_within(CI, LU)        # not within tolerable interval
+#' is.CI_within(CI, c(0, .5))  # is within wider interval
 #'
-is.within_CI <- function(P0, CI){
-	CI[1] < P0 && P0 < CI[2]
+#' # complement indicates if CI is outside interval
+#' !is.CI_within(CI, LU)
+#'
+#' #####
+#' # for superiority test
+#' is.CI_within(CI, c(.1, Inf))  # CI is within tolerable interval
+#'
+#' # for inferiority test
+#' is.CI_within(CI, c(-Inf, .3))  # CI is not within tolerable interval
+#'
+is.CI_within <- function(CI, interval){
+	stopifnot(length(interval) == 2 || length(CI) == 2)
+	interval[1] < CI[1] && CI[2] < interval[2]
 }
 
 Internal_Summarise <- function(condition, results, fixed_objects) {

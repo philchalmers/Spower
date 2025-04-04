@@ -15,20 +15,23 @@ is.outside_CI(P0, CI)
 logical
 }
 \description{
-Return a logical if parameter reflecting a null hypothesis
-falls outside a given confidence interval.
+Returns \code{TRUE} if parameter reflecting a null hypothesis
+falls outside a given confidence interval. This is an alternative approach
+to writing an experiment that returns a p-value.
 }
 \examples{
 
 p0 <- .3
 CI <- c(.2, .4)
 is.outside_CI(p0, CI)
-is.within_CI(p0, CI)
+
+# complement indicates if p0 is within CI
+!is.outside_CI(p0, CI)
 
 
 }
 \seealso{
-\code{\link{is.within_CI}}
+\code{\link{is.CI_within}}, \code{\link{Spower}}
 }
 \author{
 Phil Chalmers \email{rphilip.chalmers@gmail.com}
