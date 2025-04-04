@@ -60,7 +60,15 @@
 #'
 #' @param sig.level alpha level to use. If set to \code{NA} then the empirical
 #'   alpha will be estimated given the fixed \code{conditions} input
-#'   (e.g., for criterion power analysis)
+#'   (e.g., for criterion power analysis). Only used when the value returned
+#'   from the experiment is a \code{numeric} (p-value).
+#'
+#'   If the return of the supplied experiment is a
+#'   \code{logical}, which generally indicates that a confidence interval (CI)
+#'   approach were used,
+#'   then an argument such as \code{conf.level} should be included
+#'   in the simulation experiment to indicate the explicit CI
+#'   criteria, and so that this can be modified directly as well
 #'
 #' @param interval search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
 #'   Note that for compromise analyses, where the \code{sig.level} is set to
