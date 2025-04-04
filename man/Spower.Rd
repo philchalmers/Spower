@@ -339,10 +339,10 @@ pwr::pwr.t.test(n=100, d=.2)
 ############################
 # Equivalence test power using CIs
 #
-# H0: population d is outside interval [LB, UB]
-# H1: population d is within interval [LB, UB]
+# H0: population d is outside interval [LB, UB] (not tolerably equivalent)
+# H1: population d is within interval [LB, UB]  (tolerably equivalent)
 
-# CI test returning TRUE if CI is within
+# CI test returning TRUE if CI is within tolerable equivalence range (tol)
 ci_equiv.t.test <- function(n, d, tol, conf.level=.95){
   g1 <- rnorm(n)
   g2 <- rnorm(n, mean=d)
@@ -356,13 +356,22 @@ ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .3))
 # simulated prospective power
 ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .3)) |> Spower()
 
-# higher power with wider interval
+# higher power with larger N (more precision) or wider tol interval
+ci_equiv.t.test(n=2000, d=.2, tol=c(.1, .3)) |> Spower()
 ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .5)) |> Spower()
 
+####
 # superiority test (one-tailed)
-# H0: population d is greater than LB
-# H1: population d is less than LB
+# H0: population d is less than LB    (not superior)
+# H1: population d is greater than LB (superior)
+
+# set upper bound to Inf as it's not relevant, and reduce conf.level
+#   to reflect one-tailed test
 ci_equiv.t.test(n=1000, d=.2, tol=c(.1, Inf), conf.level=.90) |>
+  Spower()
+
+# higher LB means greater requirement for defining superiority (less power)
+ci_equiv.t.test(n=1000, d=.2, tol=c(.15, Inf), conf.level=.90) |>
   Spower()
 
 }
