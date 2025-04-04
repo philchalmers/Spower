@@ -12,6 +12,52 @@
 #'
 getLastSpower <- function() .SpowerEnv$lastSim
 
+#' Evaluate whether parameter is outside a given confidence interval
+#'
+#' Return a logical if parameter reflecting a null hypothesis
+#' falls outside a given confidence interval.
+#'
+#' @param P0 parameter to evaluate
+#' @param CI confidence interval
+#' @return logical
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
+#' @seealso \code{\link{is.within_CI}}
+#' @export
+#' @examples
+#'
+#' p0 <- .3
+#' CI <- c(.2, .4)
+#' is.outside_CI(p0, CI)
+#' is.within_CI(p0, CI)
+#'
+#'
+is.outside_CI <- function(P0, CI){
+	P0 < CI[1] || CI[2] < P0
+}
+
+#' Evaluate whether parameter is within a given confidence interval
+#'
+#' Return a logical if parameter reflecting a null hypothesis
+#' falls within a given confidence interval.
+#'
+#' @param P0 parameter to evaluate
+#' @param CI confidence interval
+#' @return logical
+#' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
+#' @seealso \code{\link{is.outside_CI}}
+#' @export
+#'
+#' @examples
+#'
+#' p0 <- .3
+#' CI <- c(.2, .4)
+#' is.outside_CI(p0, CI)
+#' is.within_CI(p0, CI)
+#'
+is.within_CI <- function(P0, CI){
+	CI[1] < P0 && P0 < CI[2]
+}
+
 Internal_Summarise <- function(condition, results, fixed_objects) {
 	results <- as.matrix(results)
 	ret <- c(power = EDR(results[,1], alpha = condition$sig.level, unname=TRUE))
