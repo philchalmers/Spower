@@ -625,14 +625,22 @@ For the a priori power analysis to achieve a power of .80
 
 ``` r
 p_glm(formula=y~X*S, test="X:S = 0",
-	  n=NA, n2_n1=44/28, sdx=9.02914, sdy=11.86779, dbeta=0.01592,
+	  n=NA, n2_n1=44/28, sdx1=9.02914, sdx2=11.86779, dbeta=0.01592,
 	  sigma=0.5578413, gen_fun=gen_twogroup) |> 
 	Spower(power=.8, interval=c(100, 1000))
 ```
 
 ```
-## Error: Error in array(x, c(length(x), 1L), if (!is.null(names(x))) list(names(x),  : 
-##   'data' must be of a vector type, was 'NULL'
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 8
+##   test      sigma     n   sdx1   sdx2   dbeta sig.level power
+##   <chr>     <dbl> <dbl>  <dbl>  <dbl>   <dbl>     <dbl> <dbl>
+## 1 X:S = 0 0.55784    NA 9.0291 11.868 0.01592      0.05   0.8
+## 
+## Estimate of n: 165.5
+## 95% Prediction Interval: [164.1, 166.8]
 ```
 
 G*Power gives the estimate for $n$ to be 163 (and therefore 256 in the second group given $n2_n1$). 
@@ -659,8 +667,8 @@ p_var.test(n=NA, vars=1, sigma2=1.5, two.tailed=FALSE) |>
 ##   <dbl> <dbl>  <dbl> <lgl>          <dbl> <dbl>
 ## 1    NA     1    1.5 FALSE           0.05   0.8
 ## 
-## Estimate of n: 81.0
-## 95% Prediction Interval: [80.0, 81.8]
+## Estimate of n: 81.1
+## 95% Prediction Interval: [80.4, 81.8]
 ```
 
 G\*power gives sample size of 81.
@@ -685,8 +693,8 @@ p_var.test(n=NA, vars=c(1, 1.5), two.tailed=TRUE) |>
 ##   <dbl> <lgl>          <dbl> <dbl>
 ## 1    NA TRUE            0.05   0.8
 ## 
-## Estimate of n: 194.1
-## 95% Prediction Interval: [192.0, 196.2]
+## Estimate of n: 193.2
+## 95% Prediction Interval: [190.9, 195.3]
 ```
 
 G\*Power gives estimate of 193 per group.
@@ -710,13 +718,13 @@ Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed
 ##   <dbl> <dbl> <lgl>          <dbl> <dbl>
 ## 1    NA   0.5 FALSE           0.05  0.95
 ## 
-## Estimate of n: 84.7
-## 95% Prediction Interval: [83.5, 85.8]
+## Estimate of n: 88.7
+## 95% Prediction Interval: [85.7, 91.6]
 ```
 
 
 
-G\*power estimate is 88 per group, `Spower` estimate is 84.7036 with the 95% CI [83.5452, 85.7846].
+G\*power estimate is 88 per group, `Spower` estimate is 88.676 with the 95% CI [85.7064, 91.553].
 
 
 ### Example 19.3; Paired samples t-test
@@ -735,8 +743,8 @@ p_t.test(n=50, d=0.421637, type = 'paired') |> Spower()
 ##   <dbl>   <dbl> <chr>      <dbl> <lgl>
 ## 1    50 0.42164 paired      0.05 NA   
 ## 
-## Estimate of power: 0.840
-## 95% Confidence Interval: [0.832, 0.847]
+## Estimate of power: 0.841
+## 95% Confidence Interval: [0.834, 0.848]
 ```
 
 G\*power gives power estimate of .832.
@@ -758,8 +766,8 @@ p_t.test(n=NA, d=.625, two.tailed=FALSE, type='one.sample') |>
 ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <dbl>
 ## 1    NA 0.625 one.sample FALSE           0.05  0.95
 ## 
-## Estimate of n: 29.0
-## 95% Prediction Interval: [28.3, 30.0]
+## Estimate of n: 29.1
+## 95% Prediction Interval: [28.6, 29.5]
 ```
 
 G\*power gives sample size of $n=30$.
@@ -779,8 +787,8 @@ p_t.test(n=NA, d=.1, type='one.sample') |>
 ##   <dbl> <dbl> <chr>          <dbl> <dbl>
 ## 1    NA   0.1 one.sample      0.01   0.9
 ## 
-## Estimate of n: 1494.6
-## 95% Prediction Interval: [1473.2, 1517.3]
+## Estimate of n: 1503.4
+## 95% Prediction Interval: [1490.4, 1516.4]
 ```
 
 G\*power gives sample size of $n=1492$.
@@ -803,8 +811,8 @@ p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> Spower()
 ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
 ## 1   649   0.1 one.sample FALSE           0.05 NA   
 ## 
-## Estimate of power: 0.790
-## 95% Confidence Interval: [0.782, 0.798]
+## Estimate of power: 0.795
+## 95% Confidence Interval: [0.787, 0.803]
 ```
 
 G\*power provide power estimate of .800.
@@ -832,8 +840,8 @@ p_wilcox.test(n=67, n2_n1=nr, d=0.375, parent1=parent1, parent2=parent2) |>
 ##   <dbl> <dbl>     <dbl> <lgl>
 ## 1    67 0.375      0.05 NA   
 ## 
-## Estimate of power: 0.842
-## 95% Confidence Interval: [0.835, 0.849]
+## Estimate of power: 0.845
+## 95% Confidence Interval: [0.838, 0.852]
 ```
 
 G\*power gives power of .847. 
