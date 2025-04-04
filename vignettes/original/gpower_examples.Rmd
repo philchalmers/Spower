@@ -321,7 +321,7 @@ p_glm(formula=y~X*S, test="X:S = 0",
 For the a priori power analysis to achieve a power of .80
 ```{r}
 p_glm(formula=y~X*S, test="X:S = 0",
-	  n=NA, n2_n1=44/28, sdx=9.02914, sdy=11.86779, dbeta=0.01592,
+	  n=NA, n2_n1=44/28, sdx1=9.02914, sdx2=11.86779, dbeta=0.01592,
 	  sigma=0.5578413, gen_fun=gen_twogroup) |> 
 	Spower(power=.8, interval=c(100, 1000))
 ```
