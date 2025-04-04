@@ -61,7 +61,7 @@
 #'
 #' # prospective power using test that interaction effect is equal to 0
 #' p_glm(formula=y~X*S, test="X:S = 0",
-#' 	  n=100, sdx=1, sdy=2, dbeta=0.2,
+#' 	  n=100, sdx1=1, sdx2=2, dbeta=0.2,
 #' 	  sigma=0.5, gen_fun=gen_twogroup) |> Spower(replications=1000)
 #'
 #' }
