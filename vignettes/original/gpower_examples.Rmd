@@ -167,7 +167,7 @@ p_prop.test(n=20, prop=p, pi=pi, exact=TRUE,
 
 ### Example 22.1; Sign test
 
-Normal as the parent distribution.
+Standard Normal/Gaussian as the parent distribution (default).
 
 ```{r}
 p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> 
@@ -175,12 +175,32 @@ p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |>
 ```
 G\*power gives the power estimate of .800. 
 
+The following partially recreates the simulation results in Figure 29 (which itself was partially extracted from Shieh, Jan, and Randles, 2007) for the *Gaussian(0,1)* distribution with varying sample sizes and effect sizes. The target was to obtain "approximate power of $1-\beta = .80$", though how these sample sizes were decided upon was not specified. `Spower()`'s stochastic root-solving approach would likely get closer to more optimal $N$ estimates were these the target of the analyses.
+
+```{r}
+combos <- data.frame(n=c(649, 164, 42, 20, 12, 9),
+					 d=c(.1, .2, .4, .6, .8, 1.0))
+
+out <- lapply(1:nrow(combos), \(i){
+	p_wilcox.test(n=combos$n[i], d=combos$d[i], 
+				  type='one.sample', two.tailed=FALSE) |> Spower(replications = 50000)
+})
+
+# For Gaussian(0,1)
+combos$power <- sapply(out, \(x) x$power)
+combos
+```
+
+
+#### Laplace(0,1) version
+
 A one-sample sign test with Laplace distribution as the parent:
 
 ```{r}
 library(VGAM)
 
 # generate data with scale 0-1 for d effect size to be same as mean
+# VAR = 2*b^2, so scale should be 1 = 2*b^2 -> sqrt(1/2)
 parent <- function(n, d, scale=sqrt(1/2)) 
 	VGAM::rlaplace(n, d, scale=scale)
 
@@ -188,7 +208,24 @@ p_wilcox.test(n=11, d=.8, parent1=parent, type='one.sample',
 			  two.tailed=FALSE, correct = FALSE) |> Spower()
 ```
 
-G\*power gives the estimate .830. 
+G\*power gives the estimate .830, which seems somewhat high (see below).
+
+The following partially recreates the simulation results in Figure 29 for the *Laplace(0,1)* distribution with varying sample sizes and effect sizes. The target was to obtain "approximate power of $1-\beta = .80$", though how these sample sizes were decided upon was not specified. `Spower()`'s stochastic root-solving approach would likely get closer to more optimal $N$ estimates were these the target of the analyses.
+
+```{r}
+combos <- data.frame(n=c(419, 109, 31, 16, 11, 8),
+						  d=c(.1, .2, .4, .6, .8, 1.0))
+
+out <- lapply(1:nrow(combos), \(i){
+	p_wilcox.test(n=combos$n[i], d=combos$d[i], parent1=parent, type='one.sample',
+			  two.tailed=FALSE, correct = FALSE) |> Spower(replications = 50000)
+})
+
+# For Laplace(0,1)
+combos$power <- sapply(out, \(x) x$power)
+combos
+```
+
 
 
 ### Example 5.3; Two dependent proportions test (McNemar's test)
