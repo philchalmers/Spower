@@ -410,10 +410,23 @@ G\*power estimate is 88 per group, `Spower` estimate is `r out$n` with the 95% C
 ### Example 19.3; Paired samples t-test
 
 ```{r}
-p_t.test(n=50, d=0.421637, type = 'paired') |> Spower()
+p_t.test(n=50, d=0.421637, type = 'paired') |> Spower(replications=50000)
 ```
 
-G\*power gives power estimate of .832.
+G\*power gives power estimate of .832, though Cohen reported a value closer to .840. When $d=0.2828427$ this leads to
+
+```{r}
+p_t.test(n=50, d=.2828427, type = 'paired') |> Spower(replications=50000)
+```
+
+In this case G*Power gives the estimate .500. To answer the question "How many subjects would we need to arrive at a power of about 0.832114 in a two-group design?" this is specified within `Spower()` and where `n` is set to `NA`.
+
+```{r}
+p_t.test(n=NA, d=0.2828427, type = 'paired') |> 
+	Spower(power=0.832114, interval=c(100,300))
+```
+
+G*power reports that around $N=110$ is required, though this is estimated visually using interpolation.
 
 ### Example 20.3; One-sample t-test
 
