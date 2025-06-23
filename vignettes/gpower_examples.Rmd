@@ -1,7 +1,7 @@
 ---
 title: "G*Power examples evaluated with Spower"
 author: Phil Chalmers
-date: "2025-05-16"
+date: "2025-06-23"
 output: 
   bookdown::html_document2:
     base_format: rmarkdown::html_vignette
@@ -289,7 +289,7 @@ p_prop.test(n=20, prop=p, pi=pi, exact=TRUE,
 
 ### Example 22.1; Sign test
 
-Normal as the parent distribution.
+Standard Normal/Gaussian as the parent distribution (default).
 
 
 ``` r
@@ -311,6 +311,36 @@ p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |>
 ```
 G\*power gives the power estimate of .800. 
 
+The following partially recreates the simulation results in Figure 29 (which itself was partially extracted from Shieh, Jan, and Randles, 2007) for the *Gaussian(0,1)* distribution with varying sample sizes and effect sizes. The target was to obtain "approximate power of $1-\beta = .80$", though how these sample sizes were decided upon was not specified. `Spower()`'s stochastic root-solving approach would likely get closer to more optimal $N$ estimates were these the target of the analyses.
+
+
+``` r
+combos <- data.frame(n=c(649, 164, 42, 20, 12, 9),
+					 d=c(.1, .2, .4, .6, .8, 1.0))
+
+out <- lapply(1:nrow(combos), \(i){
+	p_wilcox.test(n=combos$n[i], d=combos$d[i], 
+				  type='one.sample', two.tailed=FALSE) |> Spower(replications = 50000)
+})
+
+# For Gaussian(0,1)
+combos$power <- sapply(out, \(x) x$power)
+combos
+```
+
+```
+##     n   d  power
+## 1 649 0.1 0.7983
+## 2 164 0.2 0.8014
+## 3  42 0.4 0.7966
+## 4  20 0.6 0.8096
+## 5  12 0.8 0.8026
+## 6   9 1.0 0.8461
+```
+
+
+#### Laplace(0,1) version
+
 A one-sample sign test with Laplace distribution as the parent:
 
 
@@ -318,6 +348,7 @@ A one-sample sign test with Laplace distribution as the parent:
 library(VGAM)
 
 # generate data with scale 0-1 for d effect size to be same as mean
+# VAR = 2*b^2, so scale should be 1 = 2*b^2 -> sqrt(1/2)
 parent <- function(n, d, scale=sqrt(1/2)) 
 	VGAM::rlaplace(n, d, scale=scale)
 
@@ -334,11 +365,39 @@ p_wilcox.test(n=11, d=.8, parent1=parent, type='one.sample',
 ##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
 ## 1    11   0.8 one.sample FALSE   FALSE           0.05 NA   
 ## 
-## Estimate of power: 0.809
-## 95% Confidence Interval: [0.801, 0.817]
+## Estimate of power: 0.797
+## 95% Confidence Interval: [0.789, 0.805]
 ```
 
-G\*power gives the estimate .830. 
+G\*power gives the estimate .830, which seems somewhat high (see below).
+
+The following partially recreates the simulation results in Figure 29 for the *Laplace(0,1)* distribution with varying sample sizes and effect sizes. The target was to obtain "approximate power of $1-\beta = .80$", though how these sample sizes were decided upon was not specified. `Spower()`'s stochastic root-solving approach would likely get closer to more optimal $N$ estimates were these the target of the analyses.
+
+
+``` r
+combos <- data.frame(n=c(419, 109, 31, 16, 11, 8),
+						  d=c(.1, .2, .4, .6, .8, 1.0))
+
+out <- lapply(1:nrow(combos), \(i){
+	p_wilcox.test(n=combos$n[i], d=combos$d[i], parent1=parent, type='one.sample',
+			  two.tailed=FALSE, correct = FALSE) |> Spower(replications = 50000)
+})
+
+# For Laplace(0,1)
+combos$power <- sapply(out, \(x) x$power)
+combos
+```
+
+```
+##     n   d  power
+## 1 419 0.1 0.8017
+## 2 109 0.2 0.8012
+## 3  31 0.4 0.8027
+## 4  16 0.6 0.7979
+## 5  11 0.8 0.8043
+## 6   8 1.0 0.7738
+```
+
 
 
 ### Example 5.3; Two dependent proportions test (McNemar's test)
@@ -372,8 +431,8 @@ p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE) |>
 ##   <dbl> <lgl>          <dbl> <lgl>
 ## 1    50 FALSE           0.05 NA   
 ## 
-## Estimate of power: 0.838
-## 95% Confidence Interval: [0.834, 0.842]
+## Estimate of power: 0.837
+## 95% Confidence Interval: [0.833, 0.841]
 ```
 
 G\*Power gives .839 ($\alpha = .032$). Slightly more power can be achieved when not using the continuity correction, though in general this is not recommended in practice.
@@ -393,8 +452,8 @@ p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE, correct=FALSE) |>
 ##   <dbl> <lgl>      <lgl>       <dbl> <lgl>
 ## 1    50 FALSE      FALSE        0.05 NA   
 ## 
-## Estimate of power: 0.887
-## 95% Confidence Interval: [0.881, 0.893]
+## Estimate of power: 0.888
+## 95% Confidence Interval: [0.882, 0.894]
 ```
 
 # Multiple Linear Regression (Random IVs)
@@ -415,8 +474,8 @@ p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE) |> Spower()
 ##   <dbl> <dbl> <dbl> <lgl>     <dbl> <lgl>
 ## 1    95   0.1     5 FALSE      0.05 NA   
 ## 
-## Estimate of power: 0.667
-## 95% Confidence Interval: [0.658, 0.676]
+## Estimate of power: 0.660
+## 95% Confidence Interval: [0.651, 0.669]
 ```
 
 G\*power gives 0.662 using a one-tailed test criterion.
@@ -439,8 +498,8 @@ p_lm.R2(n=95, R2=.1, k=5) |> Spower()
 ##   <dbl> <dbl> <dbl>     <dbl> <lgl>
 ## 1    95   0.1     5      0.05 NA   
 ## 
-## Estimate of power: 0.660
-## 95% Confidence Interval: [0.651, 0.669]
+## Estimate of power: 0.670
+## 95% Confidence Interval: [0.661, 0.680]
 ```
 
 G\*power gives $1-\beta = .673$.
@@ -463,8 +522,8 @@ p_lm.R2(n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5) |> Spower(sig.level=.01)
 ##   <dbl> <dbl> <dbl> <dbl>  <dbl>     <dbl> <lgl>
 ## 1    90   0.3     9  0.25      5      0.01 NA   
 ## 
-## Estimate of power: 0.231
-## 95% Confidence Interval: [0.223, 0.239]
+## Estimate of power: 0.235
+## 95% Confidence Interval: [0.227, 0.243]
 ```
 
 G\*power gives $1-\beta = .241$. Solving the sample size to achieve 80% power
@@ -484,8 +543,8 @@ p_lm.R2(n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5) |>
 ##   <dbl> <dbl> <dbl> <dbl>  <dbl>     <dbl> <dbl>
 ## 1    NA   0.3     9  0.25      5      0.01   0.8
 ## 
-## Estimate of n: 243.4
-## 95% Prediction Interval: [242.1, 244.7]
+## Estimate of n: 242.4
+## 95% Prediction Interval: [240.9, 244.0]
 ```
 
 G\*power gives $n = 242$.
@@ -509,8 +568,8 @@ p_lm.R2(n=200, R2=.16, R2_0 = .1, k=12, k.R2_0=9, R2.resid=.8) |>
 ##   <dbl> <dbl> <dbl> <dbl>  <dbl>    <dbl>     <dbl> <lgl>
 ## 1   200  0.16    12   0.1      9      0.8      0.01 NA   
 ## 
-## Estimate of power: 0.759
-## 95% Confidence Interval: [0.751, 0.767]
+## Estimate of power: 0.765
+## 95% Confidence Interval: [0.756, 0.773]
 ```
 
 G\*power gives $1-\beta = .767$.
@@ -533,8 +592,8 @@ p_anova.test(n=NA, k=10, f=.25) |>  Spower(power=.95, interval=c(20, 300))
 ##   <dbl> <dbl> <dbl>     <dbl> <dbl>
 ## 1    NA    10  0.25      0.05  0.95
 ## 
-## Estimate of n: 38.4
-## 95% Prediction Interval: [37.7, 39.1]
+## Estimate of n: 38.5
+## 95% Prediction Interval: [37.7, 39.5]
 ```
 
 G\*power gives the estimate $n=39$.
@@ -556,10 +615,10 @@ p_anova.test(n=20, k=10, f=.25) |> Spower(beta_alpha=1, replications=30000)
 ## 1    20    10  0.25        NA NA             1
 ## 
 ## Estimate of Type I error rate (alpha/sig.level): 0.159
-## 95% Confidence Interval: [0.154, 0.163]
+## 95% Confidence Interval: [0.155, 0.163]
 ## 
 ## Estimate of power (1-beta): 0.841
-## 95% Confidence Interval: [0.837, 0.846]
+## 95% Confidence Interval: [0.837, 0.845]
 ```
 
 G\*Power gives $\alpha=\beta=0.159$.
@@ -617,8 +676,8 @@ p_glm(formula=y~X*S, test="X:S = 0",
 ##   <chr>     <dbl> <dbl>  <dbl>  <dbl>   <dbl>     <dbl> <lgl>
 ## 1 X:S = 0 0.55784    28 9.0291 11.868 0.01592      0.05 NA   
 ## 
-## Estimate of power: 0.206
-## 95% Confidence Interval: [0.198, 0.214]
+## Estimate of power: 0.195
+## 95% Confidence Interval: [0.187, 0.202]
 ```
 
 For the a priori power analysis to achieve a power of .80
@@ -639,8 +698,8 @@ p_glm(formula=y~X*S, test="X:S = 0",
 ##   <chr>     <dbl> <dbl>  <dbl>  <dbl>   <dbl>     <dbl> <dbl>
 ## 1 X:S = 0 0.55784    NA 9.0291 11.868 0.01592      0.05   0.8
 ## 
-## Estimate of n: 165.5
-## 95% Prediction Interval: [164.1, 166.8]
+## Estimate of n: 165.2
+## 95% Prediction Interval: [163.0, 167.6]
 ```
 
 G*Power gives the estimate for $n$ to be 163 (and therefore 256 in the second group given $n2_n1$). 
@@ -667,8 +726,8 @@ p_var.test(n=NA, vars=1, sigma2=1.5, two.tailed=FALSE) |>
 ##   <dbl> <dbl>  <dbl> <lgl>          <dbl> <dbl>
 ## 1    NA     1    1.5 FALSE           0.05   0.8
 ## 
-## Estimate of n: 81.1
-## 95% Prediction Interval: [80.4, 81.8]
+## Estimate of n: 79.7
+## 95% Prediction Interval: [78.9, 80.6]
 ```
 
 G\*power gives sample size of 81.
@@ -693,8 +752,8 @@ p_var.test(n=NA, vars=c(1, 1.5), two.tailed=TRUE) |>
 ##   <dbl> <lgl>          <dbl> <dbl>
 ## 1    NA TRUE            0.05   0.8
 ## 
-## Estimate of n: 193.2
-## 95% Prediction Interval: [190.9, 195.3]
+## Estimate of n: 194.1
+## 95% Prediction Interval: [191.5, 196.6]
 ```
 
 G\*Power gives estimate of 193 per group.
@@ -718,20 +777,20 @@ Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed
 ##   <dbl> <dbl> <lgl>          <dbl> <dbl>
 ## 1    NA   0.5 FALSE           0.05  0.95
 ## 
-## Estimate of n: 88.7
-## 95% Prediction Interval: [85.7, 91.6]
+## Estimate of n: 87.4
+## 95% Prediction Interval: [84.8, 89.3]
 ```
 
 
 
-G\*power estimate is 88 per group, `Spower` estimate is 88.676 with the 95% CI [85.7064, 91.553].
+G\*power estimate is 88 per group, `Spower` estimate is 87.4101 with the 95% CI [84.7763, 89.287].
 
 
 ### Example 19.3; Paired samples t-test
 
 
 ``` r
-p_t.test(n=50, d=0.421637, type = 'paired') |> Spower()
+p_t.test(n=50, d=0.421637, type = 'paired') |> Spower(replications=50000)
 ```
 
 ```
@@ -744,10 +803,51 @@ p_t.test(n=50, d=0.421637, type = 'paired') |> Spower()
 ## 1    50 0.42164 paired      0.05 NA   
 ## 
 ## Estimate of power: 0.841
-## 95% Confidence Interval: [0.834, 0.848]
+## 95% Confidence Interval: [0.838, 0.844]
 ```
 
-G\*power gives power estimate of .832.
+G\*power gives power estimate of .832, though Cohen reported a value closer to .840. When $d=0.2828427$ this leads to
+
+
+``` r
+p_t.test(n=50, d=.2828427, type = 'paired') |> Spower(replications=50000)
+```
+
+```
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 5
+##       n       d type   sig.level power
+##   <dbl>   <dbl> <chr>      <dbl> <lgl>
+## 1    50 0.28284 paired      0.05 NA   
+## 
+## Estimate of power: 0.508
+## 95% Confidence Interval: [0.504, 0.513]
+```
+
+In this case G*Power gives the estimate .500. To answer the question "How many subjects would we need to arrive at a power of about 0.832114 in a two-group design?" this is specified within `Spower()` and where `n` is set to `NA`.
+
+
+``` r
+p_t.test(n=NA, d=0.2828427, type = 'paired') |> 
+	Spower(power=0.832114, interval=c(100,300))
+```
+
+```
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 5
+##       n       d type   sig.level   power
+##   <dbl>   <dbl> <chr>      <dbl>   <dbl>
+## 1    NA 0.28284 paired      0.05 0.83211
+## 
+## Estimate of n: 107.2
+## 95% Prediction Interval: [106.5, 108.0]
+```
+
+G*power reports that around $N=110$ is required, though this is estimated visually using interpolation.
 
 ### Example 20.3; One-sample t-test
 
@@ -766,8 +866,8 @@ p_t.test(n=NA, d=.625, two.tailed=FALSE, type='one.sample') |>
 ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <dbl>
 ## 1    NA 0.625 one.sample FALSE           0.05  0.95
 ## 
-## Estimate of n: 29.1
-## 95% Prediction Interval: [28.6, 29.5]
+## Estimate of n: 28.9
+## 95% Prediction Interval: [28.1, 29.7]
 ```
 
 G\*power gives sample size of $n=30$.
@@ -787,8 +887,8 @@ p_t.test(n=NA, d=.1, type='one.sample') |>
 ##   <dbl> <dbl> <chr>          <dbl> <dbl>
 ## 1    NA   0.1 one.sample      0.01   0.9
 ## 
-## Estimate of n: 1503.4
-## 95% Prediction Interval: [1490.4, 1516.4]
+## Estimate of n: 1491.8
+## 95% Prediction Interval: [1473.0, 1508.2]
 ```
 
 G\*power gives sample size of $n=1492$.
@@ -811,8 +911,8 @@ p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> Spower()
 ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
 ## 1   649   0.1 one.sample FALSE           0.05 NA   
 ## 
-## Estimate of power: 0.795
-## 95% Confidence Interval: [0.787, 0.803]
+## Estimate of power: 0.801
+## 95% Confidence Interval: [0.793, 0.809]
 ```
 
 G\*power provide power estimate of .800.
@@ -840,8 +940,8 @@ p_wilcox.test(n=67, n2_n1=nr, d=0.375, parent1=parent1, parent2=parent2) |>
 ##   <dbl> <dbl>     <dbl> <lgl>
 ## 1    67 0.375      0.05 NA   
 ## 
-## Estimate of power: 0.845
-## 95% Confidence Interval: [0.838, 0.852]
+## Estimate of power: 0.850
+## 95% Confidence Interval: [0.843, 0.857]
 ```
 
 G\*power gives power of .847. 
