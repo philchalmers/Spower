@@ -318,17 +318,19 @@ G\*Power gives $\alpha=\beta=0.159$.
 Test coefficients across distinct datasets with similar form. In this case
 
 $$Y_1 = \beta_0 + \beta_1 X_1 + \epsilon$$
-$$Y_2 = \beta_0 + \beta_2 X_2 + \epsilon$$
+$$Y_2 = \beta_0^* + \beta_1^* X_2 + \epsilon$$
 
 where the null of interest is 
 
-$$H_0:\, \beta_1 - \beta_2 = 0$$
+$$H_0:\, \beta_1 - \beta_1^* = 0$$
 
 To do this a multiple linear regression model is setup with three variables
 
-$$Y = \beta_0 + \beta_1 X + \beta_2 S + \beta_3 S\cdot X + \epsilon$$
+$$Y = \beta_0 + \beta_1 X + \beta_2 S + \beta_3 (S\cdot X) + \epsilon$$
 where $Y=[Y_1, Y_2]$, $X = [X_1, X_2]$, and $S$ is a binary indicator variable indicating whether the observations were in the second sample. 
-Hence, the same null hypothesis can be evaluated using this augmented model testing the null
+
+When $S = 0$ the first group's parameterization will be recovered, while when $S=1$ the second group's parameterization will be recovered as the potentially non-zero $\beta_2$ reflects a change in the intercept ($\beta_0^* = \beta_0 + \beta_2$) while the change in the slope for the second group will be reflected by the $\beta_3$ ($\beta_1^*=\beta_1 + \beta_3$). Hence, the null hypothesis that the two groups have the same slope can be evaluated using this augmented model by testing
+
 $$H_0:\, \beta_3 = 0$$
 
 ### Example 17.3
@@ -364,8 +366,6 @@ p_glm(formula=y~X*S, test="X:S = 0",
 ```
 
 G*Power gives the estimate for $n$ to be 163 (and therefore 256 in the second group given $n2_n1$). 
-
-
 
 # Variance tests
 
