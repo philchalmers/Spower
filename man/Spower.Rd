@@ -23,6 +23,7 @@ Spower(
   check.interval = FALSE,
   maxiter = 150,
   wait.time = NULL,
+  lastSpower = NULL,
   control = list()
 )
 
@@ -112,6 +113,13 @@ within \code{.01/2} of the target power}
 See \code{\link[SimDesign]{SimSolve}} for details and
 See \code{\link[SimDesign]{timeFormater}} for further specifications}
 
+\item{lastSpower}{a previously returned \code{Spower} object to be updated.
+Use this if you want to continue where an estimate left off but wish to increase the
+precision (e.g., by adding more replications).
+
+Note that if the object was not stored use \code{\link{getLastSpower}}
+to obtain the last estimated power object}
+
 \item{control}{a list of control parameters to pass to
 \code{\link[SimDesign]{runSimulation}} or \code{\link[SimDesign]{SimSolve}}}
 
@@ -185,8 +193,14 @@ out <- Spower(p_t.test(n = 50, d = .5))
 summary(out)   # extra information
 as.data.frame(out)  # coerced to data.frame
 
-# increase precision
-p_t.test(n = 50, d = .5) |> Spower(replications=30000)
+# increase precision (not run)
+# p_t.test(n = 50, d = .5) |> Spower(replications=30000)
+
+# alternatively, increase precision from previous object.
+#   Here we add 20000 more replications on top of the previous 10000
+p_t.test(n = 50, d = .5) |>
+  Spower(replications=20000, lastSpower=out) -> out2
+out2$REPLICATIONS  # total of 30000 replications for estimate
 
 # previous analysis not stored to object, but can be retrieved
 out <- getLastSpower()

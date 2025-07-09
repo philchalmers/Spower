@@ -82,6 +82,13 @@
 #' @param replications number of replications to use when
 #'   \code{\link[SimDesign]{runSimulation}} is required
 #'
+#' @param lastSpower a previously returned \code{Spower} object to be updated.
+#'   Use this if you want to continue where an estimate left off but wish to increase the
+#'   precision (e.g., by adding more replications).
+#'
+#'   Note that if the object was not stored use \code{\link{getLastSpower}}
+#'   to obtain the last estimated power object
+#'
 #' @param integer a logical value indicating whether the search iterations
 #'   use integers or doubles.
 #'
@@ -165,8 +172,14 @@
 #' summary(out)   # extra information
 #' as.data.frame(out)  # coerced to data.frame
 #'
-#' # increase precision
-#' p_t.test(n = 50, d = .5) |> Spower(replications=30000)
+#' # increase precision (not run)
+#' # p_t.test(n = 50, d = .5) |> Spower(replications=30000)
+#'
+#' # alternatively, increase precision from previous object.
+#' #   Here we add 20000 more replications on top of the previous 10000
+#' p_t.test(n = 50, d = .5) |>
+#'   Spower(replications=20000, lastSpower=out) -> out2
+#' out2$REPLICATIONS  # total of 30000 replications for estimate
 #'
 #' # previous analysis not stored to object, but can be retrieved
 #' out <- getLastSpower()
@@ -369,7 +382,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = FALSE, maxiter=150, wait.time = NULL,
-				   control = list()){
+				   lastSpower = NULL, control = list()){
 	if(missing(beta_alpha)) beta_alpha <- NULL
 	if(!is.null(cl)) parallel <- TRUE
 	control$useAnalyseHandler <- FALSE
@@ -437,15 +450,30 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 		conditions$power <- NULL
 		if(is.null(beta_alpha))
 			summarise <- Internal_Summarise.Full
+		seed <- SimDesign::genSeeds(conditions)
+		if(!is.null(lastSpower)){
+			while(TRUE){
+				if(seed != lastSpower$SEED) break
+				seed <- SimDesign::genSeeds(conditions)
+			}
+		}
 		tmp <- SimDesign::runSimulation(conditions, replications=replications,
 					  analyse=sim_function_aug, summarise=summarise,
 					  fixed_objects=fixed_objects, save=FALSE, resume=FALSE,
-					  cl=cl, parallel=parallel, ncores=ncores,
+					  cl=cl, parallel=parallel, ncores=ncores, seed=seed,
 					  verbose=verbose, packages=packages, control=control)
 		alpha <- 1 - predCI
 		pick <- grepl('^power', colnames(tmp))
 		pwrnms <- colnames(tmp)[grepl('^power', colnames(tmp))]
 		conditions[pwrnms] <- NA
+		if(!is.null(lastSpower)){
+			attr(tmp, 'extra_info')$stored_results <-
+				rbind(attr(tmp, 'extra_info')$stored_results,
+					  attr(lastSpower, 'extra_info')$stored_results)
+			replications <- tmp$REPLICATIONS + lastSpower$REPLICATIONS
+			tmp$REPLICATIONS <- replications
+			tmp[pwrnms] <- SimDesign::reSummarise(summarise, results=tmp)[pwrnms]
+		}
 		CI.lst <- lapply(pwrnms, \(pwrnm){
 			CI <- tmp[[pwrnm]] + qnorm(c(alpha/2, predCI+alpha/2)) *
 				sqrt((tmp[[pwrnm]] * (1-tmp[[pwrnm]]))/replications)
@@ -457,9 +485,11 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 		colnames(CI) <- paste0('CI_', c(alpha/2, predCI+alpha/2)*100)
 		attr(tmp, 'extra_info')$power.CI <- CI
 		attr(tmp, 'extra_info')[c("number_of_conditions", "Design.ID",
-								  'save_info')] <- NULL
+								  'save_info', 'functions')] <- NULL
 		tmp
 	} else {
+		if(!is.null(lastSpower))
+			stop('lastSpower not currently supported for stochastic root searches')
 		SimDesign::SimSolve(conditions, interval=interval,
 							analyse=sim_function_aug, save=FALSE,
 							summarise=summarise, b=power,
