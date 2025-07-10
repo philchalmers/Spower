@@ -84,7 +84,8 @@
 #'
 #' @param lastSpower a previously returned \code{Spower} object to be updated.
 #'   Use this if you want to continue where an estimate left off but wish to increase the
-#'   precision (e.g., by adding more replications).
+#'   precision (e.g., by adding more replications, or by letting the stochastic root solver
+#'   continue searching).
 #'
 #'   Note that if the object was not stored use \code{\link{getLastSpower}}
 #'   to obtain the last estimated power object
@@ -214,6 +215,13 @@
 #' #  with 2 cores (not run)
 #' p_t.test(n = NA, d = .5) |>
 #'   Spower(power=.8, interval=c(2,500), wait.time='1', parallel=TRUE, ncores=2)
+#'
+#' # Similiar to above for precision improvements, however letting
+#' #  the root solver continue searching from an early search history.
+#' #  Usually a good idea to increase the maxiter and lower the predCI.tol
+#' p_t.test(n = NA, d = .5) |>
+#'   Spower(power=.8, interval=c(2,500), lastSpower=out,
+#'         maxiter=200, predCI.tol=.008) #starts at last iteration in "out"
 #'
 #' # Solve d to get .80 power (sensitivity power analysis)
 #' p_t.test(n = 50, d = NA) |> Spower(power=.8, interval=c(.1, 2))
@@ -492,8 +500,6 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 								  'save_info', 'functions')] <- NULL
 		tmp
 	} else {
-		if(!is.null(lastSpower))
-			stop('lastSpower not currently supported for stochastic root searches')
 		SimDesign::SimSolve(conditions, interval=interval,
 							analyse=sim_function_aug, save=FALSE,
 							summarise=summarise, b=power,
@@ -502,7 +508,8 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 							verbose=ifelse(verbose, 2, FALSE),
 							predCI=predCI, predCI.tol=predCI.tol,
 							control=control, check.interval=check.interval,
-							maxiter=maxiter, wait.time=wait.time, packages=packages)
+							maxiter=maxiter, wait.time=wait.time, packages=packages,
+							lastSolve=lastSpower)
 	}
 	if(!is.null(beta_alpha)){
 		out <- uniroot(compromise_root, c(.0001, .9999), beta_alpha=beta_alpha,

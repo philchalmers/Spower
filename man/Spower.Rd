@@ -115,7 +115,8 @@ See \code{\link[SimDesign]{timeFormater}} for further specifications}
 
 \item{lastSpower}{a previously returned \code{Spower} object to be updated.
 Use this if you want to continue where an estimate left off but wish to increase the
-precision (e.g., by adding more replications).
+precision (e.g., by adding more replications, or by letting the stochastic root solver
+continue searching).
 
 Note that if the object was not stored use \code{\link{getLastSpower}}
 to obtain the last estimated power object}
@@ -235,6 +236,13 @@ ceiling(pwr$n) * 2
 #  with 2 cores (not run)
 p_t.test(n = NA, d = .5) |>
   Spower(power=.8, interval=c(2,500), wait.time='1', parallel=TRUE, ncores=2)
+
+# Similiar to above for precision improvements, however letting
+#  the root solver continue searching from an early search history.
+#  Usually a good idea to increase the maxiter and lower the predCI.tol
+p_t.test(n = NA, d = .5) |>
+  Spower(power=.8, interval=c(2,500), lastSpower=out,
+        maxiter=200, predCI.tol=.008) #starts at last iteration in "out"
 
 # Solve d to get .80 power (sensitivity power analysis)
 p_t.test(n = 50, d = NA) |> Spower(power=.8, interval=c(.1, 2))

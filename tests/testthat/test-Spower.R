@@ -97,6 +97,15 @@ test_that('rerun', {
 	expect_equal(out2$REPLICATIONS, 200)
 	expect_equal(attr(out2, 'extra_info')$SEED_history, c(1471380155, 1411519934))
 
+	out <- p_t.test(n = NA, d = .5) |> Spower(power=.8, interval=c(10, 100),
+											  maxiter=40, verbose=FALSE)
+	expect_equal(out$n, 62.04, tolerance=1e-4)
+	expect_equal(unname(summary(out)$predCIs_root), c(60.20545, 64.10115), tolerance=1e-4)
+
+	p_t.test(n = NA, d = .5) |>
+		Spower(power=.8, interval=c(10, 100), lastSpower=out, maxiter=70, verbose=FALSE) -> out2
+	expect_equal(out2$n, 63.06, tolerance=1e-2)
+	expect_equal(unname(summary(out2)$predCIs_root), c(62.37223, 63.73347), tolerance=1e-4)
 
 })
 
