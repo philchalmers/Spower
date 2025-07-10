@@ -453,7 +453,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 		seed <- SimDesign::genSeeds(conditions)
 		if(!is.null(lastSpower)){
 			while(TRUE){
-				if(seed != lastSpower$SEED) break
+				if(!(seed %in% attr(lastSpower, 'extra_info')$SEED_history)) break
 				seed <- SimDesign::genSeeds(conditions)
 			}
 		}
@@ -462,6 +462,10 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 					  fixed_objects=fixed_objects, save=FALSE, resume=FALSE,
 					  cl=cl, parallel=parallel, ncores=ncores, seed=seed,
 					  verbose=verbose, packages=packages, control=control)
+		attr(tmp, 'extra_info')$SEED_history <- seed
+		if(!is.null(lastSpower))
+			attr(tmp, 'extra_info')$SEED_history <-
+			unique(c(seed, attr(lastSpower, 'extra_info')$SEED_history))
 		alpha <- 1 - predCI
 		pick <- grepl('^power', colnames(tmp))
 		pwrnms <- colnames(tmp)[grepl('^power', colnames(tmp))]
