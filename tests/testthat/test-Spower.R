@@ -88,6 +88,18 @@ test_that('multi', {
 
 })
 
+test_that('rerun', {
+
+	set.seed(90210)
+	out <- p_t.test(n = 50, d = .5) |> Spower(replications=100, verbose=FALSE)
+	p_t.test(n = 50, d = .5) |>
+		Spower(replications=100, lastSpower=out, verbose=FALSE) -> out2
+	expect_equal(out2$REPLICATIONS, 200)
+	expect_equal(attr(out2, 'extra_info')$SEED_history, c(1471380155, 1411519934))
+
+
+})
+
 test_that('scope', {
 
 	mygen_fun <- function(n, n2_n1, d, df, ...){
