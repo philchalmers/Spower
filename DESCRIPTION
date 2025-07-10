@@ -11,14 +11,15 @@ Description: Provides a general purpose simulation-based power analysis
    (expected) prospective power analyses, 
    criterion analyses, compromise analyses, sensitivity analyses, and 
    a priori/post-hoc analyses. The default simulation experiment functions found within the package 
-   provide stochastic variants of the power analysis subroutines found in the 
-   G*Power 3.1 software (Faul, Erdfelder, Buchner, and Lang, 2009) <doi:10.3758/brm.41.4.1149>,
+   provide stochastic variants of the power analysis subroutines in 
+   G*Power 3.1 (Faul, Erdfelder, Buchner, and Lang, 2009) <doi:10.3758/brm.41.4.1149>,
    along with various other parametric and non-parametric power analysis 
    applications (e.g., mediation analyses). Additional functions for building 
-   empirical power curve estimates are reanalyzing simulation information where 
-   relavent are also included, which utilize similar API structures.
+   empirical power curve estimates, reanalyzing simulation information where 
+   relavent, and for increasing the precision of simulation 
+   experiement estimates are also included, which utilize similar API structures.
 Depends:
-	SimDesign (>= 2.19.1),
+	SimDesign (>= 2.19.5),
 	R (>= 4.1.0),
     stats
 Imports:
