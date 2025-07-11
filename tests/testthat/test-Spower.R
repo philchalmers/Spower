@@ -90,6 +90,17 @@ test_that('multi', {
 
 test_that('rerun', {
 
+	set.seed(1234321)
+	out <- p_t.test(n = 50, d = .5) |> Spower(replications=100, verbose=FALSE,
+											  beta_alpha = 4)
+	expect_equal(out$power, .740, tol=1e-2)
+	p_t.test(n = 50, d = .5) |>
+		Spower(replications=100, lastSpower=out,
+			   verbose=FALSE, beta_alpha = 4) -> out2
+	expect_equal(out2$REPLICATIONS, 200)
+	expect_equal(out2$power, .759, tol=1e-2)
+
+
 	set.seed(90210)
 	out <- p_t.test(n = 50, d = .5) |> Spower(replications=100, verbose=FALSE)
 	p_t.test(n = 50, d = .5) |>
@@ -106,6 +117,25 @@ test_that('rerun', {
 		Spower(power=.8, interval=c(10, 100), lastSpower=out, maxiter=70, verbose=FALSE) -> out2
 	expect_equal(out2$n, 63.06, tolerance=1e-2)
 	expect_equal(unname(summary(out2)$predCIs_root), c(62.37223, 63.73347), tolerance=1e-4)
+
+	# multi
+	p_my_t.test <- function(n, d){
+		g1 <- rnorm(n)
+		g2 <- rnorm(n, mean=d)
+		p1 <- t.test(g1, g2, var.equal=FALSE)$p.value
+		p2 <- t.test(g1, g2, var.equal=TRUE)$p.value
+		c(welch=p1, ind=p2)
+	}
+
+	set.seed(54321)
+	out <- p_my_t.test(n = 30, d = .5) |>
+		Spower(replications=100, verbose=FALSE)
+	p_my_t.test(n = 30, d = .5) |>
+		Spower(replications=900, lastSpower=out, verbose=FALSE) -> out2
+	expect_equal(c(out2$power.welch, out2$power.ind), c(.494, .497))
+	expect_equal(out2$REPLICATIONS, 1000)
+	expect_equal(attr(out2, 'extra_info')$SEED_history, c(1500916448, 1842577306))
+
 
 })
 
