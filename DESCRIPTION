@@ -1,23 +1,23 @@
 Package: Spower
 Title: Power Analyses using Monte Carlo Simulations
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: 
    person("Phil", family="Chalmers", email =
                      "rphilip.chalmers@gmail.com", role = c("aut", "cre"), 
                      comment = c(ORCID="0000-0001-5332-2810"))
 Description: Provides a general purpose simulation-based power analysis 
    API for routine and customized simulation experimental designs. 
-   The package focuses exclusively on Monte Carlo simulation variants of 
+   The package focuses exclusively on Monte Carlo simulation experiment variants of 
    (expected) prospective power analyses, 
    criterion analyses, compromise analyses, sensitivity analyses, and 
-   a priori/post-hoc analyses. The default simulation experiment functions found within the package 
+   a priori/post-hoc analyses. The default simulation experiment functions defined within the package 
    provide stochastic variants of the power analysis subroutines in 
    G*Power 3.1 (Faul, Erdfelder, Buchner, and Lang, 2009) <doi:10.3758/brm.41.4.1149>,
    along with various other parametric and non-parametric power analysis 
    applications (e.g., mediation analyses). Additional functions for building 
-   empirical power curve estimates, reanalyzing simulation information where 
-   relavent, and for increasing the precision of simulation 
-   experiement estimates are also included, which utilize similar API structures.
+   empirical power curves, reanalyzing simulation information, and 
+   for increasing the precision of the resulting power 
+   estimates are also included, each of which utilize similar API structures.
 Depends:
 	SimDesign (>= 2.20.0),
 	R (>= 4.1.0),
