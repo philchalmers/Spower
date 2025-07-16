@@ -101,6 +101,27 @@ p_t.test(n=NA, d=0.5) |> Spower(power=.95, interval=c(50, 300))
 ## 95% Prediction Interval: [103.7, 106.3]
 ```
 
+To generate suitable power-curves for any given simulation or power
+analysis criteria the simulation experiment can be passed to
+`SpowerCurve()`. This function contains a similar specification
+structure to `Spower()`, however differs in that the arguments to vary
+are explicitly passed as named vectors to `SpowerCurve()`. Below is an
+example varying sample size (`n`), while the next example varies both
+`n` and the effect size `d`.
+
+``` r
+set.seed(8675309) # Jenny Jenny
+p_t.test(d=0.2) |> SpowerCurve(n=seq(50, 550, by=100))
+```
+
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+
+``` r
+p_t.test() |> SpowerCurve(n=seq(50, 350, by=50), d=c(.2, .3, .4, .5))
+```
+
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
+
 ## Vignettes
 
 The package currently contains a vignette demonstrating several of the
