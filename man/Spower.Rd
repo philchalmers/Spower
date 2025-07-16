@@ -157,9 +157,11 @@ which are triggered based on which supplied input is set to missing (\code{NA}):
 \describe{
 \item{A Priori}{Solve for a missing sample size component
 (e.g., \code{n}) to achieve a specific target power rate}
-\item{Prospective (and Post-hoc)}{Estimate the power rate given a set of fixed conditions.
+\item{Prospective and Post-hoc}{Estimate the power rate given a set of fixed conditions.
 If estimates of effect sizes and other empirical characteristics (e.g., observed sample size)
-are supplied instead this results in post-hoc/observed/retrospective power (not recommended)}
+are supplied this results in observed/retrospective power (not recommended), while if only
+sample size is included as the observed quantity, but the effect sizes are treated as unknown, then this
+results in post-hoc power (Cohen, 1988)}
 \item{Sensitivity}{Solve a missing effect size value as a function of
 the other supplied constant components}
 \item{Criterion}{Solve the error rate (argument \code{sig.level}) as a
