@@ -482,7 +482,6 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 					  fixed_objects=fixed_objects, save=FALSE, resume=FALSE,
 					  cl=cl, parallel=parallel, ncores=ncores, seed=seed,
 					  verbose=verbose, packages=packages, control=control)
-		attr(tmp, 'extra_info')$stored_results$sig.level <- NULL
 		attr(tmp, 'extra_info')$SEED_history <- seed
 		if(!is.null(lastSpower))
 			attr(tmp, 'extra_info')$SEED_history <-
