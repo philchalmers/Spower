@@ -445,7 +445,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	fixed_objects$expr <- expr
 	fixed_objects$pick <- pick
 	fixed_objects$parent_frame <- pf
-	stopifnot(!is.null(select) || is.character(select))
+	stopifnot(is.null(select) || is.character(select))
 	fixed_objects$select <- select
 	if((is.na(power) + is.na(sig.level) + length(pick)) != 1)
 		stop('Exactly *one* argument must be set to \'NA\' in Spower(..., power, sig.level)',
