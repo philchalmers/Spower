@@ -75,12 +75,16 @@ is.CI_within <- function(CI, interval){
 }
 
 Internal_Summarise <- function(condition, results, fixed_objects) {
+	if(!is.null(fixed_objects$select))
+		results <- results[ ,fixed_objects$select, drop=FALSE]
 	results <- as.matrix(results)
 	ret <- c(power = EDR(results[,1], alpha = condition$sig.level, unname=TRUE))
 	ret
 }
 
 Internal_Summarise.Full <- function(condition, results, fixed_objects) {
+	if(!is.null(fixed_objects$select))
+		results <- results[ ,fixed_objects$select, drop=FALSE]
 	results <- as.matrix(results)
 	ret<- c(power = EDR(results, alpha = condition$sig.level,
 						unname=ifelse(ncol(results) > 1, FALSE, TRUE)))
@@ -88,6 +92,8 @@ Internal_Summarise.Full <- function(condition, results, fixed_objects) {
 }
 
 Internal_Summarise4Compromise <- function(condition, results, fixed_objects = NULL) {
+	if(!is.null(fixed_objects$select))
+		results <- results[ ,fixed_objects$select, drop=FALSE]
 	results <- as.matrix(results)
 	rate <- EDR(results[,1], alpha=condition$sig.level)
 	ret <- c(beta_alpha = unname((1-rate) / condition$sig.level))

@@ -24,6 +24,7 @@ Spower(
   maxiter = 150,
   wait.time = NULL,
   lastSpower = NULL,
+  select = NULL,
   control = list()
 )
 
@@ -120,6 +121,14 @@ continue searching).
 
 Note that if the object was not stored use \code{\link{getLastSpower}}
 to obtain the last estimated power object}
+
+\item{select}{a character vector or integer vector indicating which elements to
+extract from the provided stimulation experiment function. By default, all elements
+from the provided function will be used, however if the provided function contains
+information not relevant to the power computations (e.g., parameter estimates,
+standard errors, etc) then these should be ignored. To extract the complete
+results post-analysis use \code{\link[SimDesign]{SimResults}} to allow manual
+summarizing of the stored results (applicable only with prospective/post-hoc power)}
 
 \item{control}{a list of control parameters to pass to
 \code{\link[SimDesign]{runSimulation}} or \code{\link[SimDesign]{SimSolve}}}

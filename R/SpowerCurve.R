@@ -25,6 +25,9 @@
 #'   can be specified as a vector to solve the missing elements in
 #'   \code{...}
 #'
+#' @param select which arguments to select from simulation experiment.
+#'   See \code{\link{Spower}} for details
+#'
 #' @param maxiter see \code{\link{Spower}}, though set to 50 instead of 150
 #'
 #' @param sig.level see \code{\link{Spower}}
@@ -120,7 +123,7 @@ SpowerCurve <- function(..., interval = NULL, power = NA,
 					   ncores = parallelly::availableCores(omit = 1L),
 					   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 					   check.interval=FALSE, maxiter=50, wait.time = NULL,
-					   control = list()){
+					   select = NULL, control = list()){
 	dots <- match.call(expand.dots = FALSE)$...
 	if(is.na(sig.level))
 		stop('solving for sig.level not yet supported', call.=FALSE)
@@ -168,7 +171,7 @@ SpowerCurve <- function(..., interval = NULL, power = NA,
 									  interval=interval, integer=integer, replications=replications,
 									  parallel=parallel, cl=cl, predCI=predCI, predCI.tol=predCI.tol,
 									  verbose=verbose, check.interval=check.interval,
-									  maxiter=maxiter, wait.time=wait.time, control=control)))
+									  maxiter=maxiter, wait.time=wait.time, select=select, control=control)))
 	}
 	CI.low <- CI.high <- NULL # for check?
 	main <- "Power Curve"

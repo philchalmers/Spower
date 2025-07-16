@@ -58,6 +58,14 @@
 #'
 #' @param maxiter maximum number of stochastic root-solving iterations
 #'
+#' @param select a character vector or integer vector indicating which elements to
+#'   extract from the provided stimulation experiment function. By default, all elements
+#'   from the provided function will be used, however if the provided function contains
+#'   information not relevant to the power computations (e.g., parameter estimates,
+#'   standard errors, etc) then these should be ignored. To extract the complete
+#'   results post-analysis use \code{\link[SimDesign]{SimResults}} to allow manual
+#'   summarizing of the stored results (applicable only with prospective/post-hoc power)
+#'
 #' @param sig.level alpha level to use. If set to \code{NA} then the empirical
 #'   alpha will be estimated given the fixed \code{conditions} input
 #'   (e.g., for criterion power analysis). Only used when the value returned
@@ -390,7 +398,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = FALSE, maxiter=150, wait.time = NULL,
-				   lastSpower = NULL, control = list()){
+				   lastSpower = NULL, select = NULL, control = list()){
 	if(missing(beta_alpha)) beta_alpha <- NULL
 	if(!is.null(cl)) parallel <- TRUE
 	control$useAnalyseHandler <- FALSE
@@ -435,6 +443,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	fixed_objects$expr <- expr
 	fixed_objects$pick <- pick
 	fixed_objects$parent_frame <- pf
+	fixed_objects$select <- select
 	if((is.na(power) + is.na(sig.level) + length(pick)) != 1)
 		stop('Exactly *one* argument must be set to \'NA\' in Spower(..., power, sig.level)',
 			 call.=FALSE)
@@ -535,7 +544,8 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 	if(length(pick))
 		fixed_objects$expr[pick] <- condition[pick]
 	ret <- eval(fixed_objects$expr, envir = fixed_objects$parent_frame)
-	if(is.logical(ret)) ret <- as.integer(!ret)
+	if(any(is.logical(ret)))
+		ret[is.logical(ret)] <- as.integer(!ret[is.logical(ret)])
 	ret
 }
 

@@ -13,6 +13,19 @@ test_that('Spower', {
 	outu <- update(out1, sig.level = .10)
 	expect_equal(outu$power, .8)
 
+	# selection test
+	ind.t.test <- function(n, d){
+		g1 <- rnorm(n)
+		g2 <- rnorm(n, mean=d)
+		out <- t.test(g2, g1, var.equal=TRUE)
+		c(p=out$p.value, xbar=out$estimate[1], se=out$stderr)
+	}
+	out1 <- ind.t.test(n = 50, d = .5) |>
+		Spower(replications=10, select='p', verbose=FALSE)
+	expect_class(out1, 'Spower')
+	expect_equal(ncol(out1), 8)
+	expect_equal(ncol(SimResults(out1)), 6)
+
 	set.seed(4321)
 	out2 <- Spower(p_t.test(n = NA, d = .5), power=.5, interval=c(10, 100),
 				   maxiter = 40, verbose=FALSE)

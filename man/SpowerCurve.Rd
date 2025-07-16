@@ -22,6 +22,7 @@ SpowerCurve(
   check.interval = FALSE,
   maxiter = 50,
   wait.time = NULL,
+  select = NULL,
   control = list()
 )
 }
@@ -77,6 +78,9 @@ by default instead}
 \item{maxiter}{see \code{\link{Spower}}, though set to 50 instead of 150}
 
 \item{wait.time}{see \code{\link{Spower}}}
+
+\item{select}{which arguments to select from simulation experiment.
+See \code{\link{Spower}} for details}
 
 \item{control}{see \code{\link{Spower}}}
 }
