@@ -58,7 +58,7 @@
 #'
 #' @param maxiter maximum number of stochastic root-solving iterations
 #'
-#' @param select a character vector or integer vector indicating which elements to
+#' @param select a character vector indicating which elements to
 #'   extract from the provided stimulation experiment function. By default, all elements
 #'   from the provided function will be used, however if the provided function contains
 #'   information not relevant to the power computations (e.g., parameter estimates,
@@ -443,6 +443,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	fixed_objects$expr <- expr
 	fixed_objects$pick <- pick
 	fixed_objects$parent_frame <- pf
+	stopifnot(!is.null(select) || is.character(select))
 	fixed_objects$select <- select
 	if((is.na(power) + is.na(sig.level) + length(pick)) != 1)
 		stop('Exactly *one* argument must be set to \'NA\' in Spower(..., power, sig.level)',
@@ -479,6 +480,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 					  fixed_objects=fixed_objects, save=FALSE, resume=FALSE,
 					  cl=cl, parallel=parallel, ncores=ncores, seed=seed,
 					  verbose=verbose, packages=packages, control=control)
+		attr(tmp, 'extra_info')$stored_results$sig.level <- NULL
 		attr(tmp, 'extra_info')$SEED_history <- seed
 		if(!is.null(lastSpower))
 			attr(tmp, 'extra_info')$SEED_history <-
