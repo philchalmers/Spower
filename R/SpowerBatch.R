@@ -101,6 +101,7 @@ SpowerBatch <- function(..., interval = NULL, power = NA,
 	}
 	class(out) <- 'SpowerBatch'
 	attr(out[[1]], 'Spower_extra')$conditions <- conditions
+	.SpowerEnv$lastSim <- out
 	out
 }
 
