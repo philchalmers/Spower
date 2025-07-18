@@ -3,6 +3,7 @@
 \name{Spower}
 \alias{Spower}
 \alias{print.Spower}
+\alias{as.data.frame.Spower}
 \alias{SpowerBatch}
 \alias{print.SpowerBatch}
 \alias{as.data.frame.SpowerBatch}
@@ -32,6 +33,8 @@ Spower(
 )
 
 \method{print}{Spower}(x, ...)
+
+\method{as.data.frame}{Spower}(x, ...)
 
 SpowerBatch(
   ...,
@@ -221,7 +224,7 @@ analysis.
 ############################
 
 # Internally defined p_t.test function
-args(p_t.test)    # missing arguments required for Spower()
+args(p_t.test)    # missing arguments required
 # help(p_t.test)  # additional information
 
 # p_* functions generate data and return single p-value

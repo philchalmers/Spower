@@ -2,12 +2,11 @@
 
 #' Get previously evaluated Spower execution
 #'
-#' If the result of \code{\link{Spower}} was not stored into
+#' If the result of \code{\link{Spower}} or \code{\link{SpowerBatch}} was not stored into
 #' an object this function will retrieve the last evaluation.
 #'
-#' @return the last object returned from \code{\link{Spower}}
+#' @return the last object returned from \code{\link{Spower}} or \code{\link{SpowerBatch}}
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
-#' @seealso \code{\link{Spower}}
 #' @export
 #'
 getLastSpower <- function() .SpowerEnv$lastSim
@@ -78,7 +77,7 @@ Internal_Summarise <- function(condition, results, fixed_objects) {
 	if(!is.null(fixed_objects$select))
 		results <- results[ ,fixed_objects$select, drop=FALSE]
 	results <- as.matrix(results)
-	ret <- c(power = EDR(results[,1], alpha = condition$sig.level, unname=TRUE))
+	ret <- c(power = SimDesign::EDR(results[,1], alpha = condition$sig.level, unname=TRUE))
 	ret
 }
 
@@ -86,7 +85,7 @@ Internal_Summarise.Full <- function(condition, results, fixed_objects) {
 	if(!is.null(fixed_objects$select))
 		results <- results[ ,fixed_objects$select, drop=FALSE]
 	results <- as.matrix(results)
-	ret<- c(power = EDR(results, alpha = condition$sig.level,
+	ret<- c(power = SimDesign::EDR(results, alpha = condition$sig.level,
 						unname=ifelse(ncol(results) > 1, FALSE, TRUE)))
 	ret
 }
@@ -95,7 +94,7 @@ Internal_Summarise4Compromise <- function(condition, results, fixed_objects = NU
 	if(!is.null(fixed_objects$select))
 		results <- results[ ,fixed_objects$select, drop=FALSE]
 	results <- as.matrix(results)
-	rate <- EDR(results[,1], alpha=condition$sig.level)
+	rate <- SimDesign::EDR(results[,1], alpha=condition$sig.level)
 	ret <- c(beta_alpha = unname((1-rate) / condition$sig.level))
 	ret
 }
@@ -108,7 +107,7 @@ has.decimals <- function(x){
 # compute beta/alpha ratio given different alpha
 compromise <- function(alpha, sim, Design, Summarise){
 	Design$sig.level <- alpha
-	out <- reSummarise(Summarise, results=sim, Design=Design)
+	out <- SimDesign::reSummarise(Summarise, results=sim, Design=Design)
 	out$beta_alpha
 }
 

@@ -7,14 +7,11 @@
 getLastSpower()
 }
 \value{
-the last object returned from \code{\link{Spower}}
+the last object returned from \code{\link{Spower}} or \code{\link{SpowerBatch}}
 }
 \description{
-If the result of \code{\link{Spower}} was not stored into
+If the result of \code{\link{Spower}} or \code{\link{SpowerBatch}} was not stored into
 an object this function will retrieve the last evaluation.
-}
-\seealso{
-\code{\link{Spower}}
 }
 \author{
 Phil Chalmers \email{rphilip.chalmers@gmail.com}
