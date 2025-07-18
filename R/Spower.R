@@ -553,7 +553,8 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 }
 
 #' @rdname Spower
-#' @param x object of class \code{'Spower'}
+#' @param x object of class \code{'Spower'}. If \code{\link{SpowerBatch}} were used
+#'   the this will be a \code{list}
 #' @export
 print.Spower <- function(x, ...){
 	lste <- attr(x, 'Spower_extra')

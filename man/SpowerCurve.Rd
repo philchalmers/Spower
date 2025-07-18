@@ -23,6 +23,7 @@ SpowerCurve(
   maxiter = 50,
   wait.time = NULL,
   select = NULL,
+  batch = NULL,
   control = list()
 )
 }
@@ -81,6 +82,10 @@ by default instead}
 
 \item{select}{which arguments to select from simulation experiment.
 See \code{\link{Spower}} for details}
+
+\item{batch}{if \code{\link{SpowerBatch}} were previously used to perform the computations
+then this information can be provided to this \code{batch} argument to avoid
+recomputing}
 
 \item{control}{see \code{\link{Spower}}}
 }
@@ -148,11 +153,23 @@ p_t.test() |> SpowerCurve(n=c(30, 90, 270, 550),
                          d=c(.2, .5, .8),
                          var.equal=c(FALSE, TRUE))
 
+########################################
+
+# If objects were precomputed using SpowerBatch then these can be plotted instead
+# estimate power given varying sample sizes
+p_t.test(d=0.2) |>
+  SpowerBatch(n=c(30, 90, 270, 550), replications=1000) -> nbatch
+nbatch
+as.data.frame(nbatch)
+
+# plot the results, but avoid further computations
+SpowerCurve(batch=nbatch)
+
 }
 
 }
 \seealso{
-\code{\link{Spower}}
+\code{\link{Spower}}, \code{\link{SpowerBatch}}
 }
 \author{
 Phil Chalmers \email{rphilip.chalmers@gmail.com}

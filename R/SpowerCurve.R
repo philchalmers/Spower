@@ -37,6 +37,10 @@
 #'   the \code{varying} information or a \code{matrix} with two columns
 #'   to apply intervals on a per-row basis
 #'
+#' @param batch if \code{\link{SpowerBatch}} were previously used to perform the computations
+#'   then this information can be provided to this \code{batch} argument to avoid
+#'   recomputing
+#'
 #' @param plotCI logical; include confidence/prediction intervals in plots?
 #'
 #' @param wait.time see \code{\link{Spower}}
@@ -62,7 +66,7 @@
 #'
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #'
-#' @seealso \code{\link{Spower}}
+#' @seealso \code{\link{Spower}}, \code{\link{SpowerBatch}}
 #'
 #' @examples
 #' \donttest{
@@ -115,6 +119,18 @@
 #'                          d=c(.2, .5, .8),
 #'                          var.equal=c(FALSE, TRUE))
 #'
+#' ########################################
+#'
+#' # If objects were precomputed using SpowerBatch then these can be plotted instead
+#' # estimate power given varying sample sizes
+#' p_t.test(d=0.2) |>
+#'   SpowerBatch(n=c(30, 90, 270, 550), replications=1000) -> nbatch
+#' nbatch
+#' as.data.frame(nbatch)
+#'
+#' # plot the results, but avoid further computations
+#' SpowerCurve(batch=nbatch)
+#'
 #' }
 #'
 SpowerCurve <- function(..., interval = NULL, power = NA,
@@ -123,55 +139,60 @@ SpowerCurve <- function(..., interval = NULL, power = NA,
 					   ncores = parallelly::availableCores(omit = 1L),
 					   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 					   check.interval=FALSE, maxiter=50, wait.time = NULL,
-					   select = NULL, control = list()){
-	dots <- match.call(expand.dots = FALSE)$...
-	if(is.na(sig.level))
-		stop('solving for sig.level not yet supported', call.=FALSE)
-	if(all(is.na(sig.level))){
-		interval <- c(0,1)
-		integer <- FALSE
-	}
-	expr <- dots[[1]]
-	expr <- match.call(eval(expr[[1]], envir = parent.frame(1)), expr)
-	pick <- if(length(dots) > 1) names(dots[-1]) else NULL
-	if(all(is.na(power))){
-		conditions <- do.call(SimDesign::createDesign, c(dots[-1], sig.level=sig.level, power=power))
-	} else {
-		if(is.null(interval))
-			stop('search interval must be included', call.=FALSE)
-		lst_expr <- as.list(expr)[-1]
-		if(length(lst_expr))
-			lst_expr <- lst_expr[sapply(lst_expr, \(x) is.atomic(x) || is.list(x))]
-		conditions <- do.call(SimDesign::createDesign, c(lst_expr,
-														 dots[-1],
-														 sig.level=list(sig.level),
-														 power=list(power)))
-	}
-	if(!all(rowSums(is.na(conditions)) == 1))
-		stop('Exactly *one* argument must be set to \'NA\' in SpowerCurve(..., power, sig.level)',
-			 call.=FALSE)
-	power <- conditions$power
-	sig.level <- conditions$sig.level
-	if(!is.na(power[1])){
-		if(missing(integer)){
-			integer <- !(has.decimals(interval) || diff(interval) < 5)
-			if(!integer && verbose)
-				message('\nUsing continuous search interval (integer = FALSE).')
+					   select = NULL, batch = NULL, control = list()){
+	if(is.null(batch)){
+		dots <- match.call(expand.dots = FALSE)$...
+		if(is.na(sig.level))
+			stop('solving for sig.level not yet supported', call.=FALSE)
+		if(all(is.na(sig.level))){
+			interval <- c(0,1)
+			integer <- FALSE
 		}
-	} else integer <- FALSE
-	control$nparent <- 2
-	out <- vector('list', nrow(conditions))
-	for(i in 1:length(out)){
-		row <- conditions[i, ]
-		tmpexpr <- expr
-		if(length(pick))
-			tmpexpr[pick] <- row[,pick]
-		out[[i]] <- do.call(Spower, c(tmpexpr,
-									  list(power=power[i], sig.level=sig.level[i], beta_alpha=NULL,
-									  interval=interval, integer=integer, replications=replications,
-									  parallel=parallel, cl=cl, predCI=predCI, predCI.tol=predCI.tol,
-									  verbose=verbose, check.interval=check.interval,
-									  maxiter=maxiter, wait.time=wait.time, select=select, control=control)))
+		expr <- dots[[1]]
+		expr <- match.call(eval(expr[[1]], envir = parent.frame(1)), expr)
+		pick <- if(length(dots) > 1) names(dots[-1]) else NULL
+		if(all(is.na(power))){
+			conditions <- do.call(SimDesign::createDesign, c(dots[-1], sig.level=sig.level, power=power))
+		} else {
+			if(is.null(interval))
+				stop('search interval must be included', call.=FALSE)
+			lst_expr <- as.list(expr)[-1]
+			if(length(lst_expr))
+				lst_expr <- lst_expr[sapply(lst_expr, \(x) is.atomic(x) || is.list(x))]
+			conditions <- do.call(SimDesign::createDesign, c(lst_expr,
+															 dots[-1],
+															 sig.level=list(sig.level),
+															 power=list(power)))
+		}
+		if(!all(rowSums(is.na(conditions)) == 1))
+			stop('Exactly *one* argument must be set to \'NA\' in SpowerCurve(..., power, sig.level)',
+				 call.=FALSE)
+		power <- conditions$power
+		sig.level <- conditions$sig.level
+		if(!is.na(power[1])){
+			if(missing(integer)){
+				integer <- !(has.decimals(interval) || diff(interval) < 5)
+				if(!integer && verbose)
+					message('\nUsing continuous search interval (integer = FALSE).')
+			}
+		} else integer <- FALSE
+		control$nparent <- 2
+		out <- vector('list', nrow(conditions))
+		for(i in 1:length(out)){
+			row <- conditions[i, ]
+			tmpexpr <- expr
+			if(length(pick))
+				tmpexpr[pick] <- row[,pick]
+			out[[i]] <- do.call(Spower, c(tmpexpr,
+										  list(power=power[i], sig.level=sig.level[i], beta_alpha=NULL,
+										  interval=interval, integer=integer, replications=replications,
+										  parallel=parallel, cl=cl, predCI=predCI, predCI.tol=predCI.tol,
+										  verbose=verbose, check.interval=check.interval,
+										  maxiter=maxiter, wait.time=wait.time, select=select, control=control)))
+		}
+	} else {
+		out <- batch
+		conditions <- attr(out[[1]], 'Spower_extra')$conditions
 	}
 	CI.low <- CI.high <- NULL # for check?
 	main <- "Power Curve"
