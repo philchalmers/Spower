@@ -116,8 +116,7 @@ print.SpowerBatch <- function(x, ...){
 #' @export
 as.data.frame.SpowerBatch <- function(x, ...){
 	out <- do.call(rbind, x)
-	pick <- which(colnames(out) == 'REPLICATIONS')
-	out[, 2:pick-1, drop=FALSE]
+	out
 }
 
 
