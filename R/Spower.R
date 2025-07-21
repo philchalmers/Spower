@@ -606,5 +606,7 @@ print.Spower <- function(x, ...){
 as.data.frame.Spower <- function(x, ...){
 	class(x) <- 'data.frame'
 	pick <- which(colnames(x) == 'REPLICATIONS')
-	x[, 2:pick-1, drop=FALSE]
+	if(length(pick))
+		x <- x[, 2:pick-1, drop=FALSE]
+	x
 }
