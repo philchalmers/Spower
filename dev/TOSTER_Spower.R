@@ -48,7 +48,8 @@ CI.equiv.t.test <- function(n, m1, sd1, m2, sd2, LB, UB, conf.level=.95){
 	g2 <- rnorm(n, m2, sd2)
 	CI <- t.test(g2, g1, var.equal=TRUE,
 				 conf.level=conf.level)$conf.int
-	LB < CI[1] && CI[2] < UB
+	# LB < CI[1] && CI[2] < UB             # manually
+	is.CI_within(CI, interval = c(LB, UB)) # this is equivalent
 }
 
 CI.equiv.t.test(n=100, m1=12, m2=11, sd1=2.5, sd2=2.5, LB=-2.5, UB=2.5) |>
