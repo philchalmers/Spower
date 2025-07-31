@@ -1,0 +1,231 @@
+---
+title: "Introdution to the Spower package"
+author: Phil Chalmers
+output: 
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    number_sections: false
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Introdution to the Spower package}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r include=FALSE}
+library(Spower)
+set.seed(42)
+formals(Spower)$verbose <- formals(SpowerBatch)$verbose <- 
+	formals(SpowerCurve)$verbose <- FALSE
+formals(SpowerCurve)$plotly <- FALSE
+```
+
+```{r include=FALSE}
+eval <- TRUE   # set to FALSE for normal run
+store <- list()
+if(!eval)
+	store <- readRDS(system.file("intro.rds", package = 'Spower'))
+```
+
+This vignette provides a brief introduction to using the package `Spower` for prospective/post-hoc, a priori, sensitivity, criterion, and compromise power analyses. For a more detailed description of the package refer to associated publication (Chalmers, in press) as well as the documentation found within the functions, particularly `Spower()`, `SpowerBatch()`, and `SpowerCurve()`.
+
+# Types of functions
+
+There are generally two-ways to go about using `Spower`; either by utilizing a handful of build-in simulation experiments with an associated analysis, or by constructing the simulation experiment yourself. In either case, the goal is to manipulate R code to perform a single simulation experiment and have the function return a suitable $p$-value under the null hypothesis, or a logical value also reflecting the complement of the null hypothesis of interest. More than one $p$-value/`logical` value may of course be returned by the functions, however for simplicity this vignette will focus on simple single-valued functions.
+
+## Built-in experiements
+
+`Spower` ships with several common experiment structures, such as those involving linear regression models, mediation, ANOVAs, $t$-tests, and so on. The simulation experiments are organized with the prefix `p_`, followed by the name of the analysis method. For instance, 
+
+```{r}
+p_lm.R2(50, k=3, R2=.3)
+```
+performs a single simulation experiment reflecting the null hypothesis $H_0:\, R^2=0$ for a linear regression model with $k=3$ predictor variables and a sample size of $N=50$. Translating this into a power-analysis  simply requires passing this experiment in some form to `Spower()` (the details of which are discussed below), where in this case the estimate of power ($1-\beta$) is returned.
+
+```{r eval=eval}
+p_lm.R2(50, k=3, R2=.3) |> Spower() 
+```
+
+```{r echo=FALSE}
+if(eval) store$R2ex <- getLastSpower()
+print(store$R2ex)
+```
+
+Each of these functions return a $p$-value as this is the general information required to evaluate statistical power with `Spower()`. Alternatively, users may define their own simulation functions if the desired experiment has not been defined within the package.
+
+## User-defined functions
+
+As a very simple example, suppose one were interested in the power reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario. While the package already supports this (see `help(p_t.test)`) users may write their own version of this experiment, one instance of which may look like the following.
+
+```{r}
+p_single.t <- function(n, mean, mu=0){
+	g <- rnorm(n, mean=mean)
+	p <- t.test(g, mu=mu)$p.value
+	p
+}
+```
+
+Using the defaults of this defined function evaluates whether a sample of data drawn from a Gaussian distribution with some specific `mean` ($\mu$) differs from the value of $mu = 0$ ($\mu_0$). Hence, the $p$-value returned from this experiments reflects the null hypothesis $H_0:\, \mu=\mu_0$, or more specifically $H_0:\, \mu=0$, for a single generated dataset.
+
+```{r}
+# a single experiment
+p_single.t(n=100, mean=.2)
+```
+
+# Types of power analyses to evaluate
+
+## Prospective/post-hoc power analysis
+
+Evaluate power estimate, $1-\hat{\beta}$. Default in `Spower()` uses $10,000$ independent simulation `replications`. 
+
+```{r eval=eval}
+p_single.t(n=100, mean=.5, mu=.3) |> Spower()
+```
+
+```{r echo=FALSE}
+if(eval) store$prospective <- getLastSpower()
+print(store$prospective)
+```
+
+## Compromise power analysis
+
+Compromise power analysis $q=\frac{\beta}{\alpha}$ ...
+
+```{r eval=FALSE}
+# using previous post-hoc/prospective power analysis
+last <- getLastSpower()
+update(last, beta_alpha=4)
+```
+
+```{r echo=FALSE}
+update(store$prospective, beta_alpha=4)
+```
+
+```{r eval=eval}
+# without previous run
+p_single.t(n=100, mean=.5) |> Spower(beta_alpha=4)
+```
+
+```{r echo=FALSE}
+if(eval) store$compromise <- getLastSpower()
+print(store$compromise)
+```
+
+In either case, the use of `update()` is beneficial as the stored result can be used with alternative `beta_alpha` values without having to generate and analyse new experimental data. 
+
+
+## A priori power analysis
+
+Goal is to obtain sample size associated with a specific power value. This performs stochastic root solving using the ProBABALI approach, and requires a specific search `interval` to search within.
+
+```{r eval=eval}
+p_single.t(n=NA, mean=.5) |> 
+	Spower(power=.8, interval=c(30,200))
+```
+
+```{r echo=FALSE}
+if(eval) store$apriori <- getLastSpower()
+print(store$apriori)
+```
+
+
+## Sensitivity power analysis
+
+Goal is to find some specific standardized or unstandardized effect size associated with a specific power. 
+
+```{r eval=eval}
+p_single.t(n=100, mean=NA) |> 
+	Spower(power=.8, interval=c(.1, 3))
+```
+
+```{r echo=FALSE}
+if(eval) store$sensitive <- getLastSpower()
+print(store$sensitive)
+```
+
+## Criterion power analysis
+
+Finally, goal is to located the associated $\alpha$ level (`sig.level`) to achieve a target power output.
+
+```{r eval=eval}
+p_single.t(n=50, mean=.5) |> 
+	Spower(power=.8, sig.level=NA)
+```
+
+```{r echo=FALSE}
+if(eval) store$criterion <- getLastSpower()
+print(store$criterion)
+```
+
+# Multiple power evaluation functions 
+
+The following functions, `SpowerBatch()` and `SpowerCurve()`, can be used to evaluate and visualize power analysis results across a range on inputs rather than for a single set of fixed inputs. This section demonstrate their general usage as the specifications slightly differ from that of `Spower()`, despite the fact that `Spower()` is the underlying estimation engine.
+
+
+## SpowerBatch()
+
+To begin, suppose that there was interest in evaluating the `p_single.t()` function across multiple $n$ inputs to obtain estimates of $1-\beta$. While this could be performed using independent calls to `Spower()`, the function `SpowerBatch()` can instead be used, where the variable inputs can be specified in vector format. For instance, given the effect size $\mu=.5$, what would be the power to reject the null hypothesis $H_0:\, \mu=0$ across three different sample sizes. 
+
+```{r eval=eval}
+p_single.t(mean=.5) |> 
+	SpowerBatch(n=c(30, 60, 90)) -> batch
+
+batch
+as.data.frame(batch)
+```
+
+```{r echo=FALSE}
+if(eval) store$batch <- batch
+print(store$batch)
+as.data.frame(store$batch)
+```
+
+## SpowerCurve()
+
+
+Often times researchers wish to visualize the results of power analyses in the form of graphical representations. `Spower` supports various types of visualizations through the function `SpowerCurve()`, which creates power curve plots of previously obtained results (e.g., via `SpowerBatch()`) or for to-be-explored inputs. Importantly, each graphic contains estimates of the Monte Carlo sampling uncertainty to deter  over-interpretation of any resulting point-estimates.
+
+To demonstrate, suppose one were interested in visualizing the power for the running single-sample $t$ test across four different sample sizes, $N=[30,60,90,120]$. To do this requires passing the simulation experiment and varying information to the function `SpowerCurve()`, which fills in the variable information to the supplied simulation experiment and plots the resulting output.
+
+```{r eval=FALSE}
+p_single.t(mean=.5) |> 
+	SpowerCurve(n=c(30, 60, 90, 120))
+```
+
+```{r echo=FALSE}
+if(eval)
+	store$gg1 <- p_single.t(mean=.5) |> SpowerCurve(n=c(30, 60, 90, 120))
+print(store$gg1)
+```
+
+Alternatively, were the above information already evaluated using `SpowerBatch()` then this `batch` object could be passed directly to `SpowerCurve()`, thereby avoiding the need to re-evaluate the simulation experiments. 
+
+```{r eval=FALSE}
+# pass previous SpowerBatch() object
+SpowerCurve(batch=batch)
+```
+
+```{r echo=FALSE}
+if(eval) 
+	SpowerCurve(batch=store$batch)	
+```
+
+`SpowerCurve()` will accept as many arguments as exists in the supplied simulation experiment definition, however it will only plot the first three variable input specifications as anything past this becomes more difficult to display automatically. Below is an example that varies both the `n` input as well as the input `mean`, where the first input appears on the $x$-axis while the second is mapped to the default colour aesthetic in `ggplot2`. 
+
+```{r eval=FALSE}
+p_single.t() |> 
+	SpowerCurve(n=c(30, 60, 90, 120), mean=c(.2, .5, .8))
+```
+
+```{r echo=FALSE}
+if(eval)
+	store$gg2 <- p_single.t() |> 
+		SpowerCurve(n=c(30, 60, 90, 120), mean=c(.2, .5, .8))
+print(store$gg2)
+```
+
+```{r include=FALSE}
+if(!eval)
+	saveRDS(store, '../inst/intro.rds')
+```
+
