@@ -192,7 +192,7 @@ SpowerCurve <- function(..., interval = NULL, power = NA,
 		}
 	} else {
 		out <- batch
-		conditions <- attr(out[[1]], 'Spower_extra')$conditions
+		conditions <- attr(out[[1]], 'Spower_extra')$full_conditions
 	}
 	CI.low <- CI.high <- NULL # for check?
 	main <- "Power Curve"

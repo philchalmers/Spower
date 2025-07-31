@@ -100,7 +100,7 @@ SpowerBatch <- function(..., interval = NULL, power = NA,
 									  	 maxiter=maxiter, wait.time=wait.time, select=select, control=control)))
 	}
 	class(out) <- 'SpowerBatch'
-	attr(out[[1]], 'Spower_extra')$conditions <- conditions
+	attr(out[[1]], 'Spower_extra')$full_conditions <- conditions
 	.SpowerEnv$lastSim <- out
 	out
 }

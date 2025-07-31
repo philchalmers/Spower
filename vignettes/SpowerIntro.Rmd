@@ -21,11 +21,16 @@ formals(SpowerCurve)$plotly <- FALSE
 ```
 
 ```{r include=FALSE}
-eval <- TRUE   # set to FALSE for normal run
+eval <- FALSE  # set to FALSE for normal run
 store <- list()
 if(!eval)
 	store <- readRDS(system.file("intro.rds", package = 'Spower'))
 ```
+
+```{r include=eval}
+getwd()
+```
+
 
 This vignette provides a brief introduction to using the package `Spower` for prospective/post-hoc, a priori, sensitivity, criterion, and compromise power analyses. For a more detailed description of the package refer to associated publication (Chalmers, in press) as well as the documentation found within the functions, particularly `Spower()`, `SpowerBatch()`, and `SpowerCurve()`.
 
@@ -53,9 +58,22 @@ print(store$R2ex)
 
 Each of these functions return a $p$-value as this is the general information required to evaluate statistical power with `Spower()`. Alternatively, users may define their own simulation functions if the desired experiment has not been defined within the package.
 
+Note that further information is stored in these objects as well, which can be coerced using `dplyr::as_tibble()` or further inspected via `summary()` for more detailed output.
+
+```{r eval=FALSE}
+# get last estimated result from Spower()
+last <- getLastSpower()
+dplyr::as_tibble(last)
+```
+
+```{r echo=FALSE}
+last <- store$R2ex
+dplyr::as_tibble(last)
+```
+
 ## User-defined functions
 
-As a very simple example, suppose one were interested in the power reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario. While the package already supports this (see `help(p_t.test)`) users may write their own version of this experiment, one instance of which may look like the following.
+As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario. While the package already supports this (see `help(p_t.test)`) users may write their own version of this experiment, one instance of which may look like the following.
 
 ```{r}
 p_single.t <- function(n, mean, mu=0){
@@ -74,36 +92,29 @@ p_single.t(n=100, mean=.2)
 
 # Types of power analyses to evaluate
 
+For power analyses there are typically four parameters that are/can be manipulated or solved in a given experiment: the $\alpha$ level (Type I error, often reflexively set to $\alpha=.05$), power (the complement of the Type II error, $1-\beta$), an effect size of interest, and the sample size. Given three of these values, the fourth can always be solved. Note that this description reflects a rule-of-thumb as there may be multiple effect sizes of interest, multiple sample sizes (e.g., in the form of cluster sizes in multi-level models), and so on. In `Spower()` switching between these types of power analysis criteria is done simply by explicitly specifying which parameter is missing (`NA`), as demonstrated below.
+
 ## Prospective/post-hoc power analysis
 
-Evaluate power estimate, $1-\hat{\beta}$. Default in `Spower()` uses $10,000$ independent simulation `replications`. 
+The canonical setup for `Spower()` will evaluate prospective or post-hoc power, thereby obtaining the estimate $1-\hat{\beta}$. Default in `Spower()` uses $10,000$ independent simulation `replications`. The following provides an estimate of power given the null hypothesis $H_0:\, \mu=0.3$.
 
 ```{r eval=eval}
-p_single.t(n=100, mean=.5, mu=.3) |> Spower()
+p_single.t(n=100, mean=.5, mu=.3) |> Spower() -> prospective
+prospective
 ```
 
 ```{r echo=FALSE}
-if(eval) store$prospective <- getLastSpower()
-print(store$prospective)
+if(eval) store$prospective <- prospective
+prospective <- store$prospective
+print(prospective)
 ```
 
 ## Compromise power analysis
 
-Compromise power analysis $q=\frac{\beta}{\alpha}$ ...
-
-```{r eval=FALSE}
-# using previous post-hoc/prospective power analysis
-last <- getLastSpower()
-update(last, beta_alpha=4)
-```
-
-```{r echo=FALSE}
-update(store$prospective, beta_alpha=4)
-```
+Compromise power analysis involves manipulating the $\alpha$ level until some sufficient balance between the Type I and Type II error rates are met, expressed in terms of the ratio $q=\frac{\beta}{\alpha}$. In `Spower` there are two ways to approach this issue. The first way, which focuses on the `beta_alpha` ratio at the outset, simply requires passing the target ratio to `Spower()` using the same setup as the previous prospective power analysis. 
 
 ```{r eval=eval}
-# without previous run
-p_single.t(n=100, mean=.5) |> Spower(beta_alpha=4)
+p_single.t(n=100, mean=.5, mu=.3) |> Spower(beta_alpha=4)
 ```
 
 ```{r echo=FALSE}
@@ -111,12 +122,22 @@ if(eval) store$compromise <- getLastSpower()
 print(store$compromise)
 ```
 
-In either case, the use of `update()` is beneficial as the stored result can be used with alternative `beta_alpha` values without having to generate and analyse new experimental data. 
+This returns the estimated `sig.level` ($\hat{\alpha}$) and resulting $\hat{\beta}$ that satisfies the target $q$ ratio. The second way to perform a compromise analysis is to re-use a previous evaluation of a prospective power analysis as this contains all the necessary information. 
+
+```{r}
+# using previous post-hoc/prospective power analysis
+update(prospective, beta_alpha=4)
+```
+
+In either case, the use of `update()` can be beneficial as the stored result can be reused with alternative `beta_alpha` values without having to generate and analyse new experimental data. 
 
 
 ## A priori power analysis
 
-Goal is to obtain sample size associated with a specific power value. This performs stochastic root solving using the ProBABALI approach, and requires a specific search `interval` to search within.
+The goal of a priori power analysis is generally to obtain a sample size ($N$) associated with a specific power rate of interest (e.g., $1-\beta=.90$) for future data collection purposes. To do this, `Spower()` performs stochastic root solving using the ProBABLI approach from the `SimDesign` package, and requires a specific search `interval` to search within. The width of the interval should reflect a plausible range where the researcher believes the solution to lie, however this may be quite large as well as ProBABLI is less influenced by the range of the interval. 
+
+Below the sample size `n` is solved to achieve a target power of $1-\beta=.80$, where the solution was suspected to lie somewhere between the
+search `interval = c(30, 200)`.
 
 ```{r eval=eval}
 p_single.t(n=NA, mean=.5) |> 
@@ -131,7 +152,7 @@ print(store$apriori)
 
 ## Sensitivity power analysis
 
-Goal is to find some specific standardized or unstandardized effect size associated with a specific power. 
+Simliar to a priori power analysis, however the goal is now to find some specific standardized or unstandardized effect size associated with a specific power rate. This pertains to the question of how large an effect size must be in order to reliably detect the effect of interest. Below the sample size is fixed at $N=100$, while the search interval for the standardized effect size $d$ is searched between the `interval = c(.1, 3)`. Note that the use of decimals in the interval tells `Spower()` to use a continuous rather than discrete search space (cf. with a priori, which uses an integer search space for the simulation replicates).
 
 ```{r eval=eval}
 p_single.t(n=100, mean=NA) |> 
@@ -145,7 +166,7 @@ print(store$sensitive)
 
 ## Criterion power analysis
 
-Finally, goal is to located the associated $\alpha$ level (`sig.level`) to achieve a target power output.
+Finally, in criterion power analysis the goal is to located the associated $\alpha$ level (`sig.level`) require to achieve a target power output holding constant the other modeling information. This is done in `Spower()` by setting the `sig.level` input to `NA` while providing values for the other parameters. 
 
 ```{r eval=eval}
 p_single.t(n=50, mean=.5) |> 
@@ -171,17 +192,19 @@ p_single.t(mean=.5) |>
 	SpowerBatch(n=c(30, 60, 90)) -> batch
 
 batch
-as.data.frame(batch)
 ```
 
 ```{r echo=FALSE}
 if(eval) store$batch <- batch
 print(store$batch)
+```
+This can further be coerced to a `data.frame` object if there is reason to do so (e.g., for plotting purpose).
+
+```{r echo=FALSE}
 as.data.frame(store$batch)
 ```
 
 ## SpowerCurve()
-
 
 Often times researchers wish to visualize the results of power analyses in the form of graphical representations. `Spower` supports various types of visualizations through the function `SpowerCurve()`, which creates power curve plots of previously obtained results (e.g., via `SpowerBatch()`) or for to-be-explored inputs. Importantly, each graphic contains estimates of the Monte Carlo sampling uncertainty to deter  over-interpretation of any resulting point-estimates.
 
@@ -224,8 +247,8 @@ if(eval)
 print(store$gg2)
 ```
 
-```{r include=FALSE}
-if(!eval)
-	saveRDS(store, '../inst/intro.rds')
+```{r include=!eval, eval=eval}
+getwd()
+saveRDS(store, 'intro.rds') # move this when done
 ```
 
