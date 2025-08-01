@@ -115,7 +115,9 @@ print.SpowerBatch <- function(x, ...){
 #' @rdname Spower
 #' @export
 as.data.frame.SpowerBatch <- function(x, ...){
-	out <- do.call(rbind, x)
+	y <- lapply(x, as.data.frame)
+	out <- do.call(rbind, y)
+	rownames(out) <- NULL
 	out
 }
 
