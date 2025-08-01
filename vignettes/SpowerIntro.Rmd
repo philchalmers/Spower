@@ -15,8 +15,6 @@ vignette: >
 ```{r include=FALSE}
 library(Spower)
 set.seed(42)
-formals(Spower)$verbose <- formals(SpowerBatch)$verbose <- 
-	formals(SpowerCurve)$verbose <- FALSE
 formals(SpowerCurve)$plotly <- FALSE
 ```
 
@@ -111,18 +109,31 @@ print(prospective)
 
 ## Compromise power analysis
 
-Compromise power analysis involves manipulating the $\alpha$ level until some sufficient balance between the Type I and Type II error rates are met, expressed in terms of the ratio $q=\frac{\beta}{\alpha}$. In `Spower` there are two ways to approach this issue. The first way, which focuses on the `beta_alpha` ratio at the outset, simply requires passing the target ratio to `Spower()` using the same setup as the previous prospective power analysis. 
+Compromise power analysis involves manipulating the $\alpha$ level until some sufficient balance between the Type I and Type II error rates are met, expressed in terms of the ratio $q=\frac{\beta}{\alpha}$. 
+
+In `Spower`, there are two ways to approach this criterion. The first way, which focuses on the `beta_alpha` ratio at the outset, simply requires passing the target ratio to `Spower()` using the same setup as the previous prospective power analysis. 
 
 ```{r eval=eval}
-p_single.t(n=100, mean=.5, mu=.3) |> Spower(beta_alpha=4)
+p_single.t(n=100, mean=.5, mu=.3) |> 
+	Spower(beta_alpha=4) -> compromise
+compromise
 ```
 
 ```{r echo=FALSE}
 if(eval) store$compromise <- getLastSpower()
-print(store$compromise)
+compromise <- store$compromise
+print(compromise)
 ```
 
-This returns the estimated `sig.level` ($\hat{\alpha}$) and resulting $\hat{\beta}$ that satisfies the target $q$ ratio. The second way to perform a compromise analysis is to re-use a previous evaluation of a prospective power analysis as this contains all the necessary information. 
+This returns the estimated `sig.level` ($\hat{\alpha}$) and resulting $\hat{\beta}$ that satisfies the target $q$ ratio.
+
+```{r}
+# satisfies q = 4 ratio
+with(compromise, (1 - power) / sig.level)
+```
+
+
+The second way to perform a compromise analysis is to re-use a previous evaluation of a prospective power analysis as this contains all the necessary information. 
 
 ```{r}
 # using previous post-hoc/prospective power analysis
@@ -134,14 +145,15 @@ In either case, the use of `update()` can be beneficial as the stored result can
 
 ## A priori power analysis
 
-The goal of a priori power analysis is generally to obtain a sample size ($N$) associated with a specific power rate of interest (e.g., $1-\beta=.90$) for future data collection purposes. To do this, `Spower()` performs stochastic root solving using the ProBABLI approach from the `SimDesign` package, and requires a specific search `interval` to search within. The width of the interval should reflect a plausible range where the researcher believes the solution to lie, however this may be quite large as well as ProBABLI is less influenced by the range of the interval. 
+The goal of a priori power analysis is generally to obtain the sample size ($N$) associated with a specific power rate of interest (e.g., $1-\beta=.90$), which is useful in the context of future data collection. 
 
-Below the sample size `n` is solved to achieve a target power of $1-\beta=.80$, where the solution was suspected to lie somewhere between the
-search `interval = c(30, 200)`.
+To estimate the sample size using Monte Carlo simulation experiments, `Spower()` performs stochastic root solving using the ProBABLI approach from the `SimDesign` package, and requires a specific search `interval` to search within. The width of the interval should reflect a plausible range where the researcher believes the solution to lie, however this may be quite large as well as ProBABLI is less influenced by the range of the interval (Chalmers, 2024). 
+
+Below the sample size `n` is solved to achieve a target power of $1-\beta=.80$, where the solution was suspected to lie somewhere between the search `interval = c(20, 200)`.
 
 ```{r eval=eval}
 p_single.t(n=NA, mean=.5) |> 
-	Spower(power=.8, interval=c(30,200))
+	Spower(power=.8, interval=c(20,200))
 ```
 
 ```{r echo=FALSE}
@@ -152,7 +164,9 @@ print(store$apriori)
 
 ## Sensitivity power analysis
 
-Simliar to a priori power analysis, however the goal is now to find some specific standardized or unstandardized effect size associated with a specific power rate. This pertains to the question of how large an effect size must be in order to reliably detect the effect of interest. Below the sample size is fixed at $N=100$, while the search interval for the standardized effect size $d$ is searched between the `interval = c(.1, 3)`. Note that the use of decimals in the interval tells `Spower()` to use a continuous rather than discrete search space (cf. with a priori, which uses an integer search space for the simulation replicates).
+Similar to a priori power analysis, however the goal is now to find some specific standardized or unstandardized effect size associated with a specific power rate. This pertains to the question of how large an effect size must be in order to reliably detect the effect of interest. 
+
+Below the sample size is fixed at $N=100$, while the search interval for the standardized effect size $d$ is searched between the `interval = c(.1, 3)`. Note that the use of decimals in the interval tells `Spower()` to use a continuous rather than discrete search space (cf. with a priori, which uses an integer search space for the simulation replicates).
 
 ```{r eval=eval}
 p_single.t(n=100, mean=NA) |> 
@@ -166,7 +180,7 @@ print(store$sensitive)
 
 ## Criterion power analysis
 
-Finally, in criterion power analysis the goal is to located the associated $\alpha$ level (`sig.level`) require to achieve a target power output holding constant the other modeling information. This is done in `Spower()` by setting the `sig.level` input to `NA` while providing values for the other parameters. 
+Finally, in criterion power analysis the goal is to located the associated $\alpha$ level (`sig.level`) require to achieve a target power output holding constant the other modeling information. This is done in `Spower()` by setting the `sig.level` input to `NA` while providing values for the other parameters. Note that no search interval is require in this context as $\alpha$ necessarily lies between the interval $[0,1]$.
 
 ```{r eval=eval}
 p_single.t(n=50, mean=.5) |> 
@@ -189,20 +203,39 @@ To begin, suppose that there was interest in evaluating the `p_single.t()` funct
 
 ```{r eval=eval}
 p_single.t(mean=.5) |> 
-	SpowerBatch(n=c(30, 60, 90)) -> batch
-
-batch
+	SpowerBatch(n=c(30, 60, 90)) -> prospective.batch
+prospective.batch
 ```
 
 ```{r echo=FALSE}
-if(eval) store$batch <- batch
-print(store$batch)
+if(eval) store$prospective.batch <- prospective.batch
+prospective.batch <- store$prospective.batch
+print(prospective.batch)
 ```
 This can further be coerced to a `data.frame` object if there is reason to do so (e.g., for plotting purpose).
 
-```{r echo=FALSE}
-as.data.frame(store$batch)
+```{r}
+as.data.frame(prospective.batch)
 ```
+
+Similarly, if the were related to a priori analyses for sample size planning then the inputs to `SpowerBatch()` would be modified to set `n` to the missing quantity.
+
+```{r eval=eval}
+apriori.batch <- p_single.t(mean=.5, n=NA) |> 
+	SpowerBatch(power=c(.7, .8, .9), interval=c(20, 200)) 
+apriori.batch
+```
+
+```{r echo=FALSE}
+if(eval) store$apriori.batch <- apriori.batch
+apriori.batch <- store$apriori.batch
+print(apriori.batch)
+```
+
+```{r}
+as.data.frame(apriori.batch)
+```
+
 
 ## SpowerCurve()
 
@@ -230,7 +263,7 @@ SpowerCurve(batch=batch)
 
 ```{r echo=FALSE}
 if(eval) 
-	SpowerCurve(batch=store$batch)	
+	SpowerCurve(batch=store$prospective.batch)	
 ```
 
 `SpowerCurve()` will accept as many arguments as exists in the supplied simulation experiment definition, however it will only plot the first three variable input specifications as anything past this becomes more difficult to display automatically. Below is an example that varies both the `n` input as well as the input `mean`, where the first input appears on the $x$-axis while the second is mapped to the default colour aesthetic in `ggplot2`. 
@@ -247,8 +280,7 @@ if(eval)
 print(store$gg2)
 ```
 
-```{r include=!eval, eval=eval}
-getwd()
+```{r include=FALSE, eval=eval}
 saveRDS(store, 'intro.rds') # move this when done
 ```
 
