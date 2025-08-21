@@ -241,7 +241,7 @@ Can also be used as a pre-computing step before using
 \code{\link{SpowerCurve}}, and shares the same syntax specification (see
 \code{\link{SpowerCurve}} for further examples).
 
-Draws power curves that either a) estimate the power given a
+\code{\link{SpowerCurve}} draws power curves that either a) estimate the power given a
 set of varying conditions or b) solves a set of root conditions
 given fixed values of power. Confidence/prediction intervals are
 included in the output to reflect the estimate uncertainties, though note
@@ -548,6 +548,10 @@ SpowerCurve(batch=ndbatch)
 
 
 \donttest{
+
+##############################################
+SpowerCurve() examples
+##############################################
 
 # estimate power given varying sample sizes
 gg <- p_t.test(d=0.2) |> SpowerCurve(n=c(30, 90, 270, 550))
