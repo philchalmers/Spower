@@ -8,60 +8,17 @@
 #' \code{\link{Spower}} as the goal is visualization of competing
 #' variable inputs rather than precision of a given input.
 #'
-#'
-#' @param ... first expression input must be identical to \code{...} in
-#' \code{\link{Spower}}, while the remaining named inputs must match the arguments
-#' to this expression to indicate which variables should be modified in the
-#' resulting power curves. Providing \code{NA} values is also supported to
-#' solve the missing component
-#'
-#' Note that only the first three named arguments will be plotted using
-#' the x-y, colour, and facet wrap aesthetics, respectively. However,
-#' if necessary the data can be extracted for further visualizations via
-#' \code{\link[ggplot2]{ggplot_build}} to provide more customized control
-#'
-#' @param power power level to use. If set to \code{NA} then the empirical power
-#'   will be estimated given the fixed \code{...} input; otherwise,
-#'   can be specified as a vector to solve the missing elements in
-#'   \code{...}
-#'
-#' @param select which arguments to select from simulation experiment.
-#'   See \code{\link{Spower}} for details
-#'
-#' @param maxiter see \code{\link{Spower}}, though set to 50 instead of 150
-#'
-#' @param sig.level see \code{\link{Spower}}
-#'
-#' @param interval search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
-#'   Can be a vector of length two to apply the same interval across
-#'   the \code{varying} information or a \code{matrix} with two columns
-#'   to apply intervals on a per-row basis
-#'
 #' @param batch if \code{\link{SpowerBatch}} were previously used to perform the computations
 #'   then this information can be provided to this \code{batch} argument to avoid
 #'   recomputing
-#'
 #' @param plotCI logical; include confidence/prediction intervals in plots?
-#'
-#' @param wait.time see \code{\link{Spower}}
-#' @param replications see \code{\link{Spower}}, though set to 2500 instead of
-#'   10000
-#' @param integer see \code{\link{Spower}}
-#' @param parallel see \code{\link{Spower}}
-#' @param cl see \code{\link{Spower}}
-#' @param ncores see \code{\link{Spower}}
-#' @param control see \code{\link{Spower}}
-#' @param predCI see \code{\link{Spower}}
-#' @param predCI.tol see \code{\link{Spower}}
-#' @param check.interval see \code{\link{Spower}}, though is set to \code{FALSE}
-#'   by default instead
 #' @param plotly logical; draw the graphic into the interactive \code{plotly}
 #'   interface? If \code{FALSE} the ggplot2 object will be returned instead
-#' @param verbose see \code{\link{Spower}}
 #' @return a ggplot2 object automatically rendered with
 #'   \code{plotly} for interactivity
 #' @import ggplot2
 #' @importFrom plotly ggplotly
+#' @rdname Spower
 #' @export
 #'
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
@@ -121,8 +78,8 @@
 #'
 #' ########################################
 #'
-#' # If objects were precomputed using SpowerBatch then these can be plotted instead
-#' # estimate power given varying sample sizes
+#' # If objects were precomputed using SpowerBatch() then
+#' #  these can be plotted instead
 #' p_t.test(d=0.2) |>
 #'   SpowerBatch(n=c(30, 90, 270, 550), replications=1000) -> nbatch
 #' nbatch

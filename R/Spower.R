@@ -54,11 +54,26 @@
 #'  \code{Spower(p_t.test(n=50, d=d_prior())} will compute the expected power
 #'  over the prior sampling distribution for \code{d}
 #'
+#' For \code{\link{SpowerCurve}} and \code{\link{SpowerBatch}},
+#' first expression input must be identical to \code{...} in
+#' \code{\link{Spower}}, while the remaining named inputs must match the arguments
+#' to this expression to indicate which variables should be modified in the
+#' resulting power curves. Providing \code{NA} values is also supported to
+#' solve the missing component
+#'
+#' Note that only the first three named arguments in \code{\link{SpowerCurve}}
+#' will be plotted using
+#' the x-y, colour, and facet wrap aesthetics, respectively. However,
+#' if necessary the data can be extracted for further visualizations via
+#' \code{\link[ggplot2]{ggplot_build}} to provide more customized control
+#'
 #' @param power power level to use. If set to \code{NA} then the empirical power
 #'   will be estimated given the fixed \code{...} inputs
-#'   (e.g., for prospective/post-hoc power analysis)
+#'   (e.g., for prospective/post-hoc power analysis). For
+#'   \code{\link{SpowerCurve}} and \code{\link{SpowerBatch}} this can be a vector
 #'
-#' @param maxiter maximum number of stochastic root-solving iterations
+#' @param maxiter maximum number of stochastic root-solving iterations.
+#'   Default is 150, though set to 50 for \code{\link{SpowerCurve}}
 #'
 #' @param select a character vector indicating which elements to
 #'   extract from the provided stimulation experiment function. By default, all elements
@@ -90,7 +105,8 @@
 #'  See \code{\link[SimDesign]{timeFormater}} for further specifications
 #'
 #' @param replications number of replications to use when
-#'   \code{\link[SimDesign]{runSimulation}} is required
+#'   \code{\link[SimDesign]{runSimulation}} is required. Default is 10000,
+#'   though set to 2500 for \code{\link{SpowerCurve}}
 #'
 #' @param lastSpower a previously returned \code{Spower} object to be updated.
 #'   Use this if you want to continue where an estimate left off but wish to increase the
