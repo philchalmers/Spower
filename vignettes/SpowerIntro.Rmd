@@ -1,6 +1,7 @@
 ---
 title: "Introdution to the Spower package"
 author: Phil Chalmers
+date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
   bookdown::html_document2:
     base_format: rmarkdown::html_vignette
