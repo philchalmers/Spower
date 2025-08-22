@@ -141,8 +141,9 @@ null hypothesis or compliment of the alternative hypothesis).
 If the return of the supplied experiment is a
 \code{logical}, which generally indicates that a confidence interval (CI)
 approach were used,
-then an argument such as \code{conf.level} should be included
-in the simulation experiment to indicate the explicit CI
+then this argument will be entirely ignored. As such,
+an argument such as \code{conf.level} should be included
+in the simulation experiment definition to indicate the explicit CI
 criteria, and so that this can be modified directly as well}
 
 \item{interval}{search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
