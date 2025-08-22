@@ -37,9 +37,15 @@
 #' analysis.
 #'
 #' @param ... expression to use in the simulation that returns a \code{numeric}
-#'   vector containing only p-value information, where the first p-value
-#'   in this vector is treated as the focus for all analyses other than prospective/post-hoc power,
-#'   or a similarly structure \code{logical} vector when utilizing confidence intervals (CIs).
+#'   vector containing only p-value (under the null hypothesis) or
+#'   complimentary posterior probability (under the alternative, in the Bayesian context)
+#'   information, where the first numeric value
+#'   in this vector is treated as the focus for all analyses other than prospective/post-hoc power.
+#'   This value is compared to the \code{alpha} value and flagged as 'significant'/supportive
+#'   of the alternative hypothesis when less than \code{alpha}. Similarly, a
+#'   \code{logical} vector can be returned (e.g., when using confidence intervals (CIs) or
+#'   evaluating regions of practical equivalence (ROPEs)), where the average of these
+#'   TRUE/FALSE vector corresponds to the power.
 #'
 #'   Internally the first expression is passed to either \code{\link[SimDesign]{SimSolve}} or
 #'  \code{\link[SimDesign]{runSimulation}} depending on which element (including
