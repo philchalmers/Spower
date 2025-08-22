@@ -37,7 +37,7 @@ This vignette provides a brief introduction to using the package `Spower` for pr
 There are generally two-ways to go about using `Spower`; either by utilizing a handful of build-in simulation experiments with an associated analysis, or by constructing the simulation experiment yourself. In either case, the goal is to manipulate R code to perform a single simulation experiment and have the function return:
 
 - A suitable $p$-value under the null hypothesis ($P(X|H_0))$), or a logical value also reflecting whether the null hypothesis was rejected (TRUE) or not (FALSE), or
-- The compliment of the hypothesis of interest ($H_1$) in the Bayesian setting ($P(\neg H_1|X)=1 - P(H_1|X)$, where $P(H_1|X)$ is the posterior probability supporting the hypothesis of interest), or a logical value indicating support for the alternative hypothesis was supported $H_1$.
+- In the Bayesian setting, the posterior probability of the null hypothesis ($P(H_0|X)$), the complement of the alternative hypothesis of interest $P(\neg H_1|X) =1 - P(H_1|X)$, where $P(H_1|X)$ is the posterior probability supporting the alternative hypothesis), or a logical value indicating support for the alternative hypothesis
 
 When a $p$-value/probability compliment value is return a specific $\alpha$ criteria will be used to construct a suitable logical in the package, where values less than this $\alpha$ are deemed 'significant' or 'supportive of the hypothesis $H_0$' in the null hypothesis and Bayesian testing paradigms, respectively. Note that more than one $p$-value/`logical` value may of course be returned by the functions, however for simplicity this vignette will focus on simple single-valued functions.
 
@@ -94,7 +94,19 @@ p_single.t(n=100, mean=.2)
 ```
 
 Were the power analysis in the context of a Bayesian analysis, the conditional probability of the alternative can be used instead. However, for this to work with *Spower* the built-in structure must use the *compliment* of the posterior probability, $P(\neg H_1|X)=1 - P(H_1|X)$. This is so that the value can be used
-along with threshold $\alpha$ (`alpha` in `Spower()`).
+along with threshold $\alpha$ (`alpha` in `Spower()`), however in this context it indicates the *strength* of the evidence. 
+
+Below is the Bayesian approach using the `BayesFactor` package, assuming that the competing hypotheses are equally likely (hence, prior odds are 1:1).
+
+```{r}
+p_single.Bayes.t <- function(n, mean, mu=0){
+	g <- rnorm(n, mean=mean)
+	res <- BayesFactor::ttestBF(g, mu=mu)	
+	bf <- exp(as.numeric(res@bayesFactor[1])) # Bayes factor
+	posterior <- bf / (bf + 1)   # assuming hypotheses are equally likely
+	1 - posterior   # compliment, P(-H_1|X) = 1 - P(H_1| X)
+}
+```
 
 # Types of power analyses to evaluate
 

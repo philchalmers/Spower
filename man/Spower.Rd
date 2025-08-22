@@ -87,15 +87,16 @@ SpowerCurve(
 }
 \arguments{
 \item{...}{expression to use in the simulation that returns a \code{numeric}
-vector containing only p-value (under the null hypothesis) or
-complimentary posterior probability (under the alternative, in the Bayesian context)
-information, where the first numeric value
+vector containing either the p-value (under the null hypothesis), the
+probability of the null hypothesis in the Bayesian setting,
+or the compliment of the posterior probability of the alternative hypothesis
+in the Bayesian context, where the first numeric value
 in this vector is treated as the focus for all analyses other than prospective/post-hoc power.
 This value is compared to the \code{alpha} value and flagged as 'significant'/supportive
 of the alternative hypothesis when less than \code{alpha}. Similarly, a
 \code{logical} vector can be returned (e.g., when using confidence intervals (CIs) or
 evaluating regions of practical equivalence (ROPEs)), where the average of these
-TRUE/FALSE vector corresponds to the power.
+TRUE/FALSE vector corresponds to the empirical power.
 
 Internally the first expression is passed to either \code{\link[SimDesign]{SimSolve}} or
 \code{\link[SimDesign]{runSimulation}} depending on which element (including
@@ -131,7 +132,11 @@ will be estimated given the fixed \code{...} inputs
 \item{sig.level}{alpha level to use. If set to \code{NA} then the empirical
 alpha will be estimated given the fixed \code{conditions} input
 (e.g., for criterion power analysis). Only used when the value returned
-from the experiment is a \code{numeric} (p-value).
+from the experiment is a \code{numeric} (p-value). Note that if
+Bayesian posterior probabilities are used then this corresponds to the
+strength of the evidence, and therefore \code{sig.level = .05} would indicate
+the threshold of very strong evidence (e.g., 95\% probability in support of the
+null hypothesis or compliment of the alternative hypothesis).
 
 If the return of the supplied experiment is a
 \code{logical}, which generally indicates that a confidence interval (CI)
