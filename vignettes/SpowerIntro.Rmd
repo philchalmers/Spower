@@ -70,11 +70,6 @@ last <- getLastSpower()
 dplyr::as_tibble(last)
 ```
 
-```{r echo=FALSE}
-last <- store$R2ex
-dplyr::as_tibble(last)
-```
-
 ## User-defined functions
 
 As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(X|H_0$) is the probability of the data given the null hypothesis. While the package already supports this (see `help(p_t.test)`), users may write their own version of this experiment, one instance of which may look like the following.
@@ -99,7 +94,7 @@ along with threshold $\alpha$ (`alpha` in `Spower()`), however in this context i
 
 Below is the Bayesian approach using the `BayesFactor` package, assuming that the competing hypotheses are equally likely (hence, prior odds are 1:1).
 
-```{r}
+```{r eval=FALSE}
 p_single.Bayes.t <- function(n, mean, mu=0){
 	g <- rnorm(n, mean=mean)
 	res <- BayesFactor::ttestBF(g, mu=mu)	

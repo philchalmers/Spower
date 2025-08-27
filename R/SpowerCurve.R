@@ -29,7 +29,7 @@
 #' \donttest{
 #'
 #' ##############################################
-#' SpowerCurve() examples
+#' # SpowerCurve() examples
 #' ##############################################
 #'
 #' # estimate power given varying sample sizes
