@@ -53,7 +53,7 @@ CI.equiv.t.test <- function(n, m1, sd1, m2, sd2, LB, UB, conf.level=.95){
 }
 
 CI.equiv.t.test(n=100, m1=12, m2=11, sd1=2.5, sd2=2.5, LB=-2.5, UB=2.5) |>
-	Spower(replications=1000)
+	Spower()
 
 # solve sample size
 CI.equiv.t.test(n=NA, m1=12, m2=11, sd1=2.5, sd2=2.5, LB=-2.5, UB=2.5) |>
