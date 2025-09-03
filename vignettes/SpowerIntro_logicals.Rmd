@@ -1,0 +1,242 @@
+---
+title: "Simulation experiments with logical vector and Bayesian power analyses"
+author: Phil Chalmers
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  bookdown::html_document2:
+    base_format: rmarkdown::html_vignette
+    number_sections: false
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Simulation experiments with logical vector and Bayesian power analyses}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r include=FALSE}
+library(Spower)
+set.seed(42)
+formals(SpowerCurve)$plotly <- FALSE
+```
+
+```{r include=FALSE}
+eval <- FALSE  # set to FALSE for normal run
+store <- list()
+if(!eval)
+	store <- readRDS(system.file("intro2.rds", package = 'Spower'))
+```
+
+```{r include=eval}
+getwd()
+```
+
+The canonical way that *Spower* has been written by focusing primarily on $p$-values involving the null hypothesis to be tested ($P(X|H_0)$), or by focusing on posterior probability values in Bayesian contexts to evaluate the support for the alternative hypothesis ($P(H_1|X)$). The reason for setting the package up this way is so that the parameter $\alpha$ parameter (`sig.level`), or the posterior probability (`posterior.sig`), can be used internally as a "line-in-the-sand" threshold to flag whether a hypothesis was rejected (under the null hypothesis) or supported (under posterior probability of the alternative hypothesis setup through Bayesian analyses). However, it is often advantageous to directly return `logical` values direction in the simulation experiment rather than letting `Spower()` perform these threshold transformations as these can include more intricate experimental result requirements. 
+
+This vignette showcases various ways that returning `logical` values works in the `Spower` package. Note that returning a logical in the simulation experiment necessarily means that the `sig.level` argument in `Spower()` and friends will not be used.
+
+# Confidence intervals
+
+Keeping with the basic t-test experiment in the introduction vignetted, suppose we're interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(X|H_0$) is the probability of the data given the null hypothesis. Normally, one could simply write an experiment that returns a $p$-value in this context, such as the following,
+
+```{r}
+p_single.t <- function(n, mean, mu=0){
+	g <- rnorm(n, mean=mean)
+	p <- t.test(g, mu=mu)$p.value
+	p
+}
+```
+However, an equivalent way to explore power in this context would be to investigate the same null hypothesis via confidence intervals given a specific $\alpha$ level, where $CI_\mu=[CI_{\alpha/2},CI_{1-\alpha/2}]$. If one were to take this approach, the define function must return a `logical` value instead, where the CI is utilize to evaluate the plausibility of $\mu = \mu_0$ by testing whether $\mu_0$ falls *outside*  the advertised interval. 
+
+The following code demonstrates this logic, assuming that $\alpha = .05$ (and therefore a two-tailed, 95% CI is used), and uses the `is.outside_CI()` function to evaluate whether `mu` falls within the estimated `CI` returned from `t.test()`.
+
+```{r}
+l_single.t <- function(n, mean, mu=0, conf.level=.95){
+	g <- rnorm(n, mean=mean)
+	out <- t.test(g, mu=mu, conf.level=conf.level)
+	CI <- out$conf.int
+	is.outside_CI(mu, CI)   # equivalent to: !(CI[1] < mu && mu < CI[2])
+}
+
+l_single.t(100, mean=.2)
+```
+
+Running a power analysis with `Spower()` works out of the box now, where `p_single.t()` utilizes the `sig.level` argument in `Spower()` to construct an equivalent `TRUE/FALSE` expression internally, while `l_single.t()` ignores `sig.level` altogether.
+
+```{r eval=eval}
+p_single.t(n=100, mean=.3) |> Spower() -> pPower
+pPower
+```
+
+```{r echo=FALSE}
+if(eval) store$pPower <- pPower
+pPower <- store$pPower
+print(pPower)
+```
+
+```{r eval=eval}
+l_single.t(n=100, mean=.3) |> Spower() -> lPower
+lPower
+```
+
+```{r echo=FALSE}
+if(eval) store$lPower <- lPower
+lPower <- store$lPower
+print(lPower)
+```
+
+## Bayes Factors
+
+Similarly, if one were using a Bayesian analysis criteria, the Bayes factor (BF) ratio could be used in the logical return context. For example, returning whether the observed $BF>3$ in a given random sample indicates moderate or greater evidence for the hypothesis of interest compared to some competing hypothesis (often the null, though not necessarily). The downside is that BF require the computation of the marginal likelihood terms, typically via bridge sampling (e.g., via the `bridgesampling` package), in addition to fitting the model using Markov chain Monte Carlo methods (e.g., `brms`, `rstan`, `rstanarm`). Though not necessarily typically a limitation, it is often more natural to focus directly on the sample from posterior distribution for power analysis applications rather than on the marginal Bayes factors, though nevertheless such applications are possible with `Spower` if there is interest in doing so. 
+
+# Equivalence testing and regions of practical equivalence (ROPEs)
+
+As an alternative approach to the rejection of the null hypothesis via the $p$-value or CI approaches, there may be interest in evaluating power in the context of establishing *equivalence*, or in directional cases *superiority* or *non-inferiority*. The purpose of an equivalence tests is to establish that, although exact effects may exist, they are small enough to be considered practically equal in applications. For example, in an independent samples $t$-test, two groups might be considered "equivalent" if the true mean difference in the population is somewhere above $\epsilon_L$ but below $\epsilon_U$, where $\epsilon$s are  used to define the equivalence interval. If, for instance, two groups are equivalent then the null hypotheses to test using the two one-sided test (TOST) logic are 
+$$H_{0a}:\, (\mu_1 - \mu_2) \le -\epsilon_L$$
+and
+$$H_{0b}:\,(\mu_1 - \mu_2) \ge \epsilon_U$$
+Rejecting both of these null hypotheses leads to the induced complementary hypothesis of interest
+$$H_1:\, \epsilon_L < (\mu_1 - \mu_2) < \epsilon_U$$
+or in words, the population mean difference falls within the defined region of equivalence. Superiority testing and non-inferiority testing follow the same type of logic, however rather than defining a region of equivalence only one tail of the equivalence is of interest.
+
+To put numbers to the above expression, suppose that the true mean difference between the groups was $\mu_d = \mu_1 - \mu_2 = 0.05$, however this effect is quite small and effectively equivalent to 0. Moreover, suppose any true difference that fell between $[-0.2, 0.2]$ were determined to be practically equivalent a priori. 
+
+```{r}
+l_equiv.t <- function(n, delta, equiv, sds = c(1,1), 
+					  sig.level = .025){
+	g1 <- rnorm(n, mean=0, sd=sds[1])
+	g2 <- rnorm(n, mean=delta, sd=sds[2])
+	outL <- t.test(g2, g1, mu=-equiv[1], alternative = "less")$p.value
+	outU <- t.test(g2, g1, mu=equiv[2], alternative = "less")$p.value
+	outL < sig.level && outU < sig.level
+}
+
+l_equiv.t(100, delta=1, equiv=c(-2, 2))
+l_equiv.t(500, delta=1, equiv=c(-2, 2), sds=c(2.5, 2.5))
+```
+
+
+```{r eval=eval}
+l_equiv.t(100, delta=1, equiv=c(-2.5, 2.5), 
+		  sds=c(2.5, 2.5)) |> Spower() -> equivT
+equivT
+```
+
+```{r echo=FALSE}
+if(eval) store$equivT <- equivT
+equivT <- store$equivT
+print(equivT)
+```
+
+You can verify that these computations are correct by comparing to established software for now, such as via the `TOSTER` package.
+
+```{r eval=FALSE}
+TOSTER::power_t_TOST(n = 100,
+			 delta = 1,
+			 sd = 2.5,
+			 eqb = 2.5,
+			 alpha = .025,
+			 power = NULL,
+			 type = "two.sample")
+```
+
+```
+     Two-sample TOST power calculation 
+
+          power = 0.9881517
+           beta = 0.01184831
+          alpha = 0.025
+              n = 100
+          delta = 1
+             sd = 2.5
+         bounds = -2.5, 2.5
+
+NOTE: n is number in *each* group
+```
+
+
+Again, the same type of logic can be evaluated using `CI`s alone.
+
+```{r}
+l_equiv.t_CI <- function(n, delta, equiv, 
+						 sds=c(1,1), conf.level = .95){
+	g1 <- rnorm(n, mean=0, sd=sds[1])
+	g2 <- rnorm(n, mean=delta, sd=sds[2])
+	CI <- t.test(g2, g1, conf.level=conf.level)$conf.int
+	is.CI_within(CI, interval=equiv)  # returns TRUE if CI is within equiv interval
+}
+
+l_equiv.t_CI(100, delta=1, equiv=c(-2.5, 2.5))
+```
+
+```{r eval=eval}
+# an equivalent power analysis for "equivalence tests" via CI evaluations
+l_equiv.t_CI(100, delta=1, equiv=c(-2.5, 2.5), 
+		  sds=c(2.5, 2.5)) |> Spower() -> equivTL
+equivTL
+```
+
+```{r echo=FALSE}
+if(eval) store$equivTL <- equivTL
+equivTL <- store$equivTL
+print(equivTL)
+```
+
+
+## Region of Practical Equivalence (HDI + ROPE)
+
+Finally, though not exhaustively, one could approach the topic of equivalence using Bayesian methods using draws from the posterior distribution of interest, such as from BUGS or HMC samplers (e.g., `stan`). This approach is highly similar to the equivalence testing approach described above, but uses highest density interval + ROPE in Bayesian modeling instead. Below is one such example that constructs a simple linear regression model with a binary $X$ term that is analysed with `rstanarm::stan_glm()`. 
+
+```{r eval=eval}
+library(bayestestR)
+library(rstanarm)
+
+p_rope.lm <- function(n, beta0, beta1, range, sigma=1, ...){
+	# generate data
+	x <- matrix(rep(0:1, each=n))
+	y <- beta0 + beta1 * x + rnorm(nrow(x), sd=sigma)
+	dat <- data.frame(y, x)
+	
+	# run model, but tell stan_glm() to use its indoor voice
+	model <- quiet(rstanarm::stan_glm(y ~ x, data = dat))
+	rope <- bayestestR::rope(model, ci=1, range=range, parameters="x")
+	as.numeric(rope)
+}
+
+p_rope.lm(n=20, beta0=2, beta1=1, range=c(.8, 1.2))
+p_rope.lm(n=100, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2))
+```
+In the above example, the proportion of the sampled posterior distribution that falls within the ROPE is returned, which works well with the `posterior.sig` argument in `Spower()` to define a suitable accept/reject cut-off. Specifically, if `posterior.sig = .95` then the ROPE will only be accepted when the percentage of the posterior that falls within the defined ROPE is greater than 95%. This can of course be performed manullay instead, returning a `TRUE` when satisfied and `FALSE` otherwise.
+
+Below reports a power estimate given $N=50\times 2=100$, where the ROPE criteria is deemed satisfied/significant if 95% of the posterior distribution for the $\beta_1=1$ falls within the defined range of $1 \pm .2\rightarrow [.8,1.2]$.  Due to the slower execution speeds of the simulations the power evaluations are computed using `parallel=TRUE` to utilize all available cores.
+```{r eval=eval}
+p_rope.lm(n=50, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |> 
+	Spower(posterior.sig=.95, parallel=TRUE) -> ROPE.lm
+ROPE.lm
+```
+
+```{r echo=FALSE}
+if(eval) store$ROPE.lm <- ROPE.lm
+ROPE.lm <- store$ROPE.lm
+print(ROPE.lm)
+```
+
+Finally, to demonstrate why this might be useful, the following estimates the required sample size to achieve 80% power when using a 95% HDI-ROPE criteria.
+```{r eval=eval}
+p_rope.lm(n=NA, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |> 
+	Spower(power=.80, posterior.sig=.95, interval=c(50, 200), parallel=TRUE) -> ROPE.lm_n
+ROPE.lm_n
+```
+
+
+```{r echo=FALSE}
+if(eval) store$ROPE.lm_n <- ROPE.lm_n
+ROPE.lm_n <- store$ROPE.lm_n
+print(ROPE.lm_n)
+```
+
+
+```{r include=FALSE, eval=eval}
+saveRDS(store, '../inst/intro2.rds') # rebuild package when done
+```
+
+

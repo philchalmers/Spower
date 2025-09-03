@@ -93,7 +93,7 @@ Were the power analysis in the context of a Bayesian analysis, the conditional p
 
 Below is the Bayesian approach using the `BayesFactor` package, translating the output into a posterior probability and focusing on the alternative hypothesis that $H_1: \mu \ne 0$ (hence, the posterior probability returned is $P(\mu \ne 0|X)$). This also assumes that the competing hypotheses are equally likely (hence, prior odds are 1:1).
 
-```{r}
+```{r eval=eval}
 p_single.Bayes.t <- function(n, mean, mu=0){
 	g <- rnorm(n, mean=mean)
 	res <- BayesFactor::ttestBF(g, mu=mu)	
