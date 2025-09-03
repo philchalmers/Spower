@@ -89,18 +89,17 @@ Using the defaults of this defined function evaluates whether a sample of data d
 p_single.t(n=100, mean=.2)
 ```
 
-Were the power analysis in the context of a Bayesian analysis, the conditional probability of the alternative can be used instead. However, for this to work with *Spower* the built-in structure must use the *compliment* of the posterior probability, $P(\neg H_1|X)=1 - P(H_1|X)$. This is so that the value can be used
-along with threshold $\alpha$ (`alpha` in `Spower()`), however in this context it indicates the *strength* of the evidence. 
+Were the power analysis in the context of a Bayesian analysis, the conditional probability of the alternative, $P(H_1|X)$, can be used instead. However, for this to work with *Spower* the argument `posterior.sig` should be used instead of the `sig.level`, the ladder of which is ignored in the Bayesian context. The purpose of `posterior.sig` is to evaluate whether the sample-based posterior probability favoring the hypothesis of interest is greater than or equal to this value, so for example `posterior.sig = .95` would indicate "significant" support for the hypothesis whenever the sample-based posterior probability is greater than or equal to 95%. 
 
-Below is the Bayesian approach using the `BayesFactor` package, assuming that the competing hypotheses are equally likely (hence, prior odds are 1:1).
+Below is the Bayesian approach using the `BayesFactor` package, translating the output into a posterior probability and focusing on the alternative hypothesis that $H_1: \mu \ne 0$ (hence, the posterior probability returned is $P(\mu \ne 0|X)$). This also assumes that the competing hypotheses are equally likely (hence, prior odds are 1:1).
 
-```{r eval=FALSE}
+```{r}
 p_single.Bayes.t <- function(n, mean, mu=0){
 	g <- rnorm(n, mean=mean)
 	res <- BayesFactor::ttestBF(g, mu=mu)	
 	bf <- exp(as.numeric(res@bayesFactor[1])) # Bayes factor
 	posterior <- bf / (bf + 1)   # assuming hypotheses are equally likely
-	1 - posterior   # compliment, P(-H_1|X) = 1 - P(H_1| X)
+	posterior   # P(H_1|X)
 }
 ```
 
@@ -122,6 +121,22 @@ if(eval) store$prospective <- prospective
 prospective <- store$prospective
 print(prospective)
 ```
+
+For the Bayesian $t$-test definition defined above, where "significance" in this context is flagged whenever the sample posterior is greater than .90 in support of $H_1$. Note that this is a more strict criteria than the null hypothesis criteria above, and therefore has lower power.
+
+```{r eval=eval}
+# power when the cut-off for a significantly supportive posterior is > 0.90
+p_single.Bayes.t(n=100, mean=.5, mu=.3) |> 
+	Spower(posterior.sig = .90) -> prospectiveBayes
+prospectiveBayes
+```
+
+```{r echo=FALSE}
+if(eval) store$prospectiveBayes <- prospectiveBayes
+prospectiveBayes <- store$prospectiveBayes
+print(prospectiveBayes)
+```
+
 
 ## Compromise power analysis
 
@@ -297,6 +312,6 @@ print(store$gg2)
 ```
 
 ```{r include=FALSE, eval=eval}
-saveRDS(store, 'intro.rds') # move this when done
+saveRDS(store, '../inst/intro.rds') # rebuild package when done
 ```
 

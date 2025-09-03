@@ -438,7 +438,6 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = FALSE, maxiter=150, wait.time = NULL,
 				   lastSpower = NULL, select = NULL, control = list()){
-	if(!is.null(posterior.sig)) stop('not yet supported')
 	if(missing(beta_alpha)) beta_alpha <- NULL
 	if(!is.null(cl)) parallel <- TRUE
 	control$useAnalyseHandler <- FALSE
@@ -470,7 +469,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 		predCI.tol <- NULL
 	}
 	summarise <- Internal_Summarise
-	fixed_objects <- list(sig.level=sig.level)
+	fixed_objects <- list(sig.level=sig.level, posterior.sig=posterior.sig)
 	expr <- match.call(expand.dots = FALSE)$...[[1]]
 	expr <- match.call(eval(expr[[1]], envir = pf), expr)
 	if(!is.null(expr[-1])){
@@ -573,6 +572,13 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 							   beta_alpha=beta_alpha, expected=FALSE)
 	class(ret) <- c('Spower', class(ret))
 	.SpowerEnv$lastSim <- ret
+	if(!is.null(posterior.sig)){
+		ret$sig.level <-
+			attr(ret, 'Spower_extra')$conditions$sig.level <- posterior.sig
+		colnames(ret)[colnames(ret) == "sig.level"] <- "posterior.sig"
+		colnames(attr(ret, 'Spower_extra')$conditions)[
+			colnames(attr(ret, 'Spower_extra')$conditions) == "sig.level"] <- "posterior.sig"
+	}
 	if(verbose){
 		print(ret)
 		return(invisible(ret))
@@ -585,6 +591,8 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 	if(length(pick))
 		fixed_objects$expr[pick] <- condition[pick]
 	ret <- eval(fixed_objects$expr, envir = fixed_objects$parent_frame)
+	if(!is.null(fixed_objects$posterior.sig))
+		ret[!is.logical(ret)] <- ret[!is.logical(ret)] < fixed_objects$posterior.sig
 	if(any(is.logical(ret)))
 		ret[is.logical(ret)] <- as.integer(!ret[is.logical(ret)])
 	ret
