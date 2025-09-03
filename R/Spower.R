@@ -93,11 +93,8 @@
 #' @param sig.level alpha level to use. If set to \code{NA} then the empirical
 #'   alpha will be estimated given the fixed \code{conditions} input
 #'   (e.g., for criterion power analysis). Only used when the value returned
-#'   from the experiment is a \code{numeric} (p-value). Note that if
-#'   Bayesian posterior probabilities are used then this corresponds to the
-#'   strength of the evidence, and therefore \code{sig.level = .05} would indicate
-#'   the threshold of very strong evidence (e.g., 95% probability in support of the
-#'   null hypothesis or compliment of the alternative hypothesis).
+#'   from the experiment is a \code{numeric} (p-value). Ignored when
+#'   \code{posterior.sig} is used
 #'
 #'   If the return of the supplied experiment is a
 #'   \code{logical}, which generally indicates that a confidence interval (CI)
@@ -105,7 +102,18 @@
 #'   then this argument will be entirely ignored. As such,
 #'   an argument such as \code{conf.level} should be included
 #'   in the simulation experiment definition to indicate the explicit CI
-#'   criteria, and so that this can be modified directly as well
+#'   criteria, and so that this argument can be manipulated as well
+#'
+#' @param posterior.sig If the experiment returns a posterior probability
+#'   values instead of a p-value then this argument is used to evaluate the
+#'   cutoff significance of the posterior probability.
+#'   Cutoff for the Bayesian posterior probabilities corresponds to the
+#'   strength of the evidence for the hypothesis of interest, and
+#'   therefore \code{posterior.sig = .95} would indicate
+#'   the threshold of very strong evidence for the sample at hand. This
+#'   works similarly to \code{sig.level}, however rather than rejecting the null
+#'   hypothesis this focuses on acceptance of the hypothesis of interest. Using this
+#'   argument will also ignore \code{sig.level} as it is not required
 #'
 #' @param interval search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
 #'   Note that for compromise analyses, where the \code{sig.level} is set to
@@ -423,12 +431,14 @@
 #'
 #' }
 Spower <- function(..., power = NA, sig.level=.05, interval,
-				   beta_alpha, replications=10000, integer,
+				   beta_alpha, posterior.sig = NULL,
+				   replications=10000, integer,
 				   parallel = FALSE, cl = NULL, packages = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = FALSE, maxiter=150, wait.time = NULL,
 				   lastSpower = NULL, select = NULL, control = list()){
+	if(!is.null(posterior.sig)) stop('not yet supported')
 	if(missing(beta_alpha)) beta_alpha <- NULL
 	if(!is.null(cl)) parallel <- TRUE
 	control$useAnalyseHandler <- FALSE
