@@ -2,7 +2,7 @@
 library(Spower)
 library(TOSTER)
 
-equiv.t.test <- function(n, m1, sd1, m2, sd2, LB, UB){
+equiv.t.test <- function(n, m1, sd1, m2, sd2, LB, UB, sig.level = .05){
 	g1 <- rnorm(n, m1, sd1)
 	g2 <- rnorm(n, m2, sd2)
 	out <- tsum_TOST(m1=mean(g1), sd1=sd(g1),
@@ -12,7 +12,8 @@ equiv.t.test <- function(n, m1, sd1, m2, sd2, LB, UB){
 			  high_eqbound=UB,
 			  eqbound_type = "raw",
 			  paired = FALSE) # This is quite slow due to extra computations
-	out$TOST[2,]$p.value < .05/2 & out$TOST[3,]$p.value < .05/2
+	out$TOST[2,]$p.value < sig.level/2 &
+		out$TOST[3,]$p.value < sig.level/2
 }
 
 # These are equivalent
