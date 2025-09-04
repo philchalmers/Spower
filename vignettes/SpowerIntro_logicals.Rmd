@@ -1,5 +1,5 @@
 ---
-title: "Simulation experiments with logical vector and Bayesian power analyses"
+title: "Logical vectors and Bayesian power analyses"
 author: Phil Chalmers
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
@@ -8,7 +8,7 @@ output:
     number_sections: false
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Simulation experiments with logical vector and Bayesian power analyses}
+  %\VignetteIndexEntry{Logical vectors and Bayesian power analyses}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
@@ -86,7 +86,41 @@ print(lPower)
 
 ## Bayes Factors
 
-Similarly, if one were using a Bayesian analysis criteria, the Bayes factor (BF) ratio could be used in the logical return context. For example, returning whether the observed $BF>3$ in a given random sample indicates moderate or greater evidence for the hypothesis of interest compared to some competing hypothesis (often the null, though not necessarily). The downside is that BF require the computation of the marginal likelihood terms, typically via bridge sampling (e.g., via the `bridgesampling` package), in addition to fitting the model using Markov chain Monte Carlo methods (e.g., `brms`, `rstan`, `rstanarm`). Though not necessarily typically a limitation, it is often more natural to focus directly on the sample from posterior distribution for power analysis applications rather than on the marginal Bayes factors, though nevertheless such applications are possible with `Spower` if there is interest in doing so. 
+Similarly, if one were using a Bayesian analysis criteria, the Bayes factor (BF) ratio could be used in the logical return context. For example, returning whether the observed $BF>3$ in a given random sample indicates moderate or greater evidence for the hypothesis of interest compared to some competing hypothesis (often the null, though not necessarily). The downside is that BF require the computation of the marginal likelihood terms, typically via bridge sampling (e.g., via the `bridgesampling` package), in addition to fitting the model using Markov chain Monte Carlo methods (e.g., `brms`, `rstan`, `rstanarm`). Though not necessarily typically a limitation, it is often more natural to focus directly on the sample from posterior distribution for power analysis applications rather than on the marginal Bayes factors. Nevertheless, such applications are possible with `Spower` if there is interest in doing so.
+
+As a simple example, the following one-sample $t$-test defined in the introduction vignette could be redefined from the original form
+```{r eval=eval}
+p_single.Bayes.t <- function(n, mean, mu=0){
+	g <- rnorm(n, mean=mean)
+	res <- BayesFactor::ttestBF(g, mu=mu)	
+	bf <- exp(as.numeric(res@bayesFactor[1])) # Bayes factor
+	posterior <- bf / (bf + 1)   # assuming hypotheses are equally likely
+	posterior   # P(H_1|X)
+}
+```
+to retain the Bayes factor result for comparison. Suppose now that one were interested in estimating the power to observe $BF>3$ across a set of independently drawn experiments. This can be achieved using the following:
+```{r eval=eval}
+l_single.Bayes.t_BF <- function(n, mean, mu=0, bf.cut=3){
+	g <- rnorm(n, mean=mean)
+	res <- BayesFactor::ttestBF(g, mu=mu)	
+	bf <- exp(as.numeric(res@bayesFactor[1])) # Bayes factor
+	bf > bf.cut
+}
+```
+
+Evaluating this simulation with $N=100$, $\mu=.5$, and $\mu_0=.3$ gives the following power estimate when evaluating each sample against a Bayes factor cut-off of 3. 
+
+```{r eval=eval}
+l_single.Bayes.t_BF(n=100, mean=.5, mu=.3) |> Spower() -> prospectiveBF3
+prospectiveBF3
+```
+
+```{r echo=FALSE}
+if(eval) store$prospectiveBF3 <- prospectiveBF3
+prospectiveBF3 <- store$prospectiveBF3
+print(prospectiveBF3)
+```
+
 
 # Equivalence testing and regions of practical equivalence (ROPEs)
 

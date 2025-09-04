@@ -41,7 +41,7 @@ There are generally two-ways to go about using `Spower`; either by utilizing a h
 - The posterior probability of an alternative hypothesis, $P(H_1|X)$, which is deemed 'significant' if greater than the defined `posterior.sig` ($\gamma$) to indicate that a sample supported ($P(H_1|X)>\gamma$) or did not support ($P(H_1|X)\le\gamma$) the hypothesis of interest, or
 - A logical value indicating support for the hypothesis of interest (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving multiple hypothesis or regions or practical significance, etc)
 
-The package largely focuses on the first point as these are more common applications of power analysis, though nothing precludes the package from more complex power analysis tests and experiments. See the vignette *"Simulation experiments with logical vector and Bayesian power analyses"* for further examples involving CIs, ROPEs, equivalence tests, and Bayes Factors.
+The package largely focuses on the first point as these are more common applications of power analysis, though nothing precludes the package from more complex power analysis tests and experiments. See the vignette *"Logical vectors and Bayesian power analyses"* for further examples involving CIs, ROPEs, equivalence tests, and Bayes Factors.
 
 ## Built-in experiements
 
