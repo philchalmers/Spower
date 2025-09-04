@@ -114,7 +114,7 @@ print(lprecision)
 ```
 
 Compared the required $N$ to an power analysis that just contains a significant result below this estimate is notably higher. Note that this can be evaluated in the above simulation experiment by setting `CI.width=Inf` as all widths will be accepted, though this could have equivalently been evaluated using `p_single.t()` defined earlier.
-```{r}
+```{r eval=eval}
 l_precision(n=NA, mean=.2, CI.width=Inf) |> 
 	Spower(power=.80, interval=c(10, 500))
 ```
