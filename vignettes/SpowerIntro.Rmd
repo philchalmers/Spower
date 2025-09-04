@@ -37,10 +37,11 @@ This vignette provides a brief introduction to using the package `Spower` for pr
 
 There are generally two-ways to go about using `Spower`; either by utilizing a handful of build-in simulation experiments with an associated analysis, or by constructing the simulation experiment yourself. In either case, the goal is to manipulate R code to perform a single simulation experiment and have the function return:
 
-- A suitable $p$-value under the null hypothesis ($P(X|H_0))$), or a logical value also reflecting whether the null hypothesis was rejected (TRUE) or not (FALSE), or
-- In the Bayesian setting, the posterior probability of the null hypothesis ($P(H_0|X)$), the complement of the alternative hypothesis of interest $P(\neg H_1|X) =1 - P(H_1|X)$, where $P(H_1|X)$ is the posterior probability supporting the alternative hypothesis), or a logical value indicating support for the alternative hypothesis
+- A suitable $p$-value under the null hypothesis, $P(X|H_0)$, where the value of `sig.level` ($\alpha$) indicates whether a sample was ($P(X|H_0)<\alpha$) or was not ($P(X|H_0)\ge\alpha$) significant,
+- The posterior probability of an alternative hypothesis, $P(H_1|X)$, which is deemed 'significant' if greater than the defined `posterior.sig` ($\gamma$) to indicate that a sample supported ($P(H_1|X)>\gamma$) or did not support ($P(H_1|X)\le\gamma$) the hypothesis of interest, or
+- A logical value indicating support for the hypothesis of interest (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving multiple hypothesis or regions or practical significance, etc)
 
-When a $p$-value/probability compliment value is return a specific $\alpha$ criteria will be used to construct a suitable logical in the package, where values less than this $\alpha$ are deemed 'significant' or 'supportive of the hypothesis $H_0$' in the null hypothesis and Bayesian testing paradigms, respectively. Note that more than one $p$-value/`logical` value may of course be returned by the functions, however for simplicity this vignette will focus on simple single-valued functions.
+The package largely focuses on the first point as these are more common applications of power analysis, though nothing precludes the package from more complex power analysis tests and experiments. See the vignette *"Simulation experiments with logical vector and Bayesian power analyses"* for further examples involving CIs, ROPEs, equivalence tests, and Bayes Factors.
 
 ## Built-in experiements
 
@@ -89,9 +90,9 @@ Using the defaults of this defined function evaluates whether a sample of data d
 p_single.t(n=100, mean=.2)
 ```
 
-Were the power analysis in the context of a Bayesian analysis, the conditional probability of the alternative, $P(H_1|X)$, can be used instead. However, for this to work with *Spower* the argument `posterior.sig` should be used instead of the `sig.level`, the ladder of which is ignored in the Bayesian context. The purpose of `posterior.sig` is to evaluate whether the sample-based posterior probability favoring the hypothesis of interest is greater than or equal to this value, so for example `posterior.sig = .95` would indicate "significant" support for the hypothesis whenever the sample-based posterior probability is greater than or equal to 95%. 
+Were the power analysis in the context of a Bayesian analysis, the conditional probability of the alternative, $P(H_1|X)$, can be used instead. However, for this to work with *Spower* the argument `posterior.sig` should be used (thereby ignoring `sig.level`). The purpose of `posterior.sig` is to evaluate whether the sample-based posterior probability favoring the hypothesis of interest is greater than this value, so for example `posterior.sig = .95` would indicate "significant" support for the hypothesis whenever the sample-based posterior probability is greater than 95%. 
 
-Below is the Bayesian approach using the `BayesFactor` package, translating the output into a posterior probability and focusing on the alternative hypothesis that $H_1: \mu \ne 0$ (hence, the posterior probability returned is $P(\mu \ne 0|X)$). This also assumes that the competing hypotheses are equally likely (hence, prior odds are 1:1).
+Below is the Bayesian approach using the `BayesFactor` package, translating the Bayes factor output into a posterior probability and focusing on the alternative hypothesis (hence, the posterior probability returned is $P(\mu \ne 0|X)$). The following also assumes that the competing hypotheses are equally likely when obtaining the posterior probability (hence, prior odds are 1:1).
 
 ```{r eval=eval}
 p_single.Bayes.t <- function(n, mean, mu=0){

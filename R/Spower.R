@@ -38,13 +38,15 @@
 #'
 #' @param ... expression to use in the simulation that returns a \code{numeric}
 #'   vector containing either the p-value (under the null hypothesis), the
-#'   probability of the null hypothesis in the Bayesian setting,
-#'   or the compliment of the posterior probability of the alternative hypothesis
-#'   in the Bayesian context, where the first numeric value
+#'   probability of the alternative hypothesis in the Bayesian setting,
+#'   where the first numeric value
 #'   in this vector is treated as the focus for all analyses other than prospective/post-hoc power.
 #'   This value is compared to the \code{alpha} value and flagged as 'significant'/supportive
-#'   of the alternative hypothesis when less than \code{alpha}. Similarly, a
-#'   \code{logical} vector can be returned (e.g., when using confidence intervals (CIs) or
+#'   of the alternative hypothesis when less than \code{alpha}, or when
+#'   \code{posterior.sig} is defined the value is flagged as 'significant' when greater
+#'   than this cut-off.
+#'
+#'   Similarly, a \code{logical} vector can be returned (e.g., when using confidence intervals (CIs) or
 #'   evaluating regions of practical equivalence (ROPEs)), where the average of these
 #'   TRUE/FALSE vector corresponds to the empirical power.
 #'
