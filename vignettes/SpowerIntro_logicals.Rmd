@@ -32,9 +32,11 @@ getwd()
 
 The canonical way that *Spower* has been written by focusing primarily on $p$-values involving the null hypothesis to be tested ($P(X|H_0)$), or by focusing on posterior probability values in Bayesian contexts to evaluate the support for the alternative hypothesis ($P(H_1|X)$). The reason for setting the package up this way is so that the parameter $\alpha$ parameter (`sig.level`), or the posterior probability (`posterior.sig`), can be used internally as a "line-in-the-sand" threshold to flag whether a hypothesis was rejected (under the null hypothesis) or supported (under posterior probability of the alternative hypothesis setup through Bayesian analyses). However, it is often advantageous to directly return `logical` values direction in the simulation experiment rather than letting `Spower()` perform these threshold transformations as these can include more intricate experimental result requirements. 
 
+# Logical vectors
+
 This vignette showcases various ways that returning `logical` values works in the `Spower` package. Note that returning a logical in the simulation experiment necessarily means that the `sig.level` argument in `Spower()` and friends will not be used.
 
-# Confidence intervals
+## Confidence (and credible) intervals
 
 Keeping with the basic t-test experiment in the introduction vignetted, suppose we're interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(X|H_0$) is the probability of the data given the null hypothesis. Normally, one could simply write an experiment that returns a $p$-value in this context, such as the following,
 
@@ -45,7 +47,8 @@ p_single.t <- function(n, mean, mu=0){
 	p
 }
 ```
-However, an equivalent way to explore power in this context would be to investigate the same null hypothesis via confidence intervals given a specific $\alpha$ level, where $CI_\mu=[CI_{\alpha/2},CI_{1-\alpha/2}]$. If one were to take this approach, the define function must return a `logical` value instead, where the CI is utilize to evaluate the plausibility of $\mu = \mu_0$ by testing whether $\mu_0$ falls *outside*  the advertised interval. 
+However, an equivalent way to explore power in this context would be to investigate the same null hypothesis via confidence intervals given a specific $\alpha$ level, where $CI_\mu=[CI_{\alpha/2},CI_{1-\alpha/2}]$. If one were to take this approach, the define function must return a `logical` value instead, where the CI is utilize to evaluate the plausibility of $\mu = \mu_0$ by testing whether $\mu_0$ falls *outside*  the advertised interval. Alternatively, if one were in a Bayesian context,
+one could use the *credible interval* instead of the confidence interval to construct the same logical output.
 
 The following code demonstrates this logic, assuming that $\alpha = .05$ (and therefore a two-tailed, 95% CI is used), and uses the `is.outside_CI()` function to evaluate whether `mu` falls within the estimated `CI` returned from `t.test()`.
 
@@ -82,9 +85,15 @@ lPower <- store$lPower
 print(lPower)
 ```
 
+## Precision criterion
+
+Width of confidence/credible intervals as power target for assuring sufficient precision in the effect sizes of interest.
+
 ## Bayes Factors
 
-Similarly, if one were using a Bayesian analysis criteria, the Bayes factor (BF) ratio could be used in the logical return context. For example, returning whether the observed $BF>3$ in a given random sample indicates moderate or greater evidence for the hypothesis of interest compared to some competing hypothesis (often the null, though not necessarily). The downside is that BF require the computation of the marginal likelihood terms, typically via bridge sampling (e.g., via the `bridgesampling` package), in addition to fitting the model using Markov chain Monte Carlo methods (e.g., `brms`, `rstan`, `rstanarm`). Though not necessarily typically a limitation, it is often more natural to focus directly on the sample from posterior distribution for power analysis applications rather than on the marginal Bayes factors. Nevertheless, such applications are possible with `Spower` if there is interest in doing so.
+If one were using a Bayesian analysis criteria, the Bayes factor (BF) ratio could be used in the logical return context too. For example, returning whether the observed $BF>3$ in a given random sample indicates at least "moderate" supporting evidence for the hypothesis of interest compared to some competing hypothesis (often the complementary null, though not necessarily). 
+
+The downside of focusing on BFs is that they require the computation of the marginal likelihoods, typically via bridge sampling (e.g., via the `bridgesampling` package), in addition to fitting the model using Markov chain Monte Carlo (MCMC) methods (e.g., `brms`, `rstan`, `rstanarm`). Though not a limitation per se, it is often more natural to focus directly on the sample from posterior distribution for power analysis applications rather than on the marginal Bayes factors. Nevertheless, such applications are possible with `Spower` if there is interest in doing so.
 
 As a simple example, the following one-sample $t$-test defined in the introduction vignette could be redefined from the original form
 ```{r eval=eval}
