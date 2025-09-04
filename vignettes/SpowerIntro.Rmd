@@ -128,12 +128,11 @@ For the Bayesian $t$-test definition defined above, where "significance" in this
 ```{r eval=eval}
 # power when the cut-off for a significantly supportive posterior is > 0.90
 p_single.Bayes.t(n=100, mean=.5, mu=.3) |> 
-	Spower(posterior.sig = .90) -> prospectiveBayes
-prospectiveBayes
+	Spower(posterior.sig = .90)
 ```
 
 ```{r echo=FALSE}
-if(eval) store$prospectiveBayes <- prospectiveBayes
+if(eval) store$prospectiveBayes <- getLastSpower()
 prospectiveBayes <- store$prospectiveBayes
 print(prospectiveBayes)
 ```
