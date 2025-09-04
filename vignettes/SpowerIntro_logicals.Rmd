@@ -87,7 +87,44 @@ print(lPower)
 
 ## Precision criterion
 
-Width of confidence/credible intervals as power target for assuring sufficient precision in the effect sizes of interest.
+Using confidence or credible intervals are also useful in contexts where specific *precision* criteria are importance in power analysis contexts. Suppose that, in addition to detecting a particular effect of interest in a given sample, the results are only deemed "practically useful" if the resulting effect size inference are sufficiently precise, where precision is based on the width of the uncertainty interval. In this case, one may join the logic of the $p$-value and CI approaches presented thus far to create a joint evaluation for power, where a result is deemed "significant" if the tests are null hypothesis test is "surprisingly" rejected (in the $p$-value context)  *and* the CI is sufficiently narrow.
+
+As a working example, suppose that the above experiment was generalized such that a meaningfully significant result would require the rejection of the null, $\mu_0=0$, and that the width of the CI must be less than 1/4 units. What value of $N$ would be required to obtain such a significant and accurate inference to obtain a power of 80%?
+
+```{r}
+l_precision <- function(n, mean, CI.width, mu=0, alpha=.05){
+	g <- rnorm(n, mean=mean)
+	out <- t.test(g, mu=mu)
+	CI <- out$conf.int
+	width <- CI[2] - CI[1]
+	out$p.value < alpha && width < CI.width
+}
+```
+
+```{r eval=eval}
+l_precision(n=NA, mean=.2, CI.width=1/4) |> 
+	Spower(power=.80, interval=c(10, 500))
+```
+
+
+```{r echo=FALSE}
+if(eval) store$lprecision <- getLastSpower()
+lprecision <- store$lprecision
+print(lprecision)
+```
+
+Compared the required $N$ to an power analysis that just contains a significant result below this estimate is notably higher. Note that this can be evaluated in the above simulation experiment by setting `CI.width=Inf` as all widths will be accepted, though this could have equivalently been evaluated using `p_single.t()` defined earlier.
+```{r}
+l_precision(n=NA, mean=.2, CI.width=Inf) |> 
+	Spower(power=.80, interval=c(10, 500))
+```
+
+```{r echo=FALSE}
+if(eval) store$lprecision2 <- getLastSpower()
+lprecision2 <- store$lprecision2
+print(lprecision2)
+```
+
 
 ## Bayes Factors
 
@@ -128,7 +165,11 @@ print(prospectiveBF3)
 ```
 
 
-# Equivalence testing and regions of practical equivalence (ROPEs)
+# Regions of practical equivalence (ROPEs)
+
+This section presents two related concepts for estimating the power where some justifiable equivalence interval is of interest.
+
+## Equivalence testing
 
 As an alternative approach to the rejection of the null hypothesis via the $p$-value or CI approaches, there may be interest in evaluating power in the context of establishing *equivalence*, or in directional cases *superiority* or *non-inferiority*. The purpose of an equivalence tests is to establish that, although exact effects may exist, they are small enough to be considered practically equal in applications. For example, in an independent samples $t$-test, two groups might be considered "equivalent" if the true mean difference in the population is somewhere above $\epsilon_L$ but below $\epsilon_U$, where $\epsilon$s are  used to define the equivalence interval. If, for instance, two groups are equivalent then the null hypotheses to test using the two one-sided test (TOST) logic are 
 $$H_{0a}:\, (\mu_1 - \mu_2) \le -\epsilon_L$$
@@ -220,7 +261,7 @@ print(equivTL)
 ```
 
 
-## Region of Practical Equivalence (HDI + ROPE)
+## Bayesian approach to ROPEs (HDI + ROPE)
 
 Finally, though not exhaustively, one could approach the topic of equivalence using Bayesian methods using draws from the posterior distribution of interest, such as from BUGS or HMC samplers (e.g., `stan`). This approach is highly similar to the equivalence testing approach described above, but uses highest density interval + ROPE in Bayesian modeling instead. Below is one such example that constructs a simple linear regression model with a binary $X$ term that is analysed with `rstanarm::stan_glm()`. 
 
