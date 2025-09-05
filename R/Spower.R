@@ -104,7 +104,7 @@
 #'
 #' @param sig.direction a character vector that is either \code{'below'}
 #'   (default) or \code{'above'} to indicate which direction relative to
-#'   code{sig.level} is considered significant. This is useful, for instance,
+#'   \code{sig.level} is considered significant. This is useful, for instance,
 #'    when forming cutoffs for Bayesian
 #'   posterior probabilities organized to show support
 #'   for the hypothesis of interest (\eqn{P(H_1|D)}). As an example,

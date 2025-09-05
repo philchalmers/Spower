@@ -62,7 +62,7 @@ prospectiveBayes <- store$prospectiveBayes
 print(prospectiveBayes)
 ```
 
-With this approach, the five power analysis criteria described in `help(Spower)` are  entirely possible, and therefore solving other components (such as the sample size `n`) are easy to setup by providing suitable `NA` argument flags.
+With this approach, the power analysis criteria described in `help(Spower)` are now possible, where for instance solving other experimental components (such as the sample size `n`) are easy to setup by providing suitable `NA` argument flags.
 
 # Logical returns 
 

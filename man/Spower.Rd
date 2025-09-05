@@ -149,7 +149,7 @@ between Type I and Type II errors}
 
 \item{sig.direction}{a character vector that is either \code{'below'}
 (default) or \code{'above'} to indicate which direction relative to
-code{sig.level} is considered significant. This is useful, for instance,
+\code{sig.level} is considered significant. This is useful, for instance,
 when forming cutoffs for Bayesian
 posterior probabilities organized to show support
 for the hypothesis of interest (\eqn{P(H_1|D)}). As an example,
@@ -282,13 +282,6 @@ function of the other supplied constant components}
 function of the other supplied constant components and the
 target ratio \eqn{q = \beta/\alpha} (argument \code{beta_alpha})}
 }
-
-Prospective and compromise analyses utilize the
-\code{\link[SimDesign]{runSimulation}} function, while the remaining three
-approaches utilize the stochastic root solving methods in the function
-\code{\link[SimDesign]{SimSolve}}.
-See the example below for a demonstration with an independent samples t-test
-analysis.
 
 To understand how the package is structured, the first expression in the \code{...} argument,
 which contains the simulation experiment definition for a single sample,
