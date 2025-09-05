@@ -44,7 +44,8 @@
 #'
 #'
 SpowerBatch <- function(..., interval = NULL, power = NA,
-						sig.level=.05, beta_alpha = NULL, replications=10000, integer,
+						sig.level=.05, beta_alpha = NULL, sig.direction = 'below',
+						replications=10000, integer,
 						parallel = FALSE, cl = NULL,
 						ncores = parallelly::availableCores(omit = 1L),
 						predCI = 0.95, predCI.tol = .01, verbose = TRUE,
@@ -96,7 +97,7 @@ SpowerBatch <- function(..., interval = NULL, power = NA,
 									  list(power=power[i], sig.level=sig.level[i], beta_alpha=beta_alpha,
 									  	 interval=interval, integer=integer, replications=replications,
 									  	 parallel=parallel, cl=cl, predCI=predCI, predCI.tol=predCI.tol,
-									  	 verbose=verbose, check.interval=check.interval,
+									  	 verbose=verbose, check.interval=check.interval, sig.direction=sig.direction,
 									  	 maxiter=maxiter, wait.time=wait.time, select=select, control=control)))
 	}
 	class(out) <- 'SpowerBatch'

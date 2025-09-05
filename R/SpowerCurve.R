@@ -95,7 +95,7 @@
 #' }
 #'
 SpowerCurve <- function(..., interval = NULL, power = NA,
-					   sig.level=.05, replications=2500, integer,
+					   sig.level=.05, sig.direction = 'below', replications=2500, integer,
 					   plotCI=TRUE, plotly=TRUE, parallel = FALSE, cl = NULL,
 					   ncores = parallelly::availableCores(omit = 1L),
 					   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
@@ -148,7 +148,7 @@ SpowerCurve <- function(..., interval = NULL, power = NA,
 										  list(power=power[i], sig.level=sig.level[i], beta_alpha=NULL,
 										  interval=interval, integer=integer, replications=replications,
 										  parallel=parallel, cl=cl, predCI=predCI, predCI.tol=predCI.tol,
-										  verbose=verbose, check.interval=check.interval,
+										  verbose=verbose, check.interval=check.interval, sig.direction=sig.direction,
 										  maxiter=maxiter, wait.time=wait.time, select=select, control=control)))
 		}
 	} else {

@@ -1,5 +1,5 @@
 ---
-title: "Logical vectors and Bayesian power analyses"
+title: "Bayesian power analyses and logical vector returns"
 author: Phil Chalmers
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
@@ -8,7 +8,7 @@ output:
     number_sections: false
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Logical vectors and Bayesian power analyses}
+  %\VignetteIndexEntry{Bayesian power analyses and logical vector returns}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
@@ -34,14 +34,12 @@ getwd()
 
 The canonical way that *Spower* has been written by focusing primarily on $p$-values involving the null hypothesis to be tested ($P(D|H_0)$). The reason for setting the package up this way is so that the parameter $\alpha$ parameter can be used as the "line-in-the-sand" threshold to flag whether a hypothesis was rejected (under the null hypothesis) as this behaviour is common among popular power analysis software. 
 
-However, Bayesian power analysis are also supported by the package, where for instance the posterior probability of the alternative hypothesis, $P(H_1|D)$, is the outcome of the simulation experiment. Below we demonstrate how to use *Spower* in this context. See the next section regarding similar approaches that rely on Bayes Factors instead.
+However, Bayesian power analysis are also supported by the package, where for instance the posterior probability of the alternative hypothesis, $P(H_1|D)$, is the outcome of the simulation experiment. For instance, and continuing with the simple one-sample $t$-test example in the introduction vignette, were the power analysis context be that of a Bayesian analysis the conditional probability of the alternative, $P(H_1|D)$, may be used instead. However, for this to work with *Spower* the argument `sig.direction = 'above'` should be supplied, where `sig.level` now indicts that "significance" only occurs when an observation is above this cutoff. 
 
-Continuing with the simple one-sample $t$-test example in the introduction vignette, were the power analysis context be that of a Bayesian analysis the conditional probability of the alternative, $P(H_1|D)$, may be used instead. However, for this to work with *Spower* the argument `sig.direction = 'above'` should be used, where `sig.level` now indicts that "significance" only occurs when an observation is above this cutoff. For example, if the simulation experiment returns a posterior probability $H_1$, $P(H_1|D)$, then `sig.level = .90` would indicate "significant" support for the hypothesis whenever the sample-based posterior probability is greater than `0.90`. 
-
-Below is the Bayesian approach using the `BayesFactor` package, translating the Bayes factor output into a suitable posterior probability and focusing on the alternative hypothesis (hence, the posterior probability returned corresponds to $P(\mu \ne 0|D)$). The following also assumes that the competing hypotheses are equally likely when obtaining the posterior probability (hence, prior odds are 1:1).
+Below is one such Bayesian approach using posterior probabilities using the `BayesFactor` package, which is obtained by translating the Bayes factor output into a suitable posterior probability and focusing on the alternative hypothesis (hence, the posterior probability returned corresponds to $P(\mu \ne \mu_0|D)$). The following also assumes that the competing hypotheses are equally likely when obtaining the posterior probability (hence, prior odds are 1:1).
 
 ```{r eval=eval}
-p_single.Bayes.t <- function(n, mean, mu=0){
+p_single.Bayes.t <- function(n, mean, mu){
 	g <- rnorm(n, mean=mean)
 	res <- BayesFactor::ttestBF(g, mu=mu)	
 	bf <- exp(as.numeric(res@bayesFactor[1])) # Bayes factor
@@ -50,10 +48,10 @@ p_single.Bayes.t <- function(n, mean, mu=0){
 }
 ```
 
-For the Bayesian $t$-test definition defined above, where "significance" in this context is flagged whenever the sample posterior is greater than .90 in support of $H_1$, which in this example corresponds to $H_1:\,\mu\ne \mu_0$, where $\mu=.5$ and $\mu_0=0$. Note that this is a more strict criteria than the null hypothesis criteria presented in the introduction vignette, and therefore has notably lower power.
+For the Bayesian $t$-test definition defined in the next code chunk evaluation, "significance" is obtained whenever the sample posterior is *greater* than `sig.level = .90`, demonstrating strong support of $H_1$. Note that this is a more strict criteria than the null hypothesis criteria presented in the introduction vignette, and therefore has notably lower power.
 
 ```{r eval=eval}
-# power when the cut-off for a significantly supportive posterior is > 0.90
+# power cut-off for a significantly supportive posterior is > 0.90
 p_single.Bayes.t(n=100, mean=.5, mu=.3) |> 
 	Spower(sig.level = .90, sig.direction = 'above')
 ```
@@ -64,7 +62,7 @@ prospectiveBayes <- store$prospectiveBayes
 print(prospectiveBayes)
 ```
 
-With this approach, the five describe power analysis criteria available through `Spower()` are now entirely possible, and therefore solving other components (such as the sample size `n`) are easy to setup.
+With this approach, the five power analysis criteria described in `help(Spower)` are  entirely possible, and therefore solving other components (such as the sample size `n`) are easy to setup by providing suitable `NA` argument flags.
 
 # Logical returns 
 
@@ -166,17 +164,7 @@ If one were using a Bayesian analysis criteria, the Bayes factor (BF) ratio coul
 
 The downside of focusing on BFs is that they require the computation of the marginal likelihoods, typically via bridge sampling (e.g., via the `bridgesampling` package), in addition to fitting the model using Markov chain Monte Carlo (MCMC) methods (e.g., `brms`, `rstan`, `rstanarm`). Though not a limitation per se, it is often more natural to focus directly on the sample from posterior distribution for power analysis applications rather than on the marginal Bayes factors. Nevertheless, such applications are possible with `Spower` if there is interest in doing so.
 
-As a simple example, the following one-sample $t$-test defined in the introduction vignette could be redefined from the original form
-```{r eval=eval}
-p_single.Bayes.t <- function(n, mean, mu=0){
-	g <- rnorm(n, mean=mean)
-	res <- BayesFactor::ttestBF(g, mu=mu)	
-	bf <- exp(as.numeric(res@bayesFactor[1])) # Bayes factor
-	posterior <- bf / (bf + 1)   # assuming hypotheses are equally likely
-	posterior   # P(H_1|X)
-}
-```
-to retain the Bayes factor result for comparison. Suppose now that one were interested in estimating the power to observe $BF>3$ across a set of independently drawn experiments. This can be achieved using the following:
+As a simple example, the following one-sample $t$-test initially defined above could be redefined as
 ```{r eval=eval}
 l_single.Bayes.t_BF <- function(n, mean, mu=0, bf.cut=3){
 	g <- rnorm(n, mean=mean)
@@ -185,8 +173,7 @@ l_single.Bayes.t_BF <- function(n, mean, mu=0, bf.cut=3){
 	bf > bf.cut
 }
 ```
-
-Evaluating this simulation with $N=100$, $\mu=.5$, and $\mu_0=.3$ gives the following power estimate when evaluating each sample against a Bayes factor cut-off of 3. 
+where by default a `TRUE` is returned if the Bayes factor is greater than 3 and `FALSE` otherwise. Evaluating this simulation with $N=100$, $\mu=.5$, and $\mu_0=.3$ gives the following power estimate when evaluating each sample against a Bayes factor cut-off of 3. 
 
 ```{r eval=eval}
 l_single.Bayes.t_BF(n=100, mean=.5, mu=.3) |> Spower()
@@ -224,9 +211,6 @@ l_equiv.t <- function(n, delta, equiv, sds = c(1,1),
 	outU <- t.test(g2, g1, mu=equiv[2], alternative = "less")$p.value
 	outL < sig.level && outU < sig.level
 }
-
-l_equiv.t(100, delta=1, equiv=c(-2, 2))
-l_equiv.t(500, delta=1, equiv=c(-2, 2), sds=c(2.5, 2.5))
 ```
 
 
@@ -278,8 +262,6 @@ l_equiv.t_CI <- function(n, delta, equiv,
 	CI <- t.test(g2, g1, conf.level=conf.level)$conf.int
 	is.CI_within(CI, interval=equiv)  # returns TRUE if CI is within equiv interval
 }
-
-l_equiv.t_CI(100, delta=1, equiv=c(-2.5, 2.5))
 ```
 
 ```{r eval=eval}
@@ -314,9 +296,6 @@ p_rope.lm <- function(n, beta0, beta1, range, sigma=1, ...){
 	rope <- bayestestR::rope(model, ci=1, range=range, parameters="x")
 	as.numeric(rope)
 }
-
-p_rope.lm(n=20, beta0=2, beta1=1, range=c(.8, 1.2))
-p_rope.lm(n=100, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2))
 ```
 In the above example, the proportion of the sampled posterior distribution that falls within the ROPE is returned, which works well with the `sig.level` argument coupled with `sig.direction = 'above')` in `Spower()` to define a suitable accept/reject cut-off. Specifically, if `sig.level = .95` and `sig.direction = 'above')` then the ROPE will only be accepted when the percentage of the posterior that falls within the defined ROPE is greater than 95%. This can of course be performed manually instead, returning a `TRUE` when satisfied and `FALSE` otherwise.
 

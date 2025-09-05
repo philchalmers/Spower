@@ -29,12 +29,20 @@
 #'      target ratio \eqn{q = \beta/\alpha} (argument \code{beta_alpha})}
 #' }
 #'
-#' Prospective and compromise analyses utilize the
-#' \code{\link[SimDesign]{runSimulation}} function, while the remaining three
-#' approaches utilize the stochastic root solving methods in the function
-#' \code{\link[SimDesign]{SimSolve}}.
-#' See the example below for a demonstration with an independent samples t-test
-#' analysis.
+#'  To understand how the package is structured, the first expression in the \code{...} argument,
+#'  which contains the simulation experiment definition for a single sample,
+#'  is passed to either \code{\link[SimDesign]{SimSolve}} or
+#'  \code{\link[SimDesign]{runSimulation}} depending on which element (including
+#'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}. For instance,
+#'  \code{Spower(p_t.test(n=50, d=.5))} will perform a prospective/post-hoc power evaluation since
+#'  \code{power = NA} by default, while \code{Spower(p_t.test(n=NA, d=.5), power = .80)}
+#'  will perform an a priori power analysis to solve the missing \code{n} argument.
+#'
+#'  For expected power computations, the arguments to the simulation experiment arguments can
+#'  be specified as a function to reflect the prior uncertainty. For instance, if
+#'  \code{d_prior <- function() rnorm(1, mean=.5, sd=1/8)} then
+#'  \code{Spower(p_t.test(n=50, d=d_prior())} will compute the expected power
+#'  over the prior sampling distribution for \code{d}
 #'
 #' @param ... expression to use in the simulation that returns a \code{numeric}
 #'   vector containing either the p-value (under the null hypothesis), the
@@ -45,7 +53,7 @@
 #'   as 'significant' when evaluating the null hypothesis
 #'   (via p-values; \eqn{P(D|H_0)}),
 #'   where any returned p-value less that \code{sig.level} indicates significance.
-#'   However, if \code{sig.direction = 'greater'} then only values
+#'   However, if \code{sig.direction = 'above'} then only values
 #'   above \code{sig.level} are flagged as significant, which is useful
 #'   in Bayesian posterior probability contexts that focus on the alternative
 #'   hypothesis, \eqn{P(H_1|D)}.
@@ -54,34 +62,19 @@
 #'   evaluating regions of practical equivalence (ROPEs)), where the average of these
 #'   TRUE/FALSE vector corresponds to the empirical power.
 #'
-#'   Internally the first expression is passed to either \code{\link[SimDesign]{SimSolve}} or
-#'  \code{\link[SimDesign]{runSimulation}} depending on which element (including
-#'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}. For instance,
-#'  \code{Spower(p_t.test(n=50, d=.5))} will perform a prospective/post-hoc power evaluation since
-#'  \code{power = NA} by default, while \code{Spower(p_t.test(n=NA, d=.5), power = .80)}
-#'  will perform an a priori power analysis to solve the missing \code{n} argument.
-#'
-#'  For expected power computations the arguments to this expression can themselves
-#'  be specified as a function to reflect the prior uncertainty. For instance, if
-#'  \code{d_prior <- function() rnorm(1, mean=.5, sd=1/8)} then
-#'  \code{Spower(p_t.test(n=50, d=d_prior())} will compute the expected power
-#'  over the prior sampling distribution for \code{d}
-#'
 #' For \code{\link{SpowerCurve}} and \code{\link{SpowerBatch}},
 #' first expression input must be identical to \code{...} in
 #' \code{\link{Spower}}, while the remaining named inputs must match the arguments
 #' to this expression to indicate which variables should be modified in the
 #' resulting power curves. Providing \code{NA} values is also supported to
-#' solve the missing component
-#'
-#' Note that only the first three named arguments in \code{\link{SpowerCurve}}
-#' will be plotted using
+#' solve the missing component.  Note that only the first three named
+#' arguments in \code{\link{SpowerCurve}} will be plotted using
 #' the x-y, colour, and facet wrap aesthetics, respectively. However,
 #' if necessary the data can be extracted for further visualizations via
 #' \code{\link[ggplot2]{ggplot_build}} to provide more customized control
 #'
-#' @param power power level to use. If set to \code{NA} then the empirical power
-#'   will be estimated given the fixed \code{...} inputs
+#' @param power power level to use. If set to \code{NA} (default)
+#'   then the empirical power  will be estimated given the fixed \code{...} inputs
 #'   (e.g., for prospective/post-hoc power analysis). For
 #'   \code{\link{SpowerCurve}} and \code{\link{SpowerBatch}} this can be a vector
 #'
@@ -96,16 +89,17 @@
 #'   results post-analysis use \code{\link[SimDesign]{SimResults}} to allow manual
 #'   summarizing of the stored results (applicable only with prospective/post-hoc power)
 #'
-#' @param sig.level alpha level to use. If set to \code{NA} then the value will
+#' @param sig.level alpha level to use (default is \code{.05}). If set to \code{NA} then the value will
 #'   be estimated given the fixed \code{conditions} input
 #'   (e.g., for criterion power analysis). Only used when the value returned
-#'   from the experiment is a \code{numeric} (e.g., p-value or posterior probability).
+#'   from the experiment is a \code{numeric} (e.g., a p-value, or a
+#'   posterior probability; see \code{sig.direction}).
 #'
 #'   If the return of the supplied experiment is a
 #'   \code{logical} then this argument will be entirely ignored. As such,
-#'   an argument such as \code{conf.level} should be included
+#'   arguments such as \code{conf.level} should be included
 #'   in the simulation experiment definition itself
-#'   to indicate the explicit CI
+#'   to indicate the explicit inferential
 #'   criteria, and so that this argument can be manipulated should the need arise.
 #'
 #' @param sig.direction a character vector that is either \code{'below'}
@@ -118,7 +112,8 @@
 #'   flags a sample as 'significant' whenever the
 #'   posterior probability is greater than .95.
 #'
-#' @param interval search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
+#' @param interval required search interval to use when \code{\link[SimDesign]{SimSolve}} is called
+#'   to perform stochastic root solving.
 #'   Note that for compromise analyses, where the \code{sig.level} is set to
 #'   \code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}
 #'
@@ -144,11 +139,11 @@
 #'
 #'   If missing, automatically set to \code{FALSE} if \code{interval} contains
 #'   non-integer numbers or the range is less than 5, as well as
-#'   when \code{sig.level = NA}, though in general this should be set explicitly
+#'   when \code{sig.level = NA}
 #'
 #' @param beta_alpha (optional) ratio to use in compromise analyses corresponding to
 #'   the Type II errors (beta) over the Type I error (alpha). Ratios greater
-#'   than 1 indicate that Type I errors are worse than Type II, while ratios
+#'   than \eqn{q = \beta/\alpha = 1} indicate that Type I errors are worse than Type II, while ratios
 #'   less than one the opposite. A ratio equal to 1 gives an equal trade-off
 #'   between Type I and Type II errors
 #'
