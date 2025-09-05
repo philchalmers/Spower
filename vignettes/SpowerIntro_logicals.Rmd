@@ -30,7 +30,9 @@ if(!eval)
 getwd()
 ```
 
-The canonical way that *Spower* has been written by focusing primarily on $p$-values involving the null hypothesis to be tested ($P(X|H_0)$), or by focusing on posterior probability values in Bayesian contexts to evaluate the support for the alternative hypothesis ($P(H_1|X)$). The reason for setting the package up this way is so that the parameter $\alpha$ parameter (`sig.level`), or the posterior probability (`posterior.sig`), can be used internally as a "line-in-the-sand" threshold to flag whether a hypothesis was rejected (under the null hypothesis) or supported (under posterior probability of the alternative hypothesis setup through Bayesian analyses). However, it is often advantageous to directly return `logical` values direction in the simulation experiment rather than letting `Spower()` perform these threshold transformations as these can include more intricate experimental result requirements. 
+The canonical way that *Spower* has been written by focusing primarily on $p$-values involving the null hypothesis to be tested ($P(D|H_0)$), or by focusing on posterior probability values in Bayesian contexts to evaluate the support for the alternative hypothesis ($P(H_1|D)$). The reason for setting the package up this way is so that the parameter $\alpha$ parameter can be used as the "line-in-the-sand" threshold to flag whether a hypothesis was rejected (under the null hypothesis) or supported (under posterior probability of the alternative hypothesis setup through Bayesian analyses). 
+
+However, it is often advantageous to directly return `logical` values direction in the simulation experiment rather than letting `Spower()` perform these threshold transformations as these can include more intricate experimental result requirements. 
 
 # Logical vectors
 
@@ -284,12 +286,12 @@ p_rope.lm <- function(n, beta0, beta1, range, sigma=1, ...){
 p_rope.lm(n=20, beta0=2, beta1=1, range=c(.8, 1.2))
 p_rope.lm(n=100, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2))
 ```
-In the above example, the proportion of the sampled posterior distribution that falls within the ROPE is returned, which works well with the `posterior.sig` argument in `Spower()` to define a suitable accept/reject cut-off. Specifically, if `posterior.sig = .95` then the ROPE will only be accepted when the percentage of the posterior that falls within the defined ROPE is greater than 95%. This can of course be performed manullay instead, returning a `TRUE` when satisfied and `FALSE` otherwise.
+In the above example, the proportion of the sampled posterior distribution that falls within the ROPE is returned, which works well with the `sig.level` argument coupled with `sig.direction = 'above')` in `Spower()` to define a suitable accept/reject cut-off. Specifically, if `sig.level = .95` and `sig.direction = 'above')` then the ROPE will only be accepted when the percentage of the posterior that falls within the defined ROPE is greater than 95%. This can of course be performed manually instead, returning a `TRUE` when satisfied and `FALSE` otherwise.
 
 Below reports a power estimate given $N=50\times 2=100$, where the ROPE criteria is deemed satisfied/significant if 95% of the posterior distribution for the $\beta_1=1$ falls within the defined range of $1 \pm .2\rightarrow [.8,1.2]$.  Due to the slower execution speeds of the simulations the power evaluations are computed using `parallel=TRUE` to utilize all available cores.
 ```{r eval=eval}
 p_rope.lm(n=50, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |> 
-	Spower(posterior.sig=.95, parallel=TRUE)
+	Spower(sig.level=.95, sig.direction='above', parallel=TRUE)
 ```
 
 ```{r echo=FALSE}
@@ -301,7 +303,8 @@ print(ROPE.lm)
 Finally, to demonstrate why this might be useful, the following estimates the required sample size to achieve 80% power when using a 95% HDI-ROPE criteria.
 ```{r eval=eval}
 p_rope.lm(n=NA, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |> 
-	Spower(power=.80, posterior.sig=.95, interval=c(50, 200), parallel=TRUE)
+	Spower(power=.80, sig.level=.95, sig.direction='above',
+		   interval=c(50, 200), parallel=TRUE)
 ```
 
 

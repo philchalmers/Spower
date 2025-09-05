@@ -37,11 +37,11 @@ This vignette provides a brief introduction to using the package `Spower` for pr
 
 There are generally two-ways to go about using `Spower`; either by utilizing a handful of build-in simulation experiments with an associated analysis, or by constructing the simulation experiment yourself. In either case, the goal is to manipulate R code to perform a single simulation experiment and have the function return:
 
-- A suitable $p$-value under the null hypothesis, $P(X|H_0)$, where the value of `sig.level` ($\alpha$) indicates whether a sample was ($P(X|H_0)<\alpha$) or was not ($P(X|H_0)\ge\alpha$) significant,
-- The posterior probability of an alternative hypothesis, $P(H_1|X)$, which is deemed 'significant' if greater than the defined `posterior.sig` ($\gamma$) to indicate that a sample supported ($P(H_1|X)>\gamma$) or did not support ($P(H_1|X)\le\gamma$) the hypothesis of interest, or
+- A suitable $p$-value under the null hypothesis, $P(X|H_0)$, where the value of `sig.level` ($\alpha$) indicates whether a sample was ($P(D|H_0)<\alpha$) or was not ($P(D|H_0)\ge\alpha$) significant,
+- The posterior probability of an alternative hypothesis, $P(H_1|D)$, which is deemed 'significant' if greater than the defined `sig.level` to indicate that a sample supported ($P(H_1|D)>\alpha$) or did not support ($P(H_1|D)\le\alpha$) the hypothesis of interest (requires setting `sig.direction = 'above'`), or
 - A logical value indicating support for the hypothesis of interest (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving multiple hypothesis or regions or practical significance, etc)
 
-The package largely focuses on the first point as these are more common applications of power analysis, though nothing precludes the package from more complex power analysis tests and experiments. See the vignette *"Logical vectors and Bayesian power analyses"* for further examples involving CIs, ROPEs, equivalence tests, and Bayes Factors.
+The package largely focuses on the first point as these are more common applications of power analysis, though nothing precludes the package from more complex power analysis tests and experiments. See the vignette *"Logical vectors and Bayesian power analyses"* for further examples involving CIs, ROPEs, equivalence tests, precision tests, and Bayes Factors.
 
 ## Built-in experiements
 
@@ -61,19 +61,11 @@ if(eval) store$R2ex <- getLastSpower()
 print(store$R2ex)
 ```
 
-Each of these functions return a $p$-value as this is the general information required to evaluate statistical power with `Spower()`. Alternatively, users may define their own simulation functions if the desired experiment has not been defined within the package.
-
-Note that further information is stored in these objects as well, which can be coerced using `dplyr::as_tibble()` or further inspected via `summary()` for more detailed output.
-
-```{r eval=FALSE}
-# get last estimated result from Spower()
-last <- getLastSpower()
-dplyr::as_tibble(last)
-```
+Each of these functions return a $p$-value ($P(D|H_0$) as this is the general information required to evaluate statistical power with `Spower()`. Alternatively, users may define their own simulation functions if the desired experiment has not been defined within the package.
 
 ## User-defined functions
 
-As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(X|H_0$) is the probability of the data given the null hypothesis. While the package already supports this (see `help(p_t.test)`), users may write their own version of this experiment, one instance of which may look like the following.
+As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(D|H_0$) is the probability of the data given the null hypothesis. While the package already supports this (see `help(p_t.test)`), users may write their own version of this experiment, one instance of which may look like the following.
 
 ```{r}
 p_single.t <- function(n, mean, mu=0){
@@ -90,9 +82,9 @@ Using the defaults of this defined function evaluates whether a sample of data d
 p_single.t(n=100, mean=.2)
 ```
 
-Were the power analysis in the context of a Bayesian analysis, the conditional probability of the alternative, $P(H_1|X)$, can be used instead. However, for this to work with *Spower* the argument `posterior.sig` should be used (thereby ignoring `sig.level`). The purpose of `posterior.sig` is to evaluate whether the sample-based posterior probability favoring the hypothesis of interest is greater than this value, so for example `posterior.sig = .95` would indicate "significant" support for the hypothesis whenever the sample-based posterior probability is greater than 95%. 
+Were the power analysis in the context of a Bayesian analysis, the conditional probability of the alternative, $P(H_1|D)$, can be used instead. However, for this to work with *Spower* the argument `sig.direction = 'above'` should be used, where `sig.level` is used to flag significance above this set value. The purpose of using `sig.level` in this way is to evaluate whether the sample-based posterior probability favoring the hypothesis of interest is greater than this cut-off, so for example `sig.level = .95` would indicate "significant" support for the hypothesis whenever the sample-based posterior probability is greater than 95%. 
 
-Below is the Bayesian approach using the `BayesFactor` package, translating the Bayes factor output into a posterior probability and focusing on the alternative hypothesis (hence, the posterior probability returned is $P(\mu \ne 0|X)$). The following also assumes that the competing hypotheses are equally likely when obtaining the posterior probability (hence, prior odds are 1:1).
+Below is the Bayesian approach using the `BayesFactor` package, translating the Bayes factor output into a suitable posterior probability and focusing on the alternative hypothesis (hence, the posterior probability returned corresponds to $P(\mu \ne 0|D)$). The following also assumes that the competing hypotheses are equally likely when obtaining the posterior probability (hence, prior odds are 1:1).
 
 ```{r eval=eval}
 p_single.Bayes.t <- function(n, mean, mu=0){
@@ -100,7 +92,7 @@ p_single.Bayes.t <- function(n, mean, mu=0){
 	res <- BayesFactor::ttestBF(g, mu=mu)	
 	bf <- exp(as.numeric(res@bayesFactor[1])) # Bayes factor
 	posterior <- bf / (bf + 1)   # assuming hypotheses are equally likely
-	posterior   # P(H_1|X)
+	posterior   # P(H_1|D)
 }
 ```
 
@@ -128,7 +120,7 @@ For the Bayesian $t$-test definition defined above, where "significance" in this
 ```{r eval=eval}
 # power when the cut-off for a significantly supportive posterior is > 0.90
 p_single.Bayes.t(n=100, mean=.5, mu=.3) |> 
-	Spower(posterior.sig = .90)
+	Spower(sig.level = .90, sig.direction = 'above')
 ```
 
 ```{r echo=FALSE}

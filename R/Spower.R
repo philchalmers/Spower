@@ -41,12 +41,16 @@
 #'   probability of the alternative hypothesis in the Bayesian setting,
 #'   where the first numeric value
 #'   in this vector is treated as the focus for all analyses other than prospective/post-hoc power.
-#'   This value is compared to the \code{alpha} value and flagged as 'significant'/supportive
-#'   of the alternative hypothesis when less than \code{alpha}, or when
-#'   \code{posterior.sig} is defined the value is flagged as 'significant' when greater
-#'   than this cut-off.
+#'   This corresponds to the \code{alpha} value used to flag samples
+#'   as 'significant' when evaluating the null hypothesis
+#'   (via p-values; \eqn{P(D|H_0)}),
+#'   where any returned p-value less that \code{sig.level} indicates significance.
+#'   However, if \code{sig.direction = 'greater'} then only values
+#'   above \code{sig.level} are flagged as significant, which is useful
+#'   in Bayesian posterior probability contexts that focus on the alternative
+#'   hypothesis, \eqn{P(H_1|D)}.
 #'
-#'   Similarly, a \code{logical} vector can be returned (e.g., when using confidence intervals (CIs) or
+#'   Alternatively, a \code{logical} vector can be returned (e.g., when using confidence intervals (CIs) or
 #'   evaluating regions of practical equivalence (ROPEs)), where the average of these
 #'   TRUE/FALSE vector corresponds to the empirical power.
 #'
@@ -92,30 +96,27 @@
 #'   results post-analysis use \code{\link[SimDesign]{SimResults}} to allow manual
 #'   summarizing of the stored results (applicable only with prospective/post-hoc power)
 #'
-#' @param sig.level alpha level to use. If set to \code{NA} then the empirical
-#'   alpha will be estimated given the fixed \code{conditions} input
+#' @param sig.level alpha level to use. If set to \code{NA} then the value will
+#'   be estimated given the fixed \code{conditions} input
 #'   (e.g., for criterion power analysis). Only used when the value returned
-#'   from the experiment is a \code{numeric} (p-value). Ignored when
-#'   \code{posterior.sig} is used
+#'   from the experiment is a \code{numeric} (e.g., p-value or posterior probability).
 #'
 #'   If the return of the supplied experiment is a
-#'   \code{logical}, which generally indicates that a confidence interval (CI)
-#'   approach were used,
-#'   then this argument will be entirely ignored. As such,
+#'   \code{logical} then this argument will be entirely ignored. As such,
 #'   an argument such as \code{conf.level} should be included
-#'   in the simulation experiment definition to indicate the explicit CI
-#'   criteria, and so that this argument can be manipulated as well
+#'   in the simulation experiment definition itself
+#'   to indicate the explicit CI
+#'   criteria, and so that this argument can be manipulated should the need arise.
 #'
-#' @param posterior.sig If the experiment returns a posterior probability
-#'   values instead of a p-value then this argument is used to evaluate the
-#'   cutoff significance of the posterior probability.
-#'   Cutoff for the Bayesian posterior probabilities corresponds to the
-#'   strength of the evidence for the hypothesis of interest, and
-#'   therefore \code{posterior.sig = .95} would indicate
-#'   the threshold of very strong evidence for the sample at hand. This
-#'   works similarly to \code{sig.level}, however rather than rejecting the null
-#'   hypothesis this focuses on acceptance of the hypothesis of interest. Using this
-#'   argument will also ignore \code{sig.level} as it is not required
+#' @param sig.direction a character vector that is either \code{'below'}
+#'   (default) or \code{'above'} to indicate which direction relative to
+#'   code{sig.level} is considered significant. This is useful, for instance,
+#'    when forming cutoffs for Bayesian
+#'   posterior probabilities organized to show support
+#'   for the hypothesis of interest (\eqn{P(H_1|D)}). As an example,
+#'   setting \code{sig.level = .95} with \code{sig.direction = 'above'}
+#'   flags a sample as 'significant' whenever the
+#'   posterior probability is greater than .95.
 #'
 #' @param interval search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
 #'   Note that for compromise analyses, where the \code{sig.level} is set to
@@ -433,13 +434,14 @@
 #'
 #' }
 Spower <- function(..., power = NA, sig.level=.05, interval,
-				   beta_alpha, posterior.sig = NULL,
+				   beta_alpha, sig.direction = 'below',
 				   replications=10000, integer,
 				   parallel = FALSE, cl = NULL, packages = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = FALSE, maxiter=150, wait.time = NULL,
 				   lastSpower = NULL, select = NULL, control = list()){
+	stopifnot(sig.direction %in% c('below', 'above'))
 	if(missing(beta_alpha)) beta_alpha <- NULL
 	if(!is.null(cl)) parallel <- TRUE
 	control$useAnalyseHandler <- FALSE
@@ -471,7 +473,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 		predCI.tol <- NULL
 	}
 	summarise <- Internal_Summarise
-	fixed_objects <- list(sig.level=sig.level, posterior.sig=posterior.sig)
+	fixed_objects <- list(sig.level=sig.level, sig.direction=sig.direction)
 	expr <- match.call(expand.dots = FALSE)$...[[1]]
 	expr <- match.call(eval(expr[[1]], envir = pf), expr)
 	if(!is.null(expr[-1])){
@@ -486,15 +488,9 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	fixed_objects$parent_frame <- pf
 	stopifnot(is.null(select) || is.character(select))
 	fixed_objects$select <- select
-	if(is.null(posterior.sig)){
-		if((is.na(power) + is.na(sig.level) + length(pick)) != 1)
-			stop('Exactly *one* argument must be set to \'NA\' in Spower(..., power, sig.level)',
-				 call.=FALSE)
-	} else {
-		if((is.na(power) + is.na(posterior.sig) + length(pick)) != 1)
-			stop('Exactly *one* argument must be set to \'NA\' in Spower(..., power, posterior.sig)',
-				 call.=FALSE)
-	}
+	if((is.na(power) + is.na(sig.level) + length(pick)) != 1)
+		stop('Exactly *one* argument must be set to \'NA\' in Spower(..., power, sig.level)',
+			 call.=FALSE)
 	lst_expr <- as.list(expr)[-1]
 	if(length(lst_expr))
 		lst_expr <- lst_expr[sapply(lst_expr, \(x) is.atomic(x) || is.list(x))]
@@ -580,13 +576,6 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 							   beta_alpha=beta_alpha, expected=FALSE)
 	class(ret) <- c('Spower', class(ret))
 	.SpowerEnv$lastSim <- ret
-	if(!is.null(posterior.sig)){
-		ret$sig.level <-
-			attr(ret, 'Spower_extra')$conditions$sig.level <- posterior.sig
-		colnames(ret)[colnames(ret) == "sig.level"] <- "posterior.sig"
-		colnames(attr(ret, 'Spower_extra')$conditions)[
-			colnames(attr(ret, 'Spower_extra')$conditions) == "sig.level"] <- "posterior.sig"
-	}
 	if(verbose){
 		print(ret)
 		return(invisible(ret))
@@ -599,8 +588,6 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 	if(length(pick))
 		fixed_objects$expr[pick] <- condition[pick]
 	ret <- eval(fixed_objects$expr, envir = fixed_objects$parent_frame)
-	if(!is.null(fixed_objects$posterior.sig))
-		ret[!is.logical(ret)] <- ret[!is.logical(ret)] < fixed_objects$posterior.sig
 	if(any(is.logical(ret)))
 		ret[is.logical(ret)] <- as.integer(!ret[is.logical(ret)])
 	ret

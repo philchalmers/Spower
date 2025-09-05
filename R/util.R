@@ -78,6 +78,7 @@ Internal_Summarise <- function(condition, results, fixed_objects) {
 		results <- results[ ,fixed_objects$select, drop=FALSE]
 	results <- as.matrix(results)
 	ret <- c(power = SimDesign::EDR(results[,1], alpha = condition$sig.level, unname=TRUE))
+	if(fixed_objects$sig.direction == 'above') ret[1] <- 1 - ret[1]
 	ret
 }
 
@@ -85,8 +86,9 @@ Internal_Summarise.Full <- function(condition, results, fixed_objects) {
 	if(!is.null(fixed_objects$select))
 		results <- results[ ,fixed_objects$select, drop=FALSE]
 	results <- as.matrix(results)
-	ret<- c(power = SimDesign::EDR(results, alpha = condition$sig.level,
-						unname=ifelse(ncol(results) > 1, FALSE, TRUE)))
+	ret <- c(power = SimDesign::EDR(results, alpha = condition$sig.level,
+									unname=ifelse(ncol(results) > 1, FALSE, TRUE)))
+	if(fixed_objects$sig.direction == 'above') ret <- 1 - ret
 	ret
 }
 

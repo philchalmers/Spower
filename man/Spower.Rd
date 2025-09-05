@@ -16,7 +16,7 @@ Spower(
   sig.level = 0.05,
   interval,
   beta_alpha,
-  posterior.sig = NULL,
+  sig.direction = "below",
   replications = 10000,
   integer,
   parallel = FALSE,
@@ -92,12 +92,16 @@ vector containing either the p-value (under the null hypothesis), the
 probability of the alternative hypothesis in the Bayesian setting,
 where the first numeric value
 in this vector is treated as the focus for all analyses other than prospective/post-hoc power.
-This value is compared to the \code{alpha} value and flagged as 'significant'/supportive
-of the alternative hypothesis when less than \code{alpha}, or when
-\code{posterior.sig} is defined the value is flagged as 'significant' when greater
-than this cut-off.
+This corresponds to the \code{alpha} value used to flag samples
+as 'significant' when evaluating the null hypothesis
+(via p-values; \eqn{P(D|H_0)}),
+where any returned p-value less that \code{sig.level} indicates significance.
+However, if \code{sig.direction = 'greater'} then only values
+above \code{sig.level} are flagged as significant, which is useful
+in Bayesian posterior probability contexts that focus on the alternative
+hypothesis, \eqn{P(H_1|D)}.
 
-Similarly, a \code{logical} vector can be returned (e.g., when using confidence intervals (CIs) or
+Alternatively, a \code{logical} vector can be returned (e.g., when using confidence intervals (CIs) or
 evaluating regions of practical equivalence (ROPEs)), where the average of these
 TRUE/FALSE vector corresponds to the empirical power.
 
@@ -132,19 +136,17 @@ will be estimated given the fixed \code{...} inputs
 (e.g., for prospective/post-hoc power analysis). For
 \code{\link{SpowerCurve}} and \code{\link{SpowerBatch}} this can be a vector}
 
-\item{sig.level}{alpha level to use. If set to \code{NA} then the empirical
-alpha will be estimated given the fixed \code{conditions} input
+\item{sig.level}{alpha level to use. If set to \code{NA} then the value will
+be estimated given the fixed \code{conditions} input
 (e.g., for criterion power analysis). Only used when the value returned
-from the experiment is a \code{numeric} (p-value). Ignored when
-\code{posterior.sig} is used
+from the experiment is a \code{numeric} (e.g., p-value or posterior probability).
 
 If the return of the supplied experiment is a
-\code{logical}, which generally indicates that a confidence interval (CI)
-approach were used,
-then this argument will be entirely ignored. As such,
+\code{logical} then this argument will be entirely ignored. As such,
 an argument such as \code{conf.level} should be included
-in the simulation experiment definition to indicate the explicit CI
-criteria, and so that this argument can be manipulated as well}
+in the simulation experiment definition itself
+to indicate the explicit CI
+criteria, and so that this argument can be manipulated should the need arise.}
 
 \item{interval}{search interval to use when \code{\link[SimDesign]{SimSolve}} is required.
 Note that for compromise analyses, where the \code{sig.level} is set to
@@ -156,16 +158,15 @@ than 1 indicate that Type I errors are worse than Type II, while ratios
 less than one the opposite. A ratio equal to 1 gives an equal trade-off
 between Type I and Type II errors}
 
-\item{posterior.sig}{If the experiment returns a posterior probability
-values instead of a p-value then this argument is used to evaluate the
-cutoff significance of the posterior probability.
-Cutoff for the Bayesian posterior probabilities corresponds to the
-strength of the evidence for the hypothesis of interest, and
-therefore \code{posterior.sig = .95} would indicate
-the threshold of very strong evidence for the sample at hand. This
-works similarly to \code{sig.level}, however rather than rejecting the null
-hypothesis this focuses on acceptance of the hypothesis of interest. Using this
-argument will also ignore \code{sig.level} as it is not required}
+\item{sig.direction}{a character vector that is either \code{'below'}
+(default) or \code{'above'} to indicate which direction relative to
+code{sig.level} is considered significant. This is useful, for instance,
+when forming cutoffs for Bayesian
+posterior probabilities organized to show support
+for the hypothesis of interest (\eqn{P(H_1|D)}). As an example,
+setting \code{sig.level = .95} with \code{sig.direction = 'above'}
+flags a sample as 'significant' whenever the
+posterior probability is greater than .95.}
 
 \item{replications}{number of replications to use when
 \code{\link[SimDesign]{runSimulation}} is required. Default is 10000,
