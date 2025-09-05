@@ -30,13 +30,45 @@ if(!eval)
 getwd()
 ```
 
-The canonical way that *Spower* has been written by focusing primarily on $p$-values involving the null hypothesis to be tested ($P(D|H_0)$), or by focusing on posterior probability values in Bayesian contexts to evaluate the support for the alternative hypothesis ($P(H_1|D)$). The reason for setting the package up this way is so that the parameter $\alpha$ parameter can be used as the "line-in-the-sand" threshold to flag whether a hypothesis was rejected (under the null hypothesis) or supported (under posterior probability of the alternative hypothesis setup through Bayesian analyses). 
+# Posterior probability criteria (Bayesian power analysis)
 
-However, it is often advantageous to directly return `logical` values direction in the simulation experiment rather than letting `Spower()` perform these threshold transformations as these can include more intricate experimental result requirements. 
+The canonical way that *Spower* has been written by focusing primarily on $p$-values involving the null hypothesis to be tested ($P(D|H_0)$). The reason for setting the package up this way is so that the parameter $\alpha$ parameter can be used as the "line-in-the-sand" threshold to flag whether a hypothesis was rejected (under the null hypothesis) as this behaviour is common among popular power analysis software. 
 
-# Logical vectors
+However, Bayesian power analysis are also supported by the package, where for instance the posterior probability of the alternative hypothesis, $P(H_1|D)$, is the outcome of the simulation experiment. Below we demonstrate how to use *Spower* in this context. See the next section regarding similar approaches that rely on Bayes Factors instead.
 
-This vignette showcases various ways that returning `logical` values works in the `Spower` package. Note that returning a logical in the simulation experiment necessarily means that the `sig.level` argument in `Spower()` and friends will not be used.
+Continuing with the simple one-sample $t$-test example in the introduction vignette, were the power analysis context be that of a Bayesian analysis the conditional probability of the alternative, $P(H_1|D)$, may be used instead. However, for this to work with *Spower* the argument `sig.direction = 'above'` should be used, where `sig.level` now indicts that "significance" only occurs when an observation is above this cutoff. For example, if the simulation experiment returns a posterior probability $H_1$, $P(H_1|D)$, then `sig.level = .90` would indicate "significant" support for the hypothesis whenever the sample-based posterior probability is greater than `0.90`. 
+
+Below is the Bayesian approach using the `BayesFactor` package, translating the Bayes factor output into a suitable posterior probability and focusing on the alternative hypothesis (hence, the posterior probability returned corresponds to $P(\mu \ne 0|D)$). The following also assumes that the competing hypotheses are equally likely when obtaining the posterior probability (hence, prior odds are 1:1).
+
+```{r eval=eval}
+p_single.Bayes.t <- function(n, mean, mu=0){
+	g <- rnorm(n, mean=mean)
+	res <- BayesFactor::ttestBF(g, mu=mu)	
+	bf <- exp(as.numeric(res@bayesFactor[1])) # Bayes factor
+	posterior <- bf / (bf + 1)   # assuming hypotheses are equally likely
+	posterior   # P(H_1|D)
+}
+```
+
+For the Bayesian $t$-test definition defined above, where "significance" in this context is flagged whenever the sample posterior is greater than .90 in support of $H_1$, which in this example corresponds to $H_1:\,\mu\ne \mu_0$, where $\mu=.5$ and $\mu_0=0$. Note that this is a more strict criteria than the null hypothesis criteria presented in the introduction vignette, and therefore has notably lower power.
+
+```{r eval=eval}
+# power when the cut-off for a significantly supportive posterior is > 0.90
+p_single.Bayes.t(n=100, mean=.5, mu=.3) |> 
+	Spower(sig.level = .90, sig.direction = 'above')
+```
+
+```{r echo=FALSE}
+if(eval) store$prospectiveBayes <- getLastSpower()
+prospectiveBayes <- store$prospectiveBayes
+print(prospectiveBayes)
+```
+
+With this approach, the five describe power analysis criteria available through `Spower()` are now entirely possible, and therefore solving other components (such as the sample size `n`) are easy to setup.
+
+# Logical returns 
+
+In many applications, it can be advantageous to directly return `logical` values direction in the simulation experiment rather than letting `Spower()` perform these threshold transformations as these can include more intricate experimental result requirements. The following showcases various ways that returning `logical` values works in the `Spower` package. Note that returning a logical in the simulation experiment necessarily means that the `sig.level` argument in `Spower()` and friends will not be used, and therefore suitable alternatives will have to be defined within the context of the simulation experiement code (e.g., including `conf.level`).
 
 ## Confidence (and credible) intervals
 

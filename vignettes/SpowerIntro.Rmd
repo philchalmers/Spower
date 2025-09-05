@@ -38,7 +38,7 @@ This vignette provides a brief introduction to using the package `Spower` for pr
 There are generally two-ways to go about using `Spower`; either by utilizing a handful of build-in simulation experiments with an associated analysis, or by constructing the simulation experiment yourself. In either case, the goal is to manipulate R code to perform a single simulation experiment and have the function return:
 
 - A suitable $p$-value under the null hypothesis, $P(X|H_0)$, where the value of `sig.level` ($\alpha$) indicates whether a sample was ($P(D|H_0)<\alpha$) or was not ($P(D|H_0)\ge\alpha$) significant,
-- The posterior probability of an alternative hypothesis, $P(H_1|D)$, which is deemed 'significant' if greater than the defined `sig.level` to indicate that a sample supported ($P(H_1|D)>\alpha$) or did not support ($P(H_1|D)\le\alpha$) the hypothesis of interest (requires setting `sig.direction = 'above'`), or
+- The posterior probability of an alternative hypothesis, $P(H_1|D)$, which is deemed 'significant' if greater than the defined `sig.level` to indicate that a sample supported ($P(H_1|D)>\alpha$) or did not support ($P(H_1|D)\le\alpha$) the hypothesis of interest (requires setting `Spower(..., sig.direction = 'above')`), or
 - A logical value indicating support for the hypothesis of interest (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving multiple hypothesis or regions or practical significance, etc)
 
 The package largely focuses on the first point as these are more common applications of power analysis, though nothing precludes the package from more complex power analysis tests and experiments. See the vignette *"Logical vectors and Bayesian power analyses"* for further examples involving CIs, ROPEs, equivalence tests, precision tests, and Bayes Factors.
@@ -82,20 +82,6 @@ Using the defaults of this defined function evaluates whether a sample of data d
 p_single.t(n=100, mean=.2)
 ```
 
-Were the power analysis in the context of a Bayesian analysis, the conditional probability of the alternative, $P(H_1|D)$, can be used instead. However, for this to work with *Spower* the argument `sig.direction = 'above'` should be used, where `sig.level` is used to flag significance above this set value. The purpose of using `sig.level` in this way is to evaluate whether the sample-based posterior probability favoring the hypothesis of interest is greater than this cut-off, so for example `sig.level = .95` would indicate "significant" support for the hypothesis whenever the sample-based posterior probability is greater than 95%. 
-
-Below is the Bayesian approach using the `BayesFactor` package, translating the Bayes factor output into a suitable posterior probability and focusing on the alternative hypothesis (hence, the posterior probability returned corresponds to $P(\mu \ne 0|D)$). The following also assumes that the competing hypotheses are equally likely when obtaining the posterior probability (hence, prior odds are 1:1).
-
-```{r eval=eval}
-p_single.Bayes.t <- function(n, mean, mu=0){
-	g <- rnorm(n, mean=mean)
-	res <- BayesFactor::ttestBF(g, mu=mu)	
-	bf <- exp(as.numeric(res@bayesFactor[1])) # Bayes factor
-	posterior <- bf / (bf + 1)   # assuming hypotheses are equally likely
-	posterior   # P(H_1|D)
-}
-```
-
 # Types of power analyses to evaluate
 
 For power analyses there are typically four parameters that are/can be manipulated or solved in a given experiment: the $\alpha$ level (Type I error, often reflexively set to $\alpha=.05$), power (the complement of the Type II error, $1-\beta$), an effect size of interest, and the sample size. Given three of these values, the fourth can always be solved. Note that this description reflects a rule-of-thumb as there may be multiple effect sizes of interest, multiple sample sizes (e.g., in the form of cluster sizes in multi-level models), and so on. In `Spower()` switching between these types of power analysis criteria is done simply by explicitly specifying which parameter is missing (`NA`), as demonstrated below.
@@ -115,19 +101,6 @@ prospective <- store$prospective
 print(prospective)
 ```
 
-For the Bayesian $t$-test definition defined above, where "significance" in this context is flagged whenever the sample posterior is greater than .90 in support of $H_1$. Note that this is a more strict criteria than the null hypothesis criteria above, and therefore has lower power.
-
-```{r eval=eval}
-# power when the cut-off for a significantly supportive posterior is > 0.90
-p_single.Bayes.t(n=100, mean=.5, mu=.3) |> 
-	Spower(sig.level = .90, sig.direction = 'above')
-```
-
-```{r echo=FALSE}
-if(eval) store$prospectiveBayes <- getLastSpower()
-prospectiveBayes <- store$prospectiveBayes
-print(prospectiveBayes)
-```
 
 
 ## Compromise power analysis
