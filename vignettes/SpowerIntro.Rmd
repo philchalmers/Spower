@@ -31,17 +31,17 @@ getwd()
 ```
 
 
-This vignette provides a brief introduction to using the package `Spower` for prospective/post-hoc, a priori, sensitivity, criterion, and compromise power analyses. For a more detailed description of the package refer to associated publication (Chalmers, in press) as well as the documentation found within the functions, particularly `Spower()`, `SpowerBatch()`, and `SpowerCurve()`.
+This vignette provides a brief introduction to using the package `Spower` for prospective/post-hoc, a priori, sensitivity, criterion, and compromise power analyses. For a more detailed description of the package structure and philosophy please refer to associated publication (Chalmers, in press), as well as the documentation found within the functions; particularly, `Spower()`, `SpowerBatch()`, and `SpowerCurve()`.
 
 # Types of functions
 
 There are generally two-ways to go about using `Spower`; either by utilizing a handful of build-in simulation experiments with an associated analysis, or by constructing the simulation experiment yourself. In either case, the goal is to manipulate R code to perform a single simulation experiment and have the function return:
 
-- A suitable $p$-value under the null hypothesis, $P(X|H_0)$, where the value of `sig.level` ($\alpha$) indicates whether a sample was ($P(D|H_0)<\alpha$) or was not ($P(D|H_0)\ge\alpha$) significant,
+- A suitable $p$-value under the null hypothesis, $P(D|H_0)$, where the value of `sig.level` ($\alpha$) indicates whether a sample was ($P(D|H_0)<\alpha$) or was not ($P(D|H_0)\ge\alpha$) significant,
 - The posterior probability of an alternative hypothesis, $P(H_1|D)$, which is deemed 'significant' if greater than the defined `sig.level` to indicate that a sample supported ($P(H_1|D)>\alpha$) or did not support ($P(H_1|D)\le\alpha$) the hypothesis of interest (requires setting `Spower(..., sig.direction = 'above')`), or
-- A logical value indicating support for the hypothesis of interest (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving multiple hypothesis or regions or practical significance, etc)
+- A logical value indicating support for the hypothesis of interest (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving precision, multiple hypothesis, regions of practical significance, etc)
 
-The package largely focuses on the first point as these are more common applications of power analysis, though nothing precludes the package from more complex power analysis tests and experiments. See the vignette *"Bayesian power analyses and logical vector returns"* for further examples involving CIs, ROPEs, equivalence tests, precision tests, and Bayes Factors.
+The package defaults primarily focus on the first approach, as this is the most common approach for power analysis evaluation, however nothing precludes the `Spower` from more complex power analysis tests and experiments. See the vignette *"Bayesian power analyses and logical vector returns"* for further examples involving confidence intervals (CIs), regions of practical equivalences (ROPEs), equivalence tests, precision tests, and Bayes Factors.
 
 ## Built-in experiements
 
@@ -65,7 +65,7 @@ Each of these functions return a $p$-value ($P(D|H_0$) as this is the general in
 
 ## User-defined functions
 
-As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(D|H_0$) is the probability of the data given the null hypothesis. While the package already supports this (see `help(p_t.test)`), users may write their own version of this experiment, one instance of which may look like the following.
+As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(D|H_0$) is the probability of the data given the null hypothesis. Note that while the package already supports this type of analysis (see `help(p_t.test)`) it is instructive for users to see how they can write their own version of this experiment as this will help in defining simulation experiments that are not currently defined in the R ecosystem.
 
 ```{r}
 p_single.t <- function(n, mean, mu=0){
@@ -75,12 +75,16 @@ p_single.t <- function(n, mean, mu=0){
 }
 ```
 
-Using the defaults of this defined function evaluates whether a sample of data drawn from a Gaussian distribution with some specific `mean` ($\mu$) differs from the value of $mu = 0$ ($\mu_0$). Hence, the $p$-value returned from this experiments reflects the null hypothesis $H_0:\, \mu=\mu_0$, or more specifically $H_0:\, \mu=0$, for a single generated dataset.
+Using the defaults of this defined in this function, the simulation experiement code will first obtain sample of data drawn from a Gaussian distribution with some specific `mean` ($\mu$), and evaluates the probability that the data were generated from a population with a $\mu_0=0$ (the null; hence, $P(D|\mu_0)$). As sch, the $p$-value returned from this experiments reflects the probability of the null hypothesis $H_0:\, \mu=\mu_0$, or more specifically $H_0:\, \mu=0$, for a single generated dataset.
 
 ```{r}
 # a single experiment
 p_single.t(n=100, mean=.2)
 ```
+
+For here, a suitable cut-off is required to evaluate whether the experiment was 'significant', which is the purpose of the parameter $\alpha$. Specifically, if the observed data ($D$) were plausibly drawn from a population with $\mu_0$ (hence, $P(D|\mu_0) \ge \alpha$) then a `FALSE` significance would be returned; otherwise, if the null were unlikely to be true ($P(D|\mu_0) < \alpha$) then a `TRUE` would be returned, thereby indicating significance. 
+
+For convenience, and for the purpose of other types of specialized power analyses (e.g., compromise analyses), the $\alpha$ parameter has been controlled via the argument `Spower(..., sig.level = .05)`, which creates the `TRUE/FALSE` evaluations internally. This of course saves a step in the writing, but if users wished to defined `sig.level` within the simulation experiment itself that is an acceptable approach too.
 
 # Types of power analyses to evaluate
 
