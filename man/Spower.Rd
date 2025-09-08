@@ -47,6 +47,7 @@ SpowerBatch(
   sig.direction = "below",
   replications = 10000,
   integer,
+  fully.crossed = TRUE,
   parallel = FALSE,
   cl = NULL,
   ncores = parallelly::availableCores(omit = 1L),
@@ -219,6 +220,10 @@ summarizing of the stored results (applicable only with prospective/post-hoc pow
 
 \item{x}{object of class \code{'Spower'}. If \code{\link{SpowerBatch}} were used
 the this will be a \code{list}}
+
+\item{fully.crossed}{logical; should the supplied conditions to
+\code{SpowerBatch} be fully crossed? Passed to the same
+argument documented in \code{\link[SimDesign]{createDesign}}}
 
 \item{plotCI}{logical; include confidence/prediction intervals in plots?}
 
@@ -564,6 +569,12 @@ ndbatch
 
 # plot with SpowerCurve()
 SpowerCurve(batch=ndbatch)
+
+# For non-crossed experimental combinations, pass fully.crossed = FALSE. Note
+# that this requires the lengths of the inputs to match
+p_t.test() |> SpowerBatch(n=c(30, 90, 270),
+           d=c(.2, .5, .8), replications=1000, fully.crossed=FALSE) -> batch3
+
 
 }
 

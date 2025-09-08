@@ -178,17 +178,11 @@ G\*power gives the power estimate of .800.
 The following partially recreates the simulation results in Figure 29 (which itself was partially extracted from Shieh, Jan, and Randles, 2007) for the *Gaussian(0,1)* distribution with varying sample sizes and effect sizes. The target was to obtain "approximate power of $1-\beta = .80$", though how these sample sizes were decided upon was not specified. `Spower()`'s stochastic root-solving approach would likely get closer to more optimal $N$ estimates were these the target of the analyses.
 
 ```{r}
-combos <- data.frame(n=c(649, 164, 42, 20, 12, 9),
-					 d=c(.1, .2, .4, .6, .8, 1.0))
-
-out <- lapply(1:nrow(combos), \(i){
-	p_wilcox.test(n=combos$n[i], d=combos$d[i], 
-				  type='one.sample', two.tailed=FALSE) |> Spower(replications = 50000)
-})
-
 # For Gaussian(0,1)
-combos$power <- sapply(out, \(x) x$power)
-combos
+out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |> 
+	SpowerBatch(n=c(649, 164, 42, 20, 12, 9),
+				d=c(.1, .2, .4, .6, .8, 1.0), replications = 50000, fully.crossed=FALSE)
+as.data.frame(out)
 ```
 
 
@@ -213,17 +207,12 @@ G\*power gives the estimate .830, which seems somewhat high (see below).
 The following partially recreates the simulation results in Figure 29 for the *Laplace(0,1)* distribution with varying sample sizes and effect sizes. The target was to obtain "approximate power of $1-\beta = .80$", though how these sample sizes were decided upon was not specified. `Spower()`'s stochastic root-solving approach would likely get closer to more optimal $N$ estimates were these the target of the analyses.
 
 ```{r}
-combos <- data.frame(n=c(419, 109, 31, 16, 11, 8),
-						  d=c(.1, .2, .4, .6, .8, 1.0))
-
-out <- lapply(1:nrow(combos), \(i){
-	p_wilcox.test(n=combos$n[i], d=combos$d[i], parent1=parent, type='one.sample',
-			  two.tailed=FALSE, correct = FALSE) |> Spower(replications = 50000)
-})
-
 # For Laplace(0,1)
-combos$power <- sapply(out, \(x) x$power)
-combos
+out <- p_wilcox.test(parent1=parent, type='one.sample',
+			  two.tailed=FALSE, correct = FALSE) |> 
+	SpowerBatch(n=c(419, 109, 31, 16, 11, 8),
+				d=c(.1, .2, .4, .6, .8, 1.0), replications=50000, fully.crossed=FALSE)
+as.data.frame(out)
 ```
 
 
@@ -365,7 +354,7 @@ p_glm(formula=y~X*S, test="X:S = 0",
 	Spower(power=.8, interval=c(100, 1000))
 ```
 
-G*Power gives the estimate for $n$ to be 163 (and therefore 256 in the second group given $n2_n1$). 
+G*Power gives the estimate for $n$ to be 163 (and therefore 256 in the second group given the `n2_n1`). 
 
 # Variance tests
 

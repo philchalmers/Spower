@@ -8,6 +8,11 @@
 #' \code{\link{SpowerCurve}} for further examples).
 #'
 #' @rdname Spower
+#'
+#' @param fully.crossed logical; should the supplied conditions to
+#'   \code{SpowerBatch} be fully crossed? Passed to the same
+#'   argument documented in \code{\link[SimDesign]{createDesign}}
+#'
 #' @export
 #'
 #' @examples
@@ -40,12 +45,18 @@
 #' # plot with SpowerCurve()
 #' SpowerCurve(batch=ndbatch)
 #'
+#' # For non-crossed experimental combinations, pass fully.crossed = FALSE. Note
+#' # that this requires the lengths of the inputs to match
+#' p_t.test() |> SpowerBatch(n=c(30, 90, 270),
+#'            d=c(.2, .5, .8), replications=1000, fully.crossed=FALSE) -> batch3
+#'
+#'
 #' }
 #'
 #'
 SpowerBatch <- function(..., interval = NULL, power = NA,
 						sig.level=.05, beta_alpha = NULL, sig.direction = 'below',
-						replications=10000, integer,
+						replications=10000, integer, fully.crossed = TRUE,
 						parallel = FALSE, cl = NULL,
 						ncores = parallelly::availableCores(omit = 1L),
 						predCI = 0.95, predCI.tol = .01, verbose = TRUE,
@@ -61,7 +72,8 @@ SpowerBatch <- function(..., interval = NULL, power = NA,
 	expr <- match.call(eval(expr[[1]], envir = parent.frame(1)), expr)
 	pick <- if(length(dots) > 1) names(dots[-1]) else NULL
 	if(all(is.na(power))){
-		conditions <- do.call(SimDesign::createDesign, c(dots[-1], sig.level=sig.level, power=power))
+		conditions <- do.call(SimDesign::createDesign, c(dots[-1], sig.level=sig.level, power=power,
+														 fully.crossed=fully.crossed))
 	} else {
 		if(is.null(interval))
 			stop('search interval must be included', call.=FALSE)
@@ -71,7 +83,8 @@ SpowerBatch <- function(..., interval = NULL, power = NA,
 		conditions <- do.call(SimDesign::createDesign, c(lst_expr,
 														 dots[-1],
 														 sig.level=list(sig.level),
-														 power=list(power)))
+														 power=list(power),
+														 fully.crossed=fully.crossed))
 	}
 	if(!all(rowSums(is.na(conditions)) == 1))
 		stop('Exactly *one* argument must be set to \'NA\' in SpowerBatch(..., power, sig.level)',
