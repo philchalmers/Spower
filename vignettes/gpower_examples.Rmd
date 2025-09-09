@@ -1,7 +1,7 @@
 ---
 title: "G*Power examples evaluated with Spower"
 author: Phil Chalmers
-date: "2025-06-28"
+date: "2025-09-08"
 output: 
   bookdown::html_document2:
     base_format: rmarkdown::html_vignette
@@ -315,27 +315,105 @@ The following partially recreates the simulation results in Figure 29 (which its
 
 
 ``` r
-combos <- data.frame(n=c(649, 164, 42, 20, 12, 9),
-					 d=c(.1, .2, .4, .6, .8, 1.0))
-
-out <- lapply(1:nrow(combos), \(i){
-	p_wilcox.test(n=combos$n[i], d=combos$d[i], 
-				  type='one.sample', two.tailed=FALSE) |> Spower(replications = 50000)
-})
-
 # For Gaussian(0,1)
-combos$power <- sapply(out, \(x) x$power)
-combos
+out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |> 
+	SpowerBatch(n=c(649, 164, 42, 20, 12, 9),
+				d=c(.1, .2, .4, .6, .8, 1.0), replications = 50000, fully.crossed=FALSE)
 ```
 
 ```
-##     n   d  power
-## 1 649 0.1 0.7983
-## 2 164 0.2 0.8014
-## 3  42 0.4 0.7966
-## 4  20 0.6 0.8096
-## 5  12 0.8 0.8026
-## 6   9 1.0 0.8461
+## 
+## Replications: 50000;   RAM Used: 81.2 Mb;   
+##  Conditions: n=649, d=0.1, type=one.sample, two.tailed=FALSE, sig.level=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 6
+##       n     d type       two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+## 1   649   0.1 one.sample FALSE           0.05 NA   
+## 
+## Estimate of power: 0.798
+## 95% Confidence Interval: [0.795, 0.802]
+## 
+## Replications: 50000;   RAM Used: 83.1 Mb;   
+##  Conditions: n=164, d=0.2, type=one.sample, two.tailed=FALSE, sig.level=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 6
+##       n     d type       two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+## 1   164   0.2 one.sample FALSE           0.05 NA   
+## 
+## Estimate of power: 0.801
+## 95% Confidence Interval: [0.798, 0.805]
+## 
+## Replications: 50000;   RAM Used: 85.2 Mb;   
+##  Conditions: n=42, d=0.4, type=one.sample, two.tailed=FALSE, sig.level=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 6
+##       n     d type       two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+## 1    42   0.4 one.sample FALSE           0.05 NA   
+## 
+## Estimate of power: 0.797
+## 95% Confidence Interval: [0.793, 0.800]
+## 
+## Replications: 50000;   RAM Used: 87.3 Mb;   
+##  Conditions: n=20, d=0.6, type=one.sample, two.tailed=FALSE, sig.level=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 6
+##       n     d type       two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+## 1    20   0.6 one.sample FALSE           0.05 NA   
+## 
+## Estimate of power: 0.810
+## 95% Confidence Interval: [0.806, 0.813]
+## 
+## Replications: 50000;   RAM Used: 89.4 Mb;   
+##  Conditions: n=12, d=0.8, type=one.sample, two.tailed=FALSE, sig.level=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 6
+##       n     d type       two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+## 1    12   0.8 one.sample FALSE           0.05 NA   
+## 
+## Estimate of power: 0.803
+## 95% Confidence Interval: [0.799, 0.806]
+## 
+## Replications: 50000;   RAM Used: 91.5 Mb;   
+##  Conditions: n=9, d=1, type=one.sample, two.tailed=FALSE, sig.level=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 6
+##       n     d type       two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+## 1     9     1 one.sample FALSE           0.05 NA   
+## 
+## Estimate of power: 0.846
+## 95% Confidence Interval: [0.843, 0.849]
+```
+
+``` r
+as.data.frame(out)
+```
+
+```
+##     n   d       type two.tailed sig.level  power
+## 1 649 0.1 one.sample      FALSE      0.05 0.7983
+## 2 164 0.2 one.sample      FALSE      0.05 0.8014
+## 3  42 0.4 one.sample      FALSE      0.05 0.7966
+## 4  20 0.6 one.sample      FALSE      0.05 0.8096
+## 5  12 0.8 one.sample      FALSE      0.05 0.8026
+## 6   9 1.0 one.sample      FALSE      0.05 0.8461
 ```
 
 
@@ -375,27 +453,106 @@ The following partially recreates the simulation results in Figure 29 for the *L
 
 
 ``` r
-combos <- data.frame(n=c(419, 109, 31, 16, 11, 8),
-						  d=c(.1, .2, .4, .6, .8, 1.0))
-
-out <- lapply(1:nrow(combos), \(i){
-	p_wilcox.test(n=combos$n[i], d=combos$d[i], parent1=parent, type='one.sample',
-			  two.tailed=FALSE, correct = FALSE) |> Spower(replications = 50000)
-})
-
 # For Laplace(0,1)
-combos$power <- sapply(out, \(x) x$power)
-combos
+out <- p_wilcox.test(parent1=parent, type='one.sample',
+			  two.tailed=FALSE, correct = FALSE) |> 
+	SpowerBatch(n=c(419, 109, 31, 16, 11, 8),
+				d=c(.1, .2, .4, .6, .8, 1.0), replications=50000, fully.crossed=FALSE)
 ```
 
 ```
-##     n   d  power
-## 1 419 0.1 0.8017
-## 2 109 0.2 0.8012
-## 3  31 0.4 0.8027
-## 4  16 0.6 0.7979
-## 5  11 0.8 0.8043
-## 6   8 1.0 0.7738
+## 
+## Replications: 50000;   RAM Used: 107.4 Mb;   
+##  Conditions: n=419, d=0.1, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 7
+##       n     d type       correct two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
+## 1   419   0.1 one.sample FALSE   FALSE           0.05 NA   
+## 
+## Estimate of power: 0.802
+## 95% Confidence Interval: [0.798, 0.805]
+## 
+## Replications: 50000;   RAM Used: 109.3 Mb;   
+##  Conditions: n=109, d=0.2, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 7
+##       n     d type       correct two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
+## 1   109   0.2 one.sample FALSE   FALSE           0.05 NA   
+## 
+## Estimate of power: 0.801
+## 95% Confidence Interval: [0.798, 0.805]
+## 
+## Replications: 50000;   RAM Used: 111.6 Mb;   
+##  Conditions: n=31, d=0.4, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 7
+##       n     d type       correct two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
+## 1    31   0.4 one.sample FALSE   FALSE           0.05 NA   
+## 
+## Estimate of power: 0.803
+## 95% Confidence Interval: [0.799, 0.806]
+## 
+## Replications: 50000;   RAM Used: 113.9 Mb;   
+##  Conditions: n=16, d=0.6, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 7
+##       n     d type       correct two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
+## 1    16   0.6 one.sample FALSE   FALSE           0.05 NA   
+## 
+## Estimate of power: 0.798
+## 95% Confidence Interval: [0.794, 0.801]
+## 
+## Replications: 50000;   RAM Used: 116.2 Mb;   
+##  Conditions: n=11, d=0.8, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 7
+##       n     d type       correct two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
+## 1    11   0.8 one.sample FALSE   FALSE           0.05 NA   
+## 
+## Estimate of power: 0.804
+## 95% Confidence Interval: [0.801, 0.808]
+## 
+## Replications: 50000;   RAM Used: 118.5 Mb;   
+##  Conditions: n=8, d=1, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
+## 
+## Design conditions: 
+## 
+## # A tibble: 1 × 7
+##       n     d type       correct two.tailed sig.level power
+##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
+## 1     8     1 one.sample FALSE   FALSE           0.05 NA   
+## 
+## Estimate of power: 0.774
+## 95% Confidence Interval: [0.770, 0.777]
+```
+
+``` r
+as.data.frame(out)
+```
+
+```
+##     n   d       type correct two.tailed sig.level  power
+## 1 419 0.1 one.sample   FALSE      FALSE      0.05 0.8017
+## 2 109 0.2 one.sample   FALSE      FALSE      0.05 0.8012
+## 3  31 0.4 one.sample   FALSE      FALSE      0.05 0.8027
+## 4  16 0.6 one.sample   FALSE      FALSE      0.05 0.7979
+## 5  11 0.8 one.sample   FALSE      FALSE      0.05 0.8043
+## 6   8 1.0 one.sample   FALSE      FALSE      0.05 0.7738
 ```
 
 
@@ -704,7 +861,7 @@ p_glm(formula=y~X*S, test="X:S = 0",
 ## 95% Prediction Interval: [163.0, 167.6]
 ```
 
-G*Power gives the estimate for $n$ to be 163 (and therefore 256 in the second group given $n2_n1$). 
+G*Power gives the estimate for $n$ to be 163 (and therefore 256 in the second group given the `n2_n1`). 
 
 # Variance tests
 
