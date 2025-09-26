@@ -225,7 +225,7 @@ the this will be a \code{list}}
 \code{SpowerBatch} be fully crossed? Passed to the same
 argument documented in \code{\link[SimDesign]{createDesign}}}
 
-\item{plotCI}{logical; include confidence/prediction intervals in plots?}
+\item{plotCI}{logical; include confidence/predicted confidence intervals in plots?}
 
 \item{plotly}{logical; draw the graphic into the interactive \code{plotly}
 interface? If \code{FALSE} the ggplot2 object will be returned instead}
@@ -249,7 +249,7 @@ Function provides a general wrapper to the
 \code{SimDesign} package's \code{\link[SimDesign]{runSimulation}} and
 \code{\link[SimDesign]{SimSolve}} functions. As such, parallel processing is
 automatically supported, along with progress bars,
-confidence/prediction intervals for the results estimates, safety checks,
+confidence/predicted confidence intervals for the results estimates, safety checks,
 and more.
 
 The function \code{\link{SpowerBatch}}, on the other hand, can be used to
@@ -261,7 +261,7 @@ Can also be used as a pre-computing step before using
 
 \code{\link{SpowerCurve}} draws power curves that either a) estimate the power given a
 set of varying conditions or b) solves a set of root conditions
-given fixed values of power. Confidence/prediction intervals are
+given fixed values of power. Confidence/predicted confidence intervals are
 included in the output to reflect the estimate uncertainties, though note
 that fewer replications/iterations are used compared to
 \code{\link{Spower}} as the goal is visualization of competing

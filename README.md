@@ -98,7 +98,7 @@ p_t.test(n=NA, d=0.5) |> Spower(power=.95, interval=c(50, 300))
 ## 1    NA   0.5      0.05  0.95
 ## 
 ## Estimate of n: 105.0
-## 95% Prediction Interval: [103.7, 106.3]
+## 95% Predicted Confidence Interval: [103.7, 106.3]
 ```
 
 To generate suitable power-curves for any given simulation or power

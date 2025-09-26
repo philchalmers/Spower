@@ -2,7 +2,7 @@
 #'
 #' \code{\link{SpowerCurve}} draws power curves that either a) estimate the power given a
 #' set of varying conditions or b) solves a set of root conditions
-#' given fixed values of power. Confidence/prediction intervals are
+#' given fixed values of power. Confidence/predicted confidence intervals are
 #' included in the output to reflect the estimate uncertainties, though note
 #' that fewer replications/iterations are used compared to
 #' \code{\link{Spower}} as the goal is visualization of competing
@@ -11,7 +11,7 @@
 #' @param batch if \code{\link{SpowerBatch}} were previously used to perform the computations
 #'   then this information can be provided to this \code{batch} argument to avoid
 #'   recomputing
-#' @param plotCI logical; include confidence/prediction intervals in plots?
+#' @param plotCI logical; include confidence/predicted confidence intervals in plots?
 #' @param plotly logical; draw the graphic into the interactive \code{plotly}
 #'   interface? If \code{FALSE} the ggplot2 object will be returned instead
 #' @return a ggplot2 object automatically rendered with
