@@ -599,7 +599,7 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 print.Spower <- function(x, ...){
 	lste <- attr(x, 'Spower_extra')
 	time <- format(as.POSIXct(lste$elapsed_time, tz = "UTC"), "%H:%M:%S")
-	cat(sprintf("\nExecution time (H:M:S): %s\n", time))
+	cat(sprintf("\nExecution time (H:M:S): %s", time))
 	cat("\nDesign conditions: \n\n")
 	print(lste$conditions)
 	if(inherits(x, 'SimSolve')){
