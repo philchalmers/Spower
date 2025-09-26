@@ -436,6 +436,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
 				   check.interval = FALSE, maxiter=150, wait.time = NULL,
 				   lastSpower = NULL, select = NULL, control = list()){
+	start_time <- proc.time()[3L]
 	stopifnot(sig.direction %in% c('below', 'above'))
 	if(missing(beta_alpha)) beta_alpha <- NULL
 	if(!is.null(cl)) parallel <- TRUE
@@ -567,14 +568,17 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 		conditions$sig.level <- as.numeric(NA)
 		conditions$beta_alpha <- beta_alpha
 	}
+	elapsed_time <- proc.time()[3L] - start_time
 	attr(ret, 'Spower_extra') <- list(predCI=predCI, conditions=conditions,
-							   beta_alpha=beta_alpha, expected=FALSE)
+							   beta_alpha=beta_alpha, expected=FALSE,
+							   elapsed_time=elapsed_time)
 	class(ret) <- c('Spower', class(ret))
 	.SpowerEnv$lastSim <- ret
 	if(verbose){
 		print(ret)
 		return(invisible(ret))
 	}
+
 	ret
 }
 
@@ -594,6 +598,8 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 #' @export
 print.Spower <- function(x, ...){
 	lste <- attr(x, 'Spower_extra')
+	time <- format(as.POSIXct(lste$elapsed_time, tz = "UTC"), "%H:%M:%S")
+	cat(sprintf("\nExecution time (H:M:S): %s\n", time))
 	cat("\nDesign conditions: \n\n")
 	print(lste$conditions)
 	if(inherits(x, 'SimSolve')){
