@@ -185,6 +185,61 @@ prospectiveBF3 <- store$prospectiveBF3
 print(prospectiveBF3)
 ```
 
+## Type S and Type M errors
+
+In the publication *Gelman, A., & Carlin, J. (2014). Beyond Power Calculations: Assessing Type S (Sign) and Type M (Magnitude) Errors. Perspectives on Psychological Science, 9(6), 641-651. https://doi.org/10.1177/1745691614551642*, the authors present power analysis ideas related to *Type S* and *Type M* errors, which add augmentations to the usual rejection of $H_0$ or support for $H_1$. Specifically:
+
+- **Type S errors** occur when a null hypothesis is confidently rejected in light of the alternative being true, however the rejection is in the wrong direction of the underlying effect. Hence, conditional on a "statistical significance" decision, what is the probability that the correct sign was inferred?  Ideally Type S errors should be close to 0
+	- This is particularly problematic in under powered research studies, where the sampling variability could result in detection of an effect that happens to be opposite to the underlying cause. 
+- **Type M errors**, on the other hand, occur when the magnitude of a detected effect is much larger than the expected effect given that the "statistical significance" has occurred. Gelman and Carlin (2014) have presented this as a ratio idea ($E(\frac{|estimate|}{|parameter|})$), where large ratios indicate that the estimate had to be that many times higher than the expected value of the parameter (e.g., a Type M ratio of 8 indicates that of those effect sizes flagged as significant the effect estimate had to be on average 8 times larger than the expected parameter).
+	- With the ratio gets at the idea nicely, nothing really precludes us from drawing further lines in the sand to better map this into a power framework rather than a ratio. For instance, if we would only be confidence that our sample size is large enough if we obtain  
+
+
+### Type S error demonstration 
+
+To demonstrate how to estimate Type S power, the following simulation performs a two-sample $t$-test with a small effect size (Cohen's $d=.2$) with a small sample size. The output returned is not intended to be power in this case, but rather an estimate of the number of Type S errors.
+
+```{r eval=eval}
+l_single.t_correct.sign <- function(n, mean, alpha = .05, ...){
+	while(TRUE){
+		g1 <- rnorm(n)
+		g2 <- rnorm(n, mean=mean)
+		out <- t.test(g2, g1, ...)
+		if(out$p.value < alpha) break
+	}
+	out$statistic > mean
+}
+```
+
+```{r eval=eval}
+l_single.t_correct.sign(n=15, mean=.2) |> Spower()
+```
+```{r echo=FALSE}
+if(eval) store$typeS <- getLastSpower()
+typeS <- store$typeS
+print(typeS)
+```
+Here, the `power` element provides the estimate of the correct sign decision given that "significance" has occurred, while $1-power$ provides the estimate of the associated Type S error. As can be seen in this case, given that significance has been observed for the given sample there is about a `r typeS$power` probability of making the correct sign decision about the true effect, and a complimentary estimate of `r 1 - typeS$power` of making a Type S error. Of course, in the limiting case where $H_0$ is true then the Type S error will approach 50%, while if the alternative is evaluated with a very large effect or sample size then the Type S error will approach 0.
+
+With `Spower`, it's of course possible to evaluate information associated with these power values. For instance, suppose that we wish to know the sample size such that Type S errors are made with very little frequency (hence, high conditional sign power). Suppose we would only want to make a Type S error say, 1/100 times a significant effect came up. The following evaluates how to obtain such an $n$.
+
+```{r eval=eval}
+typeS <- .01
+l_single.t_correct.sign(n=NA, mean=.2) |> 
+	Spower(power=1-typeS, interval=c(10, 200))
+```
+
+```{r echo=FALSE}
+if(eval) store$typeS.N <- getLastSpower()
+typeS.N <- store$typeS.N
+print(typeS.N)
+```
+
+Hence, one would need a sample size of approximately `r ceiling(typeS.N$n)` per group in order to have a Type S error be approximately 1%.
+
+
+### Type M error demonstration 
+
 
 # Regions of practical equivalence (ROPEs)
 
