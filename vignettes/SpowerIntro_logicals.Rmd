@@ -187,20 +187,22 @@ print(prospectiveBF3)
 
 ## Type S and Type M errors
 
-In the publication *Gelman, A., & Carlin, J. (2014). Beyond Power Calculations: Assessing Type S (Sign) and Type M (Magnitude) Errors. Perspectives on Psychological Science, 9(6), 641-651. https://doi.org/10.1177/1745691614551642*, the authors present power analysis ideas related to *Type S* and *Type M* errors, which add augmentations to the usual rejection of $H_0$ or support for $H_1$. Specifically:
+In the publication *Gelman, A., & Carlin, J. (2014). Beyond Power Calculations: Assessing Type S (Sign) and Type M (Magnitude) Errors. Perspectives on Psychological Science, 9(6), 641-651. https://doi.org/10.1177/1745691614551642*, the authors present power analysis ideas related to *Type S* and *Type M* errors, which add conditional augmentations to the usual rejection of $H_0$ or support for $H_1$. Specifically:
 
-- **Type S errors** occur when a null hypothesis is confidently rejected in light of the alternative being true, however the rejection is in the wrong direction of the underlying effect. Hence, conditional on a "statistical significance" decision, what is the probability that the correct sign was inferred?  Ideally Type S errors should be close to 0
-	- This is particularly problematic in under powered research studies, where the sampling variability could result in detection of an effect that happens to be opposite to the underlying cause. 
-- **Type M errors**, on the other hand, occur when the magnitude of a detected effect is much larger than the expected effect given that the "statistical significance" has occurred. Gelman and Carlin (2014) have presented this as a ratio idea ($E(\frac{|estimate|}{|parameter|})$), where large ratios indicate that the estimate had to be that many times higher than the expected value of the parameter (e.g., a Type M ratio of 8 indicates that of those effect sizes flagged as significant the effect estimate had to be on average 8 times larger than the expected parameter).
-	- With the ratio gets at the idea nicely, nothing really precludes us from drawing further lines in the sand to better map this into a power framework rather than a ratio. For instance, if we would only be confidence that our sample size is large enough if we obtain  
-
+- **Type S errors** occur when a null hypothesis is confidently rejected in light of the alternative being true, however the rejection is in the wrong direction of the underlying effect. Hence, conditional on a "statistical significance" decision, what is the probability that the correct sign was inferred? 
+	- Ideally Type S errors should be close to 0
+	- Type S errors are particularly prevalent in under powered research studies, where the sampling variability could result in detection of an effect that happens to be *opposite* what should have been detected from the population generating structure 
+- **Type M errors**, on the other hand, occur when the *magnitude* of a detected effect is much larger than the expected effect given that "statistical significance" has occurred. 
+	- Gelman and Carlin (2014) presented this as a ratio idea ($M=E(\frac{|estimate|}{|parameter|})$), where large ratios indicate that the estimate had to be that many times higher than the expected value of the parameter (e.g., a Type M ratio of 8 indicates that of those effect sizes flagged as significant the effect estimate had to be on average 8 times larger than the true parameter).
+	
+While the ratio for Type M errors gets at the idea nicely, nothing really precludes us from drawing further lines in the sand to better map this concept into a power framework. For instance, if we would only be confidence that our sample size is large enough if we obtain reject the null when the $M$ ratio is less than, say, 2, then `TRUE/FALSE` values can be used in the configuration process. This is show in the second demonstration below.
 
 ### Type S error demonstration 
 
 To demonstrate how to estimate Type S power, the following simulation performs a two-sample $t$-test with a small effect size (Cohen's $d=.2$) with a small sample size. The output returned is not intended to be power in this case, but rather an estimate of the number of Type S errors.
 
 ```{r eval=eval}
-l_single.t_correct.sign <- function(n, mean, alpha = .05, ...){
+l_two.t_correct.sign <- function(n, mean, alpha = .05, ...){
 	while(TRUE){
 		g1 <- rnorm(n)
 		g2 <- rnorm(n, mean=mean)
@@ -212,20 +214,20 @@ l_single.t_correct.sign <- function(n, mean, alpha = .05, ...){
 ```
 
 ```{r eval=eval}
-l_single.t_correct.sign(n=15, mean=.2) |> Spower()
+l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 ```
 ```{r echo=FALSE}
 if(eval) store$typeS <- getLastSpower()
 typeS <- store$typeS
 print(typeS)
 ```
-Here, the `power` element provides the estimate of the correct sign decision given that "significance" has occurred, while $1-power$ provides the estimate of the associated Type S error. As can be seen in this case, given that significance has been observed for the given sample there is about a `r typeS$power` probability of making the correct sign decision about the true effect, and a complimentary estimate of `r 1 - typeS$power` of making a Type S error. Of course, in the limiting case where $H_0$ is true then the Type S error will approach 50%, while if the alternative is evaluated with a very large effect or sample size then the Type S error will approach 0.
+Here, the `power` element provides the estimate of the correct sign decision given that "significance" has occurred, while $1-power$ provides the estimate of the associated Type S error. As can be seen in this case, given that significance has been observed for the given sample there is about a `r typeS$power` probability of making the correct sign decision about the true effect, and a complimentary probability estimate of `r 1 - typeS$power` of making a Type S error. Of course, in the limiting case where $H_0$ is true then the Type S error will approach 50%; if, on the other hand, a very large effect is present, or a large sample size is available, then the Type S error will approach to 0.
 
 With `Spower`, it's of course possible to evaluate information associated with these power values. For instance, suppose that we wish to know the sample size such that Type S errors are made with very little frequency (hence, high conditional sign power). Suppose we would only want to make a Type S error say, 1/100 times a significant effect came up. The following evaluates how to obtain such an $n$.
 
 ```{r eval=eval}
 typeS <- .01
-l_single.t_correct.sign(n=NA, mean=.2) |> 
+l_two.t_correct.sign(n=NA, mean=.2) |> 
 	Spower(power=1-typeS, interval=c(10, 200))
 ```
 
@@ -237,9 +239,59 @@ print(typeS.N)
 
 Hence, one would need a sample size of approximately `r ceiling(typeS.N$n)` per group in order to have a Type S error be approximately 1%.
 
-
 ### Type M error demonstration 
 
+Continuing with the above structure, suppose we're interested in minimizing Type M errors to ensure that significant results weren't simply due to unreasonably high sampling variance. For the purpose of this demonstration, suppose "reasonably close" were defined such that the ratio of the absolute mean difference in a two sample test test, which was flagged as significant, is less than twice the value of the true mean difference (hence, `M.ratio = 2`). With $N=50$ per group and a "small" standardized effect size of .2 gives the following.
+
+```{r eval=eval}
+l_two.t_typeM <- function(n, mean, alpha = .05, M.ratio=2, ...){
+	while(TRUE){
+		g1 <- rnorm(n)
+		g2 <- rnorm(n, mean=mean)
+		out <- t.test(g2, g1, ...)
+		if(out$p.value < alpha) break
+	}
+	diff <- out$estimate[1] - out$estimate[2]
+	abs(diff)/abs(mean) < M.ratio
+}
+```
+
+```{r eval=eval}
+l_two.t_typeM(n=50, mean=.2) |> Spower()
+```
+```{r echo=FALSE}
+if(eval) store$typeM <- getLastSpower()
+typeM <- store$typeM
+print(typeM)
+```
+
+In this case, `power` represents the probability that, given a significant result occurred, the observed $M$ ratio was less than the cutoff of 2 (hence, was less than twice the true effect size). The compliment, which reflects the Type M error, is then `r 1-typeM$power`, which is indeed quite high as `r paste0(round(1-typeM$power,2) * 100, '%')` of the samples flagged as significant would have needed a very large observed effect before the sample was deemed "unusual" in the statistical significance sense. Increasing the sample size greatly helps with this issue, as seen below by doubling the sample size.
+
+```{r eval=eval}
+# double the total sample size
+l_two.t_typeM(n=100, mean=.2) |> Spower()
+```
+
+```{r echo=FALSE}
+if(eval) store$typeM2 <- getLastSpower()
+typeM2 <- store$typeM2
+print(typeM2)
+```
+where the Type M error for the $M.ratio = 2$ cutoff is now
+
+```{r eval=FALSE}
+last <- getLastSpower()
+1 - last$power
+```
+
+```{r echo=FALSE}
+1 - typeM2$power
+```
+so approximately 26% of the significant results would have been due to an overly large effect size estimate.
+
+Type M errors are of course intimately related to *precision criteria* in power analyses, and in that sense are an alternative way of looking at power planning to help relying on "extreme" observations for flagging important statistical results. Personally, the notion of thinking in terms of ratios relative to the true population effect size feels unnatural, though the point is obviously important as only seeing significant effects due to unreasonably large effect sizes is troubling (e.g., replication issues). 
+
+Nevertheless, I would recommend using precision-based power planning over focusing on Type M errors directly when power planning as this leads is generally more natural, where more precise estimates necessarily decreases the number of Type M error in both the "extreme" and "underwhelming" sense of the effect size estimates (which Type M errors alone seem to miss). More importantly, precision criteria are framed in the metric of the observed variables rather than a metricless ratio, which is no double more interpretable for the data analyst.
 
 # Regions of practical equivalence (ROPEs)
 
