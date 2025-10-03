@@ -39,11 +39,13 @@ However, Bayesian power analysis are also supported by the package, where for in
 Below is one such Bayesian approach using posterior probabilities using the `BayesFactor` package, which is obtained by translating the Bayes factor output into a suitable posterior probability and focusing on the alternative hypothesis (hence, the posterior probability returned corresponds to $P(\mu \ne \mu_0|D)$). The following also assumes that the competing hypotheses are equally likely when obtaining the posterior probability (hence, prior odds are 1:1).
 
 ```{r eval=eval}
-pp_single.Bayes.t <- function(n, mean, mu){
+# assuming P(H1)/P(H0) are equally likely; hence, prior_odds = 1
+pp_single.Bayes.t <- function(n, mean, mu, prior_odds = 1){
 	g <- rnorm(n, mean=mean)
 	res <- BayesFactor::ttestBF(g, mu=mu)	
 	bf <- exp(as.numeric(res@bayesFactor[1])) # Bayes factor
-	posterior <- bf / (bf + 1)   # assuming hypotheses are equally likely
+	posterior_odds <- bf * prior_odds
+	posterior <- posterior_odds / (posterior_odds + 1)   
 	posterior   # P(H_1|D)
 }
 ```
