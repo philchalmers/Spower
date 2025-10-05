@@ -1,7 +1,7 @@
 ---
 title: "G*Power examples evaluated with Spower"
 author: Phil Chalmers
-date: "2025-09-08"
+date: "2025-10-05"
 output: 
   bookdown::html_document2:
     base_format: rmarkdown::html_vignette
@@ -39,6 +39,7 @@ p_r(n = NA, r = .65, rho = .60) |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:21
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -47,7 +48,7 @@ p_r(n = NA, r = .65, rho = .60) |>
 ## 1    NA  0.65   0.6      0.05  0.95
 ## 
 ## Estimate of n: 1931.4
-## 95% Prediction Interval: [1901.1, 1958.2]
+## 95% Predicted Confidence Interval: [1901.1, 1958.2]
 ```
 
 G\*power estimates $n$ to be 1929 using the same Fisher z-transformation approximation.
@@ -63,6 +64,7 @@ p_r(n = 100, r = .3) |> Spower()
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:11
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
@@ -84,6 +86,7 @@ p_r(n = NA, r = .3) |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:17
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
@@ -92,7 +95,7 @@ p_r(n = NA, r = .3) |>
 ## 1    NA   0.3      0.05  0.95
 ## 
 ## Estimate of n: 138.3
-## 95% Prediction Interval: [136.1, 140.4]
+## 95% Predicted Confidence Interval: [136.1, 140.4]
 ```
 
 Compare to approximate result from `pwr` package.
@@ -124,6 +127,7 @@ p_2r(n=n, r.ab1=.75, r.ab2=.88, n2_n1=n2_n1) |> Spower()
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:26
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
@@ -149,6 +153,7 @@ out
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:18
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -157,7 +162,7 @@ out
 ## 1    NA  0.25 FALSE           0.05  0.95
 ## 
 ## Estimate of n: 81.1
-## 95% Prediction Interval: [79.4, 82.7]
+## 95% Predicted Confidence Interval: [79.4, 82.7]
 ```
 
 ``` r
@@ -252,6 +257,7 @@ p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:04
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
@@ -276,6 +282,7 @@ p_prop.test(n=20, prop=p, pi=pi, exact=TRUE,
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:04
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -299,6 +306,7 @@ p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:20
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -323,9 +331,10 @@ out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |>
 
 ```
 ## 
-## Replications: 50000;   RAM Used: 81.2 Mb;   
+## Replications: 50000;   RAM Used: 99.6 Mb;   
 ##  Conditions: n=649, d=0.1, type=one.sample, two.tailed=FALSE, sig.level=0.05
 ## 
+## Execution time (H:M:S): 00:01:41
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -336,9 +345,10 @@ out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |>
 ## Estimate of power: 0.798
 ## 95% Confidence Interval: [0.795, 0.802]
 ## 
-## Replications: 50000;   RAM Used: 83.1 Mb;   
+## Replications: 50000;   RAM Used: 101.4 Mb;   
 ##  Conditions: n=164, d=0.2, type=one.sample, two.tailed=FALSE, sig.level=0.05
 ## 
+## Execution time (H:M:S): 00:00:44
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -349,9 +359,10 @@ out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |>
 ## Estimate of power: 0.801
 ## 95% Confidence Interval: [0.798, 0.805]
 ## 
-## Replications: 50000;   RAM Used: 85.2 Mb;   
+## Replications: 50000;   RAM Used: 103.5 Mb;   
 ##  Conditions: n=42, d=0.4, type=one.sample, two.tailed=FALSE, sig.level=0.05
 ## 
+## Execution time (H:M:S): 00:00:16
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -362,9 +373,10 @@ out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |>
 ## Estimate of power: 0.797
 ## 95% Confidence Interval: [0.793, 0.800]
 ## 
-## Replications: 50000;   RAM Used: 87.3 Mb;   
+## Replications: 50000;   RAM Used: 105.6 Mb;   
 ##  Conditions: n=20, d=0.6, type=one.sample, two.tailed=FALSE, sig.level=0.05
 ## 
+## Execution time (H:M:S): 00:00:16
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -375,9 +387,10 @@ out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |>
 ## Estimate of power: 0.810
 ## 95% Confidence Interval: [0.806, 0.813]
 ## 
-## Replications: 50000;   RAM Used: 89.4 Mb;   
+## Replications: 50000;   RAM Used: 107.7 Mb;   
 ##  Conditions: n=12, d=0.8, type=one.sample, two.tailed=FALSE, sig.level=0.05
 ## 
+## Execution time (H:M:S): 00:00:15
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -388,9 +401,10 @@ out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |>
 ## Estimate of power: 0.803
 ## 95% Confidence Interval: [0.799, 0.806]
 ## 
-## Replications: 50000;   RAM Used: 91.5 Mb;   
+## Replications: 50000;   RAM Used: 109.8 Mb;   
 ##  Conditions: n=9, d=1, type=one.sample, two.tailed=FALSE, sig.level=0.05
 ## 
+## Execution time (H:M:S): 00:00:15
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -436,6 +450,7 @@ p_wilcox.test(n=11, d=.8, parent1=parent, type='one.sample',
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:03
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -462,9 +477,10 @@ out <- p_wilcox.test(parent1=parent, type='one.sample',
 
 ```
 ## 
-## Replications: 50000;   RAM Used: 107.4 Mb;   
+## Replications: 50000;   RAM Used: 125.7 Mb;   
 ##  Conditions: n=419, d=0.1, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
 ## 
+## Execution time (H:M:S): 00:01:17
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -475,9 +491,10 @@ out <- p_wilcox.test(parent1=parent, type='one.sample',
 ## Estimate of power: 0.802
 ## 95% Confidence Interval: [0.798, 0.805]
 ## 
-## Replications: 50000;   RAM Used: 109.3 Mb;   
+## Replications: 50000;   RAM Used: 127.6 Mb;   
 ##  Conditions: n=109, d=0.2, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
 ## 
+## Execution time (H:M:S): 00:00:39
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -488,9 +505,10 @@ out <- p_wilcox.test(parent1=parent, type='one.sample',
 ## Estimate of power: 0.801
 ## 95% Confidence Interval: [0.798, 0.805]
 ## 
-## Replications: 50000;   RAM Used: 111.6 Mb;   
+## Replications: 50000;   RAM Used: 129.9 Mb;   
 ##  Conditions: n=31, d=0.4, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
 ## 
+## Execution time (H:M:S): 00:00:18
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -501,9 +519,10 @@ out <- p_wilcox.test(parent1=parent, type='one.sample',
 ## Estimate of power: 0.803
 ## 95% Confidence Interval: [0.799, 0.806]
 ## 
-## Replications: 50000;   RAM Used: 113.9 Mb;   
+## Replications: 50000;   RAM Used: 132.2 Mb;   
 ##  Conditions: n=16, d=0.6, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
 ## 
+## Execution time (H:M:S): 00:00:18
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -514,9 +533,10 @@ out <- p_wilcox.test(parent1=parent, type='one.sample',
 ## Estimate of power: 0.798
 ## 95% Confidence Interval: [0.794, 0.801]
 ## 
-## Replications: 50000;   RAM Used: 116.2 Mb;   
+## Replications: 50000;   RAM Used: 134.5 Mb;   
 ##  Conditions: n=11, d=0.8, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
 ## 
+## Execution time (H:M:S): 00:00:18
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -527,9 +547,10 @@ out <- p_wilcox.test(parent1=parent, type='one.sample',
 ## Estimate of power: 0.804
 ## 95% Confidence Interval: [0.801, 0.808]
 ## 
-## Replications: 50000;   RAM Used: 118.5 Mb;   
+## Replications: 50000;   RAM Used: 136.9 Mb;   
 ##  Conditions: n=8, d=1, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
 ## 
+## Execution time (H:M:S): 00:00:17
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -581,6 +602,7 @@ p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE) |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:07
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
@@ -602,6 +624,7 @@ p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE, correct=FALSE) |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:02
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -624,6 +647,7 @@ p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE) |> Spower()
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:15
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -648,6 +672,7 @@ p_lm.R2(n=95, R2=.1, k=5) |> Spower()
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:43
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -672,6 +697,7 @@ p_lm.R2(n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5) |> Spower(sig.level=.01)
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:55
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -693,6 +719,7 @@ p_lm.R2(n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5) |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:03:02
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -701,7 +728,7 @@ p_lm.R2(n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5) |>
 ## 1    NA   0.3     9  0.25      5      0.01   0.8
 ## 
 ## Estimate of n: 242.4
-## 95% Prediction Interval: [240.9, 244.0]
+## 95% Predicted Confidence Interval: [240.9, 244.0]
 ```
 
 G\*power gives $n = 242$.
@@ -718,6 +745,7 @@ p_lm.R2(n=200, R2=.16, R2_0 = .1, k=12, k.R2_0=9, R2.resid=.8) |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:01:16
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 8
@@ -742,6 +770,7 @@ p_anova.test(n=NA, k=10, f=.25) |>  Spower(power=.95, interval=c(20, 300))
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:21
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -750,7 +779,7 @@ p_anova.test(n=NA, k=10, f=.25) |>  Spower(power=.95, interval=c(20, 300))
 ## 1    NA    10  0.25      0.05  0.95
 ## 
 ## Estimate of n: 38.5
-## 95% Prediction Interval: [37.7, 39.5]
+## 95% Predicted Confidence Interval: [37.7, 39.5]
 ```
 
 G\*power gives the estimate $n=39$.
@@ -764,6 +793,7 @@ p_anova.test(n=20, k=10, f=.25) |> Spower(beta_alpha=1, replications=30000)
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:43
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -828,6 +858,7 @@ p_glm(formula=y~X*S, test="X:S = 0",
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:33
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 8
@@ -850,6 +881,7 @@ p_glm(formula=y~X*S, test="X:S = 0",
 
 ```
 ## 
+## Execution time (H:M:S): 00:02:00
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 8
@@ -858,7 +890,7 @@ p_glm(formula=y~X*S, test="X:S = 0",
 ## 1 X:S = 0 0.55784    NA 9.0291 11.868 0.01592      0.05   0.8
 ## 
 ## Estimate of n: 165.2
-## 95% Prediction Interval: [163.0, 167.6]
+## 95% Predicted Confidence Interval: [163.0, 167.6]
 ```
 
 G*Power gives the estimate for $n$ to be 163 (and therefore 256 in the second group given the `n2_n1`). 
@@ -876,6 +908,7 @@ p_var.test(n=NA, vars=1, sigma2=1.5, two.tailed=FALSE) |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:28
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -884,7 +917,7 @@ p_var.test(n=NA, vars=1, sigma2=1.5, two.tailed=FALSE) |>
 ## 1    NA     1    1.5 FALSE           0.05   0.8
 ## 
 ## Estimate of n: 79.7
-## 95% Prediction Interval: [78.9, 80.6]
+## 95% Predicted Confidence Interval: [78.9, 80.6]
 ```
 
 G\*power gives sample size of 81.
@@ -902,6 +935,7 @@ p_var.test(n=NA, vars=c(1, 1.5), two.tailed=TRUE) |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:01:10
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
@@ -910,7 +944,7 @@ p_var.test(n=NA, vars=c(1, 1.5), two.tailed=TRUE) |>
 ## 1    NA TRUE            0.05   0.8
 ## 
 ## Estimate of n: 194.1
-## 95% Prediction Interval: [191.5, 196.6]
+## 95% Predicted Confidence Interval: [191.5, 196.6]
 ```
 
 G\*Power gives estimate of 193 per group.
@@ -927,6 +961,7 @@ Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:21
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -935,7 +970,7 @@ Estimate sample size ($n$) per group in independent samples $t$-test, one-tailed
 ## 1    NA   0.5 FALSE           0.05  0.95
 ## 
 ## Estimate of n: 87.4
-## 95% Prediction Interval: [84.8, 89.3]
+## 95% Predicted Confidence Interval: [84.8, 89.3]
 ```
 
 
@@ -952,6 +987,7 @@ p_t.test(n=50, d=0.421637, type = 'paired') |> Spower(replications=50000)
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:40
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -972,6 +1008,7 @@ p_t.test(n=50, d=.2828427, type = 'paired') |> Spower(replications=50000)
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:40
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -993,6 +1030,7 @@ p_t.test(n=NA, d=0.2828427, type = 'paired') |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:47
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -1001,7 +1039,7 @@ p_t.test(n=NA, d=0.2828427, type = 'paired') |>
 ## 1    NA 0.28284 paired      0.05 0.83211
 ## 
 ## Estimate of n: 107.2
-## 95% Prediction Interval: [106.5, 108.0]
+## 95% Predicted Confidence Interval: [106.5, 108.0]
 ```
 
 G*power reports that around $N=110$ is required, though this is estimated visually using interpolation.
@@ -1016,6 +1054,7 @@ p_t.test(n=NA, d=.625, two.tailed=FALSE, type='one.sample') |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:10
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -1024,7 +1063,7 @@ p_t.test(n=NA, d=.625, two.tailed=FALSE, type='one.sample') |>
 ## 1    NA 0.625 one.sample FALSE           0.05  0.95
 ## 
 ## Estimate of n: 28.9
-## 95% Prediction Interval: [28.1, 29.7]
+## 95% Predicted Confidence Interval: [28.1, 29.7]
 ```
 
 G\*power gives sample size of $n=30$.
@@ -1037,6 +1076,7 @@ p_t.test(n=NA, d=.1, type='one.sample') |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:18
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -1045,7 +1085,7 @@ p_t.test(n=NA, d=.1, type='one.sample') |>
 ## 1    NA   0.1 one.sample      0.01   0.9
 ## 
 ## Estimate of n: 1491.8
-## 95% Prediction Interval: [1473.0, 1508.2]
+## 95% Predicted Confidence Interval: [1473.0, 1508.2]
 ```
 
 G\*power gives sample size of $n=1492$.
@@ -1061,6 +1101,7 @@ p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> Spower()
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:20
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 6
@@ -1090,6 +1131,7 @@ p_wilcox.test(n=67, n2_n1=nr, d=0.375, parent1=parent1, parent2=parent2) |>
 
 ```
 ## 
+## Execution time (H:M:S): 00:00:11
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
