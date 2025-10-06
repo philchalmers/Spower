@@ -108,6 +108,11 @@ Alternatively, a \code{logical} vector can be returned (e.g., when using confide
 evaluating regions of practical equivalence (ROPEs)), where the average of these
 TRUE/FALSE vector corresponds to the empirical power.
 
+Finally, a named \code{list} can be returned instead if need be, however a specific element
+to extract must be specified using the \code{select} argument to indicate which of the list elements
+are to be used in the power computations. All other elements from the simulation can, however, be
+extracted from the \code{\link[SimDesign]{SimResults}} function.
+
 For \code{\link{SpowerCurve}} and \code{\link{SpowerBatch}},
 first expression input must be identical to \code{...} in
 \code{\link{Spower}}, while the remaining named inputs must match the arguments

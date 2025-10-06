@@ -74,19 +74,33 @@ is.CI_within <- function(CI, interval){
 }
 
 Internal_Summarise <- function(condition, results, fixed_objects) {
-	if(!is.null(fixed_objects$select))
-		results <- results[ ,fixed_objects$select, drop=FALSE]
+	if(!is.data.frame(results) && is.list(results) && is.null(fixed_objects$select))
+		stop('Returning list in experiment requires using Spower(..., select)', call.=FALSE)
+	if(!is.null(fixed_objects$select)){
+		results <- if(!is.data.frame(results) && is.list(results)){
+			do.call(rbind, lapply(results, \(x) do.call(c, x[fixed_objects$select])))
+		} else results[ ,fixed_objects$select, drop=FALSE]
+	}
 	results <- as.matrix(results)
-	ret <- c(power = SimDesign::EDR(results[,1], alpha = condition$sig.level, unname=TRUE))
+	if(is.logical(results))
+		results <- !results
+	ret <- c(power = SimDesign::EDR(results, alpha = condition$sig.level, unname=TRUE))
 	if(!is.null(fixed_objects$sig.direction) &&
 	   fixed_objects$sig.direction == 'above') ret[1] <- 1 - ret[1]
 	ret
 }
 
 Internal_Summarise.Full <- function(condition, results, fixed_objects) {
-	if(!is.null(fixed_objects$select))
-		results <- results[ ,fixed_objects$select, drop=FALSE]
+	if(!is.data.frame(results) && is.list(results) && is.null(fixed_objects$select))
+		stop('Returning list in experiment requires using Spower(..., select)', call.=FALSE)
+	if(!is.null(fixed_objects$select)){
+		results <- if(!is.data.frame(results) && is.list(results)){
+			do.call(rbind, lapply(results, \(x) do.call(c, x[fixed_objects$select])))
+		} else results[ ,fixed_objects$select, drop=FALSE]
+	}
 	results <- as.matrix(results)
+	if(is.logical(results))
+		results <- !results
 	ret <- c(power = SimDesign::EDR(results, alpha = condition$sig.level,
 									unname=ifelse(ncol(results) > 1, FALSE, TRUE)))
 	if(!is.null(fixed_objects$sig.direction) &&

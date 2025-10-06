@@ -11,6 +11,8 @@ vignette: >
   %\VignetteIndexEntry{Bayesian power analyses, Type M and S errors, and ROPEs}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r include=FALSE}
@@ -243,7 +245,9 @@ Hence, one would need a sample size of approximately `r ceiling(typeS.N$n)` per 
 
 ## Type M error demonstration 
 
-Continuing with the above structure, suppose we're interested in minimizing Type M errors to ensure that significant results weren't simply due to unreasonably high sampling variance. For the purpose of this demonstration, suppose "reasonably close" were defined such that the ratio of the absolute mean difference in a two sample test test, which was flagged as significant, is less than twice the value of the true mean difference (hence, `M.ratio = 2`). With $N=50$ per group and a "small" standardized effect size of .2 gives the following.
+Continuing with the above structure, suppose we're interested in minimizing Type M errors to ensure that significant results weren't simply due to unreasonably high sampling variance. For the purpose of this power demonstration, suppose "reasonably close" were defined such that the ratio of the absolute mean difference in a two sample test test, which was flagged as significant, is less than twice the value of the true mean difference (hence, `M.ratio = 2`). For interest sake, it is also possible to store the observed $M$ values if a `list` is returned from the experiment, however the information pertaining to the `power` computations (probability values/logicals) must be specified in `Spower(..., select)`.
+
+With $N=50$ per group and a "small" standardized effect size of .2 gives the following.
 
 ```{r eval=eval}
 l_two.t_typeM <- function(n, mean, alpha = .05, M.ratio=2, ...){
@@ -253,13 +257,17 @@ l_two.t_typeM <- function(n, mean, alpha = .05, M.ratio=2, ...){
 		out <- t.test(g2, g1, ...)
 		if(out$p.value < alpha) break
 	}
-	diff <- out$estimate[1] - out$estimate[2]
-	abs(diff)/abs(mean) < M.ratio
+	diff <- unname(out$estimate[1] - out$estimate[2])
+	M <- abs(diff)/abs(mean)
+	# return list, where "retain" indicates the (logical) power information
+	list(retain=M < M.ratio, M=M)
 }
 ```
 
 ```{r eval=eval}
-l_two.t_typeM(n=50, mean=.2) |> Spower()
+# only use the "retain" information to compute power, though store the rest
+l_two.t_typeM(n=50, mean=.2) |> Spower(select='retain') -> typeM
+typeM
 ```
 ```{r echo=FALSE}
 if(eval) store$typeM <- getLastSpower()
@@ -267,11 +275,24 @@ typeM <- store$typeM
 print(typeM)
 ```
 
-In this case, `power` represents the probability that, given a significant result occurred, the observed $M$ ratio was less than the cutoff of 2 (hence, was less than twice the true effect size). The compliment, which reflects the Type M error, is then `r 1-typeM$power`, which is indeed quite high as `r paste0(round(1-typeM$power,2) * 100, '%')` of the samples flagged as significant would have needed a very large observed effect before the sample was deemed "unusual" in the statistical significance sense. Increasing the sample size greatly helps with this issue, as seen below by doubling the sample size.
+In this case, `power` represents the probability that, given a significant result occurred, the observed $M$ ratio was less than the cutoff of 2 (hence, was less than twice the true effect size). The compliment, which reflects the Type M error, is then `r 1-typeM$power`, which is indeed quite high as `r paste0(round(1-typeM$power,2) * 100, '%')` of the samples flagged as significant would have needed a very large observed effect before the sample was deemed "unusual" in the statistical significance sense. 
+
+With respect to the distribution of the observed $M$ values, these can be extracted and further inspected by using `SimResults()`, which demonstrate the following properties. Notice that the rejection magnitudes are not uniformly distributed, which is to be expected given the nature of the conditional simulation experiement.
+
+```{r}
+results <- SimResults(typeM)
+Ms <- do.call(c, sapply(results, \(x) x['M']))
+c(mean=mean(Ms), SD=sd(Ms), min=min(Ms), max=max(Ms))
+hist(Ms)
+```
+
+
+Finally, increasing the sample size greatly helps with the Type M issues, as seen below by doubling the sample size.
 
 ```{r eval=eval}
 # double the total sample size
-l_two.t_typeM(n=100, mean=.2) |> Spower()
+l_two.t_typeM(n=100, mean=.2) |> Spower() -> typeM2
+typeM2
 ```
 
 ```{r echo=FALSE}
@@ -289,7 +310,14 @@ last <- getLastSpower()
 ```{r echo=FALSE}
 1 - typeM2$power
 ```
-so approximately 26% of the significant results would have been due to an overly large effect size estimate.
+so approximately 26% of the significant results would have been due to an overly large effect size estimate. Again, the distributional properties of the observed $M$ values can be extracted and further analyzed should the need arise.
+
+```{r}
+results <- SimResults(typeM2)
+Ms <- do.call(c, sapply(results, \(x) x['M']))
+c(mean=mean(Ms), SD=sd(Ms), min=min(Ms), max=max(Ms))
+hist(Ms)
+```
 
 Type M errors are of course intimately related to *precision criteria* in power analyses, and in that sense are an alternative way of looking at power planning to help relying on "extreme" observations for flagging important statistical results. Personally, the notion of thinking in terms of ratios relative to the true population effect size feels unnatural, though the point is obviously important as only seeing significance flagged only when unreasonably large effect sizes occur is troubling (e.g., replication issues). 
 
