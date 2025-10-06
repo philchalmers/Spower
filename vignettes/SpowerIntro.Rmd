@@ -41,7 +41,7 @@ There are generally two-ways to go about using `Spower`; either by utilizing a h
 - The posterior probability of an alternative hypothesis, $P(H_1|D)$, which is deemed 'significant' if greater than the defined `sig.level` to indicate that a sample supported ($P(H_1|D)>\alpha$) or did not support ($P(H_1|D)\le\alpha$) the hypothesis of interest (requires setting `Spower(..., sig.direction = 'above')`), or
 - A logical value indicating support for the hypothesis of interest (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving precision, multiple hypothesis, regions of practical significance, etc)
 
-The package defaults primarily focus on the first approach, as this is the most common approach for power analysis evaluation, however nothing precludes the `Spower` from more complex power analysis tests and experiments. See the vignette *"Bayesian power analyses and logical vector returns"* for further examples involving confidence intervals (CIs), regions of practical equivalences (ROPEs), equivalence tests, precision tests, and Bayes Factors.
+The package defaults primarily focus on the first approach, as this is the most common approach for power analysis evaluation, however nothing precludes the `Spower` from more complex power analysis tests and experiments. See the vignette *"Bayesian power analyses, Type M and S errors, and ROPEs"* for further examples involving confidence intervals (CIs), regions of practical equivalences (ROPEs), equivalence tests, precision tests,  Bayes Factors, and Type S/M errors.
 
 ## Built-in experiements
 
