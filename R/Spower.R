@@ -176,6 +176,8 @@
 #'   (see \code{\link[SimDesign]{SimSolve}}). Disabled by default
 #'
 #' @param verbose logical; should information be printed to the console?
+#'   By default this is determined based on whether the session is interactive
+#'   or not
 #'
 #' @import SimDesign stats
 #' @return an invisible \code{tibble}/\code{data.frame}-type object of
@@ -433,7 +435,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 				   replications=10000, integer,
 				   parallel = FALSE, cl = NULL, packages = NULL,
 				   ncores = parallelly::availableCores(omit = 1L),
-				   predCI = 0.95, predCI.tol = .01, verbose = TRUE,
+				   predCI = 0.95, predCI.tol = .01, verbose = interactive(),
 				   check.interval = FALSE, maxiter=150, wait.time = NULL,
 				   lastSpower = NULL, select = NULL, control = list()){
 	start_time <- proc.time()[3L]

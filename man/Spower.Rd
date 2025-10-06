@@ -25,7 +25,7 @@ Spower(
   ncores = parallelly::availableCores(omit = 1L),
   predCI = 0.95,
   predCI.tol = 0.01,
-  verbose = TRUE,
+  verbose = interactive(),
   check.interval = FALSE,
   maxiter = 150,
   wait.time = NULL,
@@ -186,7 +186,9 @@ for stochastic root solver convergence (see \code{\link[SimDesign]{SimSolve}}).
 Default converges when the power rate CI is consistently
 within \code{.01/2} of the target power}
 
-\item{verbose}{logical; should information be printed to the console?}
+\item{verbose}{logical; should information be printed to the console?
+By default this is determined based on whether the session is interactive
+or not}
 
 \item{check.interval}{logical; check the interval range validity
 (see \code{\link[SimDesign]{SimSolve}}). Disabled by default}

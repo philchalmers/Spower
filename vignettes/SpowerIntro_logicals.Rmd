@@ -1,5 +1,5 @@
 ---
-title: "Bayesian power analyses and logical vector returns"
+title: "Bayesian power analyses, Type M and S errors, and ROPEs"
 author: Phil Chalmers
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
@@ -8,7 +8,7 @@ output:
     number_sections: false
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Bayesian power analyses and logical vector returns}
+  %\VignetteIndexEntry{Bayesian power analyses, Type M and S errors, and ROPEs}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
@@ -187,7 +187,7 @@ prospectiveBF3 <- store$prospectiveBF3
 print(prospectiveBF3)
 ```
 
-## Type S and Type M errors
+# Type S and Type M errors
 
 In the publication *Gelman, A., & Carlin, J. (2014). Beyond Power Calculations: Assessing Type S (Sign) and Type M (Magnitude) Errors. Perspectives on Psychological Science, 9(6), 641-651. https://doi.org/10.1177/1745691614551642*, the authors present power analysis ideas related to *Type S* and *Type M* errors, which add conditional augmentations to the usual rejection of $H_0$ or support for $H_1$. Specifically:
 
@@ -199,7 +199,7 @@ In the publication *Gelman, A., & Carlin, J. (2014). Beyond Power Calculations: 
 	
 While the ratio for Type M errors gets at the idea nicely, nothing really precludes us from drawing further lines in the sand to better map this concept into a power framework. For instance, if we would only be confidence that our sample size is large enough if we obtain reject the null when the $M$ ratio is less than, say, 2, then `TRUE/FALSE` values can be used in the configuration process. This is show in the second demonstration below.
 
-### Type S error demonstration 
+## Type S error demonstration 
 
 To demonstrate how to estimate Type S power, the following simulation performs a two-sample $t$-test with a small effect size (Cohen's $d=.2$) with a small sample size. The output returned is not intended to be power in this case, but rather an estimate of the number of Type S errors.
 
@@ -241,7 +241,7 @@ print(typeS.N)
 
 Hence, one would need a sample size of approximately `r ceiling(typeS.N$n)` per group in order to have a Type S error be approximately 1%.
 
-### Type M error demonstration 
+## Type M error demonstration 
 
 Continuing with the above structure, suppose we're interested in minimizing Type M errors to ensure that significant results weren't simply due to unreasonably high sampling variance. For the purpose of this demonstration, suppose "reasonably close" were defined such that the ratio of the absolute mean difference in a two sample test test, which was flagged as significant, is less than twice the value of the true mean difference (hence, `M.ratio = 2`). With $N=50$ per group and a "small" standardized effect size of .2 gives the following.
 
