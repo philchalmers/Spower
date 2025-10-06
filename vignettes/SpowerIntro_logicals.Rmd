@@ -1,5 +1,5 @@
 ---
-title: "Bayesian power analyses, Type M and S errors, and ROPEs"
+title: "Logical Vectors, Bayesian power analyses, Type M and S errors, and ROPEs"
 author: Phil Chalmers
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
@@ -8,7 +8,7 @@ output:
     number_sections: false
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Bayesian power analyses, Type M and S errors, and ROPEs}
+  %\VignetteIndexEntry{Logical Vectors, Bayesian power analyses, Type M and S errors, and ROPEs}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -246,7 +246,7 @@ Hence, one would need a sample size of approximately `r ceiling(typeS.N$n)` per 
 
 ## Type M error demonstration 
 
-Continuing with the above structure, suppose we're interested in minimizing Type M errors to ensure that significant results weren't simply due to unreasonably high sampling variance. For the purpose of this power demonstration, suppose "reasonably close" were defined such that the ratio of the absolute mean difference in a two sample test test, which was flagged as significant, is less than twice the value of the true mean difference (hence, `M.ratio = 2`). For interest sake, it is also possible to store the observed $M$ values if a `list` is returned from the experiment, however the information pertaining to the `power` computations (probability values/logicals) must be specified in `Spower(..., select)`.
+Continuing with the above structure, suppose we're interested in minimizing Type M errors to ensure that significant results weren't simply due to unreasonably high sampling variance. For the purpose of this power demonstration, suppose "reasonably close" were defined such that the ratio of the absolute mean difference in a two sample test test, which was flagged as significant, is less than twice the value of the true mean difference (hence, `M.ratio = 2`). For interest sake, it is also possible to store the observed $M$ values if a `list` or `data.frame` is returned from the experiment, however for this to behave correctly the information relevant to the `power` computations (probability values/logicals) must be specified in `Spower(..., select)`.
 
 With $N=50$ per group and a "small" standardized effect size of .2 gives the following.
 
@@ -260,8 +260,8 @@ l_two.t_typeM <- function(n, mean, alpha = .05, M.ratio=2, ...){
 	}
 	diff <- unname(out$estimate[1] - out$estimate[2])
 	M <- abs(diff)/abs(mean)
-	# return list, where "retain" indicates the (logical) power information
-	list(retain=M < M.ratio, M=M)
+	# return data.frame, where "retain" indicates the (logical) power information
+	data.frame(retain=M < M.ratio, M=M)
 }
 ```
 
@@ -282,9 +282,9 @@ With respect to the distribution of the observed $M$ values, these can be extrac
 
 ```{r}
 results <- SimResults(typeM)
-Ms <- do.call(c, sapply(results, \(x) x['M']))
-c(mean=mean(Ms), SD=sd(Ms), min=min(Ms), max=max(Ms))
-hist(Ms, 30)
+results
+with(results, c(mean=mean(M), SD=sd(M), min=min(M), max=max(M)))
+hist(results$M, 30)
 ```
 
 
@@ -315,9 +315,9 @@ so approximately 26% of the significant results would have been due to an overly
 
 ```{r}
 results <- SimResults(typeM2)
-Ms <- do.call(c, sapply(results, \(x) x['M']))
-c(mean=mean(Ms), SD=sd(Ms), min=min(Ms), max=max(Ms))
-hist(Ms, 30)
+results
+with(results, c(mean=mean(M), SD=sd(M), min=min(M), max=max(M)))
+hist(results$M, 30)
 ```
 
 Type M errors are of course intimately related to *precision criteria* in power analyses, and in that sense are an alternative way of looking at power planning to help relying on "extreme" observations for flagging important statistical results. Personally, the notion of thinking in terms of ratios relative to the true population effect size feels unnatural, though the point is obviously important as only seeing significance flagged only when unreasonably large effect sizes occur is troubling (e.g., replication issues). 

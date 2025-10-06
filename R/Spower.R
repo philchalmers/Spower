@@ -58,12 +58,15 @@
 #'   in Bayesian posterior probability contexts that focus on the alternative
 #'   hypothesis, \eqn{P(H_1|D)}.
 #'
-#'   Alternatively, a \code{logical} vector can be returned (e.g., when using confidence intervals (CIs) or
+#'   Alternatively, a \code{logical} vector can be returned (e.g., when using
+#'   confidence intervals (CIs) or
 #'   evaluating regions of practical equivalence (ROPEs)), where the average of these
 #'   TRUE/FALSE vector corresponds to the empirical power.
 #'
-#'   Finally, a named \code{list} can be returned instead if need be, however a specific element
-#'   to extract must be specified using the \code{select} argument to indicate which of the list elements
+#'   Finally, a named \code{list} or \code{data.frame} can be returned instead
+#'   if there is need for more general, heterogeneous objects, however a specific
+#'   element to extract must be specified
+#'   using the \code{select} argument to indicate which of the list elements
 #'   are to be used in the power computations. All other elements from the simulation can, however, be
 #'   extracted from the \code{\link[SimDesign]{SimResults}} function.
 #'
