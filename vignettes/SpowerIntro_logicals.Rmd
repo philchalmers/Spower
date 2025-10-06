@@ -22,7 +22,8 @@ formals(SpowerCurve)$plotly <- FALSE
 ```
 
 ```{r include=FALSE}
-eval <- FALSE  # set to FALSE for normal run
+eval <- as.logical(Sys.getenv("SPOWER_EVAL"))
+if(is.na(eval)) eval <- FALSE  # set to FALSE for normal run
 store <- list()
 if(!eval)
 	store <- readRDS(system.file("intro2.rds", package = 'Spower'))
@@ -283,7 +284,7 @@ With respect to the distribution of the observed $M$ values, these can be extrac
 results <- SimResults(typeM)
 Ms <- do.call(c, sapply(results, \(x) x['M']))
 c(mean=mean(Ms), SD=sd(Ms), min=min(Ms), max=max(Ms))
-hist(Ms)
+hist(Ms, 30)
 ```
 
 
@@ -291,7 +292,7 @@ Finally, increasing the sample size greatly helps with the Type M issues, as see
 
 ```{r eval=eval}
 # double the total sample size
-l_two.t_typeM(n=100, mean=.2) |> Spower() -> typeM2
+l_two.t_typeM(n=100, mean=.2) |> Spower(select='retain') -> typeM2
 typeM2
 ```
 
@@ -316,7 +317,7 @@ so approximately 26% of the significant results would have been due to an overly
 results <- SimResults(typeM2)
 Ms <- do.call(c, sapply(results, \(x) x['M']))
 c(mean=mean(Ms), SD=sd(Ms), min=min(Ms), max=max(Ms))
-hist(Ms)
+hist(Ms, 30)
 ```
 
 Type M errors are of course intimately related to *precision criteria* in power analyses, and in that sense are an alternative way of looking at power planning to help relying on "extreme" observations for flagging important statistical results. Personally, the notion of thinking in terms of ratios relative to the true population effect size feels unnatural, though the point is obviously important as only seeing significance flagged only when unreasonably large effect sizes occur is troubling (e.g., replication issues). 
