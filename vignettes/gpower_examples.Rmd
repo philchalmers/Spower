@@ -327,96 +327,6 @@ The following partially recreates the simulation results in Figure 29 (which its
 out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |> 
 	SpowerBatch(n=c(649, 164, 42, 20, 12, 9),
 				d=c(.1, .2, .4, .6, .8, 1.0), replications = 50000, fully.crossed=FALSE)
-```
-
-```
-## 
-## Replications: 50000;   RAM Used: 99.8 Mb;   
-##  Conditions: n=649, d=0.1, type=one.sample, two.tailed=FALSE, sig.level=0.05
-## 
-## Execution time (H:M:S): 00:01:43
-## Design conditions: 
-## 
-## # A tibble: 1 × 6
-##       n     d type       two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-## 1   649   0.1 one.sample FALSE           0.05 NA   
-## 
-## Estimate of power: 0.798
-## 95% Confidence Interval: [0.795, 0.802]
-## 
-## Replications: 50000;   RAM Used: 101.7 Mb;   
-##  Conditions: n=164, d=0.2, type=one.sample, two.tailed=FALSE, sig.level=0.05
-## 
-## Execution time (H:M:S): 00:00:45
-## Design conditions: 
-## 
-## # A tibble: 1 × 6
-##       n     d type       two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-## 1   164   0.2 one.sample FALSE           0.05 NA   
-## 
-## Estimate of power: 0.801
-## 95% Confidence Interval: [0.798, 0.805]
-## 
-## Replications: 50000;   RAM Used: 103.8 Mb;   
-##  Conditions: n=42, d=0.4, type=one.sample, two.tailed=FALSE, sig.level=0.05
-## 
-## Execution time (H:M:S): 00:00:17
-## Design conditions: 
-## 
-## # A tibble: 1 × 6
-##       n     d type       two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-## 1    42   0.4 one.sample FALSE           0.05 NA   
-## 
-## Estimate of power: 0.797
-## 95% Confidence Interval: [0.793, 0.800]
-## 
-## Replications: 50000;   RAM Used: 105.9 Mb;   
-##  Conditions: n=20, d=0.6, type=one.sample, two.tailed=FALSE, sig.level=0.05
-## 
-## Execution time (H:M:S): 00:00:16
-## Design conditions: 
-## 
-## # A tibble: 1 × 6
-##       n     d type       two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-## 1    20   0.6 one.sample FALSE           0.05 NA   
-## 
-## Estimate of power: 0.810
-## 95% Confidence Interval: [0.806, 0.813]
-## 
-## Replications: 50000;   RAM Used: 108 Mb;   
-##  Conditions: n=12, d=0.8, type=one.sample, two.tailed=FALSE, sig.level=0.05
-## 
-## Execution time (H:M:S): 00:00:16
-## Design conditions: 
-## 
-## # A tibble: 1 × 6
-##       n     d type       two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-## 1    12   0.8 one.sample FALSE           0.05 NA   
-## 
-## Estimate of power: 0.803
-## 95% Confidence Interval: [0.799, 0.806]
-## 
-## Replications: 50000;   RAM Used: 110.2 Mb;   
-##  Conditions: n=9, d=1, type=one.sample, two.tailed=FALSE, sig.level=0.05
-## 
-## Execution time (H:M:S): 00:00:16
-## Design conditions: 
-## 
-## # A tibble: 1 × 6
-##       n     d type       two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-## 1     9     1 one.sample FALSE           0.05 NA   
-## 
-## Estimate of power: 0.846
-## 95% Confidence Interval: [0.843, 0.849]
-```
-
-``` r
 as.data.frame(out)
 ```
 
@@ -450,7 +360,7 @@ p_wilcox.test(n=11, d=.8, parent1=parent, type='one.sample',
 
 ```
 ## 
-## Execution time (H:M:S): 00:00:03
+## Execution time (H:M:S): 00:00:04
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -473,96 +383,6 @@ out <- p_wilcox.test(parent1=parent, type='one.sample',
 			  two.tailed=FALSE, correct = FALSE) |> 
 	SpowerBatch(n=c(419, 109, 31, 16, 11, 8),
 				d=c(.1, .2, .4, .6, .8, 1.0), replications=50000, fully.crossed=FALSE)
-```
-
-```
-## 
-## Replications: 50000;   RAM Used: 126 Mb;   
-##  Conditions: n=419, d=0.1, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
-## 
-## Execution time (H:M:S): 00:01:18
-## Design conditions: 
-## 
-## # A tibble: 1 × 7
-##       n     d type       correct two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
-## 1   419   0.1 one.sample FALSE   FALSE           0.05 NA   
-## 
-## Estimate of power: 0.802
-## 95% Confidence Interval: [0.798, 0.805]
-## 
-## Replications: 50000;   RAM Used: 127.9 Mb;   
-##  Conditions: n=109, d=0.2, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
-## 
-## Execution time (H:M:S): 00:00:40
-## Design conditions: 
-## 
-## # A tibble: 1 × 7
-##       n     d type       correct two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
-## 1   109   0.2 one.sample FALSE   FALSE           0.05 NA   
-## 
-## Estimate of power: 0.801
-## 95% Confidence Interval: [0.798, 0.805]
-## 
-## Replications: 50000;   RAM Used: 130.2 Mb;   
-##  Conditions: n=31, d=0.4, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
-## 
-## Execution time (H:M:S): 00:00:19
-## Design conditions: 
-## 
-## # A tibble: 1 × 7
-##       n     d type       correct two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
-## 1    31   0.4 one.sample FALSE   FALSE           0.05 NA   
-## 
-## Estimate of power: 0.803
-## 95% Confidence Interval: [0.799, 0.806]
-## 
-## Replications: 50000;   RAM Used: 132.5 Mb;   
-##  Conditions: n=16, d=0.6, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
-## 
-## Execution time (H:M:S): 00:00:18
-## Design conditions: 
-## 
-## # A tibble: 1 × 7
-##       n     d type       correct two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
-## 1    16   0.6 one.sample FALSE   FALSE           0.05 NA   
-## 
-## Estimate of power: 0.798
-## 95% Confidence Interval: [0.794, 0.801]
-## 
-## Replications: 50000;   RAM Used: 134.9 Mb;   
-##  Conditions: n=11, d=0.8, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
-## 
-## Execution time (H:M:S): 00:00:18
-## Design conditions: 
-## 
-## # A tibble: 1 × 7
-##       n     d type       correct two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
-## 1    11   0.8 one.sample FALSE   FALSE           0.05 NA   
-## 
-## Estimate of power: 0.804
-## 95% Confidence Interval: [0.801, 0.808]
-## 
-## Replications: 50000;   RAM Used: 137.2 Mb;   
-##  Conditions: n=8, d=1, type=one.sample, corrct=FALSE, tw.tld=FALSE, sg.lvl=0.05
-## 
-## Execution time (H:M:S): 00:00:18
-## Design conditions: 
-## 
-## # A tibble: 1 × 7
-##       n     d type       correct two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
-## 1     8     1 one.sample FALSE   FALSE           0.05 NA   
-## 
-## Estimate of power: 0.774
-## 95% Confidence Interval: [0.770, 0.777]
-```
-
-``` r
 as.data.frame(out)
 ```
 
@@ -858,7 +678,7 @@ p_glm(formula=y~X*S, test="X:S = 0",
 
 ```
 ## 
-## Execution time (H:M:S): 00:00:35
+## Execution time (H:M:S): 00:00:34
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 8
@@ -987,7 +807,7 @@ p_t.test(n=50, d=0.421637, type = 'paired') |> Spower(replications=50000)
 
 ```
 ## 
-## Execution time (H:M:S): 00:00:41
+## Execution time (H:M:S): 00:00:40
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -1008,7 +828,7 @@ p_t.test(n=50, d=.2828427, type = 'paired') |> Spower(replications=50000)
 
 ```
 ## 
-## Execution time (H:M:S): 00:00:41
+## Execution time (H:M:S): 00:00:40
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
