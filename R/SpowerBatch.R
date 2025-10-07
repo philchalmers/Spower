@@ -59,7 +59,7 @@ SpowerBatch <- function(..., interval = NULL, power = NA,
 						replications=10000, integer, fully.crossed = TRUE,
 						parallel = FALSE, cl = NULL,
 						ncores = parallelly::availableCores(omit = 1L),
-						predCI = 0.95, predCI.tol = .01, verbose = TRUE,
+						predCI = 0.95, predCI.tol = .01, verbose = interactive(),
 						check.interval=FALSE, maxiter=150, wait.time = NULL,
 						select = NULL, control = list()){
 
