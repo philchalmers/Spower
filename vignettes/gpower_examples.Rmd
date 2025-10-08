@@ -39,7 +39,7 @@ p_r(n = NA, r = .65, rho = .60) |>
 
 ```
 ## 
-## Execution time (H:M:S): 00:00:21
+## Execution time (H:M:S): 00:00:20
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
@@ -86,7 +86,7 @@ p_r(n = NA, r = .3) |>
 
 ```
 ## 
-## Execution time (H:M:S): 00:00:17
+## Execution time (H:M:S): 00:00:16
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
@@ -360,7 +360,7 @@ p_wilcox.test(n=11, d=.8, parent1=parent, type='one.sample',
 
 ```
 ## 
-## Execution time (H:M:S): 00:00:04
+## Execution time (H:M:S): 00:00:03
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -539,7 +539,7 @@ p_lm.R2(n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5) |>
 
 ```
 ## 
-## Execution time (H:M:S): 00:03:00
+## Execution time (H:M:S): 00:03:01
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 7
@@ -565,7 +565,7 @@ p_lm.R2(n=200, R2=.16, R2_0 = .1, k=12, k.R2_0=9, R2.resid=.8) |>
 
 ```
 ## 
-## Execution time (H:M:S): 00:01:17
+## Execution time (H:M:S): 00:01:16
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 8
@@ -850,7 +850,7 @@ p_t.test(n=NA, d=0.2828427, type = 'paired') |>
 
 ```
 ## 
-## Execution time (H:M:S): 00:00:47
+## Execution time (H:M:S): 00:00:48
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 5
