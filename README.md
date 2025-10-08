@@ -61,10 +61,8 @@ simulation function to `Spower()`.
 set.seed(42)
 p_t.test(n=100, d=0.5) |> Spower()
 
-## Replications: 10000;   RAM Used: 55.4 Mb;   
-##  Conditions: n=100, d=0.5, sig.level=0.05
-##   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed=03s 
 ##
+## Execution time (H:M:S): 00:00:05
 ## Design conditions: 
 ##
 ## # A tibble: 1 × 4
@@ -90,6 +88,7 @@ p_t.test(n=NA, d=0.5) |> Spower(power=.95, interval=c(50, 300))
 
 ## Iter: 55; Median = 103; E(f(x)) = 0.00; Total.reps = 10550; k.tol = 2; Pred = 104.7
 ##
+## Execution time (H:M:S): 00:00:14
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
@@ -139,7 +138,14 @@ If you have a simulation experiment you’d like to contribute in the form
 of
 
 ``` r
+# returns a p-value, P(D|H0)
 p_yourSimulation()
+
+# returns a posterior probability, P(H1|D)
+pp_yourSimulation()
+
+# returns a logical (more complex experiments, perhaps involing ROPEs)
+l_yourSimulation()
 ```
 
 then feel free to document this function using the `roxygen2` style
