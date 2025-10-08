@@ -246,7 +246,7 @@ $H_1$. Specifically:
     a detected effect is much larger than the expected effect given that
     "statistical significance" has occurred.
     -   Gelman and Carlin (2014) presented this as a ratio idea
-        ($M=E(\frac{|estimate|}{|parameter|})$), where large ratios
+        ($M=E(\frac{|estimate|}{parameter})$), where large ratios
         indicate that the estimate had to be that many times higher than
         the expected value of the parameter (e.g., a Type M ratio of 8
         indicates that of those effect sizes flagged as significant the
@@ -256,28 +256,29 @@ $H_1$. Specifically:
 While the ratio for Type M errors gets at the idea nicely, nothing
 really precludes us from drawing further lines in the sand to better map
 this concept into a power framework. For instance, if we would only be
-confidence that our sample size is large enough if we obtain reject the
-null when the $M$ ratio is less than, say, 2, then `TRUE/FALSE` values
-can be used in the configuration process. This is show in the second
-demonstration below.
+confidence that our sample size is "large enough" if we only treat $M$ ratios 
+less than, say, 2, then `TRUE/FALSE` values
+can be used to indicate that the observed sample has passed the desired
+$M$ cut-off. This is demonstration below.
 
 ## Type S error demonstration
 
-To demonstrate how to estimate Type S power, the following simulation
+To demonstrate how to estimate Type S errors via simulation, 
+the following simulation experiment
 performs a two-sample $t$-test with a small effect size (Cohen's $d=.2$)
-with a small sample size. The output returned is not intended to be
-power in this case, but rather an estimate of the number of Type S
-errors.
+with a small sample size. Note the use of a `while()` loop to generate and analyse the experiment until a significant $p$-value is observed, at which point the `while()` loop is terminated and the subsequent analyses relevant to the compliment of Type S error (the correct sign decision) is returned as a `logical`.
+
 
 ```{r eval=eval}
-l_two.t_correct.sign <- function(n, mean, alpha = .05, ...){
+l_two.t_correct.sign <- function(n, mean, mu = 0, alpha = .05, ...){
 	while(TRUE){
 		g1 <- rnorm(n)
 		g2 <- rnorm(n, mean=mean)
-		out <- t.test(g2, g1, ...)
+		out <- t.test(g1, g2, mu=mu, ...)
 		if(out$p.value < alpha) break
 	}
-	out$statistic > mean
+	mean_diff <- out$estimate[2] - out$estimate[1]
+	mean_diff > mu
 }
 ```
 
@@ -291,10 +292,10 @@ typeS <- store$typeS
 print(typeS)
 ```
 
-Here, the `power` element provides the estimate of the correct sign
+Here, the `power` estimate provides the probability of the correct sign
 decision given that "significance" has occurred, while $1-power$
-provides the estimate of the associated Type S error. As can be seen in
-this case, given that significance has been observed for the given
+provides the estimate of the associated Type S error. As can be seen, 
+given that significance has been observed for the given
 sample there is about a `r typeS$power` probability of making the
 correct sign decision about the true effect, and a complimentary
 probability estimate of `r 1 - typeS$power` of making a Type S error. Of
@@ -330,34 +331,45 @@ approximately 1%.
 
 Continuing with the above structure, suppose we're interested in
 minimizing Type M errors to ensure that significant results weren't
-simply due to unreasonably high sampling variance. For the purpose of
-this power demonstration, suppose "reasonably close" were defined such
+due to higher sampling variance, ultimately resulting in only large 
+effect sizes being flagged as significant. For the purpose of
+this power demonstration, suppose "too extreme" was defined such
 that the ratio of the absolute mean difference in a two sample test
-test, which was flagged as significant, is less than twice the value of
-the true mean difference (hence, `M.ratio = 2`). For interest sake, it
-is also possible to store the observed $M$ values if a `list` or
-`data.frame` is returned from the experiment, however for this to behave
-correctly the information relevant to the `power` computations
-(probability values/logicals) must be specified in
-`Spower(..., select)`.
+test, which was flagged as significant, is larger than three times the value of
+the true mean difference (hence, `M.ratio = 3`). 
 
-With $N=50$ per group and a "small" standardized effect size of .2 gives
-the following.
+While focusing on an `M.ratio = 3` provides the sufficient means to study 
+Type M errors using a cut-off logic, it is also possible to store 
+the observed $M$ values for further inspection, which can be done 
+in `Spower` if a `list` or
+`data.frame` is returned from the experiment.  For this to behave correctly, 
+however, only the information relevant to the `power` computations
+(probability values/logicals) must be specified in
+`Spower(..., select)` so that other values returned from the simulation are 
+stored but not summarised.
+
+As before, the first step is to define the experiemtn using the conditional
+$p$-value logic nested within a `while()` loop, followed by the power (and extra) criteria of interest.
+
 
 ```{r eval=eval}
-l_two.t_typeM <- function(n, mean, alpha = .05, M.ratio=2, ...){
+l_two.t_typeM <- function(n, mean, mu = 0, 
+						  alpha = .05, M.ratio = 3, ...){
 	while(TRUE){
 		g1 <- rnorm(n)
 		g2 <- rnorm(n, mean=mean)
-		out <- t.test(g2, g1, ...)
+		out <- t.test(g1, g2, mu = mu, ...)
 		if(out$p.value < alpha) break
 	}
-	diff <- unname(out$estimate[1] - out$estimate[2])
-	M <- abs(diff)/abs(mean)
+	diff <- unname(out$estimate[2] - out$estimate[1])
+	M <- abs(diff)/mean
 	# return data.frame, where "retain" indicates the (logical) power information
 	data.frame(retain=M < M.ratio, M=M)
 }
 ```
+
+With $N=50$ per group and a "small" standardized effect size of .2 gives
+the following.
 
 ```{r eval=eval}
 # only use the "retain" information to compute power, though store the rest
@@ -373,18 +385,16 @@ print(typeM)
 
 In this case, `power` represents the probability that, given a
 significant result occurred, the observed $M$ ratio was less than the
-cutoff of 2 (hence, was less than twice the true effect size). The
+cutoff of 3 (hence, was less than three times the true effect size). The
 compliment, which reflects the Type M error, is then `r 1-typeM$power`,
 which is indeed quite high as
 `r paste0(round(1-typeM$power,2) * 100, '%')` of the samples flagged as
 significant would have needed a very large observed effect before the
 sample was deemed "unusual" in the statistical significance sense.
 
-With respect to the distribution of the observed $M$ values, these can
-be extracted and further inspected by using `SimResults()`, which
-demonstrate the following properties. Notice that the rejection
-magnitudes are not uniformly distributed, which is to be expected given
-the nature of the conditional simulation experiement.
+With respect to the distribution of the observed $M$ values themselves, these can
+be further extracted and inspected by using `SimResults()`. Notice that, when plotted, the rejection magnitudes are not normally distributed,
+which is to be expected given the nature of the conditional simulation experiment.
 
 ```{r}
 results <- SimResults(typeM)
@@ -394,7 +404,7 @@ hist(results$M, 30)
 ```
 
 Finally, increasing the sample size greatly helps with the Type M
-issues, as seen below by doubling the sample size.
+issues, as seen below by doubling the sample size below.
 
 ```{r eval=eval}
 # double the total sample size
@@ -448,7 +458,7 @@ and "underwhelming" sense of the effect size estimates (the ladder of
 which Type M errors miss as they do not focus on non-significant results
 by definition). More importantly, precision criteria are framed in the
 metric of the observed variables rather than a metricless ratio, which
-is likely more interpretable for data analysts to specify.
+is generally more natural for data analysts to specify.
 
 # Bayesian power analysis via posterior probabiltes
 
