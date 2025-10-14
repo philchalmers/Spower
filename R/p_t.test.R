@@ -28,6 +28,8 @@
 #'   \code{"DV"} and \code{"group"}. Default uses \code{\link{gen_t.test}}
 #'   to generate conditionally Gaussian distributed samples.
 #'   User defined version of this function must include the argument \code{...}
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #'
@@ -51,6 +53,9 @@
 #' # paired and one-sample tests
 #' p_t.test(n=50, d=0.5, type = 'paired')
 #' p_t.test(n=50, d=0.5, type = 'one.sample')
+#'
+#' # return analysis object
+#' p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #'
 #' \donttest{
 #'   # compare simulated results to pwr package
@@ -120,7 +125,8 @@
 p_t.test <- function(n, d, mu = 0, r = NULL,
 					 type = c('two.sample', 'one.sample', 'paired'),
 					 n2_n1 = 1, two.tailed = TRUE, var.equal = TRUE,
-					 means=NULL, sds=NULL, gen_fun=gen_t.test, ...) {
+					 means=NULL, sds=NULL, gen_fun=gen_t.test,
+					 return_analysis = FALSE, ...) {
 	type <- match.arg(type)
 	if(is.null(means))
 		if(!missing(d) && !is.null(r))
@@ -131,16 +137,18 @@ p_t.test <- function(n, d, mu = 0, r = NULL,
 	}
 	dat <- gen_fun(n=n, n2_n1=n2_n1, d=d, r=r, type=type,
 				   means=means, sds=sds, ...)
-	p <- if(type == 'paired'){
+	res <- if(type == 'paired'){
 		lvls <- levels(dat$group)
 		group1 <- with(dat, DV[group == lvls[1]])
 		group2 <- with(dat, DV[group == lvls[2]])
-		t.test(group1, group2, mu=mu, paired=TRUE)$p.value
+		t.test(group1, group2, mu=mu, paired=TRUE)
 	} else if(type == 'two.sample'){
-		t.test(DV ~ group, dat, var.equal=var.equal, mu=mu)$p.value
+		t.test(DV ~ group, dat, var.equal=var.equal, mu=mu)
 	} else if(type == 'one.sample') {
-		t.test(dat$DV, mu=mu)$p.value
+		t.test(dat$DV, mu=mu)
 	}
+	if(return_analysis) return(res)
+	p <- res$p.value
 	p <- ifelse(two.tailed, p, p/2)
 	p
 }

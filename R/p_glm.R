@@ -17,6 +17,8 @@
 #' @param gen_fun function used to generate the required discrete data.
 #'   Object returned must be a \code{data.frame}. Default uses \code{\link{gen_glm}}.
 #'   User defined version of this function must include the argument \code{...}
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
@@ -33,6 +35,11 @@
 #' # ANCOVA setup
 #' p_glm(y ~ G + C, test="Gtreatment = 0",
 #'   X=X, betas=c(10, .3, 1), sigma=1)
+#'
+#' # return analysis model
+#' p_glm(y ~ G + C, test="Gtreatment = 0",
+#'   X=X, betas=c(10, .3, 1), sigma=1, return_analysis=TRUE)
+#'
 #'
 #' # ANCOVA setup with logistic regression
 #' p_glm(y ~ G + C, test="Gtreatment = 0",
@@ -68,7 +75,7 @@
 #'
 #'
 p_glm <- function(formula, X, betas, test, sigma = NULL,
-				  family = gaussian(), gen_fun=gen_glm, ...){
+				  family = gaussian(), gen_fun=gen_glm, return_analysis = FALSE, ...){
 	family <- add.sample2family(family)
 	X <- gen_fun(formula=formula, X=X, betas=betas, sigma=sigma,
 				 family=family, ...)
@@ -78,6 +85,7 @@ p_glm <- function(formula, X, betas, test, sigma = NULL,
 	} else {
 		glm(formula=formula, data=X, family=family)
 	}
+	if(return_analysis) return(mod)
 	if(!is.list(test))
 		test <- list(test)
 	ps <- sapply(test, \(tst) car::lht(mod, tst)$`Pr`[2])

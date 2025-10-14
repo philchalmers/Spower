@@ -25,6 +25,8 @@
 #'   Object returned must be a \code{matrix} with two rows and 1 or more
 #'   columns. Default uses \code{\link{gen_prop.test}}.
 #'   User defined version of this function must include the argument \code{...}
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #'
@@ -35,6 +37,9 @@
 #'
 #' # one sample, 50 observations, tested against pi = .5 by default
 #' p_prop.test(50, prop=.65)
+#'
+#' # return analysis model
+#' p_prop.test(50, prop=.65, return_analysis = TRUE)
 #'
 #' # specified using h and pi
 #' h <- pwr::ES.h(.65, .4)
@@ -87,19 +92,21 @@
 p_prop.test <- function(n, h, prop = NULL, pi = .5,
 						n.ratios = rep(1, length(prop)),
 						two.tailed = TRUE, correct=TRUE, exact=FALSE,
-						gen_fun=gen_prop.test, ...) {
+						gen_fun=gen_prop.test, return_analysis = FALSE, ...) {
 	dat <- gen_prop.test(n=n, h=h, pi=pi, n.ratios=n.ratios, prop=prop, ...)
-	if(length(prop) > 1){
+	ret <- if(length(prop) > 1){
 		A <- dat[1,]
 		B <- dat[2,]
-		p <- if(exact){
+		if(exact){
 			stopifnot(is.matrix(prop))
 			A <- matrix(A, nrow(prop), ncol(prop))
-			fisher.test(A)$p.value
-		} else prop.test(A, B, correct=correct)$p.value
+			fisher.test(A)
+		} else prop.test(A, B, correct=correct)
 	} else {
-		p <- binom.test(dat[1,1], n=n, p=pi)$p.value
+		binom.test(dat[1,1], n=n, p=pi)
 	}
+	if(return_analysis) return(ret)
+	p <-  ret$p.value
 	p <- ifelse(two.tailed, p, p/2)
 	p
 }

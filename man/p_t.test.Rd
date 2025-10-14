@@ -17,6 +17,7 @@ p_t.test(
   means = NULL,
   sds = NULL,
   gen_fun = gen_t.test,
+  return_analysis = FALSE,
   ...
 )
 
@@ -65,6 +66,9 @@ Object returned must be a \code{data.frame} with the columns
 to generate conditionally Gaussian distributed samples.
 User defined version of this function must include the argument \code{...}}
 
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
+
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
@@ -95,6 +99,9 @@ p_t.test(n=50, means = c(0,1), sds = c(2,2))
 # paired and one-sample tests
 p_t.test(n=50, d=0.5, type = 'paired')
 p_t.test(n=50, d=0.5, type = 'one.sample')
+
+# return analysis object
+p_t.test(n=50, d=0.5, return_analysis=TRUE)
 
 \donttest{
   # compare simulated results to pwr package

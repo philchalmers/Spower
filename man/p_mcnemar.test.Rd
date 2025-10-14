@@ -11,6 +11,7 @@ p_mcnemar.test(
   two.tailed = TRUE,
   correct = TRUE,
   gen_fun = gen_mcnemar.test,
+  return_analysis = FALSE,
   ...
 )
 
@@ -30,6 +31,9 @@ gen_mcnemar.test(n, prop, ...)
 Object returned must be a \code{matrix} with k rows and k columns
 of counts. Default uses \code{\link{gen_mcnemar.test}}.
 User defined version of this function must include the argument \code{...}}
+
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
@@ -52,6 +56,9 @@ Performance <- matrix(c(794, 86, 150, 570),
 
 # one sample + test and resulting p-value
 p_mcnemar.test(n=sum(Performance), prop=prop)
+
+# return analysis model
+p_mcnemar.test(n=sum(Performance), prop=prop, return_analysis=TRUE)
 
 \donttest{
 

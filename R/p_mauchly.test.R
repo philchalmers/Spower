@@ -12,6 +12,8 @@
 #'   \code{n} rows. Default uses \code{\link{gen_mauchly.test}}
 #'   to generate multivariate normal samples.
 #'   User defined version of this function must include the argument \code{...}
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @return a single p-value
@@ -21,7 +23,11 @@
 #' sigma <- diag(c(1,2,1))
 #' sigma
 #'
+#' # H0 test that sphericity holds
 #' p_mauchly.test(100, sigma=sigma)
+#'
+#' # return analysis object
+#' p_mauchly.test(100, sigma=sigma, return_analysis=TRUE)
 #'
 #' # Null is true
 #' sigma.H0 <- diag(3)
@@ -37,16 +43,17 @@
 #' }
 #'
 #' @export
-p_mauchly.test <- function(n, sigma, gen_fun=gen_mauchly.test, ...){
+p_mauchly.test <- function(n, sigma, gen_fun=gen_mauchly.test, return_analysis = FALSE, ...){
 	dat <- gen_fun(n, sigma=sigma, ...)
-	p <- mauchlys.test(dat)
-	p
+	ret <- mauchlys.test(dat)
+	if(return_analysis) return(ret)
+	ret$p.value
 }
 
 #' @rdname p_mauchly.test
 #' @export
 gen_mauchly.test <- function(n, sigma, ...){
-	rmvnorm(n, sigma=sigma)
+	SimDesign::rmvnorm(n, sigma=sigma)
 }
 
 #' @rdname p_mauchly.test
@@ -67,6 +74,5 @@ mauchlys.test <- function(X) {
 		chiW <- if(is.na(log(W))) -(1 - f) * (n - 1) * log(abs(W))
 		  else -(1 - f) * (n - 1) * log(W)
 	)
-	pW <- 1 - pchisq(chiW, df)
-	pW
+	data.frame(W=W, df=df, p.value=1 - pchisq(chiW, df))
 }

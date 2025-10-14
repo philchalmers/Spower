@@ -21,6 +21,8 @@
 #'   Object returned must be a \code{matrix} with k rows and k columns of numeric data.
 #'   Default uses \code{\link{gen_anova.test}}.
 #'   User defined version of this function must include the argument \code{...}
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @return a single p-value
@@ -30,6 +32,9 @@
 #'
 #' # n=50 in 3 groups, "medium" effect size
 #' p_anova.test(50, k=3, f=.25)
+#'
+#' # return analysis model
+#' p_anova.test(50, k=3, f=.25, return_analysis=TRUE)
 #'
 #' # explicit means/sds
 #' p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
@@ -43,10 +48,13 @@
 #' @export
 p_anova.test <- function(n, k, f, n.ratios = rep(1, k),
 						 two.tailed = TRUE, var.equal = TRUE,
-						 means=NULL, sds=NULL, gen_fun=gen_anova.test, ...) {
+						 means=NULL, sds=NULL, gen_fun=gen_anova.test,
+						 return_analysis = FALSE, ...) {
 	df <- gen_fun(n=n, k=k, f=f, n.ratios=n.ratios, means=means, sds=sds, ...)
-	p <- oneway.test(DV ~ group, data=df, var.equal=var.equal, subset=NULL,
-					 na.action = NULL)$p.value
+	ret <- oneway.test(DV ~ group, data=df, var.equal=var.equal, subset=NULL,
+					 na.action = NULL)
+	if(return_analysis) return(ret)
+	p <- ret$p.value
 	p <- ifelse(two.tailed, p, p/2)
 	p
 }

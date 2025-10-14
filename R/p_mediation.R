@@ -23,6 +23,8 @@
 #' @param sd.X standard deviation for X
 #' @param sd.M standard deviation for M
 #' @param sd.Y standard deviation for Y
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #'
@@ -35,6 +37,9 @@
 #' # joint test H0: a*b = 0
 #' p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
 #' p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
+#'
+#' # return analysis model
+#' p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
 #'
 #' \donttest{
 #'
@@ -52,7 +57,7 @@
 p_mediation <- function(n, a, b, cprime, dichotomous.X=FALSE,
 						two.tailed=TRUE, method = 'wald',
 						sd.X=1, sd.Y=1, sd.M=1,
-						gen_fun=gen_mediation, ...){
+						gen_fun=gen_mediation, return_analysis = FALSE, ...){
 	dat <- gen_fun(n, a=a, b=b, cprime=cprime,
 				   sd.X=sd.X, sd.Y=sd.Y, sd.M=sd.M,
 				   dichotomous.X=dichotomous.X, ...)
@@ -68,6 +73,7 @@ p_mediation <- function(n, a, b, cprime, dichotomous.X=FALSE,
 	fit <- lavaan::sem(model, data=dat)
 	if(!lavaan::lavInspect(fit, 'converged'))
 		stop('Model did not converge')
+	if(return_analysis) return(fit)
 	PE <- lavaan::parameterEstimates(fit)
 	if(method == 'wald')
 		p <- PE$pvalue[PE$lhs == 'ab']   # joint test

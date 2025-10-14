@@ -13,6 +13,7 @@ p_glm(
   sigma = NULL,
   family = gaussian(),
   gen_fun = gen_glm,
+  return_analysis = FALSE,
   ...
 )
 
@@ -40,6 +41,9 @@ used when \code{family = 'gaussian'}}
 Object returned must be a \code{data.frame}. Default uses \code{\link{gen_glm}}.
 User defined version of this function must include the argument \code{...}}
 
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
+
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
@@ -59,6 +63,11 @@ head(X)
 # ANCOVA setup
 p_glm(y ~ G + C, test="Gtreatment = 0",
   X=X, betas=c(10, .3, 1), sigma=1)
+
+# return analysis model
+p_glm(y ~ G + C, test="Gtreatment = 0",
+  X=X, betas=c(10, .3, 1), sigma=1, return_analysis=TRUE)
+
 
 # ANCOVA setup with logistic regression
 p_glm(y ~ G + C, test="Gtreatment = 0",

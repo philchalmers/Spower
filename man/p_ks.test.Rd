@@ -4,7 +4,16 @@
 \alias{p_ks.test}
 \title{p-value from Kolmogorov-Smirnov one- or two-sample simulation}
 \usage{
-p_ks.test(n, p1, p2, n2_n1 = 1, two.tailed = TRUE, parent = NULL, ...)
+p_ks.test(
+  n,
+  p1,
+  p2,
+  n2_n1 = 1,
+  two.tailed = TRUE,
+  parent = NULL,
+  return_analysis = FALSE,
+  ...
+)
 }
 \arguments{
 \item{n}{sample size per group, assumed equal across groups}
@@ -22,6 +31,9 @@ specified}
 \item{parent}{the cumulative distribution function to use
 (e.g., \code{\link{pnorm}}). Specifying this input will construct a
 one-sample test setup}
+
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
 
 \item{...}{additional arguments to be passed to the
 \code{parent} distribution function from \code{\link{ks.test}}, as well as any other
@@ -42,6 +54,9 @@ the same distribution (two sample) or from a theoretically known distribution
 p1 <- function(n) rnorm(n)
 p2 <- function(n) rnorm(n, mean=-.5)
 p_ks.test(n=100, p1, p2)
+
+# return analysis model
+p_ks.test(n=100, p1, p2, return_analysis=TRUE)
 
 # one-sample data from chi-squared distribution tested
 #   against a standard normal distribution

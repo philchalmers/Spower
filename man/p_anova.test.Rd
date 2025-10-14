@@ -15,6 +15,7 @@ p_anova.test(
   means = NULL,
   sds = NULL,
   gen_fun = gen_anova.test,
+  return_analysis = FALSE,
   ...
 )
 
@@ -44,6 +45,9 @@ Object returned must be a \code{matrix} with k rows and k columns of numeric dat
 Default uses \code{\link{gen_anova.test}}.
 User defined version of this function must include the argument \code{...}}
 
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
+
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
@@ -62,6 +66,9 @@ have equal variance by default, however these may be modified.
 
 # n=50 in 3 groups, "medium" effect size
 p_anova.test(50, k=3, f=.25)
+
+# return analysis model
+p_anova.test(50, k=3, f=.25, return_analysis=TRUE)
 
 # explicit means/sds
 p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))

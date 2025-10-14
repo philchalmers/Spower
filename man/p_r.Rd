@@ -5,7 +5,16 @@
 \alias{gen_r}
 \title{p-value from correlation simulation}
 \usage{
-p_r(n, r, rho = 0, method = "pearson", two.tailed = TRUE, gen_fun = gen_r, ...)
+p_r(
+  n,
+  r,
+  rho = 0,
+  method = "pearson",
+  two.tailed = TRUE,
+  gen_fun = gen_r,
+  return_analysis = FALSE,
+  ...
+)
 
 gen_r(n, r, ...)
 }
@@ -28,6 +37,11 @@ Default uses \code{\link{gen_r}} to generate conditionally
 dependent data from a bivariate normal distribution.
 User defined version of this function must include the argument \code{...}}
 
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization? Note that if \code{rho != 0} the
+\code{p.value} and related element will be replaced with internally
+computed approximation versions}
+
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
@@ -48,6 +62,9 @@ p_r(50, r=.5, method = 'spearman')
 # test against constant other than rho = .6
 p_r(50, .5, rho=.60)
 
+# return analysis model
+p_r(50, .5, return_analysis=TRUE)
+p_r(50, .5, rho=.60, return_analysis=TRUE)
 
 \donttest{
     # compare simulated results to pwr package

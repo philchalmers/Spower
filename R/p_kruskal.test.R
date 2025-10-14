@@ -13,6 +13,8 @@
 #'   Object returned must be a \code{list} of length \code{k}, where each element
 #'   contains the sample data in each group. Default uses \code{\link{gen_kruskal.test}}.
 #'   User defined version of this function must include the argument \code{...}
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to pass to \code{gen_fun}
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
 #' @return a single p-value
@@ -21,6 +23,9 @@
 #'
 #' # three group test where data generate from Gaussian distributions
 #' p_kruskal.test(n=30, k=3, means=c(0, .5, .6))
+#'
+#' # return analysis model
+#' p_kruskal.test(n=30, k=3, means=c(0, .5, .6), return_analysis=TRUE)
 #'
 #' # generate data from chi-squared distributions with different variances
 #' gen_chisq <- function(n, k, n.ratios, means, dfs, ...){
@@ -43,9 +48,10 @@
 #' }
 #'
 p_kruskal.test <- function(n, k, means, n.ratios = rep(1, k),
-							gen_fun=gen_kruskal.test, ...){
+							gen_fun=gen_kruskal.test, return_analysis = FALSE, ...){
 	dat <- gen_fun(n, k=k, n.ratios=n.ratios, means=means, ...)
 	ret <- kruskal.test(dat)
+	if(return_analysis) return(ret)
 	p <- ret$p.value
 	p
 }

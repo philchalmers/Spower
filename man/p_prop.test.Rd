@@ -15,6 +15,7 @@ p_prop.test(
   correct = TRUE,
   exact = FALSE,
   gen_fun = gen_prop.test,
+  return_analysis = FALSE,
   ...
 )
 
@@ -58,6 +59,9 @@ Object returned must be a \code{matrix} with two rows and 1 or more
 columns. Default uses \code{\link{gen_prop.test}}.
 User defined version of this function must include the argument \code{...}}
 
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
+
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
@@ -73,6 +77,9 @@ for one-sample applications and \code{\link{prop.test}} otherwise.
 
 # one sample, 50 observations, tested against pi = .5 by default
 p_prop.test(50, prop=.65)
+
+# return analysis model
+p_prop.test(50, prop=.65, return_analysis = TRUE)
 
 # specified using h and pi
 h <- pwr::ES.h(.65, .4)

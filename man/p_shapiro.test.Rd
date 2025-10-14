@@ -4,10 +4,13 @@
 \alias{p_shapiro.test}
 \title{p-value from Shapiro-Wilk Normality Test simulation}
 \usage{
-p_shapiro.test(dist)
+p_shapiro.test(dist, return_analysis = FALSE)
 }
 \arguments{
 \item{dist}{expression used to generate the required sample data}
+
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
 }
 \value{
 a single p-value
@@ -21,6 +24,9 @@ that the population follows a Gaussian distribution shape. Uses
 
 # 50 observations drawn from normal distribution (null is true)
 p_shapiro.test(rnorm(50))
+
+# return analysis object
+p_shapiro.test(rnorm(50), TRUE)
 
 # 50 observations from slightly skewed chi-squared distribution (power)
 p_shapiro.test(rchisq(50, df=100))

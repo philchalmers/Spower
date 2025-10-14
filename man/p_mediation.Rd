@@ -17,6 +17,7 @@ p_mediation(
   sd.Y = 1,
   sd.M = 1,
   gen_fun = gen_mediation,
+  return_analysis = FALSE,
   ...
 )
 
@@ -62,6 +63,9 @@ Object returned must be a \code{data.frame} with the columns
 to generate conditionally Gaussian distributed samples.
 User defined version of this function must include the argument \code{...}}
 
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
+
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
@@ -79,6 +83,9 @@ X may be continuous or dichotomous.
 # joint test H0: a*b = 0
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
+
+# return analysis model
+p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
 
 \donttest{
 

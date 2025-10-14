@@ -17,6 +17,8 @@
 #'   difference
 #' @param parent2 same as \code{parent1}, but for the second group
 #' @param two.tailed logical; use two-tailed test?
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @export
 #' @return a single p-value
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
@@ -26,6 +28,9 @@
 #' p_wilcox.test(100, .5)
 #' p_wilcox.test(100, .5, type = 'paired')
 #' p_wilcox.test(100, .5, type = 'one.sample')
+#'
+#' # return analysis object
+#' p_wilcox.test(100, .5, return_analysis = TRUE)
 #'
 #' # using chi-squared distributions (standardizing to 0-1)
 #' p_wilcox.test(100, .5, type = 'one.sample',
@@ -38,7 +43,8 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 						  type = c('two.sample', 'one.sample', 'paired'),
 						  exact = NULL, correct = TRUE, two.tailed = TRUE,
 						  parent1 = function(n, d) rnorm(n, d, 1),
-						  parent2 = function(n, d) rnorm(n, 0, 1)){
+						  parent2 = function(n, d) rnorm(n, 0, 1),
+						  return_analysis = FALSE){
 	type <- match.arg(type)
 	if(type == 'paired') n <- n * 2
 	dat1 <- parent1(n, d)
@@ -50,6 +56,7 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 		wilcox.test(dat1, dat2, paired=paired,
 					mu=mu, correct=correct, exact=exact)
 	}
+	if(return_analysis) return(ret)
 	p <- ret$p.value
 	p <- ifelse(two.tailed, p, p/2)
 	p

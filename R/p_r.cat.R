@@ -25,6 +25,8 @@
 #'   Default uses \code{\link{gen_r}} to generate conditionally
 #'   dependent data from a bivariate normal distribution.
 #'   User defined version of this function must include the argument \code{...}
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
@@ -37,6 +39,9 @@
 #' # 100 observations, .5 correlation, tetrachoric estimate
 #' p_r.cat(100, r=.5, tauX=0, tauY=1)
 #'
+#' # return analysis model
+#' p_r.cat(100, r=.5, tauX=0, tauY=1, return_analysis=TRUE)
+#'
 #' # Wald test
 #' p_r.cat(100, r=.5, tauX=0, tauY=1, score=FALSE)
 #'
@@ -45,7 +50,7 @@
 #'
 p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
 					ML=TRUE, two.tailed=TRUE, score=FALSE,
-					gen_fun=gen_r, ...){
+					gen_fun=gen_r, return_analysis = FALSE, ...){
 	continuous.Y <- is.null(tauY)
 	dat <- gen_fun(n=n, r=r, ...)
 	datcut <- matrix(0, n, 2)
@@ -63,6 +68,7 @@ p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
 	} else {
 		with(datcut, polycor::polychor(y, x, ML=ML, std.err=TRUE))
 	}
+	if(return_analysis) return(out)
 	est <- out$rho
 	vcov <- out$var
 	if(score > 1) return(sqrt(vcov[1,1]))

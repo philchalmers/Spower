@@ -24,6 +24,8 @@
 #'   Object returned must be a \code{matrix} with \code{n} rows.
 #'   Default uses \code{\link{gen_2r}}.
 #'   User defined version of this function must include the argument \code{...}
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @importFrom cocor cocor
@@ -35,6 +37,9 @@
 #'
 #' # independent (same x-y pairing across groups)
 #' p_2r(100, r.ab1=.5, r.ab2=.6)
+#'
+#' # return cocor object for further analysis
+#' p_2r(100, r.ab1=.5, r.ab2=.6, return_analysis = TRUE)
 #'
 #' \donttest{
 #'
@@ -66,7 +71,8 @@ p_2r <- function(n, r.ab1, r.ab2, r.ac1, r.ac2, r.bc1, r.bc2,
 				 r.ad1, r.ad2, r.bd1, r.bd2, r.cd1, r.cd2,
 				 n2_n1 = 1, two.tailed=TRUE,
 				 type = c('independent', 'overlap', 'nonoverlap'),
-				 test = 'fisher1925', gen_fun=gen_2r, ...){
+				 test = 'fisher1925', gen_fun=gen_2r,
+				 return_analysis = FALSE, ...){
 	type <- match.arg(type)
 	if(type == 'independent'){
 		R1 <- matrix(c(1,r.ab1, r.ab1, 1), 2, 2)
@@ -102,6 +108,7 @@ p_2r <- function(n, r.ab1, r.ab2, r.ac1, r.ac2, r.bc1, r.bc2,
 	} else {
 		cocor::cocor(~ y1 + x1 | y2 + x2, dat, test=test)
 	}
+	if(return_analysis) return(res)
 	pick <- methods::slot(res, test)
 	p <- pick$p.value
 	p <- ifelse(two.tailed, p, p*2)

@@ -12,7 +12,8 @@ p_scale(
   exact = NULL,
   test = "Ansari",
   parent = function(n, ...) rnorm(n),
-  ...
+  ...,
+  return_analysis = FALSE
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ p_scale(
 population mean centered}
 
 \item{...}{additional arguments to pass to simulation functions (if used)}
+
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
 }
 \value{
 a single p-value

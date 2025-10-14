@@ -16,6 +16,10 @@
 #'   Default uses \code{\link{gen_r}} to generate conditionally
 #'   dependent data from a bivariate normal distribution.
 #'   User defined version of this function must include the argument \code{...}
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization? Note that if \code{rho != 0} the
+#'   \code{p.value} and related element will be replaced with internally
+#'   computed approximation versions
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @seealso \code{\link{gen_r}}
@@ -30,6 +34,9 @@
 #' # test against constant other than rho = .6
 #' p_r(50, .5, rho=.60)
 #'
+#' # return analysis model
+#' p_r(50, .5, return_analysis=TRUE)
+#' p_r(50, .5, rho=.60, return_analysis=TRUE)
 #'
 #' \donttest{
 #'     # compare simulated results to pwr package
@@ -47,19 +54,22 @@
 #'
 #' @export
 p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE,
-				gen_fun=gen_r, ...) {
+				gen_fun=gen_r, return_analysis = FALSE, ...) {
 	dat <- gen_fun(n=n, r=r, ...)
 	colnames(dat) <- c('x', 'y')
+	out <- cor.test(~ x + y, dat, method=method)
 	if(rho != 0){
-		out <- cor.test(~ x + y, dat, method=method)
 		z <- with(out, 1/2 * log((1+estimate)/(1-estimate)))
 		se <- 1 / sqrt(n-3)
 		z0 <- 1/2 * log((1+rho)/(1-rho))
 		t <- (z - z0) / se
-		p <- pnorm(abs(t), lower.tail=FALSE)*2
-	} else {
-		p <- cor.test(~ x + y, dat, method=method)$p.value
+		out$null.value[] <- rho
+		out$statistic[] <- t
+		out$parameter[] <- Inf
+		out$p.value <- pnorm(abs(t), lower.tail=FALSE)*2
 	}
+	if(return_analysis) return(out)
+	p <- out$p.value
 	p <- ifelse(two.tailed, p, p/2)
 	p
 }

@@ -13,6 +13,7 @@ p_chisq.test(
   P0 = NULL,
   P = NULL,
   gen_fun = gen_chisq.test,
+  return_analysis = FALSE,
   ...
 )
 
@@ -36,6 +37,9 @@ Object returned must be a \code{matrix} with k rows and k columns
 of counts. Default uses \code{\link{gen_chisq.test}}.
 User defined version of this function must include the argument \code{...}}
 
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
+
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
@@ -50,6 +54,9 @@ Generates multinomial data suitable for analysis with
 
 # effect size w + df
 p_chisq.test(100, w=.2, df=3)
+
+# return analysis model
+p_chisq.test(100, w=.2, df=3, return_analysis=TRUE)
 
 # vector of explicit probabilities (goodness of fit test)
 p_chisq.test(100, P0 = c(.25, .25, .25, .25),

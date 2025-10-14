@@ -17,6 +17,8 @@
 # @param gen_fun function used to generate the required discrete data.
 #   Object returned must be a \code{data.frame}. Default uses \code{\link{gen_lm.R2}}.
 #   User defined version of this function must include the argument \code{...}
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #' @seealso \code{\link{p_glm}}
@@ -31,8 +33,11 @@
 #' # random model
 #' p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE)
 #'
+#' # return analysis model
+#' p_lm.R2(n=95, R2=.1, k=5, return_analysis=TRUE)
+#'
 p_lm.R2 <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, fixed=TRUE,
-					...){
+					return_analysis = FALSE, ...){
 	if(!fixed)
 		return(p_lm.R2.random(n=n, R2=R2, k=k, R2_0=R2_0))
 	stopifnot(R2 >= R2_0)
@@ -47,6 +52,7 @@ p_lm.R2 <- function(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid=1-R2, fixed=TRUE,
 	mod1 <- lm(y ~ ., df)
 	if(!fixed.X && k.R2_0 == 0 && R2_0 != 0)
 		stop('Random X with non-zero R2_0 not currently supported', call.=FALSE)
+	if(return_analysis) return(mod1)
 	mod0 <- if(R2_0 == 0) lm(y ~ 1, df)
 	else lm(y ~ ., df2)
 	p <- anova(mod0, mod1)[2, "Pr(>F)"]

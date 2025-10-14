@@ -14,7 +14,8 @@ p_wilcox.test(
   correct = TRUE,
   two.tailed = TRUE,
   parent1 = function(n, d) rnorm(n, d, 1),
-  parent2 = function(n, d) rnorm(n, 0, 1)
+  parent2 = function(n, d) rnorm(n, 0, 1),
+  return_analysis = FALSE
 )
 }
 \arguments{
@@ -40,6 +41,9 @@ should have SDs = 1 so that \code{d} reflects a standardized
 difference}
 
 \item{parent2}{same as \code{parent1}, but for the second group}
+
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
 }
 \value{
 a single p-value
@@ -55,6 +59,9 @@ to sign tests.
 p_wilcox.test(100, .5)
 p_wilcox.test(100, .5, type = 'paired')
 p_wilcox.test(100, .5, type = 'one.sample')
+
+# return analysis object
+p_wilcox.test(100, .5, return_analysis = TRUE)
 
 # using chi-squared distributions (standardizing to 0-1)
 p_wilcox.test(100, .5, type = 'one.sample',

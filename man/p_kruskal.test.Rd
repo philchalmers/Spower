@@ -11,6 +11,7 @@ p_kruskal.test(
   means,
   n.ratios = rep(1, k),
   gen_fun = gen_kruskal.test,
+  return_analysis = FALSE,
   ...
 )
 
@@ -31,6 +32,9 @@ Object returned must be a \code{list} of length \code{k}, where each element
 contains the sample data in each group. Default uses \code{\link{gen_kruskal.test}}.
 User defined version of this function must include the argument \code{...}}
 
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
+
 \item{...}{additional arguments to pass to \code{gen_fun}}
 }
 \value{
@@ -45,6 +49,9 @@ from Gaussian distributions, however this can be modified.
 
 # three group test where data generate from Gaussian distributions
 p_kruskal.test(n=30, k=3, means=c(0, .5, .6))
+
+# return analysis model
+p_kruskal.test(n=30, k=3, means=c(0, .5, .6), return_analysis=TRUE)
 
 # generate data from chi-squared distributions with different variances
 gen_chisq <- function(n, k, n.ratios, means, dfs, ...){

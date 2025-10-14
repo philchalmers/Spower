@@ -14,6 +14,7 @@ p_var.test(
   test = "Levene",
   correct = TRUE,
   gen_fun = gen_var.test,
+  return_analysis = FALSE,
   ...
 )
 
@@ -42,6 +43,9 @@ Object returned must be a \code{matrix} with k rows and k columns
 of counts. Default uses \code{\link{gen_var.test}}.
 User defined version of this function must include the argument \code{...}}
 
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
+
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
@@ -58,6 +62,9 @@ otherwise functions from the \code{EnvStats} package will be used.
 
 # one sample
 p_var.test(100, vars=10, sigma2=9)
+
+# return analysis object
+p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 
 # three sample
 p_var.test(100, vars=c(10, 9, 11))

@@ -6,7 +6,13 @@
 \alias{mauchlys.test}
 \title{p-value from Mauchly's Test of Sphericity simulation}
 \usage{
-p_mauchly.test(n, sigma, gen_fun = gen_mauchly.test, ...)
+p_mauchly.test(
+  n,
+  sigma,
+  gen_fun = gen_mauchly.test,
+  return_analysis = FALSE,
+  ...
+)
 
 gen_mauchly.test(n, sigma, ...)
 
@@ -22,6 +28,9 @@ Object returned must be a \code{matrix} with \code{K} columns and
 \code{n} rows. Default uses \code{\link{gen_mauchly.test}}
 to generate multivariate normal samples.
 User defined version of this function must include the argument \code{...}}
+
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
@@ -42,7 +51,11 @@ normal distribution, however this can be modified.
 sigma <- diag(c(1,2,1))
 sigma
 
+# H0 test that sphericity holds
 p_mauchly.test(100, sigma=sigma)
+
+# return analysis object
+p_mauchly.test(100, sigma=sigma, return_analysis=TRUE)
 
 # Null is true
 sigma.H0 <- diag(3)

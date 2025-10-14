@@ -20,6 +20,9 @@
 #'   Object returned must be a \code{matrix} with k rows and k columns
 #'   of counts. Default uses \code{\link{gen_var.test}}.
 #'   User defined version of this function must include the argument \code{...}
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
+#'
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #'
@@ -32,6 +35,9 @@
 #'
 #' # one sample
 #' p_var.test(100, vars=10, sigma2=9)
+#'
+#' # return analysis object
+#' p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #'
 #' # three sample
 #' p_var.test(100, vars=c(10, 9, 11))
@@ -50,25 +56,28 @@
 p_var.test <- function(n, vars, n.ratios = rep(1, length(vars)),
 					   sigma2 = 1, two.tailed = TRUE,
 					   test = 'Levene', correct = TRUE,
-					   gen_fun=gen_var.test, ...){
+					   gen_fun=gen_var.test, return_analysis = FALSE,
+					   ...){
 	stopifnot(test %in% c('Levene', 'Bartlett', 'Fligner'))
 	dat <- gen_fun(n=n, n.ratios=n.ratios, vars=vars, ...)
-	p <- if(length(vars) == 1){
-		EnvStats::varTest(dat$DV, sigma.squared = sigma2)$p.value
+	res <- if(length(vars) == 1){
+		EnvStats::varTest(dat$DV, sigma.squared = sigma2)
 	} else {
 		if(length(vars) == 2){
 			if(test == 'Fligner'){
-				with(dat, fligner.test(DV ~ group)$p.value)
+				with(dat, fligner.test(DV ~ group))
 			} else {
-				with(dat, var.test(DV ~ group)$p.value)
+				with(dat, var.test(DV ~ group))
 			}
 		} else {
 			if(test == 'Fligner'){
-				with(dat, fligner.test(DV ~ group)$p.value)
+				with(dat, fligner.test(DV ~ group))
 			} else with(dat,
-				  EnvStats::varGroupTest(DV ~ group, test=test, correct=correct)$p.value)
+				  EnvStats::varGroupTest(DV ~ group, test=test, correct=correct))
 		}
 	}
+	if(return_analysis) return(res)
+	p <- res$p.value
 	p <- ifelse(two.tailed, p, p/2)
 	p
 }

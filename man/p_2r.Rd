@@ -24,6 +24,7 @@ p_2r(
   type = c("independent", "overlap", "nonoverlap"),
   test = "fisher1925",
   gen_fun = gen_2r,
+  return_analysis = FALSE,
   ...
 )
 
@@ -69,6 +70,9 @@ Object returned must be a \code{matrix} with \code{n} rows.
 Default uses \code{\link{gen_2r}}.
 User defined version of this function must include the argument \code{...}}
 
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
+
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 
@@ -86,6 +90,9 @@ comparison for independent, overlapping, and non-overlapping designs.
 
 # independent (same x-y pairing across groups)
 p_2r(100, r.ab1=.5, r.ab2=.6)
+
+# return cocor object for further analysis
+p_2r(100, r.ab1=.5, r.ab2=.6, return_analysis = TRUE)
 
 \donttest{
 

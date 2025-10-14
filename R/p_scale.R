@@ -15,6 +15,8 @@
 #' @param parent data generation function (default assumes Gaussian shape). Must be
 #'   population mean centered
 #' @param two.tailed logical; use two-tailed test?
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to pass to simulation functions (if used)
 #' @return a single p-value
 #' @author Phil Chalmers \email{rphilip.chalmers@@gmail.com}
@@ -41,13 +43,15 @@
 #' }
 p_scale <- function(n, scale, n2_n1 = 1, two.tailed = TRUE,
 					exact = NULL, test = 'Ansari',
-					parent = function(n, ...) rnorm(n), ...){
+					parent = function(n, ...) rnorm(n), ...,
+					return_analysis = FALSE){
 	stopifnot(test %in% c('Ansari', 'Mood'))
 	dat1 <- parent(n, ...)
 	dat2 <- parent(n*n2_n1, ...) * scale
 	ret <- if(test == 'Ansari')
 		ansari.test(dat1, dat2, exact=exact, alternative='two.sided')
 	else mood.test(dat1, dat2, alternative='two.sided')
+	if(return_analysis) return(ret)
 	p <- ret$p.value
 	p <- ifelse(two.tailed, p, p/2)
 	p

@@ -13,6 +13,9 @@
 #'   Object returned must be a \code{matrix} with k rows and k columns
 #'   of counts. Default uses \code{\link{gen_chisq.test}}.
 #'   User defined version of this function must include the argument \code{...}
+#'
+#' @param return_analysis logical; return the analysis object for further
+#'   extraction and customization?
 #' @param ... additional arguments to be passed to \code{gen_fun}. Not used
 #'   unless a customized \code{gen_fun} is defined
 #'
@@ -23,6 +26,9 @@
 #'
 #' # effect size w + df
 #' p_chisq.test(100, w=.2, df=3)
+#'
+#' # return analysis model
+#' p_chisq.test(100, w=.2, df=3, return_analysis=TRUE)
 #'
 #' # vector of explicit probabilities (goodness of fit test)
 #' p_chisq.test(100, P0 = c(.25, .25, .25, .25),
@@ -63,9 +69,9 @@
 #'
 #' @export
 p_chisq.test <- function(n, w, df, correct = TRUE, P0 = NULL, P = NULL,
-						 gen_fun=gen_chisq.test, ...) {
+						 gen_fun=gen_chisq.test, return_analysis = FALSE, ...) {
 	stopifnot(length(n) == 1)
-	p <- if(!missing(w)){
+	ret <- if(!missing(w)){
 		stopifnot(length(w) == 1)
 		stopifnot(length(df) == 1)
 		w2 <- w^2
@@ -79,11 +85,13 @@ p_chisq.test <- function(n, w, df, correct = TRUE, P0 = NULL, P = NULL,
 		P <- with(opt, c(minimum, rep((1 - minimum)/df, df)))
 		# sum((P - P0)^2 / P0) # == w2
 		tab <- gen_fun(n=n, P=P, ...)
-		chisq.test(tab, correct=correct, p=P0)$p.value
+		chisq.test(tab, correct=correct, p=P0)
 	} else {
 		tab <- gen_fun(n=n, P=P, ...)
-		chisq.test(tab, correct=correct, p=P0)$p.value
+		chisq.test(tab, correct=correct, p=P0)
 	}
+	if(return_analysis) return(ret)
+	p <- ret$p.value
 	p
 }
 

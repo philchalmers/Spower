@@ -4,7 +4,17 @@
 \alias{p_lm.R2}
 \title{p-value from global linear regression model simulation}
 \usage{
-p_lm.R2(n, R2, k, R2_0 = 0, k.R2_0 = 0, R2.resid = 1 - R2, fixed = TRUE, ...)
+p_lm.R2(
+  n,
+  R2,
+  k,
+  R2_0 = 0,
+  k.R2_0 = 0,
+  R2.resid = 1 - R2,
+  fixed = TRUE,
+  return_analysis = FALSE,
+  ...
+)
 }
 \arguments{
 \item{n}{sample size}
@@ -24,6 +34,9 @@ model involves the structure A -> B -> C)}
 \item{fixed}{logical; if FALSE then the data are random generated
 according to a joint multivariate normal distribution}
 
+\item{return_analysis}{logical; return the analysis object for further
+extraction and customization?}
+
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
 }
@@ -42,6 +55,9 @@ p_lm.R2(n=95, R2=.1, k=5)
 
 # random model
 p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE)
+
+# return analysis model
+p_lm.R2(n=95, R2=.1, k=5, return_analysis=TRUE)
 
 }
 \seealso{
