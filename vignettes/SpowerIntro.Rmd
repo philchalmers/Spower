@@ -35,23 +35,28 @@ This vignette provides a brief introduction to using the package `Spower` for pr
 
 # Types of functions
 
-There are generally two-ways to go about using `Spower`; either by utilizing a handful of build-in simulation experiments with an associated analysis, or by constructing the simulation experiment yourself. In either case, the goal is to manipulate R code to perform a single simulation experiment and have the function return:
+There are generally two ways to go about using `Spower`.
 
--   A suitable $p$-value under the null hypothesis, $P(D|H_0)$, where the value of `sig.level` ($\alpha$) indicates whether a sample was ($P(D|H_0)<\alpha$) or was not ($P(D|H_0)\ge\alpha$) significant,
--   The posterior probability of an alternative hypothesis, $P(H_1|D)$, which is deemed 'significant' if greater than the defined `sig.level` to indicate that a sample supported ($P(H_1|D)>\alpha$) or did not support ($P(H_1|D)\le\alpha$) the hypothesis of interest (requires setting `Spower(..., sig.direction = 'above')`), or
--   A logical value indicating support for the hypothesis of interest (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving precision, multiple hypothesis, regions of practical significance, etc)
+1) Utilizing a handful of build-in simulation experiments with an associated analysis, or 
+2) By constructing the simulation experiment yourself. 
 
-The package defaults primarily focus on the first approach, as this is the most common approach for power analysis evaluation, however nothing precludes the `Spower` from more complex power analysis tests and experiments. See the vignette *"Logical Vectors, Bayesian power analyses and ROPEs"* for further examples involving confidence intervals (CIs), regions of practical equivalences (ROPEs), equivalence tests, precision tests, and Bayes Factors. See also the vignette *"Type S and Type M errors"* for conditional power evaluation information.
+In either case, the goal is to manipulate R code to perform a single simulation experiment and have the function return:
+
+- A suitable $p$-value under the null hypothesis, $P(D|H_0)$, where the value of `sig.level` ($\alpha$) indicates whether a sample was ($P(D|H_0)<\alpha$) or was not ($P(D|H_0)\ge\alpha$) "significant",
+- The posterior probability of a (typically alternative) hypothesis, $P(H_1|D)$, which is deemed "significant" if greater than the defined `sig.level` to indicate that a sample supported ($P(H_1|D)>\alpha$) or did not support ($P(H_1|D)\le\alpha$) the hypothesis of interest (requires setting `Spower(..., sig.direction = 'above')`), or
+- A logical value indicating support for the hypothesis of interest (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving precision, multiple hypotheses, regions of practical equivalence/significance, etc)
+
+The package defaults primarily focus on the first approach criteria, as this is historically the most common for power analysis evaluation, however nothing precludes  `Spower` from more complex power analysis tests and experiments. See the vignette *"Logical Vectors, Bayesian power analyses and ROPEs"* for further examples involving confidence intervals (CIs), regions of practical equivalences (ROPEs), equivalence tests, precision tests, and Bayes Factors. See also the vignette *"Type S and Type M errors"* for conditional power evaluation information to estimate sign and magnitude power information and their respective errors.
 
 ## Built-in experiments
 
-`Spower` ships with several common experiment structures, such as those involving linear regression models, mediation, ANOVAs, $t$-tests, and so on. The simulation experiments are organized with the prefix `p_`, followed by the name of the analysis method. For instance,
+`Spower` ships with several common statistical inference experiments, such as those involving linear regression models, mediation, ANOVAs, $t$-tests, and so on. The simulation experiments are organized with the prefix `p_`, followed by the name of the analysis method. For instance,
 
 ```{r}
 p_lm.R2(50, k=3, R2=.3)
 ```
 
-performs a single simulation experiment reflecting the null hypothesis $H_0:\, R^2=0$ for a linear regression model with $k=3$ predictor variables and a sample size of $N=50$. Translating this into a power-analysis simply requires passing this experiment in some form to `Spower()` (the details of which are discussed below), where in this case the estimate of power ($1-\beta$) is returned.
+performs a single simulation experiment reflecting the null hypothesis $H_0:\, R^2=0$ for a linear regression model with $k=3$ predictor variables and a sample size of $N=50$. Translating this into a power analysis simply requires passing this experiment to `Spower()` (the details of which are discussed below), where by default the estimate of power ($1-\hat{\beta}$) is returned.
 
 ```{r eval=eval}
 p_lm.R2(50, k=3, R2=.3) |> Spower() 
@@ -62,11 +67,11 @@ if(eval) store$R2ex <- getLastSpower()
 print(store$R2ex)
 ```
 
-Each of these functions return a $p$-value ($P(D|H_0$) as this is the general information required to evaluate statistical power with `Spower()`. Alternatively, users may define their own simulation functions if the desired experiment has not been defined within the package.
+Each of the `p_*` functions return a $p$-value ($P(D|H_0$) as this is the general information required to evaluate statistical power with `Spower()`. Alternatively, users may define their own simulation functions if the desired experiment has not been defined within the package.
 
 ## User-defined functions
 
-As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(D|H_0$) is the probability of the data given the null hypothesis. Note that while the package already supports this type of analysis (see `help(p_t.test)`) it is instructive for users to see how they can write their own version of this experiment as this will help in defining simulation experiments that are not currently defined in the R ecosystem.
+As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(D|H_0$) is the probability of the data given the null hypothesis. Note that while the package already supports this type of analysis (see `help(p_t.test)`) it is instructive to see how users they can write their own version of this experiment as this will help in defining simulation experiments that are not currently defined.
 
 ```{r}
 p_single.t <- function(n, mean, mu=0){
@@ -76,24 +81,28 @@ p_single.t <- function(n, mean, mu=0){
 }
 ```
 
-Using the defaults of this defined in this function, the simulation experiment code will first obtain sample of data drawn from a Gaussian distribution with some specific `mean` ($\mu$), and evaluates the probability that the data were generated from a population with a $\mu_0=0$ (the null; hence, $P(D|\mu_0)$). As sch, the $p$-value returned from this experiments reflects the probability of the null hypothesis $H_0:\, \mu=\mu_0$, or more specifically $H_0:\, \mu=0$, for a single generated dataset.
+This simulation experiment will first obtain sample of data drawn from a Gaussian distribution with some specific `mean` ($\mu$), and evaluate the conditional probability that the data were generated from a population with a $\mu_0=0$ (the null; hence, $P(D|\mu_0)$). As such, the $p$-value returned from this experiments reflects the probability of observing the data given the null hypothesis $H_0:\, \mu=\mu_0$, or more specifically $H_0:\, \mu=0$, for a single generated dataset.
 
 ```{r}
 # a single experiment
 p_single.t(n=100, mean=.2)
 ```
 
-For here, a suitable cut-off is required to evaluate whether the experiment was 'significant', which is the purpose of the parameter $\alpha$. Specifically, if the observed data ($D$) were plausibly drawn from a population with $\mu_0$ (hence, $P(D|\mu_0) \ge \alpha$) then a `FALSE` significance would be returned; otherwise, if the null were unlikely to be true ($P(D|\mu_0) < \alpha$) then a `TRUE` would be returned, thereby indicating significance.
+From here, a suitable cut-off is required to evaluate whether the experiment was 'significant', which is the purpose of the parameter $\alpha$. Specifically, if the observed data ($D$) were plausibly drawn from a population with $\mu_0$ (hence, $P(D|\mu_0) \ge \alpha$) then a `FALSE` significance would be returned; otherwise, if the data were unlikely to have been observed given the ($P(D|\mu_0) < \alpha$) then a `TRUE` would be returned, thereby indicating significance.
 
-For convenience, and for the purpose of other types of specialized power analyses (e.g., compromise analyses), the $\alpha$ parameter has been controlled via the argument `Spower(..., sig.level = .05)`, which creates the `TRUE/FALSE` evaluations internally. This of course saves a step in the writing, but if users wished to defined `sig.level` within the simulation experiment itself that is an acceptable approach too.
+For convenience, and for the purpose of other types of specialized power analyses (e.g., compromise analyses), the $\alpha$ parameter has been controlled via the argument `Spower(..., sig.level = .05)`, which creates the `TRUE/FALSE` evaluations internally. This saves a step in the writing, but if users wished to defined `sig.level` within the simulation experiment itself that is an acceptable approach too.
 
 # Types of power analyses to evaluate
 
-For power analyses there are typically four parameters that are/can be manipulated or solved in a given experiment: the $\alpha$ level (Type I error, often reflexively set to $\alpha=.05$), power (the complement of the Type II error, $1-\beta$), an effect size of interest, and the sample size. Given three of these values, the fourth can always be solved. Note that this description reflects a rule-of-thumb as there may be multiple effect sizes of interest, multiple sample sizes (e.g., in the form of cluster sizes in multi-level models), and so on. In `Spower()` switching between these types of power analysis criteria is done simply by explicitly specifying which parameter is missing (`NA`), as demonstrated below.
+For power analyses there are typically four parameters that can be manipulated or solved in a given experiment: the $\alpha$ level (Type I error, often reflexively set to $\alpha=.05$), power (the complement of the Type II error, $1-\beta$), an effect size of interest, and the sample size. Given three of these values, the fourth can always be solved. 
+
+Note that the above description reflects a rule-of-thumb as there may be multiple effect sizes of interest, multiple sample sizes (e.g., in the form of cluster sizes in multi-level models), and so on. In `Spower()`, switching between these types of power analysis criteria is done simply by explicitly specifying which parameter is missing (`NA`), as demonstrated below.
 
 ## Prospective/post-hoc power analysis
 
-The canonical setup for `Spower()` will evaluate prospective or post-hoc power, thereby obtaining the estimate $1-\hat{\beta}$. Default in `Spower()` uses $10,000$ independent simulation `replications`. The following provides an estimate of power given the null hypothesis $H_0:\, \mu=0.3$.
+The canonical setup for `Spower()` will evaluate prospective or post-hoc power, thereby obtaining the estimate $1-\hat{\beta}$. By default `Spower()` uses $10,000$ independent simulation `replications` to estimate the power when this is the target criterion. 
+
+The following provides an estimate of power given the null hypothesis $H_0:\, \mu=0.3$.
 
 ```{r eval=eval}
 p_single.t(n=100, mean=.5, mu=.3) |> Spower() -> prospective
@@ -110,7 +119,7 @@ print(prospective)
 
 Compromise power analysis involves manipulating the $\alpha$ level until some sufficient balance between the Type I and Type II error rates are met, expressed in terms of the ratio $q=\frac{\beta}{\alpha}$.
 
-In `Spower`, there are two ways to approach this criterion. The first way, which focuses on the `beta_alpha` ratio at the outset, simply requires passing the target ratio to `Spower()` using the same setup as the previous prospective power analysis.
+In `Spower`, there are two ways to approach this criterion. The first way, which focuses on the `beta_alpha` ratio at the outset, requires passing the target ratio to `Spower()` using the same setup as the previous prospective power analysis.
 
 ```{r eval=eval}
 p_single.t(n=100, mean=.5, mu=.3) |> 
@@ -131,7 +140,7 @@ This returns the estimated `sig.level` ($\hat{\alpha}$) and resulting $\hat{\bet
 with(compromise, (1 - power) / sig.level)
 ```
 
-The second way to perform a compromise analysis is to re-use a previous evaluation of a prospective power analysis as this contains all the necessary information.
+The second way to perform a compromise analysis is to re-use a previous evaluation of a prospective/post-hoc power analysis as this contains all the necessary information.
 
 ```{r}
 # using previous post-hoc/prospective power analysis
@@ -142,11 +151,11 @@ In either case, the use of `update()` can be beneficial as the stored result can
 
 ## A priori power analysis
 
-The goal of a priori power analysis is generally to obtain the sample size ($N$) associated with a specific power rate of interest (e.g., $1-\beta=.90$), which is useful in the context of future data collection.
+The goal of a priori power analysis is generally to obtain the sample size ($N$) associated with a specific power rate of interest (e.g., $1-\beta=.90$), which is useful in the context of future data collection planning.
 
-To estimate the sample size using Monte Carlo simulation experiments, `Spower()` performs stochastic root solving using the ProBABLI approach from the `SimDesign` package, and requires a specific search `interval` to search within. The width of the interval should reflect a plausible range where the researcher believes the solution to lie, however this may be quite large as well as ProBABLI is less influenced by the range of the interval (Chalmers, 2024).
+To estimate the sample size using Monte Carlo simulation experiments, `Spower()` performs stochastic root solving using the ProBABLI approach from the `SimDesign` package (see `SimSolve()`), and requires a specific search `interval` to search within. The width of the interval should reflect a plausible range where the researcher believes the solution to lie, however this may be quite large as well as ProBABLI is less influenced by the range of the search interval (Chalmers, 2024).
 
-Below the sample size `n` is solved to achieve a target power of $1-\beta=.80$, where the solution was suspected to lie somewhere between the search `interval = c(20, 200)`.
+Below the sample size `n` is solved to achieve a target power of $1-\beta=.80$, where the solution for $N$ was suspected to lie somewhere between the search `interval = c(20, 200)`.
 
 ```{r eval=eval}
 p_single.t(n=NA, mean=.5) |> 
@@ -162,7 +171,7 @@ print(store$apriori)
 
 Similar to a priori power analysis, however the goal is now to find some specific standardized or unstandardized effect size associated with a specific power rate. This pertains to the question of how large an effect size must be in order to reliably detect the effect of interest.
 
-Below the sample size is fixed at $N=100$, while the search interval for the standardized effect size $d$ is searched between the `interval = c(.1, 3)`. Note that the use of decimals in the interval tells `Spower()` to use a continuous rather than discrete search space (cf. with a priori, which uses an integer search space for the simulation replicates).
+Below the sample size is fixed at $N=100$, while the interval for the standardized effect size $d$ is searched between `c(.1, 3)`. Note that the use of decimals in the interval tells `Spower()` to use a continuous rather than discrete search space (cf. with a priori, which uses an integer search space for the simulation replicates).
 
 ```{r eval=eval}
 p_single.t(n=100, mean=NA) |> 
@@ -176,7 +185,7 @@ print(store$sensitive)
 
 ## Criterion power analysis
 
-Finally, in criterion power analysis the goal is to located the associated $\alpha$ level (`sig.level`) require to achieve a target power output holding constant the other modeling information. This is done in `Spower()` by setting the `sig.level` input to `NA` while providing values for the other parameters. Note that no search interval is require in this context as $\alpha$ necessarily lies between the interval $[0,1]$.
+Finally, in criterion power analysis the goal is to locate the associated $\alpha$ level (`sig.level`) required to achieve a target power output holding constant the other modeling information. This is done in `Spower()` by setting the `sig.level` input to `NA` while providing values for the other parameters. Note that technically no search interval is require in this context as $\alpha$ necessarily lies between the interval $[0,1]$.
 
 ```{r eval=eval}
 p_single.t(n=50, mean=.5) |> 
