@@ -16,6 +16,7 @@ p_t.test(
   var.equal = TRUE,
   means = NULL,
   sds = NULL,
+  conf.level = 0.95,
   gen_fun = gen_t.test,
   return_analysis = FALSE,
   ...
@@ -59,6 +60,9 @@ When specified the input \code{d} is ignored}
 
 \item{sds}{(optional) vector of SDs for each group.
 When specified the input \code{d} is ignored}
+
+\item{conf.level}{confidence interval level passed
+to \code{\link[stats]{t.test}}}
 
 \item{gen_fun}{function used to generate the required two-sample data.
 Object returned must be a \code{list} containing one (one-sample) or

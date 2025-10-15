@@ -199,11 +199,13 @@ print(store$criterion)
 
 # Multiple power evaluation functions
 
-The following functions, `SpowerBatch()` and `SpowerCurve()`, can be used to evaluate and visualize power analysis results across a range on inputs rather than for a single set of fixed inputs. This section demonstrate their general usage as the specifications slightly differ from that of `Spower()`, despite the fact that `Spower()` is the underlying estimation engine.
+The following functions, `SpowerBatch()` and `SpowerCurve()`, can be used to evaluate and visualize power analysis results across a range on inputs rather than for a single set of fixed inputs. This section demonstrates their general usage, as their specifications slightly differ from that of `Spower()`, despite the fact that `Spower()` is the underlying estimation engine.
 
 ## SpowerBatch()
 
-To begin, suppose that there was interest in evaluating the `p_single.t()` function across multiple $n$ inputs to obtain estimates of $1-\beta$. While this could be performed using independent calls to `Spower()`, the function `SpowerBatch()` can instead be used, where the variable inputs can be specified in vector format. For instance, given the effect size $\mu=.5$, what would be the power to reject the null hypothesis $H_0:\, \mu=0$ across three different sample sizes.
+To begin, suppose that there were interest in evaluating the `p_single.t()` function across multiple $n$ inputs to obtain estimates of $1-\beta$. While this could be performed using independent calls to `Spower()`, the function `SpowerBatch()` can be used instead, where the variable inputs can be specified in a suitable vector format. 
+
+For instance, given the effect size $\mu=.5$, what would the power be to reject the null hypothesis $H_0:\, \mu=0$ across three different sample sizes, $N = [30,60,90]$?
 
 ```{r eval=eval}
 p_single.t(mean=.5) |> 
@@ -217,7 +219,7 @@ prospective.batch <- store$prospective.batch
 print(prospective.batch)
 ```
 
-This can further be coerced to a `data.frame` object if there is reason to do so (e.g., for plotting purpose).
+This can further be coerced to a `data.frame` object if there is reason to do so (e.g., for plotting purposes, though see also `SpowerCurve()`).
 
 ```{r}
 as.data.frame(prospective.batch)
@@ -258,7 +260,7 @@ if(eval)
 print(store$gg1)
 ```
 
-Alternatively, were the above information already evaluated using `SpowerBatch()` then this `batch` object could be passed directly to `SpowerCurve()`, thereby avoiding the need to re-evaluate the simulation experiments.
+Alternatively, were the above information already evaluated using `SpowerBatch()` then this `batch` object could be passed directly to `SpowerCurve()`'s argument `batch`, thereby avoiding the need to re-evaluate the simulation experiments.
 
 ```{r eval=FALSE}
 # pass previous SpowerBatch() object
@@ -270,7 +272,7 @@ if(eval)
 	SpowerCurve(batch=store$prospective.batch)	
 ```
 
-`SpowerCurve()` will accept as many arguments as exists in the supplied simulation experiment definition, however it will only plot the first three variable input specifications as anything past this becomes more difficult to display automatically. Below is an example that varies both the `n` input as well as the input `mean`, where the first input appears on the $x$-axis while the second is mapped to the default colour aesthetic in `ggplot2`.
+`SpowerCurve()` will accept as many arguments as exists in the supplied simulation experiment definition, however it will only provide aesthetic mappings for the first three variable input specifications as anything past this becomes more difficult to display automatically. Below is an example that varies both the `n` input as well as the input `mean`, where the first input appears on the $x$-axis while the second is mapped to the default colour aesthetic in `ggplot2`.
 
 ```{r eval=FALSE}
 p_single.t() |> 

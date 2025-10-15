@@ -37,22 +37,24 @@ getwd()
 
 # Logical returns
 
-In many applications, it can be advantageous to directly return
-`logical` values direction in the simulation experiment rather than
-letting `Spower()` perform these threshold transformations as these can
+In many applications it can be advantageous to directly return
+`logical` values in the simulation experiment rather than
+letting `Spower()` perform these threshold transformations internally (using `sig.level`) as these can
 include more intricate experimental result requirements. The following
 showcases various ways that returning `logical` values works in the
-`Spower` package. Note that returning a logical in the simulation
+`Spower` package. 
+
+Note that returning a `logical` in the simulation
 experiment necessarily means that the `sig.level` argument in `Spower()`
-and friends will not be used, and therefore suitable alternatives will
-have to be defined within the context of the simulation experiment code
-(e.g., including `conf.level`).
+and friends will not be used, and therefore suitable alternatives must
+be defined within the context of the simulation experiment code
+(e.g., including `conf.level` or `sig.level` in the simulation definition directly).
 
 ## Confidence (and credible) intervals
 
-Keeping with the basic t-test experiment in the introduction vignetted,
+Keeping with the basic t-test experiment in the introduction vignette,
 suppose we're interested in the power to reject the null hypothesis
-$H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(X|H_0$)
+$H_0:\, \mu = \mu_0$ in a one-sample $t$-test, where $P(D|H_0$)
 is the probability of the data given the null hypothesis. Normally, one
 could simply write an experiment that returns a $p$-value in this
 context, such as the following,
@@ -68,17 +70,19 @@ p_single.t <- function(n, mean, mu=0){
 However, an equivalent way to explore power in this context would be to
 investigate the same null hypothesis via confidence intervals given a
 specific $\alpha$ level, where $CI_\mu=[CI_{\alpha/2},CI_{1-\alpha/2}]$.
-If one were to take this approach, the define function must return a
-`logical` value instead, where the CI is utilize to evaluate the
-plausibility of $\mu = \mu_0$ by testing whether $\mu_0$ falls *outside*
-the advertised interval. Alternatively, if one were in a Bayesian
-context, one could use the *credible interval* instead of the confidence
+
+If one were to take this approach, the defined function should instead return a
+`logical` value based on the relation of the parameter estimate to the CI, 
+where the CI is used to evaluate the
+plausibility of $\mu = \mu_0$. Specifically, the CI is used in this context to evaluate whether $\mu_0$ falls *outside*
+the advertised interval. Alternatively, if one were in a Bayesian analysis
+context, a *credible interval* could be used instead of the confidence
 interval to construct the same logical output.
 
 The following code demonstrates this logic, assuming that $\alpha = .05$
 (and therefore a two-tailed, 95% CI is used), and uses the
-`is.outside_CI()` function to evaluate whether `mu` falls within the
-estimated `CI` returned from `t.test()`.
+`is.outside_CI()` function to evaluate whether the $\mu$ parameter 
+falls within the estimated `CI` returned from `t.test()`.
 
 ```{r}
 l_single.t <- function(n, mean, mu=0, conf.level=.95){
@@ -116,23 +120,37 @@ lPower <- store$lPower
 print(lPower)
 ```
 
+Note that even in this context writing a user defined function is not necessary as the internally defined function `p_t.test()` can be used to obtain the same information by returning the model itself and subsequently extracting the `$conf.int` element. The benefit of this, as shown below, is that users do not need to reinvent the data generation and analysis portions of the experiment if this has already been defined in the package.
+
+```{r}
+l_single.t <- function(n, mean, mu=0, conf.level=.95){
+	# return analysis model for further extraction
+	out <- p_t.test(n=n, d=mean, mu=mu, type='one.sample', 
+					conf.level=conf.level, return_analysis=TRUE)
+	CI <- out$conf.int
+	is.outside_CI(mu, CI)   # equivalent to: !(CI[1] < mu && mu < CI[2])
+}
+
+l_single.t(100, mean=.2)
+```
+
 ## Precision criterion
 
 Using confidence or credible intervals are also useful in contexts where
-specific *precision* criteria are importance in power analysis contexts.
+specific *precision* criteria are important to satisfy.
 Suppose that, in addition to detecting a particular effect of interest
 in a given sample, the results are only deemed "practically useful" if
 the resulting effect size inference are sufficiently precise, where
-precision is based on the width of the uncertainty interval. In this
+precision is based on the *width of the uncertainty interval*. In this
 case, one may join the logic of the $p$-value and CI approaches
 presented thus far to create a joint evaluation for power, where a
 result is deemed "significant" if the tests are null hypothesis test is
-"surprisingly" rejected (in the $p$-value context) *and* the CI is
+rejected (in the $p$-value context) *and* the CI is
 sufficiently narrow.
 
 As a working example, suppose that the above experiment was generalized
-such that a meaningfully significant result would require the rejection
-of the null, $\mu_0=0$, and that the width of the CI must be less than
+such that a meaningfully significant result would require a) the rejection
+of the null, $\mu_0=0$, and b) a CI width less than
 1/4 units. What value of $N$ would be required to obtain such a
 significant and accurate inference to obtain a power of 80%?
 
@@ -158,10 +176,7 @@ print(lprecision)
 ```
 
 Compared the required $N$ to an power analysis that just contains a
-significant result below this estimate is notably higher. Note that this
-can be evaluated in the above simulation experiment by setting
-`CI.width=Inf` as all widths will be accepted, though this could have
-equivalently been evaluated using `p_single.t()` defined earlier.
+significant result this joint criteria estimate requires a notably higher sample size. Note that, in the special case, if `CI.width=Inf` then all CI widths will be accepted, in which case the same results could have been evaluated using `p_single.t()` defined earlier.
 
 ```{r eval=eval}
 l_precision(n=NA, mean=.2, CI.width=Inf) |> 
@@ -176,18 +191,18 @@ print(lprecision2)
 
 ## Bayes Factors
 
-If one were using a Bayesian analysis criteria, the Bayes factor ($BF$)
+If one were using a Bayesian analysis criteria rather than the $p$-value approach, the Bayes factor ($BF$)
 ratio could be used in the logical return context too. For example,
 returning whether the observed $BF>3$ in a given random sample indicates
 at least "moderate" supporting evidence for the hypothesis of interest
-compared to some competing hypothesis (often the complementary null,
+compared to some competing hypothesis (often the complementary null, $P(H_0|D)$,
 though not necessarily).
 
 The downside of focusing on BFs is that they require the computation of
 the marginal likelihoods, typically via bridge sampling (e.g., via the
 `bridgesampling` package), in addition to fitting the model using Markov
 chain Monte Carlo (MCMC) methods (e.g., `brms`, `rstan`, `rstanarm`).
-Though not a limitation per se, it is often more natural to focus
+Though not a strict limitation per se, it is often more natural to focus
 directly on the sample from posterior distribution for power analysis
 applications rather than on the marginal Bayes factors; this is
 demonstrated in the next section. Nevertheless, such applications are
@@ -196,7 +211,7 @@ possible with `Spower` if there is interest in doing so.
 As a simple example, the following one-sample $t$-test initially defined
 above could be redefined to focus on output from the `BayesFactor`
 package, which returns the $BF$ criteria in log units (hence, `exp()` is
-used to return the ratio to its original metric).
+used to return the ratio to its original metric) assuming a non-informative Jeffreys prior for $\mu$.
 
 ```{r eval=eval}
 l_single.Bayes.t_BF <- function(n, mean, mu=0, bf.cut=3){
@@ -208,7 +223,7 @@ l_single.Bayes.t_BF <- function(n, mean, mu=0, bf.cut=3){
 ```
 
 In this case a `TRUE` is returned if the Bayes factor is greater than 3
-and `FALSE` if less than 3. Evaluating this simulation with $N=100$,
+and `FALSE` if less than or equal to 3. Evaluating this simulation with $N=100$,
 $\mu=.5$, and $\mu_0=.3$ gives the following power estimate when
 evaluating each sample against the defined Bayes factor cut-off.
 
@@ -224,23 +239,23 @@ print(prospectiveBF3)
 
 # Bayesian power analysis via posterior probabiltes
 
-The canonical way that *Spower* has been written by focusing primarily
+The canonical way that *Spower* has been written is by focusing primarily
 on $p$-values involving the null hypothesis to be tested ($P(D|H_0)$).
 The reason for setting the package up this way is so that the parameter
 $\alpha$ parameter can be used as the "line-in-the-sand" threshold to
-flag whether a hypothesis was rejected (under the null hypothesis) as
+flag whether a null hypothesis was rejected in each sample of data as
 this behaviour is common among popular power analysis software.
 
 However, Bayesian power analysis are also supported by the package,
 where for instance the posterior probability of the alternative
-hypothesis, $P(H_1|D)$, is the outcome of the simulation experiment. For
-instance, and continuing with the simple one-sample $t$-test example in
-the introduction vignette, were the power analysis context be that of a
+hypothesis, $P(H_1|D)$, may be the outcome of the simulation experiment. 
+Continuing with the simple one-sample $t$-test example in
+the introduction vignette and above, were the power analysis context be that of a
 Bayesian analysis the conditional probability of the alternative,
-$P(H_1|D)$, may be used instead. However, for this to work with *Spower*
+$P(H_1|D)$, may be used instead. For this to work with *Spower* though,
 the argument `sig.direction = 'above'` should be supplied, where
 `sig.level` now indicts that "significance" only occurs when an
-observation is above this cutoff.
+observation is *above* the `sig.level` cutoff.
 
 Below is one such Bayesian approach using posterior probabilities using
 the `BayesFactor` package, which is obtained by translating the Bayes
@@ -297,28 +312,30 @@ As an alternative approach to the rejection of the null hypothesis via
 the $p$-value or CI approaches, there may be interest in evaluating
 power in the context of establishing *equivalence*, or in directional
 cases *superiority* or *non-inferiority*. The purpose of an equivalence
-tests is to establish that, although exact effects may exist, they are
-small enough to be considered practically equal in applications. For
-example, in an independent samples $t$-test, two groups might be
-considered "equivalent" if the true mean difference in the population is
+tests is to establish that, although true differences may exist between groups, the differences are
+small enough to be considered "practically equivalent" in all subsequent applications. 
+
+As a running example, suppose that in an independent samples $t$-test situation two groups might be considered "equivalent" if the true mean difference in the population is
 somewhere above $\epsilon_L$ but below $\epsilon_U$, where $\epsilon$s
 are used to define the equivalence interval. If, for instance, two
-groups are equivalent then the null hypotheses to test using the two
+groups are to be deemed statistically equivalent given these boundary locations then the null hypotheses to test using the two
 one-sided test (TOST) logic are
 $$H_{0a}:\, (\mu_1 - \mu_2) \le -\epsilon_L$$ and
-$$H_{0b}:\,(\mu_1 - \mu_2) \ge \epsilon_U$$ Rejecting both of these null
+$$H_{0b}:\,(\mu_1 - \mu_2) \ge \epsilon_U$$ 
+Rejecting both of these null
 hypotheses leads to the induced complementary hypothesis of interest
-$$H_1:\, \epsilon_L < (\mu_1 - \mu_2) < \epsilon_U$$ or in words, the
+$$H_1:\, \epsilon_L < (\mu_1 - \mu_2) < \epsilon_U$$ 
+or in words, the
 population mean difference falls within the defined region of
 equivalence. Superiority testing and non-inferiority testing follow the
 same type of logic, however rather than defining a region of equivalence
-only one tail of the equivalence is of interest.
+only one tail of the equivalence interval is of interest.
 
 To put numbers to the above expression, suppose that the true mean
 difference between the groups was $\mu_d = \mu_1 - \mu_2 = 0.05$,
 however this effect is quite small and effectively equivalent to 0.
 Moreover, suppose any true difference that fell between $[-0.2, 0.2]$
-were determined to be practically equivalent a priori.
+were determined to be practically equivalent a priori. What then would be the power to jointly rejecte the above null hypothesis and therefore conclude the groups are practically equivalence ($H_1$)?
 
 ```{r}
 l_equiv.t <- function(n, delta, equiv, sds = c(1,1), 
@@ -342,6 +359,7 @@ equivT <- store$equivT
 print(equivT)
 ```
 
+In this case, the power to conclude that the two groups are equivalent, expressed as a percentage, is `r paste0(round(equivT$power*100), '%')`.
 You can verify that these computations are correct by comparing to
 established software for now, such as via the `TOSTER` package.
 
@@ -369,7 +387,7 @@ TOSTER::power_t_TOST(n = 100,
 NOTE: n is number in *each* group
 ```
 
-Again, the same type of logic can be evaluated using `CI`s alone.
+Again, the same type of logic can be evaluated using `CI`s alone, where in this case `TRUE` is returned if the estimated `CI` falls within the defined equivalence interval.
 
 ```{r}
 l_equiv.t_CI <- function(n, delta, equiv, 

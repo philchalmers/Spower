@@ -23,6 +23,8 @@
 #'   When specified the input \code{d} is ignored
 #' @param sds (optional) vector of SDs for each group.
 #'   When specified the input \code{d} is ignored
+#' @param conf.level confidence interval level passed
+#'   to \code{\link[stats]{t.test}}
 #' @param gen_fun function used to generate the required two-sample data.
 #'   Object returned must be a \code{list} containing one (one-sample) or
 #'   two (independent samples/paired samples) elements,
@@ -121,8 +123,8 @@
 #' @export
 p_t.test <- function(n, d, mu = 0, r = NULL, type = 'two.sample',
 					 n2_n1 = 1, two.tailed = TRUE, var.equal = TRUE,
-					 means=NULL, sds=NULL, gen_fun=gen_t.test,
-					 return_analysis = FALSE, ...) {
+					 means=NULL, sds=NULL, conf.level = .95,
+					 gen_fun=gen_t.test, return_analysis = FALSE, ...) {
 	if(is.null(means))
 		if(!missing(d) && !is.null(r))
 			stop('Please use either d or r')
@@ -133,11 +135,13 @@ p_t.test <- function(n, d, mu = 0, r = NULL, type = 'two.sample',
 	dat <- gen_fun(n=n, n2_n1=n2_n1, d=d, r=r, type=type,
 				   means=means, sds=sds, ...)
 	res <- if(type == 'paired'){
-		t.test(dat[[1]], dat[[2]], mu=mu, paired=TRUE)
+		t.test(dat[[1]], dat[[2]], mu=mu,
+			   paired=TRUE, conf.level=conf.level)
 	} else if(type == 'two.sample'){
-		t.test(dat[[1]], dat[[2]], var.equal=var.equal, mu=mu)
+		t.test(dat[[1]], dat[[2]], var.equal=var.equal,
+			   mu=mu, conf.level=conf.level)
 	} else if(type == 'one.sample') {
-		t.test(dat[[1]], mu=mu)
+		t.test(dat[[1]], mu=mu, conf.level=conf.level)
 	}
 	if(return_analysis) return(res)
 	p <- res$p.value
