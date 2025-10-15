@@ -10,7 +10,7 @@ p_t.test(
   d,
   mu = 0,
   r = NULL,
-  type = c("two.sample", "one.sample", "paired"),
+  type = "two.sample",
   n2_n1 = 1,
   two.tailed = TRUE,
   var.equal = TRUE,
@@ -26,7 +26,7 @@ gen_t.test(
   d,
   n2_n1 = 1,
   r = NULL,
-  type = c("two.sample", "one.sample", "paired"),
+  type = "two.sample",
   means = NULL,
   sds = NULL,
   ...
@@ -61,8 +61,9 @@ When specified the input \code{d} is ignored}
 When specified the input \code{d} is ignored}
 
 \item{gen_fun}{function used to generate the required two-sample data.
-Object returned must be a \code{data.frame} with the columns
-\code{"DV"} and \code{"group"}. Default uses \code{\link{gen_t.test}}
+Object returned must be a \code{list} containing one (one-sample) or
+two (independent samples/paired samples) elements,
+both of which are \code{numeric} vectors. Default uses \code{\link{gen_t.test}}
 to generate conditionally Gaussian distributed samples.
 User defined version of this function must include the argument \code{...}}
 
@@ -136,18 +137,14 @@ my.gen_fun <- function(n, d, df1, df2, ...){
 	     #   then add std mean difference
 	     group1 <- ((group1 + df1) / sqrt(2*df1))
 	     group2 <- ((group2 - df2) / sqrt(2*df2)) + d
-	     dat <- data.frame(DV=c(group1, group2),
-	        			   group=gl(2, n, labels=c('G1', 'G2')))
+	     dat <- list(group1, group2)
 	     dat
 }
 
 # check the sample data properties
-df <- my.gen_fun(n=10000, d=.5, df1=10, df2=5)
-with(df, tapply(DV, group, mean))
-with(df, tapply(DV, group, sd))
-
-library(ggplot2)
-ggplot(df, aes(group, DV, fill=group)) + geom_violin()
+dat <- my.gen_fun(n=10000, d=.5, df1=10, df2=5)
+sapply(dat, mean)
+sapply(dat, sd)
 
 p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 
