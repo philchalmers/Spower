@@ -283,7 +283,7 @@ typeM2 <- store$typeM2
 print(typeM2)
 ```
 
-where the Type M error for the $M.ratio = 2$ cutoff is now
+where the Type M error for the $M.ratio = 3$ cutoff is now
 
 ```{r eval=FALSE}
 last <- getLastSpower()
@@ -310,20 +310,19 @@ Type M errors are of course intimately related to *precision criteria*
 in power analyses, and in that sense are an alternative way of looking
 at power planning to help relying on "extreme" observations for flagging
 important statistical results. Personally, the notion of thinking in
-terms of ratios relative to the true population effect size feels
-unnatural, though the point is obviously important as only seeing
+terms of "ratios relative to the true population effect size" feels
+unnatural, though the point is obviously important as seeing
 significance flagged only when unreasonably large effect sizes occur is
 troubling (e.g., replication issues).
 
 Nevertheless, I would recommend using precision-based power planning
 over focusing on Type M errors directly when power planning as this
-seems more natural, where more greater precision in the target estimates
-necessarily decreases the number of Type M error in both the "extreme"
+seems more natural, where obtaining greater precision in the target estimates
+will necessarily decrease the number of Type M error in both the "extreme"
 and "underwhelming" sense of the effect size estimates (the ladder of
 which Type M errors miss as they do not focus on non-significant results
 by definition). More importantly, precision criteria are framed in the
-metric of the observed variables rather than a metricless ratio, which
-is generally more natural for data analysts to specify.
+metric of the observed variables rather than a metricless effect size ratio, which in general should be more natural for data analysts to specify.
 
 
 ```{r include=FALSE, eval=eval}
