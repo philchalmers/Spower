@@ -158,9 +158,9 @@ is explored (cf. posterior probability approaches). However, these simulation ex
 also contain an argument `return_analysis`, which if set to `TRUE` will return the complete analysis 
 object information instead of just the extracted $p$-value (most commonly in the element `p.value`, though
 please use functions like `str()` to inspect fully). For Type M/S errors multiple components are clearly 
-required, and therefore information should be extracted from the analysis object as well.
+required, and therefore further information should be extracted from the analysis object to accommodate.
 
-To demonstrate, the built-in function `p_t.test()` can be used instead with the `return_analysis = TRUE` argument. The simulation experiment still must follow the `while()` loop logic to ensure that "significance" is first flagged, however the internal function definitions now provide the data generation and analyses so that the front-end user does not have to. 
+To demonstrate, the built-in function `p_t.test()` is used with the `return_analysis = TRUE` argument. The simulation experiment still follows the `while()` loop logic to ensure that "significance" is first flagged, however the internal function definitions now provide the data generation and analyses so that the front-end user does not have to. 
 
 ```{r}
 l_two.t_correct.sign <- function(n, mean, mu = 0, alpha = .05, ...){
@@ -177,6 +177,8 @@ l_two.t_correct.sign <- function(n, mean, mu = 0, alpha = .05, ...){
 ```{r}
 l_two.t_correct.sign(100, mean=.5)
 ```
+
+Setting the sample size to $N=30$ (hence, `n=15`) leads to the following power estimates. 
 
 ```{r eval=eval}
 l_two.t_correct.sign(n=15, mean=.2) |> Spower()
