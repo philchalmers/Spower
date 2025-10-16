@@ -45,8 +45,8 @@ For example, the built-in `p_t.test()` function performs *t*-tests using
 various inputs, where below a sample size of $N=200$ is supplied
 (`n = 100` per group) and a Cohen’s $d$ of .5 (medium effect). This
 returns a single $p$-value given the null hypotheses tested of no mean
-difference, which in this single case returns a ‘suprising’ result given
-this null position tested.
+difference, which in this single case returns a ‘surprising’ result
+given this null position tested.
 
 ``` r
 library(Spower)
@@ -62,7 +62,7 @@ set.seed(42)
 p_t.test(n=100, d=0.5) |> Spower()
 
 ##
-## Execution time (H:M:S): 00:00:05
+## Execution time (H:M:S): 00:00:02
 ## Design conditions: 
 ##
 ## # A tibble: 1 × 4
@@ -70,8 +70,8 @@ p_t.test(n=100, d=0.5) |> Spower()
 ##   <dbl> <dbl>     <dbl> <lgl>
 ## 1   100   0.5      0.05 NA   
 ## 
-## Estimate of power: 0.939
-## 95% Confidence Interval: [0.934, 0.943]
+## Estimate of power: 0.943
+## 95% Confidence Interval: [0.938, 0.947]
 ```
 
 To evaluate the prospective power of this test requires passing the
@@ -86,9 +86,9 @@ set.seed(01123581321)
 # estimate the require n value to achieve a power of 1 - beta = .95 
 p_t.test(n=NA, d=0.5) |> Spower(power=.95, interval=c(50, 300))
 
-## Iter: 55; Median = 103; E(f(x)) = 0.00; Total.reps = 10550; k.tol = 2; Pred = 104.7
+## Iter: 56; Median = 101; E(f(x)) = 0.00; Total.reps = 11000; k.tol = 2; Pred = 103.4
 ##
-## Execution time (H:M:S): 00:00:14
+## Execution time (H:M:S): 00:00:05
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
@@ -96,8 +96,8 @@ p_t.test(n=NA, d=0.5) |> Spower(power=.95, interval=c(50, 300))
 ##   <dbl> <dbl>     <dbl> <dbl>
 ## 1    NA   0.5      0.05  0.95
 ## 
-## Estimate of n: 105.0
-## 95% Predicted Confidence Interval: [103.7, 106.3]
+## Estimate of n: 103.4
+## 95% Predicted Confidence Interval: [101.5, 105.4]
 ```
 
 To generate suitable power-curves for any given simulation or power
@@ -124,8 +124,10 @@ p_t.test() |> SpowerCurve(n=seq(50, 350, by=50), d=c(.2, .3, .4, .5))
 ## Vignettes
 
 The package currently contains a vignette demonstrating several of the
-examples from the *GPower 3* manual, providing simulation-based
-replications of the same analyses.
+examples from the *GPower 3.1* manual, providing simulation-based
+replications of the same analyses, as well other vignettes showing more
+advanced applications of the package (ROPEs, Bayesian power anlayses,
+precision criterion, etc).
 
 ## Getting Help or Reporting an Issue
 
