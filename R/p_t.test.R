@@ -173,8 +173,9 @@ gen_t.test <- function(n, d, n2_n1 = 1, r = NULL, type = 'two.sample',
 			group1 <- rnorm(n, mean=means[1], sd=sds[1])
 			group2 <- rnorm(n * n2_n1, mean=means[2], sd=sds[2])
 		} else {
-			group1 <- rnorm(n)
-			group2 <- rnorm(n * n2_n1, mean=d)
+			if(is.null(sds)) sds <- c(1,1)
+			group1 <- rnorm(n, mean=d, sd = sds[1])
+			group2 <- rnorm(n * n2_n1, sd = sds[2])
 		}
 		dat <- list(group1, group2)
 	}

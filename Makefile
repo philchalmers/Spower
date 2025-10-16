@@ -18,6 +18,9 @@ check:
 precompile:
 	Rscript -e "source('vignettes/precompile.R')"
 
+precompileGpower:
+	Rscript -e "source('vignettes/precompileGpower.R')"
+
 test:
 	Rscript -e "library('testthat',quietly=TRUE);library('Spower',quietly=TRUE);options(warn=2);test_dir('tests/testthat')"
 

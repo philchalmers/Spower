@@ -35,18 +35,13 @@ This vignette provides a brief introduction to using the package `Spower` for pr
 
 # Types of functions
 
-There are generally two ways to go about using `Spower`.
+There are generally two ways to go about using `Spower`. The first is by utilizing one of a handful of **build-in simulation experiments** with an associated analysis, or, more flexibility (but less user friendly) by constructing a **user-defined simulation experiment** by way of writing simulation code encapsulated inside a function. In either case, the goal is to design R code to perform a given simulation experiment with a set of meaningful (often scalar) arguments, where the output from this function returns either:
 
-1) Utilizing a handful of build-in simulation experiments with an associated analysis, or 
-2) By constructing the simulation experiment yourself. 
+1) A suitable $p$-value under the null hypothesis, $P(D|H_0)$,
+2) The posterior probability of a (typically alternative) hypothesis, $P(H_1|D)$, or
+3) A logical value indicating support for the hypothesis of interest, where the average of the `TRUE`/`FALSE` returns reflects something to do with statistical power (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving precision, multiple hypotheses, regions of practical equivalence/significance, etc).
 
-In either case, the goal is to manipulate R code to perform a single simulation experiment and have the function return:
-
-- A suitable $p$-value under the null hypothesis, $P(D|H_0)$, where the value of `sig.level` ($\alpha$) indicates whether a sample was ($P(D|H_0)<\alpha$) or was not ($P(D|H_0)\ge\alpha$) "significant",
-- The posterior probability of a (typically alternative) hypothesis, $P(H_1|D)$, which is deemed "significant" if greater than the defined `sig.level` to indicate that a sample supported ($P(H_1|D)>\alpha$) or did not support ($P(H_1|D)\le\alpha$) the hypothesis of interest (requires setting `Spower(..., sig.direction = 'above')`), or
-- A logical value indicating support for the hypothesis of interest (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving precision, multiple hypotheses, regions of practical equivalence/significance, etc)
-
-The package defaults primarily focus on the first approach criteria, as this is historically the most common for power analysis evaluation, however nothing precludes  `Spower` from more complex power analysis tests and experiments. See the vignette *"Logical Vectors, Bayesian power analyses and ROPEs"* for further examples involving confidence intervals (CIs), regions of practical equivalences (ROPEs), equivalence tests, precision tests, and Bayes Factors. See also the vignette *"Type S and Type M errors"* for conditional power evaluation information to estimate sign and magnitude power information and their respective errors.
+The package defaults primarily focus on the first approach criteria, as this is historically the most common in software (e.g., *GPower 3*), however nothing precludes `Spower` from more complex power analyses. See the vignette *"Logical Vectors, Bayesian power analyses and ROPEs"* for more advanced examples involving confidence intervals (CIs), parameter precision criterion, regions of practical equivalences (ROPEs), equivalence tests, Bayes Factors, and power analyses involving posterior probabilities. See also the vignette *"Type S and Type M errors"* for conditional power evaluation information to estimate sign (S) and magnitude (M) power information and their respective Type S and Type M errors (Gelman and Carlin, 2014).
 
 ## Built-in experiments
 
