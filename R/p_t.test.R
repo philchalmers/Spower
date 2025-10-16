@@ -7,7 +7,8 @@
 #' have equal variance by default, however these may be modified.
 #'
 #' @param n sample size per group, assumed equal across groups
-#' @param d Cohen's standardized effect size \code{d}
+#' @param d Cohen's standardized effect size \code{d}. For the generated data this standardized
+#'   mean appears in the first group (two-sample)/first time point (paired samples)
 #' @param mu population mean to test against
 #' @param r (optional) instead of specifying \code{d} specify
 #'   a point-biserial correlation. Internally this is transformed
@@ -21,8 +22,8 @@
 #'   when \code{type = 'two.sample'}
 #' @param means (optional) vector of means for each group.
 #'   When specified the input \code{d} is ignored
-#' @param sds (optional) vector of SDs for each group.
-#'   When specified the input \code{d} is ignored
+#' @param sds (optional) vector of SDs for each group. If not specified and \code{d}
+#'  is used then these are set to a vector of 1's
 #' @param conf.level confidence interval level passed
 #'   to \code{\link[stats]{t.test}}
 #' @param gen_fun function used to generate the required two-sample data.

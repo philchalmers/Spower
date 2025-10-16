@@ -35,14 +35,13 @@ if(!eval)
 getwd()
 ```
 
-In the following publication, 
 
 *Gelman, A., & Carlin, J. (2014). Beyond Power
 Calculations: Assessing Type S (Sign) and Type M (Magnitude) Errors.
 Perspectives on Psychological Science, 9(6), 641-651.
 <https://doi.org/10.1177/1745691614551642>*
 
-Gelman and Carlin (2014) present *conditional* power analysis ideas to investigate *Type S* and *Type M* errors, 
+In the publication above, Gelman and Carlin (2014) present *conditional* power analysis ideas to investigate *Type S* and *Type M* errors, 
 which add augmentations to the usual evaluation of power via the average (expected) rejection of $H_0$ or support 
 for $H_1$ across independent samples. Specifically:
 
@@ -98,10 +97,10 @@ l_two.t_correct.sign <- function(n, mean, mu = 0, alpha = .05, ...){
 	while(TRUE){
 		g1 <- rnorm(n)
 		g2 <- rnorm(n, mean=mean)
-		out <- t.test(g1, g2, mu=mu, ...)
+		out <- t.test(g2, g1, mu=mu, ...)
 		if(out$p.value < alpha) break   # if "significant" then break while() loop
 	}
-	mean_diff <- out$estimate[2] - out$estimate[1]
+	mean_diff <- unname(out$estimate[1] - out$estimate[2])
 	mean_diff > mu                      # return TRUE if the correct sign is observed
 }
 ```
@@ -175,7 +174,7 @@ l_two.t_correct.sign <- function(n, mean, mu = 0, alpha = .05, ...){
 		out <- p_t.test(n=n, d=mean, mu=mu, return_analysis=TRUE, ...)
 		if(out$p.value < alpha) break
 	}
-	mean_diff <- out$estimate[2] - out$estimate[1]
+	mean_diff <- unname(out$estimate[1] - out$estimate[2])
 	mean_diff > mu
 }
 ```
@@ -231,7 +230,7 @@ l_two.t_typeM <- function(n, mean, mu = 0,
 		out <- p_t.test(n=n, d=mean, mu=mu, return_analysis=TRUE, ...)
 		if(out$p.value < alpha) break
 	}
-	diff <- unname(out$estimate[2] - out$estimate[1])
+	diff <- unname(out$estimate[1] - out$estimate[2])
 	M <- abs(diff)/mean
 	# return data.frame, where "retain" indicates the (logical) power information
 	data.frame(retain=M < M.ratio, M=M)
@@ -257,7 +256,7 @@ In this case, `power` represents the probability that, given a
 significant result was observed, the resulting $M$ ratio was less than the
 cutoff of 3 (hence, was less than three times the true effect size). The
 compliment, which reflects the Type M error, is then `r 1-typeM$power`,
-which is indeed quite high as
+which is indeed quite high as approximately
 `r paste0(round(1-typeM$power,2) * 100, '%')` of the samples flagged as
 significant would have needed rather large observed effects to indicate that the 
 sample was "unusual" in the statistical significance sense.

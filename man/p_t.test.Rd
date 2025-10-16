@@ -36,7 +36,8 @@ gen_t.test(
 \arguments{
 \item{n}{sample size per group, assumed equal across groups}
 
-\item{d}{Cohen's standardized effect size \code{d}}
+\item{d}{Cohen's standardized effect size \code{d}. For the generated data this standardized
+mean appears in the first group (two-sample)/first time point (paired samples)}
 
 \item{mu}{population mean to test against}
 
@@ -58,8 +59,8 @@ when \code{type = 'two.sample'}}
 \item{means}{(optional) vector of means for each group.
 When specified the input \code{d} is ignored}
 
-\item{sds}{(optional) vector of SDs for each group.
-When specified the input \code{d} is ignored}
+\item{sds}{(optional) vector of SDs for each group. If not specified and \code{d}
+is used then these are set to a vector of 1's}
 
 \item{conf.level}{confidence interval level passed
 to \code{\link[stats]{t.test}}}
