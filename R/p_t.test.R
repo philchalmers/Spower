@@ -163,7 +163,7 @@ gen_t.test <- function(n, d, n2_n1 = 1, r = NULL, type = 'two.sample',
 		n2_n1 <- 1
 	}
 	n.each <- n * n2_n1
-	stopifnot(all.equal(n.each, as.integer(n.each)))
+	# stopifnot(all.equal(n.each, as.integer(n.each)))
 	if(type == 'one.sample'){
 		DV <- if(!is.null(means))
 			rnorm(n, mean=means, sd=sds) else rnorm(n, mean=d)
