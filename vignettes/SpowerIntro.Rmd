@@ -31,27 +31,31 @@ if(!eval)
 getwd()
 ```
 
-This vignette provides a brief introduction to using the package `Spower` for prospective/post-hoc, a priori, sensitivity, criterion, and compromise power analyses. For a more detailed description of the package structure and philosophy please refer to associated publication (Chalmers, in press), as well as the documentation found within the functions; particularly, `Spower()`, `SpowerBatch()`, and `SpowerCurve()`.
+This vignette provides a brief introduction to using the package `Spower` for prospective/post-hoc, a priori, sensitivity, criterion, and compromise power analyses. For a more detailed description of the package structure and philosophy please refer to associated publication (Chalmers, 2025), as well as the documentation found within the functions; particularly, `Spower()`, `SpowerBatch()`, and `SpowerCurve()`.
 
 # Types of functions
 
-There are generally two ways to go about using `Spower`. The first is by utilizing one of a handful of **build-in simulation experiments** with an associated analysis, or, more flexibility (but less user friendly) by constructing a **user-defined simulation experiment** by way of writing simulation code encapsulated inside a function. In either case, the goal is to design R code to perform a given simulation experiment with a set of meaningful (often scalar) arguments, where the output from this function returns either:
+There are generally two ways to go about using `Spower`. The first is by utilizing one of a handful of **build-in simulation experiments** with an associated data-generation and analysis, or more flexibility (but less user friendly) by constructing a **user-defined simulation experiment** by way of writing simulation code that is encapsulated inside a single function. In either case, the goal is to design R code to perform a given simulation experiment with a set of meaningful (often scalar) functional arguments, where the output from this function returns either:
 
-1) A suitable $p$-value under the null hypothesis, $P(D|H_0)$,
+1) A suitable $p$-value under the null hypothesis statistical testing (NHST) paradigm, $P(D|H_0)$,
 2) The posterior probability of a (typically alternative) hypothesis, $P(H_1|D)$, or
-3) A logical value indicating support for the hypothesis of interest, where the average of the `TRUE`/`FALSE` returns reflects something to do with statistical power (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving precision, multiple hypotheses, regions of practical equivalence/significance, etc).
+3) A logical value indicating support for the hypothesis of interest
 
-The package defaults primarily focus on the first approach criteria, as this is historically the most common in software (e.g., *GPower 3*), however nothing precludes `Spower` from more complex power analyses. See the vignette *"Logical Vectors, Bayesian power analyses and ROPEs"* for more advanced examples involving confidence intervals (CIs), parameter precision criterion, regions of practical equivalences (ROPEs), equivalence tests, Bayes Factors, and power analyses involving posterior probabilities. See also the vignette *"Type S and Type M errors"* for conditional power evaluation information to estimate sign (S) and magnitude (M) power information and their respective Type S and Type M errors (Gelman and Carlin, 2014).
+For the first two cases, the $p$ value returned is compared to a suitable cut-off defined by the package (e.g., is $p$ less than $\alpha=.05$ for the first option, while the second might be $p$ greater than $\alpha.95$), and therefore converted to a `TRUE/FALSE` value internally, while the ladder does not require such a transformation. In all cases, the average of the resulting `TRUE`/`FALSE` values reflects something to do with statistical power (e.g., `TRUE` if rejecting the null; `TRUE` if supporting the alternative; some more complicated combination involving precision, multiple hypotheses, regions of practical equivalence/significance, etc), thereby forming the basis for all subsequent power analysis procedures.
 
-## Built-in experiments
+The internal functions available in `Spower` primarily focuses on the first approach criteria involving NHST $p$-values, as this is historically the most common in similar software (e.g., *GPower 3*), however nothing precludes `Spower` from more complex and interesting power analyses. See the vignette *"Logical Vectors, Bayesian power analyses and ROPEs"* for more advanced examples involving confidence intervals (CIs), parameter precision criterion, regions of practical equivalences (ROPEs), equivalence tests, Bayes Factors, and power analyses involving posterior probabilities. See also the vignette *"Type S and Type M errors"* for conditional power evaluation information to estimate sign (S) and magnitude (M) power information and their respective Type S and Type M errors (Gelman and Carlin, 2014).
 
-`Spower` ships with several common statistical inference experiments, such as those involving linear regression models, mediation, ANOVAs, $t$-tests, and so on. The simulation experiments are organized with the prefix `p_`, followed by the name of the analysis method. For instance,
+## Built-in functions
+
+`Spower` ships with several common statistical inference experiments, such as those involving linear regression models, mediation analyses, ANOVAs, $t$-tests, correlations, and so on. The simulation experiments are organized with the prefix `p_`, followed by the name of the analysis method. For instance,
 
 ```{r}
 p_lm.R2(50, k=3, R2=.3)
 ```
 
-performs a single simulation experiment reflecting the null hypothesis $H_0:\, R^2=0$ for a linear regression model with $k=3$ predictor variables and a sample size of $N=50$. Translating this into a power analysis simply requires passing this experiment to `Spower()` (the details of which are discussed below), where by default the estimate of power ($1-\hat{\beta}$) is returned.
+performs a single simulation experiment reflecting the null hypothesis $H_0:\, R^2=0$ for a linear regression model with $k=3$ predictor variables and a sample size of $N=50$. 
+
+Translating this information into a power analysis context now simply requires passing this experiment to `Spower()` (the details of which are discussed below), where by default the estimate of power ($1-\hat{\beta}$) is returned using the default `sig.level = .05`.
 
 ```{r eval=eval}
 p_lm.R2(50, k=3, R2=.3) |> Spower() 
@@ -66,7 +70,7 @@ Each of the `p_*` functions return a $p$-value ($P(D|H_0$) as this is the genera
 
 ## User-defined functions
 
-As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(D|H_0$) is the probability of the data given the null hypothesis. Note that while the package already supports this type of analysis (see `help(p_t.test)`) it is instructive to see how users they can write their own version of this experiment as this will help in defining simulation experiments that are not currently defined.
+As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(D|H_0$) is the probability of the data given the null hypothesis. Note that while the package already supports this type of analysis (see `help(p_t.test)`) it is instructive to see how users they can write their own version of this experiment as this will help in defining simulations outside what is currently included in the package.
 
 ```{r}
 p_single.t <- function(n, mean, mu=0){
@@ -89,15 +93,15 @@ For convenience, and for the purpose of other types of specialized power analyse
 
 # Types of power analyses to evaluate
 
-For power analyses there are typically four parameters that can be manipulated or solved in a given experiment: the $\alpha$ level (Type I error, often reflexively set to $\alpha=.05$), power (the complement of the Type II error, $1-\beta$), an effect size of interest, and the sample size. Given three of these values, the fourth can always be solved. 
+For power analyses there are typically four parameters that can be manipulated/solved in a given experiment: the $\alpha$ level (Type I error, often reflexively set to $\alpha=.05$), power (the complement of the Type II error, $1-\beta$), an effect size of interest, and the sample size. Given three of these values, the fourth can always be solved. 
 
-Note that the above description reflects a rule-of-thumb as there may be multiple effect sizes of interest, multiple sample sizes (e.g., in the form of cluster sizes in multi-level models), and so on. In `Spower()`, switching between these types of power analysis criteria is done simply by explicitly specifying which parameter is missing (`NA`), as demonstrated below.
+Note that the above description reflects a general rule-of-thumb, as there may be multiple effect sizes of interest, multiple sample size definitions (e.g., in the form of cluster sizes in multi-level models), and so on. Regardless, in `Spower()` switching between these types of power analysis criteria is performed simply by explicitly specifying which parameter is missing (`NA`), as demonstrated below, and therefore specific naming conventions for the type of analysis being performed is not particularly important, though the following presentation may be instructive nonetheless. 
 
 ## Prospective/post-hoc power analysis
 
-The canonical setup for `Spower()` will evaluate prospective or post-hoc power, thereby obtaining the estimate $1-\hat{\beta}$. By default `Spower()` uses $10,000$ independent simulation `replications` to estimate the power when this is the target criterion. 
+The canonical setup for `Spower()` will evaluate prospective or post-hoc power, thereby obtaining the estimate $1-\hat{\beta}$. By default, `Spower()` uses $10,000$ independent simulation `replications` to estimate the power when this is the target criterion. 
 
-The following provides an estimate of power given the null hypothesis $H_0:\, \mu=0.3$.
+Given the above simulation definition, the following provides an estimate of power given the null hypothesis $H_0:\, \mu=0.3$.
 
 ```{r eval=eval}
 p_single.t(n=100, mean=.5, mu=.3) |> Spower() -> prospective
@@ -135,22 +139,22 @@ This returns the estimated `sig.level` ($\hat{\alpha}$) and resulting $\hat{\bet
 with(compromise, (1 - power) / sig.level)
 ```
 
-The second way to perform a compromise analysis is to re-use a previous evaluation of a prospective/post-hoc power analysis as this contains all the necessary information.
+The second way to perform a compromise analysis is to re-use a previous evaluation of a prospective/post-hoc power analysis, as this contains all the necessary information for obtaining the compromise estimates.
 
 ```{r}
 # using previous post-hoc/prospective power analysis
 update(prospective, beta_alpha=4)
 ```
 
-In either case, the use of `update()` can be beneficial as the stored result can be reused with alternative `beta_alpha` values without having to generate and analyse new experimental data.
+In either case, the use of S3 generic `update()` function can be beneficial as the stored result may be reused with alternative `beta_alpha` values, thereby avoiding the need to estimate new experimental data.
 
 ## A priori power analysis
 
 The goal of a priori power analysis is generally to obtain the sample size ($N$) associated with a specific power rate of interest (e.g., $1-\beta=.90$), which is useful in the context of future data collection planning.
 
-To estimate the sample size using Monte Carlo simulation experiments, `Spower()` performs stochastic root solving using the ProBABLI approach from the `SimDesign` package (see `SimSolve()`), and requires a specific search `interval` to search within. The width of the interval should reflect a plausible range where the researcher believes the solution to lie, however this may be quite large as well as ProBABLI is less influenced by the range of the search interval (Chalmers, 2024).
+To estimate the sample size using Monte Carlo simulation experiments, `Spower()` performs stochastic root solving using the ProBABLI approach from the `SimDesign` package (see `SimSolve()`), and therefore requires a specific search `interval` to search within. The width of the interval should reflect a plausible range where the researcher believes the solution to lie, however this may be quite large as well as ProBABLI is less influenced by the range of the search interval (Chalmers, 2024). Moreover, as the algorithm is fundamentally based on bisections, the *midpoint* of the specified `interval` should be organized to reflect the researcher's "best guess" of where the solution is likely to be, though this is generally only worth considering if the simulation experiment under evaluation is very time consuming.
 
-Below the sample size `n` is solved to achieve a target power of $1-\beta=.80$, where the solution for $N$ was suspected to lie somewhere between the search `interval = c(20, 200)`.
+Below the sample size `n` is solved to achieve a target power of $1-\beta=.80$, where the solution for $N$ was suspected to lie somewhere between the search `interval = c(20, 200)`, with the initial starting guess of $\hat{N}=(20 + 200)/2=110$ (quite far from the true solution, but in this case adds little to the overall computation time).
 
 ```{r eval=eval}
 p_single.t(n=NA, mean=.5) |> 
@@ -194,7 +198,7 @@ print(store$criterion)
 
 # Multiple power evaluation functions
 
-The following functions, `SpowerBatch()` and `SpowerCurve()`, can be used to evaluate and visualize power analysis results across a range on inputs rather than for a single set of fixed inputs. This section demonstrates their general usage, as their specifications slightly differ from that of `Spower()`, despite the fact that `Spower()` is the underlying estimation engine.
+The following functions, `SpowerBatch()` and `SpowerCurve()`, can be used to evaluate and visualize power analysis results across a range of inputs rather than a single set of fixed inputs. This section demonstrates their general usage, as their specifications slightly differ from that of `Spower()`, despite the fact that `Spower()` is the underlying estimation engine.
 
 ## SpowerBatch()
 

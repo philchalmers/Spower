@@ -19,7 +19,9 @@ Description: Provides a general purpose simulation-based power analysis
    Additional functions for building 
    empirical power curves, reanalyzing simulation information, and 
    for increasing the precision of the resulting power 
-   estimates are also included, each of which utilize similar API structures.
+   estimates are also included, each of which utilize similar API structures. For 
+   further details see the associated publication in
+   Chalmers (2025) <doi:10.3758/s13428-025-02787-z>.
 Depends:
 	SimDesign (>= 2.20.3),
 	R (>= 4.1.0),
