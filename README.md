@@ -4,17 +4,22 @@
 
 # *Spower*: Power Analyses using Monte Carlo Simulations <img src="inst/sticker/S.png" height="139" align="right"/>
 
-*Spower* provides a general purpose simulation-based power analysis API
+*Spower* Provides a general purpose simulation-based power analysis API
 for routine and customized simulation experimental designs. The package
-focuses exclusively on Monte Carlo simulation variants of (expected)
-prospective power analyses, a priori power analyses, criterion power
-analyses, compromise power analyses, and sensitivity analyses. The
-default simulation experiment functions found within the package provide
-stochastic variants of the power analyses subroutines found in the
-*GPower* 3 software (Faul, Erdfelder, Buchner, and Lang, 2009) along
-with various other power analysis examples (e.g., mediation analyses).
-Supporting functions are also included, such as for building empirical
-power curve estimates, which utilize a similar API structure.
+focuses exclusively on Monte Carlo simulation experiment variants of
+(expected) prospective power analyses, criterion analyses, compromise
+analyses, sensitivity analyses, and a priori/post-hoc analyses. The
+default simulation experiment functions defined within the package
+provide stochastic variants of the power analysis subroutines in
+*GPower* 3.1 (Faul, Erdfelder, Buchner, and Lang, 2009), along with
+various other parametric and non-parametric power analysis applications
+(e.g., mediation analyses) and support for Bayesian power analysis by
+way of Bayes factors or posterior probability evaluations. Additional
+functions for building empirical power curves, reanalyzing simulation
+information, and for increasing the precision of the resulting power
+estimates are also included, each of which utilize similar API
+structures. For further details see the associated publication in
+Chalmers (2025).
 
 ## Installation
 
@@ -36,16 +41,17 @@ remotes::install_github("philchalmers/Spower")
 
 *Spower* requires only two components: an available function used to
 generate exactly one simulation experiment that returns one or more
-*p*-values given the null hypothesis of interest, and the use of either
-`Spower()` or `SpowerCurve()` to perform the desired
-prospective/post-hoc, a priori, sensitivity, compromise, or criterion
-power analysis.
+*p*-values given the null hypothesis of interest (or alternative
+criteria that return `logical` indicators or posterior probabilities),
+and the use of either `Spower()` or `SpowerCurve()` to perform the
+desired prospective/post-hoc, a priori, sensitivity, compromise, or
+criterion power analysis.
 
 For example, the built-in `p_t.test()` function performs *t*-tests using
 various inputs, where below a sample size of $N=200$ is supplied
-(`n = 100` per group) and a Cohen’s $d$ of .5 (medium effect). This
-returns a single $p$-value given the null hypotheses tested of no mean
-difference, which in this single case returns a ‘surprising’ result
+(`n = 100` per group) and a Cohen’s $d$ of .5 (a so-called “medium”
+effect). This returns a single $p$-value given the null hypotheses of no
+mean difference, which in this single case returns a ‘surprising’ result
 given this null position tested.
 
 ``` r
@@ -54,8 +60,10 @@ p_t.test(n=100, d=0.5)
 ## [1] 0.001231514
 ```
 
-To evaluate the prospective power of this test requires passing the
-simulation function to `Spower()`.
+To evaluate the prospective power of this test simply requires passing
+the simulation function to `Spower()`, which will perform this
+experiment with 10,000 independent replications, collecting and
+summarizing all relevant information for the power analysis.
 
 ``` r
 set.seed(42)
@@ -74,11 +82,12 @@ p_t.test(n=100, d=0.5) |> Spower()
 ## 95% Confidence Interval: [0.938, 0.947]
 ```
 
-To evaluate the prospective power of this test requires passing the
-simulation function to `Spower()`. For a priori and sensitive analyses,
-the respective input to the simulation function must be set to `NA`,
-while within `Spower()` the target power rate must be included along
-with a suitable search `interval`.
+Alternatively, for a priori and sensitive analyses, the respective input
+to the simulation function must be set to `NA`, while within `Spower()`
+the target power rate must be included along with a suitable search
+`interval` range. Below the target power is set to $1-\beta = .95$,
+while the associated $n$ is suspected to lay somewhere within the
+boundary $[50,300]$.
 
 ``` r
 set.seed(01123581321)
@@ -100,9 +109,12 @@ p_t.test(n=NA, d=0.5) |> Spower(power=.95, interval=c(50, 300))
 ## 95% Predicted Confidence Interval: [101.5, 105.4]
 ```
 
+## Estimated power curves
+
 To generate suitable power-curves for any given simulation or power
-analysis criteria the simulation experiment can be passed to
-`SpowerCurve()`. This function contains a similar specification
+analysis criteria, the simulation experiment can be passed to
+`SpowerCurve()` (or to `SpowerBatch()` first, and then to
+`SpowerCurve()`). This function contains a similar specification
 structure to `Spower()`, however differs in that the arguments to vary
 are explicitly passed as named vectors to `SpowerCurve()`. Below is an
 example varying sample size (`n`), while the next example varies both
@@ -126,8 +138,8 @@ p_t.test() |> SpowerCurve(n=seq(50, 350, by=50), d=c(.2, .3, .4, .5))
 The package currently contains a vignette demonstrating several of the
 examples from the *GPower 3.1* manual, providing simulation-based
 replications of the same analyses, as well other vignettes showing more
-advanced applications of the package (ROPEs, Bayesian power anlayses,
-precision criterion, etc).
+advanced applications of the package (ROPEs, Bayesian power analyses,
+precision criterion, Type S/M errors, etc).
 
 ## Getting Help or Reporting an Issue
 
@@ -137,7 +149,7 @@ To report bugs/issues/feature requests, please file an
 ## How to Contribute
 
 If you have a simulation experiment you’d like to contribute in the form
-of
+of either
 
 ``` r
 # returns a p-value, P(D|H0)
