@@ -8,6 +8,8 @@
 p_mcnemar.test(
   n,
   prop,
+  OR = NULL,
+  prop.disc = NULL,
   two.tailed = TRUE,
   correct = TRUE,
   gen_fun = gen_mcnemar.test,
@@ -21,6 +23,12 @@ gen_mcnemar.test(n, prop, ...)
 \item{n}{total sample size}
 
 \item{prop}{two-dimensional matrix of proportions/probabilities}
+
+\item{OR}{instead of supplying the \code{prop} table, the
+odds ratio can be specified instead \eqn{\pi_{12}/\pi_{21}}. Also requires
+proportion of discordant pairings to be specified}
+
+\item{prop.disc}{proportion of discordant pairings, \eqn{\pi_{12} + \pi_{21}}}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 
@@ -64,6 +72,12 @@ p_mcnemar.test(n=sum(Performance), prop=prop, return_analysis=TRUE)
 
 # post-hoc power (not recommended)
 Spower(p_mcnemar.test(n=sum(Performance), prop=prop))
+
+# odds ratio + discordant proportions supplied instead
+OR <- prop[1,2] / prop[2,1]
+disc <- prop[1,2] + prop[2,1]
+p_mcnemar.test(n=50, OR=.25, prop.disc=disc, two.tailed=FALSE) |>
+  Spower(replications=30000)
 
 }
 

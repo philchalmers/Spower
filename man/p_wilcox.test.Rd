@@ -2,7 +2,7 @@
 % Please edit documentation in R/p_wilcox.test.R
 \name{p_wilcox.test}
 \alias{p_wilcox.test}
-\title{p-value from Wilcox test simulation}
+\title{p-value from Wilcoxon (signed rank) test simulation}
 \usage{
 p_wilcox.test(
   n,
@@ -49,8 +49,8 @@ extraction and customization?}
 a single p-value
 }
 \description{
-Simulates data given one or two parent distributions and
-returns a p-value. Can also be used for power analyses related
+Simulates data given one (Wilcoxon) or two (Mann-Whitney)
+parent distributions and returns a p-value. Can also be used for power analyses related
 to sign tests.
 }
 \examples{

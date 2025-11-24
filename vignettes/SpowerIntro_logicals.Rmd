@@ -41,9 +41,9 @@ In many applications it can be advantageous to directly return
 `logical` values in the simulation experiment rather than
 letting `Spower()` perform these threshold transformations internally 
 (e.g., using `sig.level`) as these can
-include more intricate experimental result requirements. The following
+include more intricate experimental requirements. The following
 showcases various ways that returning `logical` values works in the
-`Spower` package, where the average across the `TRUE`/`FALSE` values 
+`Spower` package, where the average across the collected `TRUE`/`FALSE` values 
 reflects the target power estimate.
 
 Note that returning a `logical` in the simulation
@@ -54,9 +54,9 @@ be defined within the context of the simulation experiment code
 
 ## Confidence (and credible) intervals
 
-Keeping with the basic t-test experiment in the introduction vignette,
+Keeping with the basic $t$-test experiment in the introduction vignette,
 suppose we're interested in the power to reject the null hypothesis
-$H_0:\, \mu = \mu_0$ in a one-sample $t$-test, where $P(D|H_0$)
+$H_0:\, \mu = \mu_0$ in a one-sample $t$-test, where $P(D|H_0)$
 is the probability of the observing the data given the null hypothesis. Normally, one
 could simply write an experiment that returns a $p$-value in this
 context, such as the following,
@@ -76,7 +76,8 @@ specific $\alpha$ level to define their range, where $CI_\mu=[CI_{\alpha/2},CI_{
 If one were to take this approach, the defined simulation function should return a
 `logical` value based on the relation of the parameter estimate to the CI, 
 where the CI is used to evaluate the
-plausibility of $\mu = \mu_0$. Specifically, the CI is used to evaluate whether $\mu_0$ falls *outside*
+plausibility of $\mu = \mu_0$. Specifically, in the context of using CI's to reflect $p$-value logic, 
+the CI is used to evaluate whether $\mu_0$ falls *outside*
 the advertised interval, returning `TRUE` if outside the CI and `FALSE` if within the interval. 
 Alternatively, if one were in a Bayesian analysis
 context, a *credible interval* could be used instead of the confidence
@@ -124,7 +125,7 @@ print(lPower)
 
 ### Using previouls defined simulation code
 
-Note that even in the CI context presented above writing user-defined functions may not be entirely necessary. This is because the related, internally defined function `p_t.test()` can be used to obtain the same CI information by returning the model itself and subsequently extracting the `$conf.int` element. The benefit of this, as shown below, is that users do not need to reinvent the data generation and analysis portions of the experiment if this is already available (and well tested) in the package.
+Note that even in the CI context presented above, writing user-defined functions may not be entirely necessary. This is because the related, internally defined function `p_t.test()` can be used to obtain the same CI information by returning the model itself, and subsequently extracting the `$conf.int` element. The benefit of this, as shown below, is that users do not need to reinvent the data generation and analysis portions of the experiment if this is already available in the package.
 
 ```{r}
 l_single.t <- function(n, mean, mu=0, conf.level=.95){
@@ -144,18 +145,19 @@ Using confidence or credible intervals are also useful in contexts where
 specific *precision* criteria are important to satisfy.
 Suppose that, in addition to detecting a particular effect of interest
 in a given sample, the results are only deemed "practically useful" if
-the resulting effect size inference are sufficiently precise, where
+the resulting effect size inferences are sufficiently precise, where
 precision could be based on the *magnitude of the SE*, the *width of the uncertainty interval*,
 or other relevant precision-based criterion. In this case, one may join the logic of the $p$-value/CI approaches
-presented thus far to create a joint evaluation for power, where a
-result is deemed "significant and useful" if the tests are null hypothesis test is
-rejected (in the $p$-value context) *and* the CI is sufficiently narrow.
+to create a joint evaluation for power, where a
+result is deemed both "significant and useful" if the null hypothesis is significantly
+rejected *and* the CI is sufficiently narrow.
 
 As a working example, suppose that the above one-sample $t$-test experiment was generalized
 such that a meaningfully significant result would require a) the rejection
 of the null, $\mu_0=0$, and b) a CI width less than
 1/4 standardized mean units. What value of $N$ would be required to obtain such a
-significant and sufficiently accurate inference to obtain a power of 80% given the small effect size of $0.2$?
+significant and sufficiently accurate inference to obtain a power of 80% given, say, 
+the "small" effect size of $d=0.2$?
 
 ```{r}
 l_precision <- function(n, mean, CI.width, mu=0, alpha=.05){
@@ -179,8 +181,8 @@ lprecision <- store$lprecision
 print(lprecision)
 ```
 
-Compared the required $N$ to an power analysis that just contains a
-significant result this joint practical significance criteria requires a notably higher sample size. Note that in the special case where `CI.width=Inf` then all CI widths will be accepted, which will result in the same power output that would have been obtained using `p_single.t()`.
+Compared to the required $N$ from a power analysis that just contains a
+significant result, this joint practical significance criteria requires a meaningfully higher sample size. Note that in the special case where `CI.width=Inf` then all CI widths will be accepted, which will result in the same power output that would have been obtained using `p_single.t()`.
 
 ```{r eval=eval}
 l_precision(n=NA, mean=.2, CI.width=Inf) |> 
@@ -211,10 +213,10 @@ Though not a strict limitation per se, it is often more natural to focus
 directly on the sample from posterior distribution for power analysis
 applications rather than on the marginal Bayes factors; this is
 demonstrated in the next section. Nevertheless, such applications are
-possible with `Spower` if there is interest in doing so.
+possible with `Spower` if there is sufficient interest in doing so.
 
-As a simple example, the following one-sample $t$-test initially defined
-above could be redefined to focus on output from the `BayesFactor`
+As a simple example, the following one-sample $t$-test, initially defined
+above, could be redefined to focus on output from the `BayesFactor`
 package, which returns the $BF$ criteria in log units (hence, `exp()` is
 used to return the ratio to its original metric) assuming a non-informative Jeffreys prior for $\mu$.
 In this case a `TRUE` is returned if the Bayes factor is greater than 3

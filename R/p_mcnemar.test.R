@@ -9,6 +9,10 @@
 # @param exact logical; use fisher's exact test via \code{\link{fisher.test}}?
 #' @param correct logical; use continuity correction? Only applicable for
 #'   2x2 tables
+#' @param OR instead of supplying the \code{prop} table, the
+#'   odds ratio can be specified instead \eqn{\pi_{12}/\pi_{21}}. Also requires
+#'   proportion of discordant pairings to be specified
+#' @param prop.disc proportion of discordant pairings, \eqn{\pi_{12} + \pi_{21}}
 #' @param gen_fun function used to generate the required discrete data.
 #'   Object returned must be a \code{matrix} with k rows and k columns
 #'   of counts. Default uses \code{\link{gen_mcnemar.test}}.
@@ -41,12 +45,24 @@
 #' # post-hoc power (not recommended)
 #' Spower(p_mcnemar.test(n=sum(Performance), prop=prop))
 #'
+#' # odds ratio + discordant proportions supplied instead
+#' OR <- prop[1,2] / prop[2,1]
+#' disc <- prop[1,2] + prop[2,1]
+#' p_mcnemar.test(n=50, OR=.25, prop.disc=disc, two.tailed=FALSE) |>
+#'   Spower(replications=30000)
+#'
 #' }
 #'
 #' @export
-p_mcnemar.test <- function(n, prop,
+p_mcnemar.test <- function(n, prop, OR=NULL, prop.disc=NULL,
 						   two.tailed = TRUE, correct=TRUE,
 						   gen_fun=gen_mcnemar.test, return_analysis = FALSE, ...) {
+	if(!is.null(OR)){
+		prop <- matrix(0, 2, 2)
+		prop[2,1] <- prop.disc / (OR + 1)
+		prop[1,2] <- prop.disc - prop[2,1]
+		prop[1,1] <- prop[2,2] <- (1 - sum(prop))/2
+	}
 	dat <- gen_fun(n=n, prop=prop, ...)
 	ret <- mcnemar.test(dat, correct=correct)
 	if(return_analysis) return(ret)

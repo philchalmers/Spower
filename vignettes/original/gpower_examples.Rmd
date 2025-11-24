@@ -32,41 +32,42 @@ set.seed(42)
 formals(Spower)$verbose <- FALSE
 ```
 
-This vignette replicates several of the examples found in the G\*Power manual (version 3.1). It is not meant to be exhaustive but instead demonstrates how power analyses could be computed and extended using simulation methodology by either editing the default functions found within the package or by creating a new user-defined function for yet-to-be-defined statistical analysis contexts.
+This vignette replicates several of the examples found in the G\*Power manual (version 3.1). It is not meant to be exhaustive, but instead demonstrates how the presented power analyses can be computed and extended using simulation methodology by either editing the default functions found within the package, or by creating a new user-defined function for yet-to-be-defined statistical analysis contexts. Unless otherwise specified, the following analyses assume that the "significance level" (`sig.level` in `Spower()`) is set to $\alpha = .05$.
 
 # Correlation
 
-Power associated with the hypotheses $$H_0:\, \rho-\rho_0=0$$ $$H_1:\, \rho-\rho_0\ne 0$$
+Correlation analyses require evaluating the power associated with the hypotheses $$H_0:\, \rho-\rho_0=0$$ $$H_1:\, \rho-\rho_0\ne 0$$
 
-where $\rho$ is the population correlation and $\rho_0$ the null hypothesis constant.
+	
+where $\rho$ is the population correlation and $\rho_0$ the null hypothesis constant. 
 
 ### Example 3.3; Difference from constant (one sample case)
 
-Sample size estimate to reject $H_0:\, \rho_0=.60$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.65$.
+The following estimates the sample size required to reject $H_0:\, \rho_0=.60$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.65$.
 
 ```{r}
 p_r(n = NA, r = .65, rho = .60) |> 
 	Spower(power = .95, interval=c(500,3000))
 ```
 
-G\*power estimates $n$ to be 1929 using the same Fisher z-transformation approximation.
+G\*power estimates this $n$ to be 1929 using the Fisher $z$-transformation approximation, which is what is used by the `Spower` definition as well.
 
 ### Test against constant $\rho_0=0$
 
-Unlike the previous section, this is the more canonical version of the hypotheses involving correlation coefficients. Power associated with $\rho = .3$ with 100 pairs of observations, tested against $\rho_0=0$.
+The more canonical version hypotheses involving correlation coefficients appear when $rho_0=0$, as these do not require the Fisher approximation. For instance, the power associated with $\rho = .3$ with 100 pairs of observations, tested against $\rho_0=0$, results in the following.
 
 ```{r}
 p_r(n = 100, r = .3) |> Spower()
 ```
 
-Sample size estimate to reject $H_0:\, \rho_0=0$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.3$.
+Next, the sample sample size estimate required to reject $H_0:\, \rho_0=0$ in correlation analysis with $1-\beta=.95$ probability when $\rho=.3$ is expressed as
 
 ```{r}
 p_r(n = NA, r = .3) |> 
 	Spower(power = .95, interval=c(50,1000))
 ```
 
-Compare to approximate result from `pwr` package.
+G\*power 3.1 provides the same estimate as the `pwr` package in this case, which for comparison is presented below.
 
 ```{r}
 pwr::pwr.r.test(r=.3, power=.95, n=NULL)
@@ -74,15 +75,19 @@ pwr::pwr.r.test(r=.3, power=.95, n=NULL)
 
 ### Example 27.3; Correlation - inequality of two independent Pearson r’s
 
+Were the correlation between two independent samples to be compared, the `p_2r()` simulation can be adopted. Below a sample of $N_1=206$ observations appeared in the first sample ($r=.75$), while the second sample ($r=.88$) contained only $N_2=51$ observations (hence, the ratio $N_2/N_1=51/206$). This results in the post-hoc/observed power of
+
 ```{r}
 n <- 206
 n2_n1 <- 51/n
 p_2r(n=n, r.ab1=.75, r.ab2=.88, n2_n1=n2_n1) |> Spower()
 ```
 
-G\*power gives power of .726.
+G\*power 3.1 returns the power of .726 in this context.
 
 ### Example 16.3; Point-biserial correlation
+
+The following estimates the sample size required to obtain a power of $1-\beta=.95$ given that $r=.25$ is the true correlation, evaluated under the null $H_0:\rho\le0$ (hence, is one-tailed) with $\alpha = .05$.
 
 ```{r}
 # solution per group
@@ -96,10 +101,11 @@ ceiling(out$n) * 2
 
 G\*power gives the result $N=164$.
 
-Relatedly, one can specify $d$, Cohen's standardized mean-difference effect size, instead of $r$ since $d$ is easily converted to $r$.
+Relatedly, one can specify $d$, Cohen's standardized mean-difference effect size, instead of $r$ since $d$ will be converted to $r$ inside the `p_t.test()` function.
 
 ### Example 31.3; tetrachoric correlation
 
+For tetrachoric and polychoric correlations, the experiment definition in `p_r.cat()` can be used. This requires specifying the associated $\tau$ threshold coefficients for the population normal truncation processes, as well as the bivariate correlation itself prior to the truncation.
 
 ```{r}
 F <- matrix(c(203, 186, 167, 374), 2, 2)
@@ -108,18 +114,27 @@ N <- sum(F)
 (marginal.y <- rowSums(F)/N)
 
 # converted to intercepts
-tauX <- qnorm(marginal.x)[2]
-tauY <- qnorm(marginal.y)[2]
+tauX <- qnorm(1-marginal.x)[2]
+tauY <- qnorm(1-marginal.y)[2]
 c(tauX, tauY)
 ```
 
-G\*power gives $n=463$, though uses the SE value at the null (Score test). `p_r.cat()`, on 
-the other hand, defaults to the Wald approach where the SE is at the MLE. To switch, use 
-`score=FALSE`, though note that this requires twice as many computations.
+These $\tau$ values correspond to where along the assumed normal p.d.f. the truncation took place, which for the $X$ variable can be seen in the following graphic.
+
+```{r echo=FALSE}
+curve(dnorm, -6, 6, las=1, ylab='Normal PDF', xlab = 'z')
+abline(v = tauX)
+text(2, .3, sprintf("tauX = %.2f", tauX))
+text(-1, .05, round(marginal.x[1], 2))
+text(1, .05, round(marginal.x[2], 2))
+```
+
+Finally, assuming that the untruncated $r=0.2399846$, and a Score test were used to evaluate the null hypothesis of interest (`score = TRUE`), the sample size required to reject the null hypothesis that the tetrachoric correlation is less than or equal to 0 in this population (one-tailed) is expressed as
+
 
 ```{r eval=FALSE}
 p_r.cat(n=NA, r=0.2399846, tauX=tauX, tauY=tauY, 
-		score=FALSE, two.tailed=FALSE) |> 
+		score=TRUE, two.tailed=FALSE) |> 
 	Spower(power = .95, interval=c(100, 500), 
 		   parallel=TRUE, check.interval=FALSE)
 ```
@@ -129,14 +144,17 @@ p_r.cat(n=NA, r=0.2399846, tauX=tauX, tauY=tauY,
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 8
-##       n     r  tauX  tauY score two.tailed sig.level power
+##       n     r   tauX   tauY score two.tailed sig.level power
 ##   <dbl> <dbl> <dbl> <dbl> <lgl> <lgl>          <dbl> <dbl>
-## 1    NA 0.240 0.206 0.259 FALSE FALSE           0.05  0.95
+## 1    NA 0.240 -0.206 -0.259 FALSE FALSE           0.05  0.95
 ## 
 ## Estimate of n: 462.9
 ## 95% Prediction Interval: [458.5, 466.6]
 ```
 
+G\*power gives $n=463$, though uses the SE value at the null (Score test). `p_r.cat()`, on 
+the other hand, defaults to the Wald approach where the SE is at the maximum-likelihood estimate (MLE); hence, `score = FALSE` by default. 
+To switch, use `score=TRUE`, though note that this requires twice as many computations as a second set of data  is generated and analyzed at $r=r_0$ to obtain the required $SE_0$ estimate.
 
 
 
@@ -144,7 +162,7 @@ p_r.cat(n=NA, r=0.2399846, tauX=tauX, tauY=tauY,
 
 ### Example 4.3; One sample proportion tests
 
-One sample, one-tailed proportions test given data generated from a population tested against $\pi_0 = .65$ with $g=.15$ (hence, $\pi = .65+g=.80$) with $n=20$.
+A one sample, one-tailed proportion test given data generated from a population with $\pi = .80$ and tested against the null hypothesis $H_0:\pi_0\le.65$ with $n=20$ is presented in the following. Note that G\*power requires a term $g$ to be specified as the proportion *difference* from the null instead (hence, $g = .80-.65=.15$), though   `p_prop.teset()` accepts the null and alternative probability values as-is. 
 
 ```{r}
 pi <- .65
@@ -155,9 +173,7 @@ p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |>
 	Spower()
 ```
 
-G\*power gives the estimate $1-\beta=.4112$.
-
-Fisher's exact test is also supported by using the argument `exact = TRUE`.
+G\*power gives the estimate $1-\beta=.4112$. Note that with `p_prop.test()`, the Fisher's exact version of this test  is also supported by passing the argument `exact = TRUE`.
 
 ```{r}
 # Fisher exact test
@@ -165,9 +181,9 @@ p_prop.test(n=20, prop=p, pi=pi, exact=TRUE,
 			two.tailed=FALSE) |> Spower()
 ```
 
-### Example 22.1; Sign test
+### Example 22.1; Wilcoxon signed-rank test
 
-Standard Normal/Gaussian as the parent distribution (default).
+The following performed a one-sample, one-tailed Wilcoxon signed rank test given $N=649$, $d=.1$, where the parent distribution is assumed to follow a Normal/Gaussian shape (default).
 
 ```{r}
 p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> 
@@ -175,7 +191,7 @@ p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |>
 ```
 G\*power gives the power estimate of .800. 
 
-The following partially recreates the simulation results in Figure 29 (which itself was partially extracted from Shieh, Jan, and Randles, 2007) for the *Gaussian(0,1)* distribution with varying sample sizes and effect sizes. The target was to obtain "approximate power of $1-\beta = .80$", though how these sample sizes were decided upon was not specified. `Spower()`'s stochastic root-solving approach would likely get closer to more optimal $N$ estimates were these the target of the analyses.
+The following partially recreates the simulation results in Figure 29 (which itself was partially extracted from Shieh, Jan, and Randles, 2007) for the *Gaussian(0,1)* distribution with varying sample sizes and effect sizes. The target was to obtain the "approximate power of $1-\beta = .80$", though how these sample sizes were decided upon was not specified. `Spower()`'s stochastic root-solving approach would likely get closer to more optimal $N$ estimates were these the target of the analyses.
 
 ```{r}
 # For Gaussian(0,1)
@@ -188,7 +204,8 @@ as.data.frame(out)
 
 #### Laplace(0,1) version
 
-A one-sample sign test with Laplace distribution as the parent:
+A one-sample Wilcoxon signed rank test with Laplace distribution as the parent. Note that this requires 
+defining the parent distribution manually, accepting arguments such as `n` and `d`.
 
 ```{r}
 library(VGAM)
@@ -219,36 +236,37 @@ as.data.frame(out)
 
 ### Example 5.3; Two dependent proportions test (McNemar's test)
 
+The following performs a proportions test between two dependent groups using McNemar's test. The data is from  O'Brien (2002, p. 161-163).
+
 ```{r}
 obrien2002 <- matrix(c(.54, .32, .08, .06), 2, 2,
 					 dimnames = list('Treatment' = c('Yes', 'No'),
 					 				'Standard' = c('Yes', 'No')))
 obrien2002
 
-p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE) |>
-	   	Spower(replications=30000)
+p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE) |> Spower()
 ```
+
+Alternatively, specifying the inputs not in terms of proportions but rather as the odds ratio ($OR=\pi_{12}/\pi_{21}=.08/.32=.25$) and proportions of discordant pairs ($\pi_D=\pi_{12} + \pi_{21}=.08 + .32=.40$) can be supplied
+
+```{r}
+OR <- obrien2002[1,2] / obrien2002[2,1]
+disc <- obrien2002[1,2] + obrien2002[2,1]
+p_mcnemar.test(n=50, OR=OR, prop.disc=disc, two.tailed=FALSE) |> Spower()
+```
+
 
 G\*Power gives .839 ($\alpha = .032$). Slightly more power can be achieved when not using the continuity correction, though in general this is not recommended in practice.
 
 ```{r}
-p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE, correct=FALSE) |> 
-	Spower()
+p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE, correct=FALSE) |> Spower()
 ```
-
-# Multiple Linear Regression (Random IVs)
-
-### Example 7.3
-
-```{r}
-p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE) |> Spower()
-```
-
-G\*power gives 0.662 using a one-tailed test criterion.
 
 # Multiple Linear Regression (Fixed IVs)
 
 ### Example 13.1
+
+Evaluating $R^2=.1$ generated data for a linear regression model given the null hypothesis $H_0:R^2_0=0$. When evaluated using $N=95$ observations with $k=5$ predictor variables gives the estimate.
 
 ```{r}
 p_lm.R2(n=95, R2=.1, k=5) |> Spower()
@@ -258,7 +276,7 @@ G\*power gives $1-\beta = .673$.
 
 ### Example 14.3
 
-Note that `k` is total IVs, `k.R2_0` is number of IVs for baseline model.
+Similarly, comparing nested models for changes in $R^2$. For the following, note that `k` is total IVs (in this case, 9), while `k.R2_0` is number of IVs for baseline model (in this case, 5). At $\alpha=.01$ and a change of $\Delta R^2=.05$ from the baseline $R^2_0=.25$ gives
 
 ```{r}
 p_lm.R2(n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5) |> Spower(sig.level=.01)
@@ -275,7 +293,7 @@ G\*power gives $n = 242$.
 
 ### Example 14.3b
 
-Compare model with 12 IVs to model with 9 IVs.
+Nested model comparison for changes in $R^2$ for models with 12 IVs versus 9 IVs. Requires the specification of the $R^2_{residual}$.
 
 ```{r}
 p_lm.R2(n=200, R2=.16, R2_0 = .1, k=12, k.R2_0=9, R2.resid=.8) |> 
@@ -284,9 +302,23 @@ p_lm.R2(n=200, R2=.16, R2_0 = .1, k=12, k.R2_0=9, R2.resid=.8) |>
 
 G\*power gives $1-\beta = .767$.
 
+# Multiple Linear Regression (Random IVs)
+
+### Example 7.3
+
+Same as in Example 13.1 above, however assuming that the IVs are randomly sampled instead of fixed.
+
+```{r}
+p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE) |> Spower()
+```
+
+G\*power gives 0.662 using a one-tailed test criterion.
+
 # Fixed effects ANOVA - One way (F-test) 
 
 ### Example 10.3
+
+One-way ANOVA example to solve $n$ per group (of which there are $k=10$), using Cohen's $f=.25$, to achieve a power of $1-\beta=.95$. 
 
 ```{r}
 p_anova.test(n=NA, k=10, f=.25) |>  Spower(power=.95, interval=c(20, 300))
@@ -360,8 +392,9 @@ G*Power gives the estimate for $n$ to be 163 (and therefore 256 in the second gr
 
 ### Example 26.3; Difference from constant (one sample case)
 
+Solve $n$ for variance ratio of $1/1.5 = 2/3$ using a one-tailed variance ratio test, assuming that the target power is $1-\beta=.80$.
+
 ```{r}
-# solve n for variance ratio of 1/1.5 = 2/3, one.tailed, 80% power
 p_var.test(n=NA, vars=1, sigma2=1.5, two.tailed=FALSE) |> 
 	Spower(power=.80, interval=c(10, 200))
 ```
@@ -398,6 +431,8 @@ G\*power estimate is 88 per group, `Spower` estimate is `r out$n` with the 95% C
 
 ### Example 19.3; Paired samples t-test
 
+Paired-samples $t$-test, assuming the generated difference is the repeated measures Cohen's $d_r=.421637$ (e.g., were the unadjusted $d=.4$, while $r_{xy} = .55$, then this results in the repeated $d_r=\frac{|\mu_x-\mu_y|}{\sqrt{\sigma^2_x + \sigma^2_y - 2\rho_{xy}\sigma_x\sigma_y}}$). 
+
 ```{r}
 p_t.test(n=50, d=0.421637, type = 'paired') |> Spower(replications=50000)
 ```
@@ -419,12 +454,18 @@ G*power reports that around $N=110$ is required, though this is estimated visual
 
 ### Example 20.3; One-sample t-test
 
+Evaluating the hypotheses for the mean expression
+$$H_0:\mu\le\mu_0$$
+$$H_a:\mu>\mu_0$$
+
+using a one-sample $t$-test. The following estimates $n$ given a one-tailed $d=.625$ to achieve $1-\beta=.95$.
+
 ```{r}
 p_t.test(n=NA, d=.625, two.tailed=FALSE, type='one.sample') |>  
 	Spower(power=.95, interval=c(10, 100))
 ```
 
-G\*power gives sample size of $n=30$.
+G\*power gives sample size of $n=30$. Similiarly, though with different inputs.
 
 ```{r}
 p_t.test(n=NA, d=.1, type='one.sample') |>  
@@ -433,9 +474,11 @@ p_t.test(n=NA, d=.1, type='one.sample') |>
 
 G\*power gives sample size of $n=1492$.
 
-## Wilcox tests
+## Wilcoxon tests
 
 ### Example 22.3; One-sample test with normal distribution
+
+Same as Example 22.1 above.
 
 ```{r}
 p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> Spower()
@@ -444,6 +487,8 @@ p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> Spower()
 G\*power provide power estimate of .800.
 
 ### Two-sample test with Laplace distributions
+
+Two-sample Wilcoxon test comparing Laplace distributions with different central tendencies.
 
 ```{r wilcox}
 library(VGAM)

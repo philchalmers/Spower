@@ -654,9 +654,12 @@ print.Spower <- function(x, ...){
 #' @rdname Spower
 #' @export
 as.data.frame.Spower <- function(x, ...){
+	so <- summary(x)
 	class(x) <- 'data.frame'
 	pick <- which(colnames(x) == 'REPLICATIONS')
 	if(length(pick))
 		x <- x[, 2:pick-1, drop=FALSE]
+	CI <- do.call(rbind, list(so$power.CI, so$predCIs_root))
+	x <- data.frame(x, CI)
 	x
 }

@@ -45,7 +45,7 @@ For the first two cases, the $p$ value returned is compared to a suitable cut-of
 
 The internal functions available in `Spower` primarily focuses on the first approach criteria involving NHST $p$-values, as this is historically the most common in similar software (e.g., *GPower 3*), however nothing precludes `Spower` from more complex and interesting power analyses. See the vignette *"Logical Vectors, Bayesian power analyses and ROPEs"* for more advanced examples involving confidence intervals (CIs), parameter precision criterion, regions of practical equivalences (ROPEs), equivalence tests, Bayes Factors, and power analyses involving posterior probabilities. See also the vignette *"Type S and Type M errors"* for conditional power evaluation information to estimate sign (S) and magnitude (M) power information and their respective Type S and Type M errors (Gelman and Carlin, 2014).
 
-## Built-in functions
+## Built-in simulation experiments
 
 `Spower` ships with several common statistical inference experiments, such as those involving linear regression models, mediation analyses, ANOVAs, $t$-tests, correlations, and so on. The simulation experiments are organized with the prefix `p_`, followed by the name of the analysis method. For instance,
 
@@ -68,9 +68,9 @@ print(store$R2ex)
 
 Each of the `p_*` functions return a $p$-value ($P(D|H_0$) as this is the general information required to evaluate statistical power with `Spower()`. Alternatively, users may define their own simulation functions if the desired experiment has not been defined within the package.
 
-## User-defined functions
+## User-defined simulation experiments
 
-As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(D|H_0$) is the probability of the data given the null hypothesis. Note that while the package already supports this type of analysis (see `help(p_t.test)`) it is instructive to see how users they can write their own version of this experiment as this will help in defining simulations outside what is currently included in the package.
+As a very simple example, suppose one were interested in the power to reject the null hypothesis $H_0:\, \mu = \mu_0$ in a one-sample $t$-test scenario, where $P(D|H_0)$ is the probability of the data given the null hypothesis of interest. Note that while the package already supports this type of analysis (see `help(p_t.test)`) it is instructive to see how users they can write their own version of this experiment, as this will help in defining simulations outside what is currently included in the package.
 
 ```{r}
 p_single.t <- function(n, mean, mu=0){
@@ -80,14 +80,14 @@ p_single.t <- function(n, mean, mu=0){
 }
 ```
 
-This simulation experiment will first obtain sample of data drawn from a Gaussian distribution with some specific `mean` ($\mu$), and evaluate the conditional probability that the data were generated from a population with a $\mu_0=0$ (the null; hence, $P(D|\mu_0)$). As such, the $p$-value returned from this experiments reflects the probability of observing the data given the null hypothesis $H_0:\, \mu=\mu_0$, or more specifically $H_0:\, \mu=0$, for a single generated dataset.
+This simulation experiment will first obtain sample of data drawn from a Gaussian distribution with some specific `mean` ($\mu$), and evaluate the conditional probability that the data were generated from a population with a $\mu_0=0$ (the null; hence, $P(D|\mu_0=0)$). As such, the $p$-value returned from this experiments reflects the probability of observing the data given the null hypothesis $H_0:\, \mu=\mu_0$, or more specifically $H_0:\, \mu=0$, for a single generated dataset.
 
 ```{r}
 # a single experiment
 p_single.t(n=100, mean=.2)
 ```
 
-From here, a suitable cut-off is required to evaluate whether the experiment was 'significant', which is the purpose of the parameter $\alpha$. Specifically, if the observed data ($D$) were plausibly drawn from a population with $\mu_0$ (hence, $P(D|\mu_0) \ge \alpha$) then a `FALSE` significance would be returned; otherwise, if the data were unlikely to have been observed given the ($P(D|\mu_0) < \alpha$) then a `TRUE` would be returned, thereby indicating significance.
+From here, a suitable cut-off is required to evaluate whether the experiment was 'significant', which is the purpose of the parameter $\alpha$. Specifically, if the observed data ($D$) were plausibly drawn from a population with $\mu_0$ (hence, $P(D|\mu_0) \ge \alpha$) then a `FALSE` significance would be returned; otherwise, if the data were unlikely to have been observed given the ($P(D|\mu_0=0) < \alpha$) then a `TRUE` would be returned, thereby indicating statistical significance.
 
 For convenience, and for the purpose of other types of specialized power analyses (e.g., compromise analyses), the $\alpha$ parameter has been controlled via the argument `Spower(..., sig.level = .05)`, which creates the `TRUE/FALSE` evaluations internally. This saves a step in the writing, but if users wished to defined `sig.level` within the simulation experiment itself that is an acceptable approach too.
 
@@ -101,7 +101,7 @@ Note that the above description reflects a general rule-of-thumb, as there may b
 
 The canonical setup for `Spower()` will evaluate prospective or post-hoc power, thereby obtaining the estimate $1-\hat{\beta}$. By default, `Spower()` uses $10,000$ independent simulation `replications` to estimate the power when this is the target criterion. 
 
-Given the above simulation definition, the following provides an estimate of power given the null hypothesis $H_0:\, \mu=0.3$.
+Given the above simulation definition, the following provides an estimate of power given the null hypothesis $H_0:\, \mu=0.3$ given that the data were generated from a distribution with $\mu = .5$ with $n=100$.
 
 ```{r eval=eval}
 p_single.t(n=100, mean=.5, mu=.3) |> Spower() -> prospective
@@ -118,7 +118,7 @@ print(prospective)
 
 Compromise power analysis involves manipulating the $\alpha$ level until some sufficient balance between the Type I and Type II error rates are met, expressed in terms of the ratio $q=\frac{\beta}{\alpha}$.
 
-In `Spower`, there are two ways to approach this criterion. The first way, which focuses on the `beta_alpha` ratio at the outset, requires passing the target ratio to `Spower()` using the same setup as the previous prospective power analysis.
+In `Spower`, there are two ways to approach this criterion. The first, which focuses on the `beta_alpha` ratio at the outset, requires passing the target ratio to `Spower()` using the same setup as the previous prospective power analysis.
 
 ```{r eval=eval}
 p_single.t(n=100, mean=.5, mu=.3) |> 
@@ -132,7 +132,7 @@ compromise <- store$compromise
 print(compromise)
 ```
 
-This returns the estimated `sig.level` ($\hat{\alpha}$) and resulting $\hat{\beta}$ that satisfies the target $q$ ratio.
+This returns the estimated `sig.level` ($\hat{\alpha}$) and resulting $\hat{\beta}$ that satisfies the target $q$ ratio $q = \beta/\alpha = 4$.
 
 ```{r}
 # satisfies q = 4 ratio
@@ -168,7 +168,7 @@ print(store$apriori)
 
 ## Sensitivity power analysis
 
-Similar to a priori power analysis, however the goal is now to find some specific standardized or unstandardized effect size associated with a specific power rate. This pertains to the question of how large an effect size must be in order to reliably detect the effect of interest.
+Similar to a priori power analysis, in that stochastic root solving is required, the target of sensitivity analysis is to locate some specific standardized or unstandardized effect size that will result in a particular  power rate. This pertains to the question of how large an effect size must be in order to reliably detect the effect of interest, holding constant other information such as sample size.
 
 Below the sample size is fixed at $N=100$, while the interval for the standardized effect size $d$ is searched between `c(.1, 3)`. Note that the use of decimals in the interval tells `Spower()` to use a continuous rather than discrete search space (cf. with a priori, which uses an integer search space for the simulation replicates).
 

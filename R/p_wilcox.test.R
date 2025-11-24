@@ -1,7 +1,7 @@
-#' p-value from Wilcox test simulation
+#' p-value from Wilcoxon (signed rank) test simulation
 #'
-#' Simulates data given one or two parent distributions and
-#' returns a p-value. Can also be used for power analyses related
+#' Simulates data given one (Wilcoxon) or two (Mann-Whitney)
+#' parent distributions and returns a p-value. Can also be used for power analyses related
 #' to sign tests.
 #'
 #' @param n sample size per group
