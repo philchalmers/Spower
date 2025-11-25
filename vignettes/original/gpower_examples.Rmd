@@ -96,7 +96,7 @@ case, which for comparison is presented below.
 pwr::pwr.r.test(r=.3, power=.95, n=NULL)
 ```
 
-### Example 27.3; Correlation - inequality of two independent Pearson r’s
+### Example 27.3; Correlation - inequality of two independent Pearson r's
 
 Were the correlation between two independent samples to be compared, the
 `p_2r()` simulation can be adopted. Below a sample of $N_1=206$
@@ -247,7 +247,7 @@ G\*power gives the power estimate of .800.
 
 The following partially recreates the simulation results in Figure 29
 (which itself was partially extracted from Shieh, Jan, and Randles,
-2007) for the *Gaussian(0,1)* distribution with varying sample sizes and
+2007) for the *Gaussian($\mu$,1)* distribution with varying sample sizes and
 effect sizes. The target was to obtain the "approximate power of
 $1-\beta = .80$", though how these sample sizes were decided upon was
 not specified. `Spower()`'s stochastic root-solving approach would
@@ -255,26 +255,26 @@ likely get closer to more optimal $N$ estimates were these the target of
 the analyses.
 
 ```{r}
-# For Gaussian(0,1)
+# For Gaussian(d,1)
 out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |> 
 	SpowerBatch(n=c(649, 164, 42, 20, 12, 9),
 				d=c(.1, .2, .4, .6, .8, 1.0), replications = 50000, fully.crossed=FALSE)
 as.data.frame(out)
 ```
 
-#### Laplace(0,1) version
+#### Laplace($\mu$, 1) version
 
 A one-sample Wilcoxon signed rank test with Laplace distribution as the
 parent. Note that this requires defining the parent distribution
 manually, accepting arguments such as `n` and `d`.
 
 ```{r}
-library(VGAM)
+library(extraDistr)
 
 # generate data with scale 0-1 for d effect size to be same as mean
 # VAR = 2*b^2, so scale should be 1 = 2*b^2 -> sqrt(1/2)
-parent <- function(n, d, scale=sqrt(1/2)) 
-	VGAM::rlaplace(n, d, scale=scale)
+parent <- function(n, d, sigma=sqrt(1/2)) 
+	extraDistr::rlaplace(n, d, sigma=sigma)
 
 p_wilcox.test(n=11, d=.8, parent1=parent, type='one.sample',
 			  two.tailed=FALSE, correct = FALSE) |> Spower()
@@ -283,16 +283,17 @@ p_wilcox.test(n=11, d=.8, parent1=parent, type='one.sample',
 G\*power gives the estimate .830, which seems somewhat high (see below).
 
 The following partially recreates the simulation results in Figure 29
-for the *Laplace(0,1)* distribution with varying sample sizes and effect
-sizes. The target was to obtain "approximate power of $1-\beta = .80$",
-though how these sample sizes were decided upon was not specified.
-`Spower()`'s stochastic root-solving approach would likely get closer to
-more optimal $N$ estimates were these the target of the analyses.
+for the Laplace($\mu$, 1) distribution with varying sample sizes and
+effect sizes. The target was to obtain "approximate power of
+$1-\beta = .80$", though how these sample sizes were decided upon was
+not specified. `Spower()`'s stochastic root-solving approach would
+likely get closer to more optimal $N$ estimates were these the target of
+the analyses.
 
 ```{r}
 # For Laplace(0,1)
 out <- p_wilcox.test(parent1=parent, type='one.sample',
-			  two.tailed=FALSE, correct = FALSE) |> 
+			  two.tailed=FALSE) |> 
 	SpowerBatch(n=c(419, 109, 31, 16, 11, 8),
 				d=c(.1, .2, .4, .6, .8, 1.0), replications=50000, fully.crossed=FALSE)
 as.data.frame(out)
@@ -617,7 +618,7 @@ defining an alternative parent distribution, which below uses the
 
 ```{r}
 library(extraDistr)
-parent1 <- function(n, d) extraDistr::rlaplace(n)/sqrt(2) + d
+parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
 
 # properties of sampled distribution
 psych::describe(parent1(n=100000, d=0.8))
@@ -635,8 +636,8 @@ central tendencies.
 ```{r wilcox}
 library(extraDistr)
 
-parent1 <- function(n, d) extraDistr::rlaplace(n)/sqrt(2) + d
-parent2 <- function(n, d) extraDistr::rlaplace(n)/sqrt(2)
+parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
+parent2 <- function(n, d) extraDistr::rlaplace(n, sigma=sqrt(1/2))
 
 # properties of sampled distributions
 psych::describe(parent1(n=100000, d=0.375))
@@ -648,23 +649,22 @@ p_wilcox.test(n=67, n2_n1=nr, d=0.375, parent1=parent1, parent2=parent2) |>
 ```
 
 Unlike before with the Laplace distribution, G\*power 3.1 seems to agree
-with `Spower`, where a power of .847 is reported.
+with `Spower`, where a power of .847 is reported. This seems to raise questions about the consistency of the results.
 
 ### Example 23.3: Paired-samples test with Laplace distributions
 
 Finally, paired-samples approach using Wilcoxon test with $N=10$.
 
 ```{r}
-parent1 <- function(n, d) extraDistr::rlaplace(n)/sqrt(2) + d
-parent2 <- function(n, d) extraDistr::rlaplace(n)/sqrt(2)
+parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
+parent2 <- function(n, d) extraDistr::rlaplace(n, sigma=sqrt(1/2))
 
 psych::describe(parent1(n=100000, d=1.13842))
 psych::describe(parent1(n=100000, d=0))
 
 p_wilcox.test(n=10*2, d=1.13842, type = 'paired',
 			  parent1=parent1, parent2=parent2) |> Spower()
-
 ```
 
-Again, the simulation approach and G\*power 3.1 differ in their ouputs,
-where in G\*power 3.1 the power is reported to be 0.853.
+Again, the simulation approach and G\*power 3.1 differ in their outputs,
+where in G\*power 3.1 the reported power is 0.853.
