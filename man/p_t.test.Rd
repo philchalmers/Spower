@@ -34,7 +34,9 @@ gen_t.test(
 )
 }
 \arguments{
-\item{n}{sample size per group, assumed equal across groups}
+\item{n}{sample size per group, assumed equal across groups. For paired samples
+this corresponds to the number of pairs (hence, half the number of data points
+observed)}
 
 \item{d}{Cohen's standardized effect size \code{d}. For the generated data this standardized
 mean appears in the first group (two-sample)/first time point (paired samples)}
@@ -103,7 +105,7 @@ p_t.test(n=50, d=0.5, n2_n1 = 2)
 p_t.test(n=50, means = c(0,1), sds = c(2,2))
 
 # paired and one-sample tests
-p_t.test(n=50, d=0.5, type = 'paired')
+p_t.test(n=50, d=0.5, type = 'paired') # n = number of pairs
 p_t.test(n=50, d=0.5, type = 'one.sample')
 
 # return analysis object

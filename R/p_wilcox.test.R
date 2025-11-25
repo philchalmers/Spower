@@ -4,7 +4,8 @@
 #' parent distributions and returns a p-value. Can also be used for power analyses related
 #' to sign tests.
 #'
-#' @param n sample size per group
+#' @param n sample size per group. For paired samples this corresponds to the
+#'   number of pairings (hence, half of the data points observed)
 #' @param d effect size passed to \code{parent} functions
 #' @param n2_n1 sample size ratio
 #' @param type type of analysis to use (two-sample, one-sample, or paired)
@@ -26,7 +27,7 @@
 #'
 #' # with normal distributions defaults d is standardized
 #' p_wilcox.test(100, .5)
-#' p_wilcox.test(100, .5, type = 'paired')
+#' p_wilcox.test(100, .5, type = 'paired')  # n = number of pairs
 #' p_wilcox.test(100, .5, type = 'one.sample')
 #'
 #' # return analysis object
@@ -46,13 +47,13 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 						  parent2 = function(n, d) rnorm(n, 0, 1),
 						  return_analysis = FALSE){
 	type <- match.arg(type)
-	if(type == 'paired') n <- n * 2
 	dat1 <- parent1(n, d)
 	ret <- if(type == 'one.sample'){
 		wilcox.test(dat1, mu=mu, correct=correct, exact=exact)
 	} else {
-		dat2 <- parent2(n*n2_n1, d)
 		paired <- type == 'paired'
+		if(paired) stopifnot(n2_n1 == 1)
+		dat2 <- parent2(n*n2_n1, d)
 		wilcox.test(dat1, dat2, paired=paired,
 					mu=mu, correct=correct, exact=exact)
 	}

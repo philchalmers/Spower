@@ -6,7 +6,9 @@
 #' assume that the conditional observations are normally distributed and have
 #' have equal variance by default, however these may be modified.
 #'
-#' @param n sample size per group, assumed equal across groups
+#' @param n sample size per group, assumed equal across groups. For paired samples
+#'   this corresponds to the number of pairs (hence, half the number of data points
+#'   observed)
 #' @param d Cohen's standardized effect size \code{d}. For the generated data this standardized
 #'   mean appears in the first group (two-sample)/first time point (paired samples)
 #' @param mu population mean to test against
@@ -55,7 +57,7 @@
 #' p_t.test(n=50, means = c(0,1), sds = c(2,2))
 #'
 #' # paired and one-sample tests
-#' p_t.test(n=50, d=0.5, type = 'paired')
+#' p_t.test(n=50, d=0.5, type = 'paired') # n = number of pairs
 #' p_t.test(n=50, d=0.5, type = 'one.sample')
 #'
 #' # return analysis object
@@ -159,7 +161,7 @@ gen_t.test <- function(n, d, n2_n1 = 1, r = NULL, type = 'two.sample',
 		d <- r2d(r, n0=n, n1=n*n2_n1)
 	}
 	if(type == 'paired'){
-		n <- n * 2
+		# n <- n * 2
 		n2_n1 <- 1
 	}
 	n.each <- n * n2_n1

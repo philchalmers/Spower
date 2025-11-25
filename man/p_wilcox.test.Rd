@@ -19,7 +19,8 @@ p_wilcox.test(
 )
 }
 \arguments{
-\item{n}{sample size per group}
+\item{n}{sample size per group. For paired samples this corresponds to the
+number of pairings (hence, half of the data points observed)}
 
 \item{d}{effect size passed to \code{parent} functions}
 
@@ -57,7 +58,7 @@ to sign tests.
 
 # with normal distributions defaults d is standardized
 p_wilcox.test(100, .5)
-p_wilcox.test(100, .5, type = 'paired')
+p_wilcox.test(100, .5, type = 'paired')  # n = number of pairs
 p_wilcox.test(100, .5, type = 'one.sample')
 
 # return analysis object
