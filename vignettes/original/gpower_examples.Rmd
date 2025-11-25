@@ -314,6 +314,19 @@ p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE) |> Spower()
 
 G\*power gives 0.662 using a one-tailed test criterion.
 
+# Simple linear regression
+
+## Example 12.3
+
+Evaluate post-hoc power for simple linear regression model null hypothesis $H_0:\beta_1=0$ given $\sigma_x = 7.5$, $\sigma_y$, $\beta_1=-0.0667$, and $N=100$. 
+
+```{r}
+p_slr(n=100, beta=-0.0667, sd_x=7.5, sd_y = 4) |> Spower()
+```
+
+G\*power returns the power estimate $1-\beta = 0.2389$.
+
+
 # Fixed effects ANOVA - One way (F-test) 
 
 ### Example 10.3
