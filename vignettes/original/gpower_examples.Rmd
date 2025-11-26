@@ -175,9 +175,13 @@ p_2r(n=144, r.ab=.4, r.ac=0.047702, r.bc=-0.6, two.tailed=FALSE) |> Spower()
 Obtaining a similar estimate using `Spower()` requires the following sensitivity analysis structure:
 
 ```{r}
+# note that interval is specified as c(upper, lower) as higher values
+# of r.ac result in lower power in this context
 p_2r(n=144, r.ab=.4, r.ac=NA, r.bc=-0.6, two.tailed=FALSE) |> 
-	Spower(power = .80, interval=c(0.001, .4))
+	Spower(power = .80, interval=c(.4, .001))
 ```
+
+For this example, `Spower` and G\*power 3.1 seem to agree. 
 
 ### Example 16.3; Point-biserial correlation
 
