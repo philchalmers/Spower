@@ -105,12 +105,79 @@ sample ($r=.88$) contained only $N_2=51$ observations (hence, the ratio
 $N_2/N_1=51/206$). This results in the post-hoc/observed power of
 
 ```{r}
-n <- 206
-n2_n1 <- 51/n
-p_2r(n=n, r.ab1=.75, r.ab2=.88, n2_n1=n2_n1) |> Spower()
+p_2r(n=206, r.ab=.75, r.ab2=.88, n2_n1=51/206) |> Spower()
 ```
 
 G\*power 3.1 returns the power of .726 in this context.
+
+### Example 28.3.1; Correlation - inequality of two dependent Pearson r's (no common index)
+
+The following two examples assume the correlation matrix 
+```{r}
+# From Gpower 3.1 manual
+Cp <- matrix(c(1, .5, .4, .1, 
+			   .5, 1, .2, -.4, 
+			   .4, .2, 1, .8, 
+			   .1, -.4, .8, 1), 4, 4)
+
+# rearrange rows for convenience
+Cp <- Cp[c(1,4,2,3), c(1,4,2,3)]
+colnames(Cp) <- rownames(Cp) <- c('x1', 'y1', 'x2', 'y2')
+Cp
+```
+is the population structure. For the no common index tests all of these elements are required, while for the common index form only a $3\times 3$ subset is needed.
+
+Evaluating the null hypothesis that 
+$$H_0: \rho_{ab} = \rho_{cd}$$
+where in this case $\rho_{ab} = .5$ and $\rho_{cd} = .8$ can be explored using the `p_2r()` function. The following performs an a priori analyses to determine the sample size ($N$) required to achieve 80% power using Steiger's (1980) inferential $z$ approach. 
+
+```{r}
+p_2r(n=NA, r.ab=.1, r.ac=.5, r.ad=.4, r.bc=-.4, r.bd=.8, r.cd=.2, 
+	 two.tailed=FALSE) |> Spower(power = .80, interval=c(500, 2000))
+```
+
+G\*power 3.1 returns the required sample size of $N=886$.
+
+
+### Example 28.3.2; Correlation - inequality of two dependent Pearson r's (common index)
+
+The information in this example is the same as `Example 28.3.1`, however it is assumed that there is a common index between the correlation measures instead of a complete overlap. As such, the previous `Cp` object may be further subset to see what type of correlation structure is required for the common index setup.
+
+```{r}
+Cp[c(4,3,1),c(4,3,1)]
+```
+
+The null under instigation in this case is 
+$$H_0:\rho_{ab} = \rho_{ac}$$
+where $\rho_{ab} = .2$ and $\rho_{ac} = .4$. In `Spower`, this equates to the following inputs, which again use Steiger's (1980) inferential $z$ approach by default.
+
+```{r}
+p_2r(n=NA, r.ab=.4, r.ac=.2, r.bc=.5, two.tailed=FALSE) |> 
+	Spower(power = .80, interval=c(50, 500))
+```
+
+G\*power 3.1 returns the required sample size of $N=144$, which interestingly is slightly higher than the simulation version from `Spower`. Providing $N=144$ to the above to obtain the power estimate gives the following:
+
+```{r}
+p_2r(n=144, r.ab=.4, r.ac=.2, r.bc=.5, two.tailed=FALSE) |> Spower()
+```
+
+
+### Example 28.3.3; sensitivity analysis 
+
+It is also possible to perform a sensitivity analyses rather than the above a priori power analysis. Below fixes $N=144$, while `r.ac` is solved to obtain 80% power. G\*power 3.1 reports that $\rho_{ac} = 0.047702$, which is confirmed using the simulation below.
+
+```{r}
+# confirm solution obtained by G*power (post hoc power estimate)
+p_2r(n=144, r.ab=.4, r.ac=0.047702, r.bc=-0.6, two.tailed=FALSE) |> Spower()
+```
+
+Obtaining a similar estimate using `Spower()` requires the following sensitivity analysis structure:
+
+```{r}
+p_2r(n=144, r.ab=.4, r.ac=NA, r.bc=-0.6, two.tailed=FALSE) |> 
+	Spower(power = .80, interval=c(0.001, .4))
+```
 
 ### Example 16.3; Point-biserial correlation
 
@@ -589,7 +656,7 @@ p_t.test(n=NA, d=.625, two.tailed=FALSE, type='one.sample') |>
 	Spower(power=.95, interval=c(10, 100))
 ```
 
-G\*power gives sample size of $n=30$. Similiarly, though with different
+G\*power gives sample size of $n=30$. Similarly, though with different
 inputs.
 
 ```{r}

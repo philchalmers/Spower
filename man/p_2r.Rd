@@ -7,22 +7,16 @@
 \usage{
 p_2r(
   n,
-  r.ab1,
-  r.ab2,
-  r.ac1,
-  r.ac2,
-  r.bc1,
-  r.bc2,
-  r.ad1,
-  r.ad2,
-  r.bd1,
-  r.bd2,
-  r.cd1,
-  r.cd2,
+  r.ab,
+  r.ab2 = NULL,
+  r.ac,
+  r.bc,
+  r.ad,
+  r.bd,
+  r.cd,
   n2_n1 = 1,
   two.tailed = TRUE,
-  type = c("independent", "overlap", "nonoverlap"),
-  test = "fisher1925",
+  test = NULL,
   gen_fun = gen_2r,
   return_analysis = FALSE,
   ...
@@ -33,37 +27,30 @@ gen_2r(n, R, ...)
 \arguments{
 \item{n}{sample size}
 
-\item{r.ab1}{correlation between variable A and B in sample 1}
+\item{r.ab}{correlation between variable A and B (for independent groups,
+this is for sample 1)}
 
-\item{r.ab2}{correlation between variable A and B in sample 2}
+\item{r.ab2}{(for independent group test only) correlation between
+variable A and B in sample 2}
 
-\item{r.ac1}{same pattern as \code{r.ab1}}
+\item{r.ac}{(for overlap/non-overlap) correlation between A and C. This is the correlation
+used in the overlapping hypothesis test, comparing this input to \code{r.ab}}
 
-\item{r.ac2}{same pattern as \code{r.ab2}}
+\item{r.bc}{(for overlap/non-overlap only) correlation between B and C.}
 
-\item{r.bc1}{...}
+\item{r.ad}{(for non-overlap only) correlation between A and D}
 
-\item{r.bc2}{...}
+\item{r.bd}{(for non-overlap only) correlation between B and D}
 
-\item{r.ad1}{...}
+\item{r.cd}{(for non-overlap only) correlation between C and D. This is the correlation
+used in the non-overlapping hypothesis test, comparing this input to \code{r.ab}}
 
-\item{r.ad2}{...}
-
-\item{r.bd1}{...}
-
-\item{r.bd2}{...}
-
-\item{r.cd1}{...}
-
-\item{r.cd2}{...}
-
-\item{n2_n1}{sample size ratio}
+\item{n2_n1}{sample size ratio. Only used for independent group test}
 
 \item{two.tailed}{logical; use two-tailed test?}
 
-\item{type}{type of correlation design}
-
-\item{test}{hypothesis method to use. Defaults to 'fisher1925'}
+\item{test}{hypothesis testing method to use. Defaults to \code{'fisher1925'}
+for the independent groups test and \code{'steiger1980'} for overlap/non-overlap tests}
 
 \item{gen_fun}{function used to generate the required discrete data.
 Object returned must be a \code{matrix} with \code{n} rows.
@@ -84,40 +71,46 @@ a single p-value
 }
 \description{
 Function utilizes \code{\link[cocor]{cocor}} to perform correlation
-comparison for independent, overlapping, and non-overlapping designs.
+comparison for independent, overlapping, and non-overlapping correlation designs.
+Type type of correlation design is inferred based on which correlations are
+specified.
+}
+\details{
+For independent group tests, only \code{r.ab} and \code{r.ab2} need to be specified,
+where the null hypothesis pertains to \eqn{H_0: r_{ab}=r_{ab2}}.
+
+For overlapping correlation tests, \code{r.ab}, \code{r.ac}, and \code{r.bc}
+need to be specified, where the null hypothesis pertains to \eqn{H_0: r_{ab}=r_{ac}}.
+
+For non-overlapping correlation tests, all correlations expect for \code{r.ab2} must be
+specified, where the null hypothesis pertains to \eqn{H_0: r_{ab}=r_{cd}}.
 }
 \examples{
 
 # independent (same x-y pairing across groups)
-p_2r(100, r.ab1=.5, r.ab2=.6)
+p_2r(100, r.ab=.5, r.ab2=.6)
 
 # return cocor object for further analysis
-p_2r(100, r.ab1=.5, r.ab2=.6, return_analysis = TRUE)
+p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 
 \donttest{
 
    # estimate empirical power
-   p_2r(n=100, r.ab1=.5, r.ab2=.6) |> Spower()
+   p_2r(n=100, r.ab=.5, r.ab2=.6) |> Spower()
 
    # estimate n required to reach 80\% power
-   p_2r(n=NA, r.ab1=.5, r.ab2=.6) |>
+   p_2r(n=NA, r.ab=.5, r.ab2=.6) |>
         Spower(power=.80, interval=c(100, 5000))
 
 }
 
 # overlap (same y, different xs)
-p_2r(100, r.ab1=.5, r.ab2=.7,
-          r.ac1=.3, r.ac2=.3,
-          r.bc1=.2, r.bc2=.2, type = 'overlap')
+# H0: r.ab = r.bc
+p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2)
 
 # nonoverlap (different ys, different xs)
-p_2r(100, r.ab1=.5, r.ab2=.6,
-          r.ac1=.3, r.ac2=.3,
-          r.bc1=.2, r.bc2=.2,
-          r.ad1=.2, r.ad2=.2,
-          r.bd1=.4, r.bd2=.4,
-          r.cd1=.2, r.cd2=.2,
-          type = 'nonoverlap')
+# H0: r.ab = r.cd
+p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2, r.ad=.2, r.bd=.4, r.cd=.2)
 
 
 }
