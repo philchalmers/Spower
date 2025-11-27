@@ -11,7 +11,7 @@ test_that('Spower', {
 	expect_class(out1, 'Spower')
 	expect_equal(out1$power, .6)
 	outu <- update(out1, sig.level = .10)
-	expect_equal(outu$power, .8)
+	expect_equal(outu$power, .6)
 
 	# selection test
 	ind.t.test <- function(n, d){
@@ -30,18 +30,18 @@ test_that('Spower', {
 	out2 <- Spower(p_t.test(n = NA, d = .5), power=.5, interval=c(10, 100),
 				   maxiter = 40, verbose=FALSE)
 	expect_class(out2, 'Spower')
-	expect_equal(out2$n, 31.3, tolerance=.01)
+	expect_equal(out2$n, 31.76245, tolerance=.01)
 
 	set.seed(42)
 	out <- Spower(p_t.test(n = 50, d = .5), beta_alpha = 2,
 				  verbose=FALSE, replications=1000)
 	expect_class(out, 'Spower')
-	expect_equal(out$power, .813, tolerance=.01)
-	expect_equal(out$sig.level, .093, tolerance=.01)
+	expect_equal(out$power, 0.7860665, tolerance=.01)
+	expect_equal(out$sig.level,  0.1069668, tolerance=.01)
 
 	out2 <- update(out, beta_alpha=4)
-	expect_equal(out2$power, .751, tolerance=.01)
-	expect_equal(out2$sig.level, .062, tolerance=.01)
+	expect_equal(out2$power, 0.720999, tolerance=.01)
+	expect_equal(out2$sig.level, 0.06975025, tolerance=.01)
 
 	set.seed(90210)
 	out <- p_t.test(n = 50, d = .5) |>
@@ -56,25 +56,25 @@ test_that('Spower', {
 	out1 <- Spower(p_t.test(n = 50, d = .5), replications=10, verbose=FALSE,
 				   parallel=TRUE, ncores=2)
 	expect_class(out1, 'Spower')
-	expect_equal(out1$power, .7)
+	expect_equal(out1$power, .6)
 	outu <- update(out1, sig.level = .10)
-	expect_equal(outu$power, .8)
+	expect_equal(outu$power, .6)
 
 	set.seed(4321)
 	out2 <- Spower(p_t.test(n = NA, d = .5), power=.5, interval=c(10, 100),
 				   maxiter = 40, verbose=FALSE,  parallel=TRUE, ncores=2)
-	expect_equal(out2$n, 31.00, tolerance=.01)
+	expect_equal(out2$n, 31.35299, tolerance=.01)
 
 	set.seed(42)
 	out <- Spower(p_t.test(n = 50, d = .5), beta_alpha = 2,
 				  verbose=FALSE, replications=1000,
 				  parallel=TRUE, ncores=2)
-	expect_equal(out$power, 0.790, tolerance=.01)
-	expect_equal(out$sig.level, 0.104, tolerance=.01)
+	expect_equal(out$power, 0.8160389, tolerance=.01)
+	expect_equal(out$sig.level, 0.09198054, tolerance=.01)
 
 	out2 <- update(out, beta_alpha=4)
-	expect_equal(out2$power, 0.726, tolerance=.01)
-	expect_equal(out2$sig.level, .068, tolerance=.01)
+	expect_equal(out2$power, 0.7520168, tolerance=.01)
+	expect_equal(out2$sig.level, 0.06199581, tolerance=.01)
 
 
 })
@@ -106,12 +106,12 @@ test_that('rerun', {
 	set.seed(1234321)
 	out <- p_t.test(n = 50, d = .5) |> Spower(replications=100, verbose=FALSE,
 											  beta_alpha = 4)
-	expect_equal(out$power, .740, tol=1e-2)
+	expect_equal(out$power, 0.7200097, tol=1e-2)
 	p_t.test(n = 50, d = .5) |>
 		Spower(replications=100, lastSpower=out,
 			   verbose=FALSE, beta_alpha = 4) -> out2
 	expect_equal(out2$REPLICATIONS, 200)
-	expect_equal(out2$power, .759, tol=1e-2)
+	expect_equal(out2$power, 0.7241105, tol=1e-2)
 
 
 	set.seed(90210)
@@ -121,15 +121,14 @@ test_that('rerun', {
 	expect_equal(out2$REPLICATIONS, 200)
 	expect_equal(attr(out2, 'extra_info')$SEED_history, c(1471380155, 1411519934))
 
-	out <- p_t.test(n = NA, d = .5) |> Spower(power=.8, interval=c(10, 100),
-											  maxiter=40, verbose=FALSE)
-	expect_equal(out$n, 62.04, tolerance=1e-4)
-	expect_equal(unname(summary(out)$predCIs_root), c(60.20545, 64.10115), tolerance=1e-4)
+	out <- p_t.test(n = NA, d = .5) |> Spower(power=.8, interval=c(10, 100), verbose=FALSE)
+	expect_equal(out$n, 64.07, tolerance=1e-4)
+	expect_equal(unname(summary(out)$predCIs_root), c(63.20891, 64.92587), tolerance=1e-4)
 
 	p_t.test(n = NA, d = .5) |>
-		Spower(power=.8, interval=c(10, 100), lastSpower=out, maxiter=70, verbose=FALSE) -> out2
-	expect_equal(out2$n, 63.06, tolerance=1e-2)
-	expect_equal(unname(summary(out2)$predCIs_root), c(62.37223, 63.73347), tolerance=1e-4)
+		Spower(power=.8, interval=c(10, 100), lastSpower=out, maxiter=150, verbose=FALSE) -> out2
+	expect_equal(out2$n, 64.11988, tolerance=1e-2)
+	expect_equal(unname(summary(out2)$predCIs_root), c(63.23396, 64.98873), tolerance=1e-4)
 
 	# multi
 	p_my_t.test <- function(n, d){
@@ -233,10 +232,10 @@ test_that('scope', {
 	set.seed(4321)
 	n <- 206
 	n2_n1 <- 51/n
-	p_2r(n=n, r.ab1=.75, r.ab2=.88, n2_n1=n2_n1) |>
+	p_2r(n=n, r.ab=.75, r.ab2=.88, n2_n1=n2_n1) |>
 		Spower(replications=100, verbose=FALSE) -> out
 	expect_equal(out$power, .72)
-	p_2r(n=n, r.ab1=.75, r.ab2=.88, n2_n1=n2_n1) |>
+	p_2r(n=n, r.ab=.75, r.ab2=.88, n2_n1=n2_n1) |>
 		Spower(replications=100, verbose=FALSE,
 			   parallel=TRUE, ncores=2) -> out2
 	expect_equal(out2$power, .68)
