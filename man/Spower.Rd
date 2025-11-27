@@ -587,21 +587,27 @@ p_t.test() |> SpowerBatch(n=c(30, 90, 270),
 
 
 ##############################
-# Batches also useful for drawing graphics outside of current framework
-# in SpowerCurve(). Here an image is drawn pertaining to the distribution
-# of the effects (H0 vs Ha hypotheses)
 
-# Define wrapper function that returns p-value and mean difference
-my_t.test <- function(...){
+# Batches also useful for drawing graphics outside of current framework
+# in SpowerCurve(). Below an image is drawn pertaining to the distribution
+# of the effects (H0 vs Ha hypotheses), giving the classic sampling distribution
+# comparisons of the effect sizes, however presents the information using
+# kernel density plots as this may be useful when the sampling distributions
+# are non-normal
+
+# Define wrapper function that returns p-value and estimated mean difference
+Ice_T <- function(...){
 	  out <- p_t.test(..., return_analysis=TRUE)
 	  ret <- c(p=out$p.value, mu_d=unname(with(out, estimate[1] - estimate[2])))
    ret
 }
 
-my_t.test(n=90, d=.5)
+# rapper returns p-value and effect size of interest
+Ice_T(n=90, d=.5)
 
-# run batch mode to get 4 mean difference combinations
-batch <- my_t.test(n=90) |>
+# run batch mode to get 4 mean difference combinations, selecting out only
+# the 'p' for the power-analysis portions
+batch <- Ice_T(n=90) |>
    SpowerBatch(d=c(0, .2, .5, .8), select="p")
 batch
 
@@ -610,18 +616,21 @@ results <-  do.call(rbind, lapply(batch, SimResults))
 results$d <- factor(results$d)
 results
 
-# draw some stuff!
+# draw H0 vs Ha relationships for each effect size
 library(ggplot2)
 library(patchwork)
 gg1 <- ggplot(subset(results, d \%in\% c(0, .2)),
 			  aes(mu_d, colour=d)) +
-	geom_density() + ggtitle('Small effect')
+	geom_density() + ggtitle('Small effect (d = 0.2)') +
+	theme(legend.position='none') + xlab(expression(mu[d])) + xlim(c(-0.75, 1.5))
 gg2 <- ggplot(subset(results, d \%in\% c(0, .5)),
 			  aes(mu_d, colour=d)) +
-	geom_density() + ggtitle('Medium effect')
+	geom_density() + ggtitle('Medium effect  (d = 0.5)') +
+	theme(legend.position='none') + xlab(expression(mu[d])) +  xlim(c(-0.75, 1.5))
 gg3 <- ggplot(subset(results, d \%in\% c(0, .8)),
 			  aes(mu_d, colour=d)) +
-	geom_density() + ggtitle('Large effect')
+	geom_density() + ggtitle('Large effect  (d = 0.8)') +
+	theme(legend.position='none') + xlab(expression(mu[d])) + xlim(c(-0.75, 1.5))
 
 gg1 / gg2 / gg3
 
