@@ -40,7 +40,7 @@ Suggests:
 	knitr,
 	rmarkdown,
     bookdown,
-    VGAM,
+    extraDistr,
     copula,
 	pwr
 VignetteBuilder: knitr
