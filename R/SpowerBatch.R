@@ -51,6 +51,45 @@
 #'            d=c(.2, .5, .8), replications=1000, fully.crossed=FALSE) -> batch3
 #'
 #'
+#' ##############################
+#' # Batches also useful for drawing graphics outside of current framework
+#' # in SpowerCurve(). Here an image is drawn pertaining to the distribution
+#' # of the effects (H0 vs Ha hypotheses)
+#'
+#' # Define wrapper function that returns p-value and mean difference
+#' my_t.test <- function(...){
+#' 	  out <- p_t.test(..., return_analysis=TRUE)
+#' 	  ret <- c(p=out$p.value, mu_d=unname(with(out, estimate[1] - estimate[2])))
+#'    ret
+#' }
+#'
+#' my_t.test(n=90, d=.5)
+#'
+#' # run batch mode to get 4 mean difference combinations
+#' batch <- my_t.test(n=90) |>
+#'    SpowerBatch(d=c(0, .2, .5, .8), select="p")
+#' batch
+#'
+#' # create big table of results across the batches
+#' results <-  do.call(rbind, lapply(batch, SimResults))
+#' results$d <- factor(results$d)
+#' results
+#'
+#' # draw some stuff!
+#' library(ggplot2)
+#' library(patchwork)
+#' gg1 <- ggplot(subset(results, d %in% c(0, .2)),
+#' 			  aes(mu_d, colour=d)) +
+#' 	geom_density() + ggtitle('Small effect')
+#' gg2 <- ggplot(subset(results, d %in% c(0, .5)),
+#' 			  aes(mu_d, colour=d)) +
+#' 	geom_density() + ggtitle('Medium effect')
+#' gg3 <- ggplot(subset(results, d %in% c(0, .8)),
+#' 			  aes(mu_d, colour=d)) +
+#' 	geom_density() + ggtitle('Large effect')
+#'
+#' gg1 / gg2 / gg3
+#'
 #' }
 #'
 #'
