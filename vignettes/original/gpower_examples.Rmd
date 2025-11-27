@@ -230,13 +230,15 @@ These $\tau$ values correspond to where along the assumed normal p.d.f.
 the truncation took place, which for the $X$ variable can be seen in the
 following graphic.
 
-```{r echo=FALSE}
+```{r echo=FALSE, eval=FALSE}
 curve(dnorm, -6, 6, las=1, ylab='Normal PDF', xlab = 'z')
 abline(v = tauX)
 text(2, .3, sprintf("tauX = %.2f", tauX))
 text(-1, .05, round(marginal.x[1], 2))
 text(1, .05, round(marginal.x[2], 2))
 ```
+
+![Tetrachoric](tetrachoric.png)
 
 Finally, assuming that the untruncated $r=0.2399846$, and a Score test
 were used to evaluate the null hypothesis of interest (`score = TRUE`),
