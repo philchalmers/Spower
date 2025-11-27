@@ -118,10 +118,8 @@ SpowerCurve <- function(..., interval = NULL, power = NA,
 			if(is.null(interval))
 				stop('search interval must be included', call.=FALSE)
 			lst_expr <- as.list(expr)[-1]
-			if(length(lst_expr)){
-				lst_expr <- lapply(lst_expr, \(x) if(is.call(x)) eval(x) else x)
+			if(length(lst_expr))
 				lst_expr <- lst_expr[sapply(lst_expr, \(x) is.atomic(x) || is.list(x))]
-			}
 			conditions <- do.call(SimDesign::createDesign, c(lst_expr,
 															 dots[-1],
 															 sig.level=list(sig.level),
