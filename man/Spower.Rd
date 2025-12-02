@@ -610,9 +610,10 @@ Ice_T(n=90, d=.5)
 batch <- Ice_T(n=90) |>
    SpowerBatch(d=c(0, .2, .5, .8), select="p")
 batch
+as.data.frame(batch)
 
 # create big table of results across the batches
-results <-  do.call(rbind, lapply(batch, SimResults))
+results <- SimResults(batch, rbind=TRUE)
 results$d <- factor(results$d)
 results
 

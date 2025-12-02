@@ -23,7 +23,7 @@ Description: Provides a general purpose simulation-based power analysis
    further details see the associated publication in
    Chalmers (2025) <doi:10.3758/s13428-025-02787-z>.
 Depends:
-	SimDesign (>= 2.20.3),
+	SimDesign (>= 2.21.3),
 	R (>= 4.1.0),
     stats
 Imports:
