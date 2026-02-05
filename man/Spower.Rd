@@ -4,6 +4,7 @@
 \alias{Spower}
 \alias{print.Spower}
 \alias{as.data.frame.Spower}
+\alias{interval}
 \alias{SpowerBatch}
 \alias{print.SpowerBatch}
 \alias{as.data.frame.SpowerBatch}
@@ -37,6 +38,8 @@ Spower(
 \method{print}{Spower}(x, ...)
 
 \method{as.data.frame}{Spower}(x, ...)
+
+interval(lower, upper)
 
 SpowerBatch(
   ...,
@@ -230,6 +233,14 @@ summarizing of the stored results (applicable only with prospective/post-hoc pow
 
 \item{x}{object of class \code{'Spower'}. If \code{\link{SpowerBatch}} were used
 the this will be a \code{list}}
+
+\item{lower}{lower bound for stochastic search interval. If input
+contains a decimal then \code{Spower(..., integer)} will be
+set to \code{FALSE}}
+
+\item{upper}{upper bound for stochastic search interval. If input
+contains a decimal then \code{Spower(..., integer)} will be
+set to \code{FALSE}}
 
 \item{fully.crossed}{logical; should the supplied conditions to
 \code{SpowerBatch} be fully crossed? Passed to the same

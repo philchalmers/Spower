@@ -484,11 +484,19 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	expr <- match.call(eval(expr[[1]], envir = pf), expr)
 	if(!is.null(expr[-1])){
 		pick <- names(which(sapply(expr[-1], \(x){
+			if(is.call(x)){
+				ret <- eval(x, parent.frame())
+				if(is(ret, 'Spower_interval')){
+					interval <<- unclass(ret)
+					x <- NA
+				}
+			}
 			ret <- suppressWarnings(try(all(is.na(x)), silent = TRUE))
 			if(!is.logical(ret)) ret <- FALSE
 			ret
 		})))
 	} else pick <- character(0)
+	if(length(pick)) expr[pick] <- NA
 	fixed_objects$expr <- expr
 	fixed_objects$pick <- pick
 	fixed_objects$parent_frame <- pf
@@ -662,4 +670,19 @@ as.data.frame.Spower <- function(x, ...){
 	CI <- do.call(rbind, list(so$power.CI, so$predCIs_root))
 	x <- data.frame(x, CI)
 	x
+}
+
+
+#' @rdname Spower
+#' @param lower lower bound for stochastic search interval. If input
+#'   contains a decimal then \code{Spower(..., integer)} will be
+#'   set to \code{FALSE}
+#' @param upper upper bound for stochastic search interval. If input
+#'   contains a decimal then \code{Spower(..., integer)} will be
+#'   set to \code{FALSE}
+#' @export
+interval <- function(lower, upper){
+	ret <- c(lower, upper)
+	class(ret) <- 'Spower_interval'
+	ret
 }

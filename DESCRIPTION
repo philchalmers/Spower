@@ -1,6 +1,6 @@
 Package: Spower
 Title: Power Analyses using Monte Carlo Simulations
-Version: 0.5.1
+Version: 0.5.2
 Authors@R: 
    person("Phil", family="Chalmers", email =
                      "rphilip.chalmers@gmail.com", role = c("aut", "cre"), 
