@@ -495,7 +495,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 		pick <- names(which(sapply(expr[-1], \(x){
 			if(is.call(x)){
 				ret <- eval(x, parent.frame())
-				if(is(ret, 'Spower_interval')){
+				if(inherits(ret, 'Spower_interval')){
 					integer <<- attr(ret, 'integer')
 					check.interval <<- attr(ret, 'check.interval') || check.interval
 					interval <<- unclass(ret)

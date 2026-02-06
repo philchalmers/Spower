@@ -166,10 +166,10 @@ if(eval) store$apriori <- getLastSpower()
 print(store$apriori)
 ```
 
-Equivalently, rather than placing the `interval` definition within `Spower()`, and
+Equivalently, rather than placing the `interval` definition within `Spower()` and
 providing a suitable `NA` placeholder to indicate which argument `interval` 
-pertains to, the function `interval()` can be used directly. Hence, the following
-definition is identical to the above example.
+pertains to, the function `interval()` can be used directly in the experiment definition argument. Hence, the following will be identical to the above example, though requires less back-and-forth reading between the pipe 
+seperator.
 
 ```{r eval=FALSE}
 p_single.t(n=interval(20, 200), mean=.5) |> Spower(power=.8)
@@ -179,9 +179,7 @@ p_single.t(n=interval(20, 200), mean=.5) |> Spower(power=.8)
 print(store$apriori)
 ```
 
-The output will still be presented in terms of the `NA` placeholder logic, however
-in this case the user does not need to specify the `NA` explicitly as it is implied
-from context.
+Of course, the output will still be presented in terms of the `NA` placeholder logic, however in this case the user does not need to specify the `NA` explicitly as it is clear from context.
 
 ## Sensitivity power analysis
 
