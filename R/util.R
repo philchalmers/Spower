@@ -154,3 +154,25 @@ clip_CI <- function(CI){
 	CI[CI < 0] <- 0
 	CI
 }
+
+
+
+#' @rdname Spower
+#' @param lower lower bound for stochastic search interval. If input
+#'   contains a decimal then \code{Spower(..., integer)} will be
+#'   set to \code{FALSE}
+#' @param upper upper bound for stochastic search interval. If input
+#'   contains a decimal then \code{Spower(..., integer)} will be
+#'   set to \code{FALSE}
+#' @export
+interval <- function(lower, upper, integer,
+					 check.interval = FALSE){
+	ret <- c(lower, upper)
+	class(ret) <- 'Spower_interval'
+	if(missing(integer))
+		integer <- !(has.decimals(ret) || diff(ret) < 5)
+	stopifnot(is.logical(integer))
+	attr(ret, 'integer') <- integer
+	attr(ret, 'check.interval') <- check.interval
+	ret
+}

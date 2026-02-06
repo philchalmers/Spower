@@ -166,6 +166,23 @@ if(eval) store$apriori <- getLastSpower()
 print(store$apriori)
 ```
 
+Equivalently, rather than placing the `interval` definition within `Spower()`, and
+providing a suitable `NA` placeholder to indicate which argument `interval` 
+pertains to, the function `interval()` can be used directly. Hence, the following
+definition is identical to the above example.
+
+```{r eval=FALSE}
+p_single.t(n=interval(20, 200), mean=.5) |> Spower(power=.8)
+```
+
+```{r echo=FALSE}
+print(store$apriori)
+```
+
+The output will still be presented in terms of the `NA` placeholder logic, however
+in this case the user does not need to specify the `NA` explicitly as it is implied
+from context.
+
 ## Sensitivity power analysis
 
 Similar to a priori power analysis, in that stochastic root solving is required, the target of sensitivity analysis is to locate some specific standardized or unstandardized effect size that will result in a particular  power rate. This pertains to the question of how large an effect size must be in order to reliably detect the effect of interest, holding constant other information such as sample size.
@@ -180,6 +197,12 @@ p_single.t(n=100, mean=NA) |>
 ```{r echo=FALSE}
 if(eval) store$sensitive <- getLastSpower()
 print(store$sensitive)
+```
+
+Equivalently, using `interval()` (not run).
+
+```{r eval=eval}
+# p_single.t(n=100, mean=interval(.1, 3)) |> Spower(power=.8)
 ```
 
 ## Criterion power analysis

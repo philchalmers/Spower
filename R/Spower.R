@@ -123,7 +123,13 @@
 #' @param interval required search interval to use when \code{\link[SimDesign]{SimSolve}} is called
 #'   to perform stochastic root solving.
 #'   Note that for compromise analyses, where the \code{sig.level} is set to
-#'   \code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}
+#'   \code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}.
+#'
+#'   Alternatively, the function \code{\link{interval}} can be used within the
+#'   experiment function definition itself where the canonical
+#'   \code{NA} placeholder is used.
+#'   Arguments from \code{\link{interval}} will then be extracted and
+#'   passed to \code{\link{Spower}} as usual
 #'
 #' @param wait.time (optional) argument to indicate the time to wait
 #'  (specified in minutes if supplied as a numeric vector).
@@ -254,9 +260,12 @@
 #' # total sample size required
 #' ceiling(out$n) * 2
 #'
+#' # equivalently, using interval() within the experiment definition instead
+#' p_t.test(n = interval(2,500), d = .5) |> Spower(power=.8)
+#'
 #' # same as above, but in parallel with 2 cores
-#' out.par <- p_t.test(n = NA, d = .5) |>
-#'   Spower(power=.8, interval=c(2,500), parallel=TRUE, ncores=2)
+#' out.par <- p_t.test(n = interval(2,500), d = .5) |>
+#'   Spower(power=.8, parallel=TRUE, ncores=2)
 #' summary(out.par)
 #'
 #' # similar information from pwr package
@@ -487,6 +496,8 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 			if(is.call(x)){
 				ret <- eval(x, parent.frame())
 				if(is(ret, 'Spower_interval')){
+					integer <<- attr(ret, 'integer')
+					check.interval <<- attr(ret, 'check.interval') || check.interval
 					interval <<- unclass(ret)
 					x <- NA
 				}
@@ -670,19 +681,4 @@ as.data.frame.Spower <- function(x, ...){
 	CI <- do.call(rbind, list(so$power.CI, so$predCIs_root))
 	x <- data.frame(x, CI)
 	x
-}
-
-
-#' @rdname Spower
-#' @param lower lower bound for stochastic search interval. If input
-#'   contains a decimal then \code{Spower(..., integer)} will be
-#'   set to \code{FALSE}
-#' @param upper upper bound for stochastic search interval. If input
-#'   contains a decimal then \code{Spower(..., integer)} will be
-#'   set to \code{FALSE}
-#' @export
-interval <- function(lower, upper){
-	ret <- c(lower, upper)
-	class(ret) <- 'Spower_interval'
-	ret
 }
