@@ -7,3 +7,4 @@ Makefile
 README.Rmd
 ^README-.*\.png$
 _pkgdown.yml
+.gitignore
