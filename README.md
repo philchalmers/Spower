@@ -109,6 +109,15 @@ p_t.test(n=NA, d=0.5) |> Spower(power=.95, interval=c(50, 300))
 ## 95% Predicted Confidence Interval: [101.5, 105.4]
 ```
 
+Equivalently, the function `interval()` can be used instead of placing
+the interval range within `Spower()`. Below will provide the same
+stochastic root finding task.
+
+``` r
+# using interval() function instead
+p_t.test(n=interval(50,300), d=0.5) |> Spower(power=.95)
+```
+
 ## Estimated power curves
 
 To generate suitable power-curves for any given simulation or power

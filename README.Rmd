@@ -119,7 +119,7 @@ Equivalently, the function `interval()` can be used instead of placing the
 interval range within `Spower()`. Below will provide the same 
 stochastic root finding task.
 
-```
+```r
 # using interval() function instead
 p_t.test(n=interval(50,300), d=0.5) |> Spower(power=.95)
 ```
