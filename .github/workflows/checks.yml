@@ -17,6 +17,10 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
+      
+      - name: install ubuntu dependencies
+      - run: |
+          sudo apt-get install cmake  
 
       - name: R CMD CHECK
         run: |
