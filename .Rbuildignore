@@ -6,3 +6,4 @@ vignettes/original/*
 Makefile
 README.Rmd
 ^README-.*\.png$
+_pkgdown.yml
