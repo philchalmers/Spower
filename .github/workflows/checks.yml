@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
       
       - name: install ubuntu dependencies
-      - run: |
+        run: |
           sudo apt-get install cmake  
 
       - name: R CMD CHECK
