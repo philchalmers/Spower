@@ -42,6 +42,7 @@ Suggests:
     bookdown,
     extraDistr,
     copula,
+        effectsize,
 	pwr
 VignetteBuilder: knitr
 ByteCompile: yes
