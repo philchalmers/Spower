@@ -17,12 +17,12 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
-      
+
       - name: install ubuntu dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake  
+          sudo apt-get install -y cmake
 
       - name: R CMD CHECK
         run: |
-          Rscript -e 'install.packages(c("SimDesign", "Spower", "extraDistr", "copula", "pwr", "psych", "rmarkdown", "bookdown")); devtools::check(error_on = "warning", vignettes = FALSE)'
+          Rscript -e 'install.packages(c("SimDesign", "Spower", "extraDistr", "copula", "pwr", "rmarkdown", "bookdown")); devtools::check(error_on = "warning", vignettes = FALSE)'

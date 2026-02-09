@@ -694,7 +694,7 @@ library(extraDistr)
 parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
 
 # properties of sampled distribution
-psych::describe(parent1(n=100000, d=0.8))
+descript(parent1(n=100000, d=0.8))
 
 p_wilcox.test(n=11, d=.8, type='one.sample', two.tailed=FALSE, parent1 = parent1) |> Spower()
 ```
@@ -713,8 +713,8 @@ parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
 parent2 <- function(n, d) extraDistr::rlaplace(n, sigma=sqrt(1/2))
 
 # properties of sampled distributions
-psych::describe(parent1(n=100000, d=0.375))
-psych::describe(parent1(n=100000, d=0))
+descript(parent1(n=100000, d=0.375))
+descript(parent1(n=100000, d=0))
 
 nr <- 134/67
 p_wilcox.test(n=67, n2_n1=nr, d=0.375, parent1=parent1, parent2=parent2) |> 
@@ -732,8 +732,8 @@ Finally, paired-samples approach using Wilcoxon test with $N=10$.
 parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
 parent2 <- function(n, d) extraDistr::rlaplace(n, sigma=sqrt(1/2))
 
-psych::describe(parent1(n=100000, d=1.13842))
-psych::describe(parent1(n=100000, d=0))
+descript(parent1(n=100000, d=1.13842))
+descript(parent1(n=100000, d=0))
 
 p_wilcox.test(n=10*2, d=1.13842, type = 'paired',
 			  parent1=parent1, parent2=parent2) |> Spower()
