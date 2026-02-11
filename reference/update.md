@@ -70,8 +70,8 @@ update(out, sig.level=.01)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.5      0.01 NA   
 #> 
-#> Estimate of power: 0.463
-#> 95% Confidence Interval: [0.450, 0.472]
+#> Estimate of power: 0.460
+#> 95% Confidence Interval: [0.447, 0.468]
 update(out, sig.level=.20)
 #> 
 #> Execution time (H:M:S): 00:00:02
@@ -82,8 +82,8 @@ update(out, sig.level=.20)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.5       0.2 NA   
 #> 
-#> Estimate of power: 0.889
-#> 95% Confidence Interval: [0.885, 1.000]
+#> Estimate of power: 0.890
+#> 95% Confidence Interval: [0.886, 1.000]
 
 
 ########
@@ -106,14 +106,14 @@ update(out, beta_alpha=4)
 #> Estimate of Type I error rate (alpha/sig.level): 0.066
 #> 95% Confidence Interval: [0.061, 0.071]
 #> 
-#> Estimate of power (1-beta): 0.735
-#> 95% Confidence Interval: [0.727, 0.744]
+#> Estimate of power (1-beta): 0.736
+#> 95% Confidence Interval: [0.728, 0.745]
 
 # also works if compromise not initially run but prospective/post-hoc power was
 out <- p_t.test(n = 50, d = .5) |> Spower()
 update(out, beta_alpha=4)
 #> 
-#> Execution time (H:M:S): 00:00:03
+#> Execution time (H:M:S): 00:00:02
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 5
@@ -121,11 +121,11 @@ update(out, beta_alpha=4)
 #>   <dbl> <dbl>     <dbl> <lgl>      <dbl>
 #> 1    50   0.5        NA NA             4
 #> 
-#> Estimate of Type I error rate (alpha/sig.level): 0.066
-#> 95% Confidence Interval: [0.061, 0.071]
+#> Estimate of Type I error rate (alpha/sig.level): 0.067
+#> 95% Confidence Interval: [0.062, 0.071]
 #> 
-#> Estimate of power (1-beta): 0.735
-#> 95% Confidence Interval: [0.726, 0.743]
+#> Estimate of power (1-beta): 0.734
+#> 95% Confidence Interval: [0.725, 0.743]
 
 # }
 ```

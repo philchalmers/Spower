@@ -117,9 +117,9 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # joint test H0: a*b = 0
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
-#> [1] 0.001237742
+#> [1] 9.263932e-05
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
-#> [1] 4.862874e-05
+#> [1] 6.110203e-09
 
 # return analysis model
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
@@ -150,14 +150,14 @@ p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
 #>   <dbl>  <dbl>     <dbl> <lgl>
 #> 1    50   0.39      0.05 NA   
 #> 
-#> Estimate of power: 0.997
-#> 95% Confidence Interval: [0.994, 1.000]
+#> Estimate of power: 0.996
+#> 95% Confidence Interval: [0.992, 1.000]
 
   # sample size estimate for .95 power
   p_mediation(n=NA, a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
     Spower(power=.95, interval=c(50, 200), parallel=TRUE)
 #> 
-#> Execution time (H:M:S): 00:24:26
+#> Execution time (H:M:S): 00:24:46
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -165,7 +165,7 @@ p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
 #>   <dbl>  <dbl>     <dbl> <dbl>
 #> 1    NA   0.39      0.05  0.95
 #> 
-#> Estimate of n: 51.0
+#> Estimate of n: 66.0
 #> 95% Predicted Confidence Interval: [NA, NA]
 
 # }
