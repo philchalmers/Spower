@@ -377,7 +377,7 @@ p_t.test(n = 50, d = .5) |>
    Spower(replications=30000, parallel=TRUE, ncores=2)
 
 # Solve N to get .80 power (a priori power analysis)
-p_t.test(n = ineterval(2,500), d = .5) |> Spower(power=.8) -> out
+p_t.test(n = interval(2,500), d = .5) |> Spower(power=.8) -> out
 summary(out)  # extra information
 plot(out)
 plot(out, type = 'history')
