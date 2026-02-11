@@ -35,7 +35,8 @@
 #'  \code{\link[SimDesign]{runSimulation}} depending on which element (including
 #'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}. For instance,
 #'  \code{Spower(p_t.test(n=50, d=.5))} will perform a prospective/post-hoc power evaluation since
-#'  \code{power = NA} by default, while \code{Spower(p_t.test(n=NA, d=.5), power = .80)}
+#'  \code{power = NA} by default, while \code{Spower(p_t.test(n=NA, d=.5), power = .80)} or,
+#'  equivalently, \code{Spower(p_t.test(n=interval(.,.), d=.5), power = .80)},
 #'  will perform an a priori power analysis to solve the missing \code{n} argument.
 #'
 #'  For expected power computations, the arguments to the simulation experiment arguments can
@@ -251,8 +252,7 @@
 #'    Spower(replications=30000, parallel=TRUE, ncores=2)
 #'
 #' # Solve N to get .80 power (a priori power analysis)
-#' p_t.test(n = NA, d = .5) |>
-#'   Spower(power=.8, interval=c(2,500)) -> out
+#' p_t.test(n = ineterval(2,500), d = .5) |> Spower(power=.8) -> out
 #' summary(out)  # extra information
 #' plot(out)
 #' plot(out, type = 'history')
@@ -260,8 +260,8 @@
 #' # total sample size required
 #' ceiling(out$n) * 2
 #'
-#' # equivalently, using interval() within the experiment definition instead
-#' p_t.test(n = interval(2,500), d = .5) |> Spower(power=.8)
+#' # equivalently, using NA within the experiment definition
+#' p_t.test(n = NA, d = .5) |> Spower(power=.8, interval=c(2,500))
 #'
 #' # same as above, but in parallel with 2 cores
 #' out.par <- p_t.test(n = interval(2,500), d = .5) |>
@@ -276,14 +276,14 @@
 #' # they are willing to wait (e.g., 5 minutes) then wait.time can be used. Below
 #' # estimates root after searching for 1 minute, and run in parallel
 #' #  with 2 cores (not run)
-#' p_t.test(n = NA, d = .5) |>
-#'   Spower(power=.8, interval=c(2,500), wait.time='1', parallel=TRUE, ncores=2)
+#' p_t.test(n = interval(2,500), d = .5) |>
+#'   Spower(power=.8, wait.time='1', parallel=TRUE, ncores=2)
 #'
-#' # Similiar to above for precision improvements, however letting
+#' # Similar to above for precision improvements, however letting
 #' #  the root solver continue searching from an early search history.
 #' #  Usually a good idea to increase the maxiter and lower the predCI.tol
-#' p_t.test(n = NA, d = .5) |>
-#'   Spower(power=.8, interval=c(2,500), lastSpower=out,
+#' p_t.test(n = interval(2,500), d = .5) |>
+#'   Spower(power=.8, lastSpower=out,
 #'         maxiter=200, predCI.tol=.008) #starts at last iteration in "out"
 #'
 #' # Solve d to get .80 power (sensitivity power analysis)
@@ -334,8 +334,7 @@
 #' p_t.test(n = 50, d = d_prior()) |> Spower()
 #'
 #' # A priori power analysis using expected power
-#' p_t.test(n = NA, d = d_prior()) |>
-#'   Spower(power=.8, interval=c(2,500))
+#' p_t.test(n = interval(2,500), d = d_prior()) |> Spower(power=.8)
 #' pwr::pwr.t.test(d=.5, power=.80) # expected power result higher than fixed d
 #'
 #'
@@ -377,8 +376,8 @@
 #'
 #' # Solve N to get .80 power (a priori power analysis), assuming
 #' #   equal variances, group2 2x as large as group1, large skewness
-#' p_my_t.test(n = NA, d=.5, var.equal=TRUE, n2_n1=2, df=3) |>
-#'   Spower(power=.8, interval=c(30,100)) -> out2
+#' p_my_t.test(n = interval(30,100), d=.5, var.equal=TRUE, n2_n1=2, df=3) |>
+#'   Spower(power=.8) -> out2
 #'
 #' # total sample size required
 #' with(out2, ceiling(n) + ceiling(n * 2))
