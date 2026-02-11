@@ -268,8 +268,8 @@ which is to be expected given the nature of the conditional simulation experimen
 ```{r}
 results <- SimResults(typeM)
 results
-with(results, c(mean=mean(M), SD=sd(M), min=min(M), max=max(M)))
-hist(results$M, 30)
+subset(results, select=M) |> descript()
+with(results, hist(M, 30))
 ```
 
 Finally, increasing the sample size greatly helps with the Type M
@@ -306,8 +306,8 @@ analyzed should the need arise.
 ```{r}
 results <- SimResults(typeM2)
 results
-with(results, c(mean=mean(M), SD=sd(M), min=min(M), max=max(M)))
-hist(results$M, 30)
+subset(results, select=M) |> descript()
+with(results, hist(M, 30))
 ```
 
 Type M errors are of course intimately related to *precision criteria*
@@ -325,7 +325,7 @@ seems more natural, where obtaining greater precision in the target estimates
 will necessarily decrease the number of Type M error in both the "extreme"
 and "underwhelming" sense of the effect size estimates (the ladder of
 which Type M errors do not address as they do not focus on non-significant results
-by definition). More importantly, precision criteria are framed in the
+by definition). More importantly, precis |> ion criteria are framed in the
 metric of the parameters relevant to the data analyst rather than on 
 a metricless effect size ratio, which in general should be more natural to specify.
 
