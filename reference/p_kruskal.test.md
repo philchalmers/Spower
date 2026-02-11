@@ -70,7 +70,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # three group test where data generate from Gaussian distributions
 p_kruskal.test(n=30, k=3, means=c(0, .5, .6))
-#> [1] 0.0005061295
+#> [1] 0.8078868
 
 # return analysis model
 p_kruskal.test(n=30, k=3, means=c(0, .5, .6), return_analysis=TRUE)
@@ -78,7 +78,7 @@ p_kruskal.test(n=30, k=3, means=c(0, .5, .6), return_analysis=TRUE)
 #>  Kruskal-Wallis rank sum test
 #> 
 #> data:  dat
-#> Kruskal-Wallis chi-squared = 10.328, df = 2, p-value = 0.005719
+#> Kruskal-Wallis chi-squared = 21.979, df = 2, p-value = 1.688e-05
 #> 
 
 # generate data from chi-squared distributions with different variances
@@ -92,13 +92,13 @@ gen_chisq <- function(n, k, n.ratios, means, dfs, ...){
 
 p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
    gen_fun=gen_chisq, dfs=c(10, 15, 20))
-#> [1] 0.702669
+#> [1] 0.05076431
 
 # \donttest{
   # empirical power estimate
   p_kruskal.test(n=30, k=3, means=c(0, .5, .6)) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:06
+#> Execution time (H:M:S): 00:00:07
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -106,8 +106,8 @@ p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    30     3      0.05 NA   
 #> 
-#> Estimate of power: 0.553
-#> 95% Confidence Interval: [0.543, 0.563]
+#> Estimate of power: 0.562
+#> 95% Confidence Interval: [0.553, 0.572]
   p_kruskal.test(n=30, k=3, means=c(0, 1, 2), gen_fun=gen_chisq,
          dfs = c(10, 15, 20)) |> Spower()
 #> 
@@ -119,8 +119,8 @@ p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    30     3      0.05 NA   
 #> 
-#> Estimate of power: 0.185
-#> 95% Confidence Interval: [0.177, 0.193]
+#> Estimate of power: 0.183
+#> 95% Confidence Interval: [0.176, 0.191]
 
 # }
 ```

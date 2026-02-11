@@ -27,8 +27,7 @@ $H_{0}:\,\rho_{0} = .60$ in correlation analysis with $1 - \beta = .95$
 probability when $\rho = .65$.
 
 ``` r
-p_r(n = NA, r = .65, rho = .60) |> 
-    Spower(power = .95, interval=c(500,3000))
+p_r(n = interval(500, 3000), r = .65, rho = .60) |> Spower(power = .95)
 ```
 
     ## 
@@ -42,6 +41,12 @@ p_r(n = NA, r = .65, rho = .60) |>
     ## 
     ## Estimate of n: 1931.4
     ## 95% Predicted Confidence Interval: [1901.1, 1958.2]
+
+``` r
+# this is equivalent:
+# p_r(n = NA, r = .65, rho = .60) |> 
+#   Spower(power = .95, interval=c(500,3000))
+```
 
 G\*power estimates this $n$ to be 1929 using the Fisher
 $z$-transformation approximation, which is what is used by the `Spower`
@@ -60,7 +65,7 @@ p_r(n = 100, r = .3) |> Spower()
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:07
+    ## Execution time (H:M:S): 00:00:08
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 4
@@ -76,8 +81,7 @@ $H_{0}:\,\rho_{0} = 0$ in correlation analysis with $1 - \beta = .95$
 probability when $\rho = .3$ is expressed as
 
 ``` r
-p_r(n = NA, r = .3) |> 
-    Spower(power = .95, interval=c(50,1000))
+p_r(n = interval(50, 1000), r = .3) |> Spower(power = .95)
 ```
 
     ## 
@@ -171,12 +175,12 @@ sample size ($N$) required to achieve 80% power using Steiger’s (1980)
 inferential $z$ approach.
 
 ``` r
-p_2r(n=NA, r.ab=.1, r.ac=.5, r.ad=.4, r.bc=-.4, r.bd=.8, r.cd=.2, 
-     two.tailed=FALSE) |> Spower(power = .80, interval=c(500, 2000))
+p_2r(n=interval(500, 2000), r.ab=.1, r.ac=.5, r.ad=.4, r.bc=-.4, r.bd=.8, r.cd=.2, two.tailed=FALSE) |> 
+    Spower(power = .80)
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:01:11
+    ## Execution time (H:M:S): 00:01:13
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 9
@@ -212,8 +216,8 @@ $\rho_{ac} = .4$. In `Spower`, this equates to the following inputs,
 which again use Steiger’s (1980) inferential $z$ approach by default.
 
 ``` r
-p_2r(n=NA, r.ab=.4, r.ac=.2, r.bc=.5, two.tailed=FALSE) |> 
-    Spower(power = .80, interval=c(50, 500))
+p_2r(n=interval(50, 500), r.ab=.4, r.ac=.2, r.bc=.5, two.tailed=FALSE) |> 
+    Spower(power = .80)
 ```
 
     ## 
@@ -280,12 +284,12 @@ requires the following sensitivity analysis structure:
 ``` r
 # note that interval is specified as c(upper, lower) as higher values
 # of r.ac result in lower power in this context
-p_2r(n=144, r.ab=.4, r.ac=NA, r.bc=-0.6, two.tailed=FALSE) |> 
-    Spower(power = .80, interval=c(.4, .001))
+p_2r(n=144, r.ab=.4, r.ac=interval(.4, .001), r.bc=-0.6, two.tailed=FALSE) |> 
+    Spower(power = .80)
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:01:11
+    ## Execution time (H:M:S): 00:01:12
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 6
@@ -307,8 +311,8 @@ $\alpha = .05$.
 
 ``` r
 # solution per group
-out <- p_t.test(r = .25, n = NA, two.tailed=FALSE) |> 
-    Spower(power = .95, interval=c(50, 200))
+out <- p_t.test(r = .25, n = interval(50, 200), two.tailed=FALSE) |> 
+    Spower(power = .95)
 out
 ```
 
@@ -386,10 +390,9 @@ tetrachoric correlation is less than or equal to 0 in this population
 (one-tailed) is expressed as
 
 ``` r
-p_r.cat(n=NA, r=0.2399846, tauX=tauX, tauY=tauY, 
+p_r.cat(n=interval(100, 500), r=0.2399846, tauX=tauX, tauY=tauY, 
         score=TRUE, two.tailed=FALSE) |> 
-    Spower(power = .95, interval=c(100, 500), 
-           parallel=TRUE, check.interval=FALSE)
+    Spower(power = .95, parallel=TRUE)
 ```
 
     ## 
@@ -693,7 +696,7 @@ p_lm.R2(n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5) |> Spower(sig.level=.01)
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:40
+    ## Execution time (H:M:S): 00:00:39
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 7
@@ -708,12 +711,12 @@ G\*power gives $1 - \beta = .241$. Solving the sample size to achieve
 80% power
 
 ``` r
-p_lm.R2(n=NA, R2=.3, R2_0 = .25, k=9, k.R2_0=5) |> 
-        Spower(sig.level=.01, power=.8, interval=c(100, 400))
+p_lm.R2(n=interval(100, 400), R2=.3, R2_0 = .25, k=9, k.R2_0=5) |> 
+        Spower(sig.level=.01, power=.8)
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:02:14
+    ## Execution time (H:M:S): 00:02:13
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 7
@@ -737,7 +740,7 @@ p_lm.R2(n=200, R2=.16, R2_0 = .1, k=12, k.R2_0=9, R2.resid=.8) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:53
+    ## Execution time (H:M:S): 00:00:54
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 8
@@ -810,7 +813,7 @@ $k = 10$), using Cohen’s $f = .25$, to achieve a power of
 $1 - \beta = .95$.
 
 ``` r
-p_anova.test(n=NA, k=10, f=.25) |>  Spower(power=.95, interval=c(20, 300))
+p_anova.test(n=interval(20, 300), k=10, f=.25) |>  Spower(power=.95)
 ```
 
     ## 
@@ -931,9 +934,9 @@ For the a priori power analysis to achieve a power of .80
 
 ``` r
 p_glm(formula=y~X*S, test="X:S = 0",
-      n=NA, n2_n1=44/28, sdx1=9.02914, sdx2=11.86779, dbeta=0.01592,
+      n=interval(100, 1000), n2_n1=44/28, sdx1=9.02914, sdx2=11.86779, dbeta=0.01592,
       sigma=0.5578413, gen_fun=gen_twogroup) |> 
-    Spower(power=.8, interval=c(100, 1000))
+    Spower(power=.8)
 ```
 
     ## 
@@ -960,8 +963,8 @@ variance ratio test, assuming that the target power is
 $1 - \beta = .80$.
 
 ``` r
-p_var.test(n=NA, vars=1, sigma2=1.5, two.tailed=FALSE) |> 
-    Spower(power=.80, interval=c(10, 200))
+p_var.test(n=interval(10, 200), vars=1, sigma2=1.5, two.tailed=FALSE) |> 
+    Spower(power=.80)
 ```
 
     ## 
@@ -984,8 +987,8 @@ For a two-sample equality of variance test with equal sample sizes,
 
 ``` r
 # solve n for variance ratio of 1/1.5 = 2/3, two.tailed, 80% power
-p_var.test(n=NA, vars=c(1, 1.5), two.tailed=TRUE) |> 
-    Spower(power=.80, interval=c(50, 300))
+p_var.test(n=interval(50, 300), vars=c(1, 1.5), two.tailed=TRUE) |> 
+    Spower(power=.80)
 ```
 
     ## 
@@ -1009,12 +1012,12 @@ one-tailed, medium effect size ($d = 0.5$), $\alpha = 0.05$, 95% power
 ($1 - \beta = 0.95$), equal sample sizes ($\frac{n_{2}}{n_{1}} = 1$).
 
 ``` r
-(out <- p_t.test(n = NA, d = .5, two.tailed=FALSE) |>  
-               Spower(power = .95, interval=c(10,500)))
+(out <- p_t.test(n = interval(10,500), d = .5, two.tailed=FALSE) |>  
+               Spower(power = .95))
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:09
+    ## Execution time (H:M:S): 00:00:08
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 5
@@ -1074,11 +1077,15 @@ In this case G\*Power 3.1 gives the estimate .500. To answer the
 question “How many subjects would we need to arrive at a power of about
 0.832114 in a two-group design?” this is specified within
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md)
-and where `n` is set to `NA`.
+and where `n` is set to `NA` and
+[`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md)
+is passed an `interval` argument, or
+[`interval()`](https://philchalmers.github.io/Spower/reference/Spower.md)
+is passed directly to the `n` element in the experiment.
 
 ``` r
-p_t.test(n=NA, d=0.2828427, type = 'paired') |> 
-    Spower(power=0.832114, interval=c(100,300))
+p_t.test(n=interval(100,300), d=0.2828427, type = 'paired') |> 
+    Spower(power=0.832114)
 ```
 
     ## 
@@ -1105,8 +1112,8 @@ using a one-sample $t$-test. The following estimates $n$ given a
 one-tailed $d = .625$ to achieve $1 - \beta = .95$.
 
 ``` r
-p_t.test(n=NA, d=.625, two.tailed=FALSE, type='one.sample') |>  
-    Spower(power=.95, interval=c(10, 100))
+p_t.test(n=interval(10, 100), d=.625, two.tailed=FALSE, type='one.sample') |>  
+    Spower(power=.95)
 ```
 
     ## 
@@ -1125,8 +1132,8 @@ G\*power gives sample size of $n = 30$. Similarly, though with different
 inputs.
 
 ``` r
-p_t.test(n=NA, d=.1, type='one.sample') |>  
-    Spower(power=.9,sig.level=.01, interval=c(100,2000))
+p_t.test(n=interval(100,2000), d=.1, type='one.sample') |>  
+    Spower(power=.9,sig.level=.01)
 ```
 
     ## 

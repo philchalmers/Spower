@@ -110,7 +110,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # one sample, 50 observations, tested against pi = .5 by default
 p_prop.test(50, prop=.65)
-#> [1] 0.1189205
+#> [1] 0.06490865
 
 # return analysis model
 p_prop.test(50, prop=.65, return_analysis = TRUE)
@@ -118,37 +118,37 @@ p_prop.test(50, prop=.65, return_analysis = TRUE)
 #>  Exact binomial test
 #> 
 #> data:  dat[1, 1] and n
-#> number of successes = 29, number of trials = 50, p-value = 0.3222
+#> number of successes = 33, number of trials = 50, p-value = 0.03284
 #> alternative hypothesis: true probability of success is not equal to 0.5
 #> 95 percent confidence interval:
-#>  0.4320604 0.7181178
+#>  0.5123475 0.7879453
 #> sample estimates:
 #> probability of success 
-#>                   0.58 
+#>                   0.66 
 #> 
 
 # specified using h and pi
 h <- pwr::ES.h(.65, .4)
 p_prop.test(50, h=h, pi=.4)
-#> [1] 0.002131058
+#> [1] 0.00024228
 p_prop.test(50, h=-h, pi=.65)
-#> [1] 6.656485e-07
+#> [1] 0.0004932261
 
 # two-sample test
 p_prop.test(50, prop=c(.5, .65))
-#> [1] 0.07163328
+#> [1] 0.004420372
 
 # two-sample test, unequal ns
 p_prop.test(50, prop=c(.5, .65), n.ratios = c(1,2))
-#> [1] 0.01208178
+#> [1] 0.1417787
 
 # three-sample test, group2 twice as large as others
 p_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
-#> [1] 0.008836383
+#> [1] 0.1330484
 
 # Fisher exact test
 p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
-#> [1] 0.01971896
+#> [1] 0.0004703966
 
 # \donttest{
     # compare simulated results to pwr package
@@ -178,8 +178,8 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.4      0.05 NA   
 #> 
-#> Estimate of power: 0.346
-#> 95% Confidence Interval: [0.337, 0.356]
+#> Estimate of power: 0.350
+#> 95% Confidence Interval: [0.341, 0.360]
     Spower(p_prop.test(n=60, prop=.5, pi=.4))
 #> 
 #> Execution time (H:M:S): 00:00:03
@@ -190,8 +190,8 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.5   0.4      0.05 NA   
 #> 
-#> Estimate of power: 0.345
-#> 95% Confidence Interval: [0.336, 0.354]
+#> Estimate of power: 0.349
+#> 95% Confidence Interval: [0.339, 0.358]
 
     # compare with switched null
     Spower(p_prop.test(n=60, h=h, pi=.5))
@@ -204,11 +204,11 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.5      0.05 NA   
 #> 
-#> Estimate of power: 0.257
-#> 95% Confidence Interval: [0.248, 0.265]
+#> Estimate of power: 0.265
+#> 95% Confidence Interval: [0.256, 0.274]
     Spower(p_prop.test(n=60, prop=.4, pi=.5))
 #> 
-#> Execution time (H:M:S): 00:00:03
+#> Execution time (H:M:S): 00:00:02
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 5
@@ -216,8 +216,8 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.4   0.5      0.05 NA   
 #> 
-#> Estimate of power: 0.260
-#> 95% Confidence Interval: [0.251, 0.268]
+#> Estimate of power: 0.253
+#> 95% Confidence Interval: [0.245, 0.262]
 
     # two-sample test, one-tailed
     (h <- pwr::ES.h(0.67, 0.5))
@@ -245,8 +245,8 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <lgl>      <lgl>       <dbl> <lgl>
 #> 1    80 FALSE      FALSE        0.05 NA   
 #> 
-#> Estimate of power: 0.694
-#> 95% Confidence Interval: [0.685, 0.703]
+#> Estimate of power: 0.695
+#> 95% Confidence Interval: [0.686, 0.704]
 
     # same as above, but with continuity correction (default)
     p_prop.test(n=80, prop=c(.67, .5), two.tailed=FALSE) |>
@@ -260,8 +260,8 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <lgl>          <dbl> <lgl>
 #> 1    80 FALSE           0.05 NA   
 #> 
-#> Estimate of power: 0.643
-#> 95% Confidence Interval: [0.633, 0.652]
+#> Estimate of power: 0.641
+#> 95% Confidence Interval: [0.632, 0.651]
 
     # three-sample joint test, equal n's
     p_prop.test(n=50, prop=c(.6,.4,.7)) |> Spower()
@@ -274,8 +274,8 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl>     <dbl> <lgl>
 #> 1    50      0.05 NA   
 #> 
-#> Estimate of power: 0.798
-#> 95% Confidence Interval: [0.791, 0.806]
+#> Estimate of power: 0.806
+#> 95% Confidence Interval: [0.799, 0.814]
 
 # }
 ```

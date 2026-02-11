@@ -83,13 +83,13 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # 50 observations, .5 correlation
 p_r(50, r=.5)
-#> [1] 1.118634e-05
+#> [1] 9.932043e-07
 p_r(50, r=.5, method = 'spearman')
-#> [1] 8.326385e-05
+#> [1] 0.0002993513
 
 # test against constant other than rho = .6
 p_r(50, .5, rho=.60)
-#> [1] 0.2973482
+#> [1] 0.01541525
 
 # return analysis model
 p_r(50, .5, return_analysis=TRUE)
@@ -97,26 +97,26 @@ p_r(50, .5, return_analysis=TRUE)
 #>  Pearson's product-moment correlation
 #> 
 #> data:  x and y
-#> t = 3.2934, df = 48, p-value = 0.001863
+#> t = 3.6907, df = 48, p-value = 0.0005708
 #> alternative hypothesis: true correlation is not equal to 0
 #> 95 percent confidence interval:
-#>  0.1714634 0.6321291
+#>  0.2206860 0.6618831
 #> sample estimates:
 #>       cor 
-#> 0.4293211 
+#> 0.4701534 
 #> 
 p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
 #>  Pearson's product-moment correlation
 #> 
 #> data:  x and y
-#> t = -0.38724, df = Inf, p-value = 0.6986
+#> t = -1.6303, df = Inf, p-value = 0.103
 #> alternative hypothesis: true correlation is not equal to 0.6
 #> 95 percent confidence interval:
-#>  0.3370604 0.7271028
+#>  0.1678516 0.6298910
 #> sample estimates:
 #>       cor 
-#> 0.5626228 
+#> 0.4262829 
 #> 
 
 # \donttest{
@@ -142,8 +142,8 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.3      0.05 NA   
 #> 
-#> Estimate of power: 0.575
-#> 95% Confidence Interval: [0.566, 0.585]
+#> Estimate of power: 0.577
+#> 95% Confidence Interval: [0.567, 0.586]
 
     pwr::pwr.r.test(r=0.3, power=0.80)
 #> 
@@ -157,7 +157,7 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
     p_r(n=NA, r=0.3) |> Spower(power=.80, interval=c(10, 200))
 #> 
-#> Execution time (H:M:S): 00:00:32
+#> Execution time (H:M:S): 00:00:41
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -165,8 +165,8 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.3      0.05   0.8
 #> 
-#> Estimate of n: 84.0
-#> 95% Predicted Confidence Interval: [83.1, 84.8]
+#> Estimate of n: 83.8
+#> 95% Predicted Confidence Interval: [82.9, 84.6]
 
     pwr::pwr.r.test(r=0.1, power=0.80)
 #> 
@@ -188,8 +188,8 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.1      0.05   0.8
 #> 
-#> Estimate of n: 788.1
-#> 95% Predicted Confidence Interval: [772.8, 802.1]
+#> Estimate of n: 788.5
+#> 95% Predicted Confidence Interval: [783.1, 792.9]
 
 # }
 ```

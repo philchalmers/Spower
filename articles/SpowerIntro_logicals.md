@@ -173,8 +173,12 @@ l_precision <- function(n, mean, CI.width, mu=0, alpha=.05){
 ```
 
 ``` r
-l_precision(n=NA, mean=.2, CI.width=1/4) |> 
-    Spower(power=.80, interval=c(10, 500))
+l_precision(n=interval(10, 500), mean=.2, CI.width=1/4) |> 
+    Spower(power=.80)
+
+# equivalently: 
+# l_precision(n=NA, mean=.2, CI.width=1/4) |> 
+#    Spower(power=.80, interval=c(10, 500))
 ```
 
     ## 
@@ -197,8 +201,8 @@ the same power output that would have been obtained using
 `p_single.t()`.
 
 ``` r
-l_precision(n=NA, mean=.2, CI.width=Inf) |> 
-    Spower(power=.80, interval=c(10, 500))
+l_precision(n=interval(10, 500), mean=.2, CI.width=Inf) |> 
+    Spower(power=.80)
 ```
 
     ## 
@@ -590,9 +594,8 @@ estimates the required sample size to achieve 80% power when using a 95%
 HDI-ROPE criteria.
 
 ``` r
-rope.lm(n=NA, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |> 
-    Spower(power=.80, sig.level=.95, sig.direction='above',
-           interval=c(50, 200), parallel=TRUE)
+rope.lm(n=interval(50, 200), beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |> 
+    Spower(power=.80, sig.level=.95, sig.direction='above', parallel=TRUE)
 ```
 
     ## 

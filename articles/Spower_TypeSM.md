@@ -305,14 +305,17 @@ results
     ## # ℹ 9,990 more rows
 
 ``` r
-with(results, c(mean=mean(M), SD=sd(M), min=min(M), max=max(M)))
+subset(results, select=M) |> descript()
 ```
 
-    ##      mean        SD       min       max 
-    ## 2.4863313 0.4696919 1.6198006 5.3105530
+    ## # A tibble: 1 × 14
+    ##   VARS      n  miss  mean trimmed    sd   mad skewness kurtosis   min  Q_25
+    ##   <fct> <dbl> <dbl> <dbl>   <dbl> <dbl> <dbl>    <dbl>    <dbl> <dbl> <dbl>
+    ## 1 M     10000    NA  2.49    2.43 0.470 0.406     1.17     1.69  1.62  2.14
+    ## # ℹ 3 more variables: Q_50 <dbl>, Q_75 <dbl>, max <dbl>
 
 ``` r
-hist(results$M, 30)
+with(results, hist(M, 30))
 ```
 
 ![](Spower_TypeSM_files/figure-html/unnamed-chunk-16-1.png)
@@ -373,14 +376,17 @@ results
     ## # ℹ 9,990 more rows
 
 ``` r
-with(results, c(mean=mean(M), SD=sd(M), min=min(M), max=max(M)))
+subset(results, select=M) |> descript()
 ```
 
-    ##      mean        SD       min       max 
-    ## 1.8333941 0.3667748 1.2174419 4.4615467
+    ## # A tibble: 1 × 14
+    ##   VARS      n  miss  mean trimmed    sd   mad skewness kurtosis   min  Q_25
+    ##   <fct> <dbl> <dbl> <dbl>   <dbl> <dbl> <dbl>    <dbl>    <dbl> <dbl> <dbl>
+    ## 1 M     10000    NA  1.83    1.79 0.367 0.339     1.12     1.42  1.22  1.55
+    ## # ℹ 3 more variables: Q_50 <dbl>, Q_75 <dbl>, max <dbl>
 
 ``` r
-hist(results$M, 30)
+with(results, hist(M, 30))
 ```
 
 ![](Spower_TypeSM_files/figure-html/unnamed-chunk-21-1.png)
@@ -400,7 +406,7 @@ seems more natural, where obtaining greater precision in the target
 estimates will necessarily decrease the number of Type M error in both
 the “extreme” and “underwhelming” sense of the effect size estimates
 (the ladder of which Type M errors do not address as they do not focus
-on non-significant results by definition). More importantly, precision
-criteria are framed in the metric of the parameters relevant to the data
-analyst rather than on a metricless effect size ratio, which in general
-should be more natural to specify.
+on non-significant results by definition). More importantly, precis \|\>
+ion criteria are framed in the metric of the parameters relevant to the
+data analyst rather than on a metricless effect size ratio, which in
+general should be more natural to specify.

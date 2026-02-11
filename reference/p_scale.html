@@ -131,14 +131,14 @@ extraction and customization?</p></dd>
 <span class="r-in"><span><span class="co"># n=30 per group,</span></span></span>
 <span class="r-in"><span><span class="co">#  Distributions Gaussian with sd=1 for first group and sd=2 for second</span></span></span>
 <span class="r-in"><span><span class="fu">p_scale</span><span class="op">(</span><span class="fl">30</span>, scale<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01514069</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01275404</span>
 <span class="r-in"><span><span class="fu">p_scale</span><span class="op">(</span><span class="fl">30</span>, scale<span class="op">=</span><span class="fl">2</span>, test<span class="op">=</span><span class="st">'Mood'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01283308</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1005152</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># compare chi-squared distributions</span></span></span>
 <span class="r-in"><span><span class="va">parent</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">df</span>, <span class="va">...</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html" class="external-link">rchisq</a></span><span class="op">(</span><span class="va">n</span>, df<span class="op">=</span><span class="va">df</span><span class="op">)</span> <span class="op">-</span> <span class="va">df</span></span></span>
 <span class="r-in"><span><span class="fu">p_scale</span><span class="op">(</span><span class="fl">30</span>, scale<span class="op">=</span><span class="fl">2</span>, parent<span class="op">=</span><span class="va">parent</span>, df<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.315821e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0559758</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span>  <span class="co"># empirical power of the experiments</span></span></span>
@@ -152,8 +152,8 @@ extraction and customization?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    30     2      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.775</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.767, 0.783]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.771</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.763, 0.779]</span>
 <span class="r-in"><span>  <span class="fu">p_scale</span><span class="op">(</span><span class="fl">30</span>, scale<span class="op">=</span><span class="fl">2</span>, test<span class="op">=</span><span class="st">'Mood'</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:02</span>
@@ -164,8 +164,8 @@ extraction and customization?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    30     2 Mood       0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.857</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.850, 0.864]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.866</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.859, 0.872]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu">p_scale</span><span class="op">(</span><span class="fl">30</span>, scale<span class="op">=</span><span class="fl">2</span>, parent<span class="op">=</span><span class="va">parent</span>, df<span class="op">=</span><span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -177,8 +177,8 @@ extraction and customization?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    30     2     3      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.900</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.894, 0.906]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.896, 0.908]</span>
 <span class="r-in"><span>  <span class="fu">p_scale</span><span class="op">(</span><span class="fl">30</span>, scale<span class="op">=</span><span class="fl">2</span>, test<span class="op">=</span><span class="st">'Mood'</span>, parent<span class="op">=</span><span class="va">parent</span>, df<span class="op">=</span><span class="fl">3</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:02</span>
@@ -189,8 +189,8 @@ extraction and customization?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    30     2 Mood      3      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.947</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.942, 0.951]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.949</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.944, 0.953]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>

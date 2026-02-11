@@ -81,7 +81,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # effect size w + df
 p_chisq.test(100, w=.2, df=3)
-#> [1] 0.6961859
+#> [1] 0.6776621
 
 # return analysis model
 p_chisq.test(100, w=.2, df=3, return_analysis=TRUE)
@@ -89,18 +89,19 @@ p_chisq.test(100, w=.2, df=3, return_analysis=TRUE)
 #>  Chi-squared test for given probabilities
 #> 
 #> data:  tab
-#> X-squared = 3.12, df = 3, p-value = 0.3735
+#> X-squared = 2.48, df = 3, p-value = 0.4789
 #> 
 
 # vector of explicit probabilities (goodness of fit test)
 p_chisq.test(100, P0 = c(.25, .25, .25, .25),
                    P = c(.6, .2, .1, .1))
-#> [1] 2.826475e-08
+#> [1] 6.683395e-20
 
 # matrix of explicit probabilities (two-dimensional test of independence)
 p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
                    P = matrix(c(.6, .2, .1, .1),2,2))
-#> [1] 0.02256915
+#> Warning: Chi-squared approximation may be incorrect
+#> [1] 0.1724933
 
 # \donttest{
     # compare simulated results to pwr package
@@ -137,7 +138,7 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #> 95% Confidence Interval: [0.884, 0.888]
     p_chisq.test(n=100, P0=P0, P=P) |> Spower(replications=100000)
 #> 
-#> Execution time (H:M:S): 00:00:16
+#> Execution time (H:M:S): 00:00:17
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 3
@@ -145,8 +146,8 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.888
-#> 95% Confidence Interval: [0.886, 0.890]
+#> Estimate of power: 0.886
+#> 95% Confidence Interval: [0.884, 0.888]
 
     # slightly differ (latter more conservative due to finite sampling behaviour)
     pwr::pwr.chisq.test(w=w, df=df, power=.8, sig.level=0.05)
@@ -164,7 +165,7 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
     p_chisq.test(n=NA, w=w, df=df) |>
            Spower(power=.80, interval=c(50, 200))
 #> 
-#> Execution time (H:M:S): 00:00:22
+#> Execution time (H:M:S): 00:00:21
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 3
@@ -172,12 +173,12 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #>   <dbl>     <dbl> <dbl>
 #> 1    NA      0.05   0.8
 #> 
-#> Estimate of n: 79.6
-#> 95% Predicted Confidence Interval: [78.9, 80.2]
+#> Estimate of n: 79.9
+#> 95% Predicted Confidence Interval: [79.4, 80.5]
     p_chisq.test(n=NA, w=w, df=df, correct=FALSE) |>
            Spower(power=.80, interval=c(50, 200))
 #> 
-#> Execution time (H:M:S): 00:00:17
+#> Execution time (H:M:S): 00:00:16
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -186,7 +187,7 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #> 1    NA FALSE        0.05   0.8
 #> 
 #> Estimate of n: 80.1
-#> 95% Predicted Confidence Interval: [79.5, 80.8]
+#> 95% Predicted Confidence Interval: [79.3, 80.9]
 
     # Spower slightly more conservative even with larger N
     pwr::pwr.chisq.test(w=.1, df=df, power=.95, sig.level=0.05)
@@ -204,7 +205,7 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
     p_chisq.test(n=NA, w=.1, df=df) |>
            Spower(power=.95, interval=c(1000, 2000))
 #> 
-#> Execution time (H:M:S): 00:00:06
+#> Execution time (H:M:S): 00:00:08
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -212,12 +213,12 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.1      0.05  0.95
 #> 
-#> Estimate of n: 1582.7
-#> 95% Predicted Confidence Interval: [1546.6, 1636.7]
+#> Estimate of n: 1568.5
+#> 95% Predicted Confidence Interval: [1543.8, 1593.3]
     p_chisq.test(n=NA, w=.1, df=df, correct=FALSE) |>
            Spower(power=.95, interval=c(1000, 2000))
 #> 
-#> Execution time (H:M:S): 00:00:08
+#> Execution time (H:M:S): 00:00:06
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 5
@@ -225,8 +226,8 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #>   <dbl> <dbl> <lgl>       <dbl> <dbl>
 #> 1    NA   0.1 FALSE        0.05  0.95
 #> 
-#> Estimate of n: 1546.8
-#> 95% Predicted Confidence Interval: [1536.5, 1556.9]
+#> Estimate of n: 1574.5
+#> 95% Predicted Confidence Interval: [1570.5, 1579.7]
 
 # }
 ```

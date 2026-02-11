@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Phil
 Chalmers</h4>
             
-            <h4 data-toc-skip class="date">February 10, 2026</h4>
+            <h4 data-toc-skip class="date">February 11, 2026</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/main/vignettes/SpowerIntro_logicals.Rmd" class="external-link"><code>vignettes/SpowerIntro_logicals.Rmd</code></a></small>
       <div class="d-none name"><code>SpowerIntro_logicals.Rmd</code></div>
@@ -245,8 +245,12 @@ of
 <span>    <span class="va">out</span><span class="op">$</span><span class="va">p.value</span> <span class="op">&lt;</span> <span class="va">alpha</span> <span class="op">&amp;&amp;</span> <span class="va">width</span> <span class="op">&lt;</span> <span class="va">CI.width</span>   </span>
 <span><span class="op">}</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">l_precision</span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, mean<span class="op">=</span><span class="fl">.2</span>, CI.width<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">l_precision</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">500</span><span class="op">)</span>, mean<span class="op">=</span><span class="fl">.2</span>, CI.width<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># equivalently: </span></span>
+<span><span class="co"># l_precision(n=NA, mean=.2, CI.width=1/4) |&gt; </span></span>
+<span><span class="co">#    Spower(power=.80, interval=c(10, 500))</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:22</span></span>
 <span><span class="co">## Design conditions: </span></span>
@@ -267,8 +271,8 @@ sample size. Note that in the special case where
 will result in the same power output that would have been obtained using
 <code>p_single.t()</code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">l_precision</span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, mean<span class="op">=</span><span class="fl">.2</span>, CI.width<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">l_precision</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">500</span><span class="op">)</span>, mean<span class="op">=</span><span class="fl">.2</span>, CI.width<span class="op">=</span><span class="cn">Inf</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:20</span></span>
 <span><span class="co">## Design conditions: </span></span>
@@ -658,9 +662,8 @@ available cores.</p>
 estimates the required sample size to achieve 80% power when using a 95%
 HDI-ROPE criteria.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">rope.lm</span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, beta0<span class="op">=</span><span class="fl">2</span>, beta1<span class="op">=</span><span class="fl">1</span>, sigma<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, range<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.8</span>, <span class="fl">1.2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span>, sig.level<span class="op">=</span><span class="fl">.95</span>, sig.direction<span class="op">=</span><span class="st">'above'</span>,</span>
-<span>           interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">200</span><span class="op">)</span>, parallel<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">rope.lm</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">200</span><span class="op">)</span>, beta0<span class="op">=</span><span class="fl">2</span>, beta1<span class="op">=</span><span class="fl">1</span>, sigma<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, range<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.8</span>, <span class="fl">1.2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span>, sig.level<span class="op">=</span><span class="fl">.95</span>, sig.direction<span class="op">=</span><span class="st">'above'</span>, parallel<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:40:36</span></span>
 <span><span class="co">## Design conditions: </span></span>

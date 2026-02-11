@@ -128,11 +128,11 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 5 fixed IVs, R^2 = .1, sample size of 95</span></span></span>
 <span class="r-in"><span><span class="fu">p_lm.R2</span><span class="op">(</span>n<span class="op">=</span><span class="fl">95</span>, R2<span class="op">=</span><span class="fl">.1</span>, k<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001117883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004587803</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># random model</span></span></span>
 <span class="r-in"><span><span class="fu">p_lm.R2</span><span class="op">(</span>n<span class="op">=</span><span class="fl">95</span>, R2<span class="op">=</span><span class="fl">.1</span>, k<span class="op">=</span><span class="fl">5</span>, fixed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01962667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001075562</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_lm.R2</span><span class="op">(</span>n<span class="op">=</span><span class="fl">95</span>, R2<span class="op">=</span><span class="fl">.1</span>, k<span class="op">=</span><span class="fl">5</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -142,7 +142,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)           X1           X2           X3           X4           X5  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     0.09457      0.13480      0.08671     -0.19228     -0.09899      0.19240  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     0.05595      0.42595      0.07513      0.08230     -0.05399      0.15285  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

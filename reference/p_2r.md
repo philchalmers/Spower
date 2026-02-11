@@ -129,15 +129,15 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # independent (same x-y pairing across groups)
 p_2r(100, r.ab=.5, r.ab2=.6)
-#> [1] 0.5411214
+#> [1] 0.5957603
 
 # return cocor object for further analysis
 p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> 
 #>   Results of a comparison of two correlations based on independent groups
 #> 
-#> Comparison between r1.jk (y, x) = 0.5909 and r2.hm (y, x) = 0.5523
-#> Difference: r1.jk - r2.hm = 0.0386
+#> Comparison between r1.jk (y, x) = 0.6094 and r2.hm (y, x) = 0.5304
+#> Difference: r1.jk - r2.hm = 0.079
 #> Data: sample1: j = y, k = x; sample2: h = y, m = x
 #> Group sizes: n1 = 100, n2 = 100
 #> Null hypothesis: r1.jk is equal to r2.hm
@@ -145,7 +145,7 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> Alpha: 0.05
 #> 
 #> fisher1925: Fisher's z (1925)
-#>   z = 0.3998, p-value = 0.6893
+#>   z = 0.8172, p-value = 0.4138
 #>   Null hypothesis retained
 #> 
 
@@ -162,14 +162,14 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5   0.6      0.05 NA   
 #> 
-#> Estimate of power: 0.178
-#> 95% Confidence Interval: [0.171, 0.186]
+#> Estimate of power: 0.175
+#> 95% Confidence Interval: [0.167, 0.182]
 
    # estimate n required to reach 80% power
    p_2r(n=NA, r.ab=.5, r.ab2=.6) |>
         Spower(power=.80, interval=c(100, 5000))
 #> 
-#> Execution time (H:M:S): 00:01:13
+#> Execution time (H:M:S): 00:01:10
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 5
@@ -177,19 +177,19 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #>   <dbl> <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.5   0.6      0.05   0.8
 #> 
-#> Estimate of n: 759.1
-#> 95% Predicted Confidence Interval: [750.4, 767.8]
+#> Estimate of n: 765.5
+#> 95% Predicted Confidence Interval: [758.7, 771.8]
 
 # }
 
 # overlap (same y, different xs)
 # H0: r.ab = r.bc
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2)
-#> [1] 0.02333902
+#> [1] 0.115021
 
 # nonoverlap (different ys, different xs)
 # H0: r.ab = r.cd
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2, r.ad=.2, r.bd=.4, r.cd=.2)
-#> [1] 0.03451324
+#> [1] 0.003167866
 
 ```

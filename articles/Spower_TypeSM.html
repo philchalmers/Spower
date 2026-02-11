@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Phil
 Chalmers</h4>
             
-            <h4 data-toc-skip class="date">February 10, 2026</h4>
+            <h4 data-toc-skip class="date">February 11, 2026</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/main/vignettes/Spower_TypeSM.Rmd" class="external-link"><code>vignettes/Spower_TypeSM.Rmd</code></a></small>
       <div class="d-none name"><code>Spower_TypeSM.Rmd</code></div>
@@ -378,11 +378,14 @@ the nature of the conditional simulation experiment.</p>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span>    50   0.2      0.05 FALSE   3.38</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 9,990 more rows</span></span></span></code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">results</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>mean<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, SD<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, min<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, max<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      mean        SD       min       max </span></span>
-<span><span class="co">## 2.4863313 0.4696919 1.6198006 5.3105530</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">results</span>, select<span class="op">=</span><span class="va">M</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="http://philchalmers.github.io/SimDesign/reference/descript.html" class="external-link">descript</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
+<span><span class="co">##   VARS      n  miss  mean trimmed    sd   mad skewness kurtosis   min  Q_25</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> M     <span style="text-decoration: underline;">10</span>000    <span style="color: #BB0000;">NA</span>  2.49    2.43 0.470 0.406     1.17     1.69  1.62  2.14</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 3 more variables: Q_50 &lt;dbl&gt;, Q_75 &lt;dbl&gt;, max &lt;dbl&gt;</span></span></span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">M</span>, <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">results</span>, <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">M</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Spower_TypeSM_files/figure-html/unnamed-chunk-16-1.png" class="r-plt" alt="" width="700"></p>
 <p>Finally, increasing the sample size greatly helps with the Type M
 issues, as seen below by doubling the sample size below.</p>
@@ -431,11 +434,14 @@ values can be extracted and further analyzed should the need arise.</p>
 <span><span class="co">## <span style="color: #BCBCBC;">10</span>   100   0.2      0.05 TRUE    1.49</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 9,990 more rows</span></span></span></code></pre>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">results</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>mean<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, SD<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, min<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span>, max<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##      mean        SD       min       max </span></span>
-<span><span class="co">## 1.8333941 0.3667748 1.2174419 4.4615467</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">results</span>, select<span class="op">=</span><span class="va">M</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="http://philchalmers.github.io/SimDesign/reference/descript.html" class="external-link">descript</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
+<span><span class="co">##   VARS      n  miss  mean trimmed    sd   mad skewness kurtosis   min  Q_25</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> M     <span style="text-decoration: underline;">10</span>000    <span style="color: #BB0000;">NA</span>  1.83    1.79 0.367 0.339     1.12     1.42  1.22  1.55</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 3 more variables: Q_50 &lt;dbl&gt;, Q_75 &lt;dbl&gt;, max &lt;dbl&gt;</span></span></span></code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">results</span><span class="op">$</span><span class="va">M</span>, <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">results</span>, <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">M</span>, <span class="fl">30</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Spower_TypeSM_files/figure-html/unnamed-chunk-21-1.png" class="r-plt" alt="" width="700"></p>
 <p>Type M errors are of course intimately related to <em>precision
 criteria</em> in power analyses, and in that sense are an alternative
@@ -452,9 +458,9 @@ target estimates will necessarily decrease the number of Type M error in
 both the “extreme” and “underwhelming” sense of the effect size
 estimates (the ladder of which Type M errors do not address as they do
 not focus on non-significant results by definition). More importantly,
-precision criteria are framed in the metric of the parameters relevant
-to the data analyst rather than on a metricless effect size ratio, which
-in general should be more natural to specify.</p>
+precis |&gt; ion criteria are framed in the metric of the parameters
+relevant to the data analyst rather than on a metricless effect size
+ratio, which in general should be more natural to specify.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
