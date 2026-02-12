@@ -53,17 +53,15 @@
 #'
 #'     # slightly differ (latter more conservative due to finite sampling behaviour)
 #'     pwr::pwr.chisq.test(w=w, df=df, power=.8, sig.level=0.05)
-#'     p_chisq.test(n=NA, w=w, df=df) |>
-#'            Spower(power=.80, interval=c(50, 200))
-#'     p_chisq.test(n=NA, w=w, df=df, correct=FALSE) |>
-#'            Spower(power=.80, interval=c(50, 200))
+#'     p_chisq.test(n=interval(50, 200), w=w, df=df) |> Spower(power=.80)
+#'     p_chisq.test(n=interval(50, 200), w=w, df=df, correct=FALSE) |>
+#'       Spower(power=.80)
 #'
 #'     # Spower slightly more conservative even with larger N
 #'     pwr::pwr.chisq.test(w=.1, df=df, power=.95, sig.level=0.05)
-#'     p_chisq.test(n=NA, w=.1, df=df) |>
-#'            Spower(power=.95, interval=c(1000, 2000))
-#'     p_chisq.test(n=NA, w=.1, df=df, correct=FALSE) |>
-#'            Spower(power=.95, interval=c(1000, 2000))
+#'     p_chisq.test(n=interval(1000, 2000), w=.1, df=df) |> Spower(power=.95)
+#'     p_chisq.test(n=interval(1000, 2000), w=.1, df=df, correct=FALSE) |>
+#'            Spower(power=.95)
 #'
 #' }
 #'

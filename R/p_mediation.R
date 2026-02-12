@@ -48,8 +48,8 @@
 #'     Spower(parallel=TRUE, replications=1000)
 #'
 #'   # sample size estimate for .95 power
-#'   p_mediation(n=NA, a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
-#'     Spower(power=.95, interval=c(50, 200), parallel=TRUE)
+#'   p_mediation(n=interval(50,200), a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
+#'     Spower(power=.95, parallel=TRUE)
 #'
 #' }
 #'

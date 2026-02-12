@@ -49,8 +49,7 @@
 #'   p_var.test(n=100, vars=c(10,9,11)) |> Spower()
 #'
 #'   # sample size per group to achieve 80% power
-#'   p_var.test(n=NA, vars=c(10,9,11)) |>
-#'          Spower(power=.80, interval=c(100, 1000))
+#'   p_var.test(n=interval(100, 2000), vars=c(10,9,11)) |> Spower(power=.80)
 #' }
 #'
 p_var.test <- function(n, vars, n.ratios = rep(1, length(vars)),

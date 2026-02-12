@@ -121,8 +121,8 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 
   pwr::pwr.t.test(d=0.3, power=0.80, type="two.sample",
                   alternative="greater")
-  p_t.test(n=NA, d=0.3, type='two.sample', two.tailed=FALSE) |>
-         Spower(power=0.80, interval=c(10,200))
+  p_t.test(n=interval(10, 200), d=0.3, type='two.sample', two.tailed=FALSE) |>
+         Spower(power=0.80)
 
 }
 

@@ -76,8 +76,7 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
   p_var.test(n=100, vars=c(10,9,11)) |> Spower()
 
   # sample size per group to achieve 80\% power
-  p_var.test(n=NA, vars=c(10,9,11)) |>
-         Spower(power=.80, interval=c(100, 1000))
+  p_var.test(n=interval(100, 2000), vars=c(10,9,11)) |> Spower(power=.80)
 }
 
 }

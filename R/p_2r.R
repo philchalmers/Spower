@@ -57,8 +57,7 @@
 #'    p_2r(n=100, r.ab=.5, r.ab2=.6) |> Spower()
 #'
 #'    # estimate n required to reach 80% power
-#'    p_2r(n=NA, r.ab=.5, r.ab2=.6) |>
-#'         Spower(power=.80, interval=c(100, 5000))
+#'    p_2r(n=interval(100, 5000), r.ab=.5, r.ab2=.6) |> Spower(power=.80)
 #'
 #' }
 #'
