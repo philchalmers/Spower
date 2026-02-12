@@ -78,20 +78,20 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 # n=30 per group,
 #  Distributions Gaussian with sd=1 for first group and sd=2 for second
 p_scale(30, scale=2)
-#> [1] 3.110729e-05
+#> [1] 0.0337284
 p_scale(30, scale=2, test='Mood')
-#> [1] 0.1173551
+#> [1] 0.005555631
 
 # compare chi-squared distributions
 parent <- function(n, df, ...) rchisq(n, df=df) - df
 p_scale(30, scale=2, parent=parent, df=3)
-#> [1] 0.003431284
+#> [1] 1.690885e-05
 
 # \donttest{
   # empirical power of the experiments
   p_scale(30, scale=2) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:24
+#> Execution time (H:M:S): 00:00:23
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -99,8 +99,8 @@ p_scale(30, scale=2, parent=parent, df=3)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    30     2      0.05 NA   
 #> 
-#> Estimate of power: 0.774
-#> 95% Confidence Interval: [0.765, 0.782]
+#> Estimate of power: 0.785
+#> 95% Confidence Interval: [0.777, 0.793]
   p_scale(30, scale=2, test='Mood') |> Spower()
 #> 
 #> Execution time (H:M:S): 00:00:02
@@ -111,12 +111,12 @@ p_scale(30, scale=2, parent=parent, df=3)
 #>   <dbl> <dbl> <chr>     <dbl> <lgl>
 #> 1    30     2 Mood       0.05 NA   
 #> 
-#> Estimate of power: 0.867
-#> 95% Confidence Interval: [0.860, 0.873]
+#> Estimate of power: 0.860
+#> 95% Confidence Interval: [0.854, 0.867]
 
   p_scale(30, scale=2, parent=parent, df=3) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:25
+#> Execution time (H:M:S): 00:00:23
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 5
@@ -124,8 +124,8 @@ p_scale(30, scale=2, parent=parent, df=3)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    30     2     3      0.05 NA   
 #> 
-#> Estimate of power: 0.907
-#> 95% Confidence Interval: [0.901, 0.913]
+#> Estimate of power: 0.905
+#> 95% Confidence Interval: [0.900, 0.911]
   p_scale(30, scale=2, test='Mood', parent=parent, df=3) |> Spower()
 #> 
 #> Execution time (H:M:S): 00:00:02
@@ -136,8 +136,8 @@ p_scale(30, scale=2, parent=parent, df=3)
 #>   <dbl> <dbl> <chr> <dbl>     <dbl> <lgl>
 #> 1    30     2 Mood      3      0.05 NA   
 #> 
-#> Estimate of power: 0.949
-#> 95% Confidence Interval: [0.945, 0.954]
+#> Estimate of power: 0.947
+#> 95% Confidence Interval: [0.943, 0.951]
 
 # }
 ```

@@ -82,7 +82,7 @@ extraction and customization?</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 50 observations drawn from normal distribution (null is true)</span></span></span>
 <span class="r-in"><span><span class="fu">p_shapiro.test</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3633492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.624697</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis object</span></span></span>
 <span class="r-in"><span><span class="fu">p_shapiro.test</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -90,12 +90,12 @@ extraction and customization?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Shapiro-Wilk normality test</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  dist</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> W = 0.96897, p-value = 0.2101</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> W = 0.95519, p-value = 0.05597</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 50 observations from slightly skewed chi-squared distribution (power)</span></span></span>
 <span class="r-in"><span><span class="fu">p_shapiro.test</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html" class="external-link">rchisq</a></span><span class="op">(</span><span class="fl">50</span>, df<span class="op">=</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3882844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9646621</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span>    <span class="co"># empirical Type I error rate estimate</span></span></span>
@@ -123,8 +123,8 @@ extraction and customization?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.097</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.091, 0.102]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.102</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.096, 0.108]</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
