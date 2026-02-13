@@ -13,7 +13,7 @@ normal distribution, however this can be modified."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Spower</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,17 +123,17 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># H0 test that sphericity holds</span></span></span>
 <span class="r-in"><span><span class="fu">p_mauchly.test</span><span class="op">(</span><span class="fl">100</span>, sigma<span class="op">=</span><span class="va">sigma</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0002589934</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.06591055</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis object</span></span></span>
 <span class="r-in"><span><span class="fu">p_mauchly.test</span><span class="op">(</span><span class="fl">100</span>, sigma<span class="op">=</span><span class="va">sigma</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          W df   p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.988964  2 0.5805568</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           W df      p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.7838527  2 6.568844e-06</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Null is true</span></span></span>
 <span class="r-in"><span><span class="va">sigma.H0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">p_mauchly.test</span><span class="op">(</span><span class="fl">100</span>, sigma<span class="op">=</span><span class="va">sigma.H0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9695349</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4351374</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
@@ -148,8 +148,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   100      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.600</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.590, 0.609]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.610</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.600, 0.619]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="co"># empirical Type I error estimate</span></span></span>
 <span class="r-in"><span>    <span class="fu">p_mauchly.test</span><span class="op">(</span><span class="fl">100</span>, sigma<span class="op">=</span><span class="va">sigma.H0</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></span>
@@ -163,7 +163,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   100      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.054</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.049, 0.058]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.050, 0.059]</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

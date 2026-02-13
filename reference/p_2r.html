@@ -13,7 +13,7 @@ specified."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Spower</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -173,15 +173,15 @@ specified, where the null hypothesis pertains to \(H_0: r_{ab}=r_{cd}\).</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># independent (same x-y pairing across groups)</span></span></span>
 <span class="r-in"><span><span class="fu">p_2r</span><span class="op">(</span><span class="fl">100</span>, r.ab<span class="op">=</span><span class="fl">.5</span>, r.ab2<span class="op">=</span><span class="fl">.6</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5957603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.07403686</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return cocor object for further analysis</span></span></span>
 <span class="r-in"><span><span class="fu">p_2r</span><span class="op">(</span><span class="fl">100</span>, r.ab<span class="op">=</span><span class="fl">.5</span>, r.ab2<span class="op">=</span><span class="fl">.6</span>, return_analysis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Results of a comparison of two correlations based on independent groups</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Comparison between r1.jk (y, x) = 0.6094 and r2.hm (y, x) = 0.5304</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Difference: r1.jk - r2.hm = 0.079</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Comparison between r1.jk (y, x) = 0.5414 and r2.hm (y, x) = 0.5891</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Difference: r1.jk - r2.hm = -0.0477</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Data: sample1: j = y, k = x; sample2: h = y, m = x</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Group sizes: n1 = 100, n2 = 100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Null hypothesis: r1.jk is equal to r2.hm</span>
@@ -189,7 +189,7 @@ specified, where the null hypothesis pertains to \(H_0: r_{ab}=r_{cd}\).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Alpha: 0.05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> fisher1925: Fisher's z (1925)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   z = 0.8172, p-value = 0.4138</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   z = -0.4890, p-value = 0.6249</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Null hypothesis retained</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
@@ -206,13 +206,13 @@ specified, where the null hypothesis pertains to \(H_0: r_{ab}=r_{cd}\).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   100   0.5   0.6      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.175</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.167, 0.182]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.170</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.163, 0.177]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>   <span class="co"># estimate n required to reach 80% power</span></span></span>
 <span class="r-in"><span>   <span class="fu">p_2r</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="Spower.html">interval</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">5000</span><span class="op">)</span>, r.ab<span class="op">=</span><span class="fl">.5</span>, r.ab2<span class="op">=</span><span class="fl">.6</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:01:10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:01:19</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
@@ -220,20 +220,20 @@ specified, where the null hypothesis pertains to \(H_0: r_{ab}=r_{cd}\).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.5   0.6      0.05   0.8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of n: 765.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Predicted Confidence Interval: [758.7, 771.8]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of n: 762.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Predicted Confidence Interval: [752.9, 771.4]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># overlap (same y, different xs)</span></span></span>
 <span class="r-in"><span><span class="co"># H0: r.ab = r.bc</span></span></span>
 <span class="r-in"><span><span class="fu">p_2r</span><span class="op">(</span><span class="fl">100</span>, r.ab<span class="op">=</span><span class="fl">.5</span>, r.ac<span class="op">=</span><span class="fl">.3</span>, r.bc<span class="op">=</span><span class="fl">.2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.115021</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01196608</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># nonoverlap (different ys, different xs)</span></span></span>
 <span class="r-in"><span><span class="co"># H0: r.ab = r.cd</span></span></span>
 <span class="r-in"><span><span class="fu">p_2r</span><span class="op">(</span><span class="fl">100</span>, r.ab<span class="op">=</span><span class="fl">.5</span>, r.ac<span class="op">=</span><span class="fl">.3</span>, r.bc<span class="op">=</span><span class="fl">.2</span>, r.ad<span class="op">=</span><span class="fl">.2</span>, r.bd<span class="op">=</span><span class="fl">.4</span>, r.cd<span class="op">=</span><span class="fl">.2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003167866</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7617057</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

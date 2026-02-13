@@ -65,7 +65,7 @@ p_r(n = 100, r = .3) |> Spower()
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:08
+    ## Execution time (H:M:S): 00:00:07
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 4
@@ -180,7 +180,7 @@ p_2r(n=interval(500, 2000), r.ab=.1, r.ac=.5, r.ad=.4, r.bc=-.4, r.bd=.8, r.cd=.
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:01:13
+    ## Execution time (H:M:S): 00:01:11
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 9
@@ -221,7 +221,7 @@ p_2r(n=interval(50, 500), r.ab=.4, r.ac=.2, r.bc=.5, two.tailed=FALSE) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:59
+    ## Execution time (H:M:S): 00:00:58
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 7
@@ -483,7 +483,7 @@ p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:12
+    ## Execution time (H:M:S): 00:00:13
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 6
@@ -602,7 +602,7 @@ p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE) |> Spower()
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:02
+    ## Execution time (H:M:S): 00:00:01
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 4
@@ -625,7 +625,7 @@ p_mcnemar.test(n=50, OR=OR, prop.disc=disc, two.tailed=FALSE) |> Spower()
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:02
+    ## Execution time (H:M:S): 00:00:01
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 4
@@ -696,7 +696,7 @@ p_lm.R2(n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5) |> Spower(sig.level=.01)
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:39
+    ## Execution time (H:M:S): 00:00:38
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 7
@@ -716,7 +716,7 @@ p_lm.R2(n=interval(100, 400), R2=.3, R2_0 = .25, k=9, k.R2_0=5) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:02:14
+    ## Execution time (H:M:S): 00:02:12
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 7
@@ -740,7 +740,7 @@ p_lm.R2(n=200, R2=.16, R2_0 = .1, k=12, k.R2_0=9, R2.resid=.8) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:53
+    ## Execution time (H:M:S): 00:00:52
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 8
@@ -791,7 +791,7 @@ p_slr(n=100, beta=-0.0667, sd_x=7.5, sd_y = 4) |> Spower()
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:21
+    ## Execution time (H:M:S): 00:00:20
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 5
@@ -919,7 +919,7 @@ p_glm(formula=y~X*S, test="X:S = 0",
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:24
+    ## Execution time (H:M:S): 00:00:23
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 8
@@ -940,7 +940,7 @@ p_glm(formula=y~X*S, test="X:S = 0",
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:01:25
+    ## Execution time (H:M:S): 00:01:23
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 8
@@ -968,7 +968,7 @@ p_var.test(n=interval(10, 200), vars=1, sigma2=1.5, two.tailed=FALSE) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:25
+    ## Execution time (H:M:S): 00:00:24
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 6
@@ -992,7 +992,7 @@ p_var.test(n=interval(50, 300), vars=c(1, 1.5), two.tailed=TRUE) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:33
+    ## Execution time (H:M:S): 00:00:32
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 4
@@ -1043,7 +1043,7 @@ p_t.test(n=50 * 2, d=0.421637, type = 'paired') |> Spower(replications=50000)
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:13
+    ## Execution time (H:M:S): 00:00:12
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 4
@@ -1062,7 +1062,7 @@ p_t.test(n=50 * 2, d=.2828427, type = 'paired') |> Spower(replications=50000)
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:13
+    ## Execution time (H:M:S): 00:00:12
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 4

@@ -84,7 +84,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 ``` r
 p_slr(n=100, beta = -0.0667, sd_x = 7.5, sd_y = 4)
-#> [1] 0.07166937
+#> [1] 0.04544346
 
 if (FALSE) { # \dontrun{
 p_slr(n=100, beta = -0.0667, sd_x = 7.5, sd_y = 4) |> Spower()

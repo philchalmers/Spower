@@ -70,8 +70,8 @@ update(out, sig.level=.01)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.5      0.01 NA   
 #> 
-#> Estimate of power: 0.456
-#> 95% Confidence Interval: [0.443, 0.464]
+#> Estimate of power: 0.451
+#> 95% Confidence Interval: [0.438, 0.459]
 update(out, sig.level=.20)
 #> 
 #> Execution time (H:M:S): 00:00:02
@@ -82,8 +82,8 @@ update(out, sig.level=.20)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.5       0.2 NA   
 #> 
-#> Estimate of power: 0.882
-#> 95% Confidence Interval: [0.878, 1.000]
+#> Estimate of power: 0.889
+#> 95% Confidence Interval: [0.885, 1.000]
 
 
 ########
@@ -95,7 +95,7 @@ out <- p_t.test(n = 50, d = .5) |> Spower(beta_alpha = 2)
 # update beta_alpha criteria without re-simulating
 update(out, beta_alpha=4)
 #> 
-#> Execution time (H:M:S): 00:00:03
+#> Execution time (H:M:S): 00:00:02
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 5
@@ -103,17 +103,17 @@ update(out, beta_alpha=4)
 #>   <dbl> <dbl>     <dbl> <lgl>      <dbl>
 #> 1    50   0.5        NA NA             4
 #> 
-#> Estimate of Type I error rate (alpha/sig.level): 0.066
-#> 95% Confidence Interval: [0.061, 0.071]
+#> Estimate of Type I error rate (alpha/sig.level): 0.067
+#> 95% Confidence Interval: [0.062, 0.072]
 #> 
-#> Estimate of power (1-beta): 0.736
-#> 95% Confidence Interval: [0.727, 0.744]
+#> Estimate of power (1-beta): 0.732
+#> 95% Confidence Interval: [0.723, 0.740]
 
 # also works if compromise not initially run but prospective/post-hoc power was
 out <- p_t.test(n = 50, d = .5) |> Spower()
 update(out, beta_alpha=4)
 #> 
-#> Execution time (H:M:S): 00:00:03
+#> Execution time (H:M:S): 00:00:02
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 5
@@ -122,10 +122,10 @@ update(out, beta_alpha=4)
 #> 1    50   0.5        NA NA             4
 #> 
 #> Estimate of Type I error rate (alpha/sig.level): 0.065
-#> 95% Confidence Interval: [0.060, 0.070]
+#> 95% Confidence Interval: [0.061, 0.070]
 #> 
-#> Estimate of power (1-beta): 0.739
-#> 95% Confidence Interval: [0.731, 0.748]
+#> Estimate of power (1-beta): 0.738
+#> 95% Confidence Interval: [0.730, 0.747]
 
 # }
 ```

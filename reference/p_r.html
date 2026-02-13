@@ -11,7 +11,7 @@ assuming a bivariate normal distribution."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Spower</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,13 +130,13 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 50 observations, .5 correlation</span></span></span>
 <span class="r-in"><span><span class="fu">p_r</span><span class="op">(</span><span class="fl">50</span>, r<span class="op">=</span><span class="fl">.5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.932043e-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.861138e-06</span>
 <span class="r-in"><span><span class="fu">p_r</span><span class="op">(</span><span class="fl">50</span>, r<span class="op">=</span><span class="fl">.5</span>, method <span class="op">=</span> <span class="st">'spearman'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0002993513</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.899522e-06</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># test against constant other than rho = .6</span></span></span>
 <span class="r-in"><span><span class="fu">p_r</span><span class="op">(</span><span class="fl">50</span>, <span class="fl">.5</span>, rho<span class="op">=</span><span class="fl">.60</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01541525</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.009356728</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_r</span><span class="op">(</span><span class="fl">50</span>, <span class="fl">.5</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -144,26 +144,26 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Pearson's product-moment correlation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  x and y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t = 3.6907, df = 48, p-value = 0.0005708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t = 3.8988, df = 48, p-value = 0.0002998</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true correlation is not equal to 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.2206860 0.6618831</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.2455983 0.6764301</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       cor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.4701534 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.4904201 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">p_r</span><span class="op">(</span><span class="fl">50</span>, <span class="fl">.5</span>, rho<span class="op">=</span><span class="fl">.60</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Pearson's product-moment correlation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  x and y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t = -1.6303, df = Inf, p-value = 0.103</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t = -0.3567, df = Inf, p-value = 0.7213</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true correlation is not equal to 0.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.1678516 0.6298910</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.3410032 0.7291957</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       cor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.4262829 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.5656599 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
@@ -189,8 +189,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    50   0.3      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.577</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.567, 0.586]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.567</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.557, 0.576]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="fu">pwr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pwr/man/pwr.r.test.html" class="external-link">pwr.r.test</a></span><span class="op">(</span>r<span class="op">=</span><span class="fl">0.3</span>, power<span class="op">=</span><span class="fl">0.80</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -204,7 +204,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>    <span class="fu">p_r</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="Spower.html">interval</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">200</span><span class="op">)</span>, r<span class="op">=</span><span class="fl">0.3</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:43</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:34</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 4</span></span>
@@ -212,8 +212,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.3      0.05   0.8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of n: 83.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Predicted Confidence Interval: [82.9, 84.6]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of n: 83.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Predicted Confidence Interval: [82.7, 84.2]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="fu">pwr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pwr/man/pwr.r.test.html" class="external-link">pwr.r.test</a></span><span class="op">(</span>r<span class="op">=</span><span class="fl">0.1</span>, power<span class="op">=</span><span class="fl">0.80</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -227,7 +227,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span>    <span class="fu">p_r</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="Spower.html">interval</a></span><span class="op">(</span><span class="fl">200</span>, <span class="fl">1000</span><span class="op">)</span>, r<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:01:20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:55</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 4</span></span>
@@ -235,8 +235,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.1      0.05   0.8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of n: 788.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Predicted Confidence Interval: [783.1, 792.9]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of n: 791.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Predicted Confidence Interval: [780.0, 803.1]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
