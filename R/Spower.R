@@ -1,25 +1,28 @@
 #' Simulation-based Power Analyses
 #'
 #' General purpose function that provides power-focused estimates for
-#' a priori, prospective/post-hoc, compromise, sensitivity, and criterion power analysis.
-#' Function provides a general wrapper to the
+#' a priori, prospective/post-hoc, compromise, sensitivity, and criterion
+#' power analysis. Function provides a general wrapper to the
 #' \code{SimDesign} package's \code{\link[SimDesign]{runSimulation}} and
 #' \code{\link[SimDesign]{SimSolve}} functions. As such, parallel processing is
 #' automatically supported, along with progress bars,
-#' confidence/predicted confidence intervals for the results estimates, safety checks,
-#' and more.
+#' confidence/predicted confidence intervals for the results estimates,
+#' safety checks, and more.
 #'
 #' Five types of power analysis flavors can be performed with \code{Spower},
-#' which are triggered based on which supplied input is set to missing (\code{NA}):
+#' which are triggered based on which supplied input is set to
+#' missing (\code{NA}):
 #'
 #' \describe{
 #'    \item{A Priori}{Solve for a missing sample size component
 #'      (e.g., \code{n}) to achieve a specific target power rate}
-#'    \item{Prospective and Post-hoc}{Estimate the power rate given a set of fixed conditions.
-#'      If estimates of effect sizes and other empirical characteristics (e.g., observed sample size)
-#'      are supplied this results in observed/retrospective power (not recommended), while if only
-#'      sample size is included as the observed quantity, but the effect sizes are treated as unknown, then this
-#'      results in post-hoc power (Cohen, 1988)}
+#'    \item{Prospective and Post-hoc}{Estimate the power rate given a set of
+#'      fixed conditions. If estimates of effect sizes and other empirical
+#'      characteristics (e.g., observed sample size) are supplied this results
+#'       in observed/retrospective power (not recommended), while if only
+#'      sample size is included as the observed quantity, but the effect
+#'      sizes are treated as unknown, then this results in post-hoc
+#'      power (Cohen, 1988)}
 #'    \item{Sensitivity}{Solve a missing effect size value as a function of
 #'      the other supplied constant components}
 #'    \item{Criterion}{Solve the error rate (argument \code{sig.level}) as a
@@ -29,18 +32,22 @@
 #'      target ratio \eqn{q = \beta/\alpha} (argument \code{beta_alpha})}
 #' }
 #'
-#'  To understand how the package is structured, the first expression in the \code{...} argument,
-#'  which contains the simulation experiment definition for a single sample,
+#'  To understand how the package is structured, the first expression in
+#'  the \code{...} argument, which contains the simulation experiment
+#'  definition for a single sample,
 #'  is passed to either \code{\link[SimDesign]{SimSolve}} or
 #'  \code{\link[SimDesign]{runSimulation}} depending on which element (including
-#'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}. For instance,
-#'  \code{Spower(p_t.test(n=50, d=.5))} will perform a prospective/post-hoc power evaluation since
-#'  \code{power = NA} by default, while \code{Spower(p_t.test(n=NA, d=.5), power = .80)} or,
+#'  the \code{power} and \code{sig.level} arguments) is set to \code{NA}.
+#'  For instance, \code{Spower(p_t.test(n=50, d=.5))} will perform a
+#'  prospective/post-hoc power evaluation since \code{power = NA} by default,
+#'  while \code{Spower(p_t.test(n=NA, d=.5), power = .80)} or,
 #'  equivalently, \code{Spower(p_t.test(n=interval(.,.), d=.5), power = .80)},
-#'  will perform an a priori power analysis to solve the missing \code{n} argument.
+#'  will perform an a priori power analysis to solve the missing
+#'  \code{n} argument.
 #'
-#'  For expected power computations, the arguments to the simulation experiment arguments can
-#'  be specified as a function to reflect the prior uncertainty. For instance, if
+#'  For expected power computations, the arguments to the simulation
+#'  experiment arguments can be specified as a function to reflect
+#'  the prior uncertainty. For instance, if
 #'  \code{d_prior <- function() rnorm(1, mean=.5, sd=1/8)} then
 #'  \code{Spower(p_t.test(n=50, d=d_prior())} will compute the expected power
 #'  over the prior sampling distribution for \code{d}
@@ -49,56 +56,61 @@
 #'   vector containing either the p-value (under the null hypothesis), the
 #'   probability of the alternative hypothesis in the Bayesian setting,
 #'   where the first numeric value
-#'   in this vector is treated as the focus for all analyses other than prospective/post-hoc power.
+#'   in this vector is treated as the focus for all analyses other than
+#'   prospective/post-hoc power.
 #'   This corresponds to the \code{alpha} value used to flag samples
 #'   as 'significant' when evaluating the null hypothesis
 #'   (via p-values; \eqn{P(D|H_0)}),
-#'   where any returned p-value less that \code{sig.level} indicates significance.
-#'   However, if \code{sig.direction = 'above'} then only values
+#'   where any returned p-value less that \code{sig.level} indicates
+#'   significance. However, if \code{sig.direction = 'above'} then only values
 #'   above \code{sig.level} are flagged as significant, which is useful
 #'   in Bayesian posterior probability contexts that focus on the alternative
 #'   hypothesis, \eqn{P(H_1|D)}.
 #'
 #'   Alternatively, a \code{logical} vector can be returned (e.g., when using
-#'   confidence intervals (CIs) or
-#'   evaluating regions of practical equivalence (ROPEs)), where the average of these
+#'   confidence intervals (CIs) or evaluating regions of practical
+#'   equivalence (ROPEs)), where the average of these
 #'   TRUE/FALSE vector corresponds to the empirical power.
 #'
 #'   Finally, a named \code{list} or \code{data.frame} can be returned instead
-#'   if there is need for more general, heterogeneous objects, however a specific
-#'   element to extract must be specified
+#'   if there is need for more general, heterogeneous objects, however
+#'   a specific element to extract must be specified
 #'   using the \code{select} argument to indicate which of the list elements
-#'   are to be used in the power computations. All other elements from the simulation can, however, be
+#'   are to be used in the power computations. All other elements from the
+#'   simulation can, however, be
 #'   extracted from the \code{\link[SimDesign]{SimResults}} function.
 #'
 #' For \code{\link{SpowerCurve}} and \code{\link{SpowerBatch}},
 #' first expression input must be identical to \code{...} in
-#' \code{\link{Spower}}, while the remaining named inputs must match the arguments
-#' to this expression to indicate which variables should be modified in the
-#' resulting power curves. Providing \code{NA} values is also supported to
-#' solve the missing component.  Note that only the first three named
-#' arguments in \code{\link{SpowerCurve}} will be plotted using
-#' the x-y, colour, and facet wrap aesthetics, respectively. However,
+#' \code{\link{Spower}}, while the remaining named inputs must match
+#' the arguments to this expression to indicate which variables should
+#' be modified in the resulting power curves. Providing \code{NA} values
+#' is also supported to solve the missing component.  Note that only the
+#' first three named arguments in \code{\link{SpowerCurve}} will be plotted
+#' using the x-y, colour, and facet wrap aesthetics, respectively. However,
 #' if necessary the data can be extracted for further visualizations via
 #' \code{\link[ggplot2]{ggplot_build}} to provide more customized control
 #'
 #' @param power power level to use. If set to \code{NA} (default)
-#'   then the empirical power  will be estimated given the fixed \code{...} inputs
-#'   (e.g., for prospective/post-hoc power analysis). For
-#'   \code{\link{SpowerCurve}} and \code{\link{SpowerBatch}} this can be a vector
+#'   then the empirical power  will be estimated given the fixed \code{...}
+#'   inputs (e.g., for prospective/post-hoc power analysis). For
+#'   \code{\link{SpowerCurve}} and \code{\link{SpowerBatch}} this can be
+#'   a vector
 #'
 #' @param maxiter maximum number of stochastic root-solving iterations.
 #'   Default is 150, though set to 50 for \code{\link{SpowerCurve}}
 #'
 #' @param select a character vector indicating which elements to
-#'   extract from the provided stimulation experiment function. By default, all elements
-#'   from the provided function will be used, however if the provided function contains
-#'   information not relevant to the power computations (e.g., parameter estimates,
-#'   standard errors, etc) then these should be ignored. To extract the complete
-#'   results post-analysis use \code{\link[SimDesign]{SimResults}} to allow manual
-#'   summarizing of the stored results (applicable only with prospective/post-hoc power)
+#'   extract from the provided stimulation experiment function. By default,
+#'   all elements from the provided function will be used, however if the
+#'   provided function contains information not relevant to the power
+#'   computations (e.g., parameter estimates, standard errors, etc) then these
+#'   should be ignored. To extract the complete results post-analysis use
+#'   \code{\link[SimDesign]{SimResults}} to allow manual summarizing of the
+#'   stored results (applicable only with prospective/post-hoc power)
 #'
-#' @param sig.level alpha level to use (default is \code{.05}). If set to \code{NA} then the value will
+#' @param sig.level alpha level to use (default is \code{.05}).
+#'   If set to \code{NA} then the value will
 #'   be estimated given the fixed \code{conditions} input
 #'   (e.g., for criterion power analysis). Only used when the value returned
 #'   from the experiment is a \code{numeric} (e.g., a p-value, or a
@@ -108,23 +120,24 @@
 #'   \code{logical} then this argument will be entirely ignored. As such,
 #'   arguments such as \code{conf.level} should be included
 #'   in the simulation experiment definition itself
-#'   to indicate the explicit inferential
-#'   criteria, and so that this argument can be manipulated should the need arise.
+#'   to indicate the explicit inferential criteria, and so that this
+#'   argument can be manipulated should the need arise.
 #'
 #' @param sig.direction a character vector that is either \code{'below'}
 #'   (default) or \code{'above'} to indicate which direction relative to
 #'   \code{sig.level} is considered significant. This is useful, for instance,
-#'    when forming cutoffs for Bayesian
+#'   when forming cutoffs for Bayesian
 #'   posterior probabilities organized to show support
 #'   for the hypothesis of interest (\eqn{P(H_1|D)}). As an example,
 #'   setting \code{sig.level = .95} with \code{sig.direction = 'above'}
 #'   flags a sample as 'significant' whenever the
 #'   posterior probability is greater than .95.
 #'
-#' @param interval required search interval to use when \code{\link[SimDesign]{SimSolve}} is called
-#'   to perform stochastic root solving.
-#'   Note that for compromise analyses, where the \code{sig.level} is set to
-#'   \code{NA}, if not set explicitly then the interval will default to \code{c(0,1)}.
+#' @param interval required search interval to use when
+#'   \code{\link[SimDesign]{SimSolve}} is called to perform stochastic
+#'   root solving. Note that for compromise analyses, where the
+#'   \code{sig.level} is set to \code{NA}, if not set explicitly then the
+#'   interval will default to \code{c(0,1)}.
 #'
 #'   Alternatively, the function \code{\link{interval}} can be used within the
 #'   experiment function definition itself where the canonical
@@ -142,9 +155,9 @@
 #'   though set to 2500 for \code{\link{SpowerCurve}}
 #'
 #' @param lastSpower a previously returned \code{Spower} object to be updated.
-#'   Use this if you want to continue where an estimate left off but wish to increase the
-#'   precision (e.g., by adding more replications, or by letting the stochastic root solver
-#'   continue searching).
+#'   Use this if you want to continue where an estimate left off but wish to
+#'   increase the precision (e.g., by adding more replications, or by letting
+#'   the stochastic root solver continue searching).
 #'
 #'   Note that if the object was not stored use \code{\link{getLastSpower}}
 #'   to obtain the last estimated power object
@@ -156,9 +169,10 @@
 #'   non-integer numbers or the range is less than 5, as well as
 #'   when \code{sig.level = NA}
 #'
-#' @param beta_alpha (optional) ratio to use in compromise analyses corresponding to
-#'   the Type II errors (beta) over the Type I error (alpha). Ratios greater
-#'   than \eqn{q = \beta/\alpha = 1} indicate that Type I errors are worse than Type II, while ratios
+#' @param beta_alpha (optional) ratio to use in compromise analyses
+#'   corresponding to the Type II errors (beta) over the Type I error (alpha).
+#'   Ratios greater than \eqn{q = \beta/\alpha = 1} indicate that Type I
+#'   errors are worse than Type II, while ratios
 #'   less than one the opposite. A ratio equal to 1 gives an equal trade-off
 #'   between Type I and Type II errors
 #'
@@ -183,7 +197,8 @@
 #'   (see \code{\link[SimDesign]{SimSolve}})
 #'
 #' @param predCI.tol predicting confidence interval consistency tolerance
-#'    for stochastic root solver convergence (see \code{\link[SimDesign]{SimSolve}}).
+#'    for stochastic root solver convergence
+#'    (see \code{\link[SimDesign]{SimSolve}}).
 #'    Default converges when the power rate CI is consistently
 #'    within \code{.01/2} of the target power
 #'
@@ -272,10 +287,10 @@
 #' (pwr <- pwr::pwr.t.test(d=.5, power=.80))
 #' ceiling(pwr$n) * 2
 #'
-#' # If greater precision is required and the user has a specific amount of time
-#' # they are willing to wait (e.g., 5 minutes) then wait.time can be used. Below
-#' # estimates root after searching for 1 minute, and run in parallel
-#' #  with 2 cores (not run)
+#' # If greater precision is required and the user has a specific amount of
+#' # time they are willing to wait (e.g., 5 minutes) then wait.time can be used.
+#' # Below estimates root after searching for 1 minute, and run in parallel
+#' # with 2 cores (not run)
 #' p_t.test(n = interval(2,500), d = .5) |>
 #'   Spower(power=.8, wait.time='1', parallel=TRUE, ncores=2)
 #'

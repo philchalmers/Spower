@@ -55,10 +55,10 @@
 #'
 #' # Batches also useful for drawing graphics outside of current framework
 #' # in SpowerCurve(). Below an image is drawn pertaining to the distribution
-#' # of the effects (H0 vs Ha hypotheses), giving the classic sampling distribution
-#' # comparisons of the effect sizes, however presents the information using
-#' # kernel density plots as this may be useful when the sampling distributions
-#' # are non-normal
+#' # of the effects (H0 vs Ha hypotheses), giving the classic sampling
+#' # distribution comparisons of the effect sizes, however presents the
+#' # information using kernel density plots as this may be useful when the
+#' # sampling distributions are non-normal
 #'
 #' # Define wrapper function that returns p-value and estimated mean difference
 #' Ice_T <- function(...){
@@ -88,15 +88,18 @@
 #' gg1 <- ggplot(subset(results, d %in% c(0, .2)),
 #' 			  aes(mu_d, colour=d)) +
 #' 	geom_density() + ggtitle('Small effect (d = 0.2)') +
-#' 	theme(legend.position='none') + xlab(expression(mu[d])) + xlim(c(-0.75, 1.5))
+#' 	theme(legend.position='none') +
+#' 	xlab(expression(mu[d])) + xlim(c(-0.75, 1.5))
 #' gg2 <- ggplot(subset(results, d %in% c(0, .5)),
 #' 			  aes(mu_d, colour=d)) +
-#' 	geom_density() + ggtitle('Medium effect  (d = 0.5)') +
-#' 	theme(legend.position='none') + xlab(expression(mu[d])) +  xlim(c(-0.75, 1.5))
+#' 	  geom_density() + ggtitle('Medium effect  (d = 0.5)') +
+#' 	  theme(legend.position='none') + xlab(expression(mu[d])) +
+#' 	  xlim(c(-0.75, 1.5))
 #' gg3 <- ggplot(subset(results, d %in% c(0, .8)),
 #' 			  aes(mu_d, colour=d)) +
-#' 	geom_density() + ggtitle('Large effect  (d = 0.8)') +
-#' 	theme(legend.position='none') + xlab(expression(mu[d])) + xlim(c(-0.75, 1.5))
+#' 	  geom_density() + ggtitle('Large effect  (d = 0.8)') +
+#' 	  theme(legend.position='none') + xlab(expression(mu[d])) +
+#' 	  xlim(c(-0.75, 1.5))
 #'
 #' gg1 / gg2 / gg3
 #'

@@ -1,6 +1,7 @@
 #' Draw power curve from simulation functions
 #'
-#' \code{\link{SpowerCurve}} draws power curves that either a) estimate the power given a
+#' \code{\link{SpowerCurve}} draws power curves that either a) estimate the
+#' power given a
 #' set of varying conditions or b) solves a set of root conditions
 #' given fixed values of power. Confidence/predicted confidence intervals are
 #' included in the output to reflect the estimate uncertainties, though note
@@ -8,10 +9,12 @@
 #' \code{\link{Spower}} as the goal is visualization of competing
 #' variable inputs rather than precision of a given input.
 #'
-#' @param batch if \code{\link{SpowerBatch}} were previously used to perform the computations
-#'   then this information can be provided to this \code{batch} argument to avoid
-#'   recomputing
-#' @param plotCI logical; include confidence/predicted confidence intervals in plots?
+#' @param batch if \code{\link{SpowerBatch}} were previously used to perform
+#'   the computations
+#'   then this information can be provided to this \code{batch} argument to
+#'   avoid recomputing
+#' @param plotCI logical; include confidence/predicted confidence intervals
+#'   in plots?
 #' @param plotly logical; draw the graphic into the interactive \code{plotly}
 #'   interface? If \code{FALSE} the ggplot2 object will be returned instead
 #' @return a ggplot2 object automatically rendered with
@@ -35,7 +38,7 @@
 #' # estimate power given varying sample sizes
 #' gg <- p_t.test(d=0.2) |> SpowerCurve(n=c(30, 90, 270, 550))
 #'
-#' # Output is a ggplot2 (rendered with plotly by default); hence, can be modified
+#' # Output ggplot2 object (rendered with plotly); hence, can be modified
 #' library(ggplot2)
 #' gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05) +
 #'   ylab(expression(1-beta)) + theme_grey()
