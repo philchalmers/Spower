@@ -124,6 +124,9 @@ stochastic root finding task.
 p_t.test(n=interval(50,300), d=0.5) |> Spower(power=.95)
 ```
 
+For further examples and simulation experiments, see the `pkgdown` rendered 
+[on-line documentation](https://philchalmers.github.io/Spower/). 
+
 ## Estimated power curves
 
 To generate suitable power-curves for any given simulation or power analysis criteria, the simulation experiment can be passed to `SpowerCurve()` (or to `SpowerBatch()` first, and then to `SpowerCurve()`). This function contains a similar specification structure to `Spower()`, however differs in that the arguments to vary are explicitly passed as named vectors to `SpowerCurve()`. Below is an example varying sample size (`n`), while the next example varies both `n` and the effect size `d`.

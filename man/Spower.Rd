@@ -159,11 +159,14 @@ root solving. Note that for compromise analyses, where the
 \code{sig.level} is set to \code{NA}, if not set explicitly then the
 interval will default to \code{c(0,1)}.
 
-Alternatively, the function \code{\link{interval}} can be used within the
-experiment function definition itself where the canonical
-\code{NA} placeholder is used.
-Arguments from \code{\link{interval}} will then be extracted and
-passed to \code{\link{Spower}} as usual}
+Alternatively, though only for the function \code{Spower()},
+the function \code{\link{interval}} can be used within the
+experiment function definition where the canonical \code{NA} placeholder
+is used. Arguments from \code{\link{interval}} will then be extracted and
+passed to \code{\link{Spower}} as usual. Note that this is not supported
+in \code{SpowerBatch} and \code{SpowerCurve} as multiple interval
+definitions are often required; hence, \code{NA} placeholders
+are always required in these wrapper functions}
 
 \item{beta_alpha}{(optional) ratio to use in compromise analyses
 corresponding to the Type II errors (beta) over the Type I error (alpha).
@@ -430,7 +433,7 @@ p_t.test(n = interval(2,500), d = .5) |>
         maxiter=200, predCI.tol=.008) #starts at last iteration in "out"
 
 # Solve d to get .80 power (sensitivity power analysis)
-p_t.test(n = 50, d = NA) |> Spower(power=.8, interval=c(.1, 2))
+p_t.test(n = 50, d = interval(.1, 2)) |> Spower(power=.8)
 pwr::pwr.t.test(n=50, power=.80) # compare
 
 # Solve alpha that would give power of .80 (criterion power analysis)
@@ -511,8 +514,8 @@ p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
 }
 
 # Solve N to get .80 power (a priori power analysis), using defaults
-p_my_t.test(n = NA, d = .5, n2_n1=2) |>
-  Spower(power=.8, interval=c(2,500)) -> out
+p_my_t.test(n = interval(2,500), d = .5, n2_n1=2) |>
+  Spower(power=.8) -> out
 
 # total sample size required
 with(out, ceiling(n) + ceiling(n * 2))
@@ -665,12 +668,12 @@ gg1 <- ggplot(subset(results, d \%in\% c(0, .2)),
 	xlab(expression(mu[d])) + xlim(c(-0.75, 1.5))
 gg2 <- ggplot(subset(results, d \%in\% c(0, .5)),
 			  aes(mu_d, colour=d)) +
-	  geom_density() + ggtitle('Medium effect  (d = 0.5)') +
+	  geom_density() + ggtitle('Medium effect (d = 0.5)') +
 	  theme(legend.position='none') + xlab(expression(mu[d])) +
 	  xlim(c(-0.75, 1.5))
 gg3 <- ggplot(subset(results, d \%in\% c(0, .8)),
 			  aes(mu_d, colour=d)) +
-	  geom_density() + ggtitle('Large effect  (d = 0.8)') +
+	  geom_density() + ggtitle('Large effect (d = 0.8)') +
 	  theme(legend.position='none') + xlab(expression(mu[d])) +
 	  xlim(c(-0.75, 1.5))
 

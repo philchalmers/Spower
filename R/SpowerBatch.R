@@ -92,12 +92,12 @@
 #' 	xlab(expression(mu[d])) + xlim(c(-0.75, 1.5))
 #' gg2 <- ggplot(subset(results, d %in% c(0, .5)),
 #' 			  aes(mu_d, colour=d)) +
-#' 	  geom_density() + ggtitle('Medium effect  (d = 0.5)') +
+#' 	  geom_density() + ggtitle('Medium effect (d = 0.5)') +
 #' 	  theme(legend.position='none') + xlab(expression(mu[d])) +
 #' 	  xlim(c(-0.75, 1.5))
 #' gg3 <- ggplot(subset(results, d %in% c(0, .8)),
 #' 			  aes(mu_d, colour=d)) +
-#' 	  geom_density() + ggtitle('Large effect  (d = 0.8)') +
+#' 	  geom_density() + ggtitle('Large effect (d = 0.8)') +
 #' 	  theme(legend.position='none') + xlab(expression(mu[d])) +
 #' 	  xlim(c(-0.75, 1.5))
 #'
