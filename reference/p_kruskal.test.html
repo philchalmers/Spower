@@ -116,7 +116,7 @@ extraction and customization?</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># three group test where data generate from Gaussian distributions</span></span></span>
 <span class="r-in"><span><span class="fu">p_kruskal.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">30</span>, k<span class="op">=</span><span class="fl">3</span>, means<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.5</span>, <span class="fl">.6</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01515905</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8078868</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_kruskal.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">30</span>, k<span class="op">=</span><span class="fl">3</span>, means<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.5</span>, <span class="fl">.6</span><span class="op">)</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -124,7 +124,7 @@ extraction and customization?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Kruskal-Wallis rank sum test</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  dat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Kruskal-Wallis chi-squared = 6.7216, df = 2, p-value = 0.03471</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Kruskal-Wallis chi-squared = 21.979, df = 2, p-value = 1.688e-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># generate data from chi-squared distributions with different variances</span></span></span>
@@ -138,7 +138,7 @@ extraction and customization?</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">p_kruskal.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">30</span>, k<span class="op">=</span><span class="fl">3</span>, means<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>   gen_fun<span class="op">=</span><span class="va">gen_chisq</span>, dfs<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6691098</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.05076431</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span>  <span class="co"># empirical power estimate</span></span></span>
@@ -152,8 +152,8 @@ extraction and customization?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    30     3      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.568</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.558, 0.577]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.562</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.553, 0.572]</span>
 <span class="r-in"><span>  <span class="fu">p_kruskal.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">30</span>, k<span class="op">=</span><span class="fl">3</span>, means<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, gen_fun<span class="op">=</span><span class="va">gen_chisq</span>,</span></span>
 <span class="r-in"><span>         dfs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -165,8 +165,8 @@ extraction and customization?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    30     3      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.191</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.183, 0.199]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.183</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.176, 0.191]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>

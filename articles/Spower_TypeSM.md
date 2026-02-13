@@ -189,7 +189,7 @@ l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:29
+    ## Execution time (H:M:S): 00:00:30
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 4
@@ -258,7 +258,7 @@ typeM
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:19
+    ## Execution time (H:M:S): 00:00:20
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 4
@@ -330,7 +330,7 @@ typeM2
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:14
+    ## Execution time (H:M:S): 00:00:15
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 4

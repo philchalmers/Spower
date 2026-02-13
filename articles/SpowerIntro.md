@@ -416,7 +416,7 @@ p_single.t(n=50, mean=.5) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:17
+    ## Execution time (H:M:S): 00:00:18
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 4

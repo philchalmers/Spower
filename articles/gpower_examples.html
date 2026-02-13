@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Phil
 Chalmers</h4>
             
-            <h4 data-toc-skip class="date">2026-02-09</h4>
+            <h4 data-toc-skip class="date">2026-02-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/main/vignettes/gpower_examples.Rmd" class="external-link"><code>vignettes/gpower_examples.Rmd</code></a></small>
       <div class="d-none name"><code>gpower_examples.Rmd</code></div>
@@ -102,10 +102,9 @@ in correlation analysis with
 probability when
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>.65</mn></mrow><annotation encoding="application/x-tex">\rho=.65</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_r.html">p_r</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">NA</span>, r <span class="op">=</span> <span class="fl">.65</span>, rho <span class="op">=</span> <span class="fl">.60</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.95</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">500</span>,<span class="fl">3000</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_r.html">p_r</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fl">3000</span><span class="op">)</span>, r <span class="op">=</span> <span class="fl">.65</span>, rho <span class="op">=</span> <span class="fl">.60</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.95</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:21</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:22</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 5</span></span>
@@ -115,6 +114,10 @@ probability when
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimate of n: 1931.4</span></span>
 <span><span class="co">## 95% Predicted Confidence Interval: [1901.1, 1958.2]</span></span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># this is equivalent:</span></span>
+<span><span class="co"># p_r(n = NA, r = .65, rho = .60) |&gt; </span></span>
+<span><span class="co">#   Spower(power = .95, interval=c(500,3000))</span></span></code></pre></div>
 <p>G*power estimates this
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
 to be 1929 using the Fisher
@@ -135,7 +138,7 @@ power associated with
 with 100 pairs of observations, tested against
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ρ</mi><mn>0</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\rho_0=0</annotation></semantics></math>,
 results in the following.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_r.html">p_r</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, r <span class="op">=</span> <span class="fl">.3</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:11</span></span>
@@ -155,9 +158,8 @@ in correlation analysis with
 probability when
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi><mo>=</mo><mn>.3</mn></mrow><annotation encoding="application/x-tex">\rho=.3</annotation></semantics></math>
 is expressed as</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_r.html">p_r</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">NA</span>, r <span class="op">=</span> <span class="fl">.3</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.95</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>,<span class="fl">1000</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_r.html">p_r</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">1000</span><span class="op">)</span>, r <span class="op">=</span> <span class="fl">.3</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.95</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:17</span></span>
 <span><span class="co">## Design conditions: </span></span>
@@ -171,7 +173,7 @@ is expressed as</p>
 <span><span class="co">## 95% Predicted Confidence Interval: [136.1, 140.4]</span></span></code></pre>
 <p>G*power 3.1 provides the same estimate as the <code>pwr</code>
 package in this case, which for comparison is presented below.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pwr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pwr/man/pwr.r.test.html" class="external-link">pwr.r.test</a></span><span class="op">(</span>r<span class="op">=</span><span class="fl">.3</span>, power<span class="op">=</span><span class="fl">.95</span>, n<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">##      approximate correlation power calculation (arctangh transformation) </span></span>
@@ -198,10 +200,10 @@ contained only
 observations (hence, the ratio
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mn>2</mn></msub><mi>/</mi><msub><mi>N</mi><mn>1</mn></msub><mo>=</mo><mn>51</mn><mi>/</mi><mn>206</mn></mrow><annotation encoding="application/x-tex">N_2/N_1=51/206</annotation></semantics></math>).
 This results in the post-hoc/observed power of</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_2r.html">p_2r</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">206</span>, r.ab<span class="op">=</span><span class="fl">.75</span>, r.ab2<span class="op">=</span><span class="fl">.88</span>, n2_n1<span class="op">=</span><span class="fl">51</span><span class="op">/</span><span class="fl">206</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:26</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:27</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 5</span></span>
@@ -218,7 +220,7 @@ This results in the post-hoc/observed power of</p>
 r’s (no common index)<a class="anchor" aria-label="anchor" href="#example-28-3-1-correlation---inequality-of-two-dependent-pearson-rs-no-common-index"></a>
 </h4>
 <p>The following two examples assume the correlation matrix</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># From Gpower 3.1 manual</span></span>
 <span><span class="va">Cp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">.5</span>, <span class="fl">.4</span>, <span class="fl">.1</span>, </span>
 <span>               <span class="fl">.5</span>, <span class="fl">1</span>, <span class="fl">.2</span>, <span class="op">-</span><span class="fl">.4</span>, </span>
@@ -250,11 +252,11 @@ performs an a priori analyses to determine the sample size
 required to achieve 80% power using Steiger’s (1980) inferential
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics></math>
 approach.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_2r.html">p_2r</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, r.ab<span class="op">=</span><span class="fl">.1</span>, r.ac<span class="op">=</span><span class="fl">.5</span>, r.ad<span class="op">=</span><span class="fl">.4</span>, r.bc<span class="op">=</span><span class="op">-</span><span class="fl">.4</span>, r.bd<span class="op">=</span><span class="fl">.8</span>, r.cd<span class="op">=</span><span class="fl">.2</span>, </span>
-<span>     two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.80</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fl">2000</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_2r.html">p_2r</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">500</span>, <span class="fl">2000</span><span class="op">)</span>, r.ab<span class="op">=</span><span class="fl">.1</span>, r.ac<span class="op">=</span><span class="fl">.5</span>, r.ad<span class="op">=</span><span class="fl">.4</span>, r.bc<span class="op">=</span><span class="op">-</span><span class="fl">.4</span>, r.bd<span class="op">=</span><span class="fl">.8</span>, r.cd<span class="op">=</span><span class="fl">.2</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.80</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:01:35</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:01:36</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 9</span></span>
@@ -277,7 +279,7 @@ common index between the correlation measures instead of a complete
 overlap. As such, the previous <code>Cp</code> object may be further
 subset to see what type of correlation structure is required for the
 common index setup.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Cp</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>,<span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##     y2  x2  x1</span></span>
 <span><span class="co">## y2 1.0 0.2 0.4</span></span>
@@ -293,9 +295,9 @@ In <code>Spower</code>, this equates to the following inputs, which
 again use Steiger’s (1980) inferential
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>z</mi><annotation encoding="application/x-tex">z</annotation></semantics></math>
 approach by default.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_2r.html">p_2r</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, r.ab<span class="op">=</span><span class="fl">.4</span>, r.ac<span class="op">=</span><span class="fl">.2</span>, r.bc<span class="op">=</span><span class="fl">.5</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.80</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">500</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_2r.html">p_2r</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">500</span><span class="op">)</span>, r.ab<span class="op">=</span><span class="fl">.4</span>, r.ac<span class="op">=</span><span class="fl">.2</span>, r.bc<span class="op">=</span><span class="fl">.5</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.80</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:01:19</span></span>
 <span><span class="co">## Design conditions: </span></span>
@@ -313,7 +315,7 @@ which interestingly is slightly higher than the simulation version from
 <code>Spower</code>. Providing
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>144</mn></mrow><annotation encoding="application/x-tex">N=144</annotation></semantics></math>
 to the above to obtain the power estimate gives the following:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_2r.html">p_2r</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">144</span>, r.ab<span class="op">=</span><span class="fl">.4</span>, r.ac<span class="op">=</span><span class="fl">.2</span>, r.bc<span class="op">=</span><span class="fl">.5</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:22</span></span>
@@ -337,7 +339,7 @@ while <code>r.ac</code> is solved to obtain 80% power. G*power 3.1
 reports that
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ρ</mi><mrow><mi>a</mi><mi>c</mi></mrow></msub><mo>=</mo><mn>0.047702</mn></mrow><annotation encoding="application/x-tex">\rho_{ac} = 0.047702</annotation></semantics></math>,
 which is confirmed using the simulation below.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># confirm solution obtained by G*power (post hoc power estimate)</span></span>
 <span><span class="fu"><a href="../reference/p_2r.html">p_2r</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">144</span>, r.ab<span class="op">=</span><span class="fl">.4</span>, r.ac<span class="op">=</span><span class="fl">0.047702</span>, r.bc<span class="op">=</span><span class="op">-</span><span class="fl">0.6</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -353,11 +355,11 @@ which is confirmed using the simulation below.</p>
 <span><span class="co">## 95% Confidence Interval: [0.808, 0.823]</span></span></code></pre>
 <p>Obtaining a similar estimate using <code><a href="../reference/Spower.html">Spower()</a></code> requires the
 following sensitivity analysis structure:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># note that interval is specified as c(upper, lower) as higher values</span></span>
 <span><span class="co"># of r.ac result in lower power in this context</span></span>
-<span><span class="fu"><a href="../reference/p_2r.html">p_2r</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">144</span>, r.ab<span class="op">=</span><span class="fl">.4</span>, r.ac<span class="op">=</span><span class="cn">NA</span>, r.bc<span class="op">=</span><span class="op">-</span><span class="fl">0.6</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.80</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.4</span>, <span class="fl">.001</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/p_2r.html">p_2r</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">144</span>, r.ab<span class="op">=</span><span class="fl">.4</span>, r.ac<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">.4</span>, <span class="fl">.001</span><span class="op">)</span>, r.bc<span class="op">=</span><span class="op">-</span><span class="fl">0.6</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.80</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:01:38</span></span>
 <span><span class="co">## Design conditions: </span></span>
@@ -383,13 +385,13 @@ is the true correlation, evaluated under the null
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>:</mo><mi>ρ</mi><mo>≤</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">H_0:\rho\le0</annotation></semantics></math>
 (hence, is one-tailed) with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>.05</mn></mrow><annotation encoding="application/x-tex">\alpha = .05</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># solution per group</span></span>
-<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">.25</span>, n <span class="op">=</span> <span class="cn">NA</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.95</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>r <span class="op">=</span> <span class="fl">.25</span>, n <span class="op">=</span> <span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">200</span><span class="op">)</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.95</span><span class="op">)</span></span>
 <span><span class="va">out</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:10</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:11</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 5</span></span>
@@ -399,7 +401,7 @@ is the true correlation, evaluated under the null
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimate of n: 81.7</span></span>
 <span><span class="co">## 95% Predicted Confidence Interval: [79.1, 85.4]</span></span></code></pre>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># total sample size required</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">n</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 164</span></span></code></pre>
@@ -424,15 +426,15 @@ specifying the associated
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>τ</mi><annotation encoding="application/x-tex">\tau</annotation></semantics></math>
 threshold coefficients for the population normal truncation processes,
 as well as the bivariate correlation itself prior to the truncation.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="cn">F</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">203</span>, <span class="fl">186</span>, <span class="fl">167</span>, <span class="fl">374</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="cn">F</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">marginal.x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colSums</a></span><span class="op">(</span><span class="cn">F</span><span class="op">)</span><span class="op">/</span><span class="va">N</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.4183 0.5817</span></span></code></pre>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">marginal.y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="cn">F</span><span class="op">)</span><span class="op">/</span><span class="va">N</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.3978 0.6022</span></span></code></pre>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># converted to intercepts</span></span>
 <span><span class="va">tauX</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">marginal.x</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="va">tauY</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">qnorm</a></span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">marginal.y</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
@@ -453,11 +455,10 @@ and a Score test were used to evaluate the null hypothesis of interest
 (<code>score = TRUE</code>), the sample size required to reject the null
 hypothesis that the tetrachoric correlation is less than or equal to 0
 in this population (one-tailed) is expressed as</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_r.cat.html">p_r.cat</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, r<span class="op">=</span><span class="fl">0.2399846</span>, tauX<span class="op">=</span><span class="va">tauX</span>, tauY<span class="op">=</span><span class="va">tauY</span>, </span>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_r.cat.html">p_r.cat</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">500</span><span class="op">)</span>, r<span class="op">=</span><span class="fl">0.2399846</span>, tauX<span class="op">=</span><span class="va">tauX</span>, tauY<span class="op">=</span><span class="va">tauY</span>, </span>
 <span>        score<span class="op">=</span><span class="cn">TRUE</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.95</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">500</span><span class="op">)</span>, </span>
-<span>           parallel<span class="op">=</span><span class="cn">TRUE</span>, check.interval<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.95</span>, parallel<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
@@ -502,7 +503,7 @@ instead (hence,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mo>=</mo><mn>.80</mn><mo>−</mo><mn>.65</mn><mo>=</mo><mn>.15</mn></mrow><annotation encoding="application/x-tex">g = .80-.65=.15</annotation></semantics></math>),
 though <code>p_prop.teset()</code> accepts the null and alternative
 probability values as-is.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pi</span> <span class="op">&lt;-</span> <span class="fl">.65</span></span>
 <span><span class="va">g</span> <span class="op">&lt;-</span> <span class="fl">.15</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="va">pi</span> <span class="op">+</span> <span class="va">g</span></span>
@@ -525,7 +526,7 @@ probability values as-is.</p>
 Note that with <code><a href="../reference/p_prop.test.html">p_prop.test()</a></code>, the Fisher’s exact version of
 this test is also supported by passing the argument
 <code>exact = TRUE</code>.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fisher exact test</span></span>
 <span><span class="fu"><a href="../reference/p_prop.test.html">p_prop.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">20</span>, prop<span class="op">=</span><span class="va">p</span>, pi<span class="op">=</span><span class="va">pi</span>, exact<span class="op">=</span><span class="cn">TRUE</span>, </span>
 <span>            two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -550,7 +551,7 @@ test given
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>.1</mn></mrow><annotation encoding="application/x-tex">d=.1</annotation></semantics></math>,
 where the parent distribution is assumed to follow a Normal/Gaussian
 shape (default).</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_wilcox.test.html">p_wilcox.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">649</span>, d<span class="op">=</span><span class="fl">.1</span>, type<span class="op">=</span><span class="st">'one.sample'</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -577,7 +578,7 @@ though how these sample sizes were decided upon was not specified.
 get closer to more optimal
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
 estimates were these the target of the analyses.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For Gaussian(d,1)</span></span>
 <span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/p_wilcox.test.html">p_wilcox.test</a></span><span class="op">(</span>type<span class="op">=</span><span class="st">'one.sample'</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/Spower.html">SpowerBatch</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">649</span>, <span class="fl">164</span>, <span class="fl">42</span>, <span class="fl">20</span>, <span class="fl">12</span>, <span class="fl">9</span><span class="op">)</span>,</span>
@@ -598,7 +599,7 @@ estimates were these the target of the analyses.</p>
 the parent. Note that this requires defining the parent distribution
 manually, accepting arguments such as <code>n</code> and
 <code>d</code>.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sigbertklinke/extraDistr" class="external-link">extraDistr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># generate data with scale 0-1 for d effect size to be same as mean</span></span>
@@ -609,7 +610,7 @@ manually, accepting arguments such as <code>n</code> and
 <span><span class="fu"><a href="../reference/p_wilcox.test.html">p_wilcox.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">11</span>, d<span class="op">=</span><span class="fl">.8</span>, parent1<span class="op">=</span><span class="va">parent</span>, type<span class="op">=</span><span class="st">'one.sample'</span>,</span>
 <span>              two.tailed<span class="op">=</span><span class="cn">FALSE</span>, correct <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:03</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:04</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 7</span></span>
@@ -632,7 +633,7 @@ though how these sample sizes were decided upon was not specified.
 get closer to more optimal
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
 estimates were these the target of the analyses.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># For Laplace(0,1)</span></span>
 <span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/p_wilcox.test.html">p_wilcox.test</a></span><span class="op">(</span>parent1<span class="op">=</span><span class="va">parent</span>, type<span class="op">=</span><span class="st">'one.sample'</span>,</span>
 <span>              two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -654,7 +655,7 @@ estimates were these the target of the analyses.</p>
 <p>The following performs a proportions test between two dependent
 groups using McNemar’s test. The data is from O’Brien (2002,
 p. 161-163).</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">obrien2002</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.54</span>, <span class="fl">.32</span>, <span class="fl">.08</span>, <span class="fl">.06</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span>,</span>
 <span>                     dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">'Treatment'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Yes'</span>, <span class="st">'No'</span><span class="op">)</span>,</span>
 <span>                                    <span class="st">'Standard'</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'Yes'</span>, <span class="st">'No'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -663,7 +664,7 @@ p. 161-163).</p>
 <span><span class="co">## Treatment  Yes   No</span></span>
 <span><span class="co">##       Yes 0.54 0.08</span></span>
 <span><span class="co">##       No  0.32 0.06</span></span></code></pre>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_mcnemar.test.html">p_mcnemar.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, prop<span class="op">=</span><span class="va">obrien2002</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:03</span></span>
@@ -682,7 +683,7 @@ rather as the odds ratio
 and proportions of discordant pairs
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>π</mi><mi>D</mi></msub><mo>=</mo><msub><mi>π</mi><mn>12</mn></msub><mo>+</mo><msub><mi>π</mi><mn>21</mn></msub><mo>=</mo><mn>.08</mn><mo>+</mo><mn>.32</mn><mo>=</mo><mn>.40</mn></mrow><annotation encoding="application/x-tex">\pi_D=\pi_{12} + \pi_{21}=.08 + .32=.40</annotation></semantics></math>)
 can be supplied</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">OR</span> <span class="op">&lt;-</span> <span class="va">obrien2002</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">/</span> <span class="va">obrien2002</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">]</span></span>
 <span><span class="va">disc</span> <span class="op">&lt;-</span> <span class="va">obrien2002</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="va">obrien2002</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../reference/p_mcnemar.test.html">p_mcnemar.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, OR<span class="op">=</span><span class="va">OR</span>, prop.disc<span class="op">=</span><span class="va">disc</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -701,7 +702,7 @@ can be supplied</p>
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>.032</mn></mrow><annotation encoding="application/x-tex">\alpha = .032</annotation></semantics></math>).
 Slightly more power can be achieved when not using the continuity
 correction, though in general this is not recommended in practice.</p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_mcnemar.test.html">p_mcnemar.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, prop<span class="op">=</span><span class="va">obrien2002</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span>, correct<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:03</span></span>
@@ -731,10 +732,10 @@ When evaluated using
 observations with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">k=5</annotation></semantics></math>
 predictor variables gives the estimate.</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_lm.R2.html">p_lm.R2</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">95</span>, R2<span class="op">=</span><span class="fl">.1</span>, k<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:43</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:44</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 5</span></span>
@@ -761,7 +762,7 @@ and a change of
 from the baseline
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>R</mi><mn>0</mn><mn>2</mn></msubsup><mo>=</mo><mn>.25</mn></mrow><annotation encoding="application/x-tex">R^2_0=.25</annotation></semantics></math>
 gives</p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_lm.R2.html">p_lm.R2</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">90</span>, R2<span class="op">=</span><span class="fl">.3</span>, k<span class="op">=</span><span class="fl">9</span>, R2_0<span class="op">=</span><span class="fl">.25</span>, k.R2_0<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>sig.level<span class="op">=</span><span class="fl">.01</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:56</span></span>
@@ -777,11 +778,11 @@ gives</p>
 <p>G*power gives
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>β</mi><mo>=</mo><mn>.241</mn></mrow><annotation encoding="application/x-tex">1-\beta = .241</annotation></semantics></math>.
 Solving the sample size to achieve 80% power</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_lm.R2.html">p_lm.R2</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, R2<span class="op">=</span><span class="fl">.3</span>, R2_0 <span class="op">=</span> <span class="fl">.25</span>, k<span class="op">=</span><span class="fl">9</span>, k.R2_0<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>        <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>sig.level<span class="op">=</span><span class="fl">.01</span>, power<span class="op">=</span><span class="fl">.8</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">400</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_lm.R2.html">p_lm.R2</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">400</span><span class="op">)</span>, R2<span class="op">=</span><span class="fl">.3</span>, R2_0 <span class="op">=</span> <span class="fl">.25</span>, k<span class="op">=</span><span class="fl">9</span>, k.R2_0<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>        <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>sig.level<span class="op">=</span><span class="fl">.01</span>, power<span class="op">=</span><span class="fl">.8</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:03:06</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:03:09</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 7</span></span>
@@ -801,7 +802,7 @@ Solving the sample size to achieve 80% power</p>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>R</mi><mn>2</mn></msup><annotation encoding="application/x-tex">R^2</annotation></semantics></math>
 for models with 12 IVs versus 9 IVs. Requires the specification of the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>R</mi><mrow><mi>r</mi><mi>e</mi><mi>s</mi><mi>i</mi><mi>d</mi><mi>u</mi><mi>a</mi><mi>l</mi></mrow><mn>2</mn></msubsup><annotation encoding="application/x-tex">R^2_{residual}</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_lm.R2.html">p_lm.R2</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">200</span>, R2<span class="op">=</span><span class="fl">.16</span>, R2_0 <span class="op">=</span> <span class="fl">.1</span>, k<span class="op">=</span><span class="fl">12</span>, k.R2_0<span class="op">=</span><span class="fl">9</span>, R2.resid<span class="op">=</span><span class="fl">.8</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>sig.level<span class="op">=</span><span class="fl">.01</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -827,7 +828,7 @@ for models with 12 IVs versus 9 IVs. Requires the specification of the
 </h4>
 <p>Same as in Example 13.1 above, however assuming that the IVs are
 randomly sampled instead of fixed.</p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_lm.R2.html">p_lm.R2</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">95</span>, R2<span class="op">=</span><span class="fl">.1</span>, k<span class="op">=</span><span class="fl">5</span>, fixed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:16</span></span>
@@ -858,10 +859,10 @@ given
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>=</mo><mo>−</mo><mn>0.0667</mn></mrow><annotation encoding="application/x-tex">\beta_1=-0.0667</annotation></semantics></math>,
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">N=100</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_slr.html">p_slr</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">100</span>, beta<span class="op">=</span><span class="op">-</span><span class="fl">0.0667</span>, sd_x<span class="op">=</span><span class="fl">7.5</span>, sd_y <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:30</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:31</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 5</span></span>
@@ -889,8 +890,8 @@ using Cohen’s
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo>=</mo><mn>.25</mn></mrow><annotation encoding="application/x-tex">f=.25</annotation></semantics></math>,
 to achieve a power of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>β</mi><mo>=</mo><mn>.95</mn></mrow><annotation encoding="application/x-tex">1-\beta=.95</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_anova.test.html">p_anova.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, k<span class="op">=</span><span class="fl">10</span>, f<span class="op">=</span><span class="fl">.25</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.95</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">300</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_anova.test.html">p_anova.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">300</span><span class="op">)</span>, k<span class="op">=</span><span class="fl">10</span>, f<span class="op">=</span><span class="fl">.25</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.95</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:23</span></span>
 <span><span class="co">## Design conditions: </span></span>
@@ -910,7 +911,7 @@ in total (hence,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>200</mn><mi>/</mi><mi>k</mi><mo>=</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">n=200/k=20</annotation></semantics></math>)
 and performing a compromise analysis assuming
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>q</mi><mo>=</mo><mfrac><mi>β</mi><mi>α</mi></mfrac><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">q=\frac{\beta}{\alpha}=1</annotation></semantics></math>,</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_anova.test.html">p_anova.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">20</span>, k<span class="op">=</span><span class="fl">10</span>, f<span class="op">=</span><span class="fl">.25</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>beta_alpha<span class="op">=</span><span class="fl">1</span>, replications<span class="op">=</span><span class="fl">30000</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:44</span></span>
@@ -977,7 +978,7 @@ be evaluated using this augmented model by testing</p>
 reflects the magnitude of the difference between the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
 coefficients across the independent samples.</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gen_twogroup</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">dbeta</span>, <span class="va">sdx1</span>, <span class="va">sdx2</span>, <span class="va">sigma</span>, <span class="va">n2_n1</span> <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span><span class="op">{</span></span>
 <span>    <span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, sd<span class="op">=</span><span class="va">sdx1</span><span class="op">)</span></span>
 <span>    <span class="va">X2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">*</span><span class="va">n2_n1</span>, sd<span class="op">=</span><span class="va">sdx2</span><span class="op">)</span></span>
@@ -990,7 +991,7 @@ coefficients across the independent samples.</p>
 <span><span class="op">}</span></span></code></pre></div>
 <p>To demonstrate, the post-hoc power for the described example in
 G*Power is the following.</p>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_glm.html">p_glm</a></span><span class="op">(</span>formula<span class="op">=</span><span class="va">y</span><span class="op">~</span><span class="va">X</span><span class="op">*</span><span class="va">S</span>, test<span class="op">=</span><span class="st">"X:S = 0"</span>,</span>
 <span>      n<span class="op">=</span><span class="fl">28</span>, n2_n1<span class="op">=</span><span class="fl">44</span><span class="op">/</span><span class="fl">28</span>, sdx1<span class="op">=</span><span class="fl">9.02914</span>, sdx2<span class="op">=</span><span class="fl">11.86779</span>, dbeta<span class="op">=</span><span class="fl">0.01592</span>,</span>
 <span>      sigma<span class="op">=</span><span class="fl">0.5578413</span>, gen_fun<span class="op">=</span><span class="va">gen_twogroup</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -1006,13 +1007,13 @@ G*Power is the following.</p>
 <span><span class="co">## Estimate of power: 0.199</span></span>
 <span><span class="co">## 95% Confidence Interval: [0.191, 0.207]</span></span></code></pre>
 <p>For the a priori power analysis to achieve a power of .80</p>
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_glm.html">p_glm</a></span><span class="op">(</span>formula<span class="op">=</span><span class="va">y</span><span class="op">~</span><span class="va">X</span><span class="op">*</span><span class="va">S</span>, test<span class="op">=</span><span class="st">"X:S = 0"</span>,</span>
-<span>      n<span class="op">=</span><span class="cn">NA</span>, n2_n1<span class="op">=</span><span class="fl">44</span><span class="op">/</span><span class="fl">28</span>, sdx1<span class="op">=</span><span class="fl">9.02914</span>, sdx2<span class="op">=</span><span class="fl">11.86779</span>, dbeta<span class="op">=</span><span class="fl">0.01592</span>,</span>
+<span>      n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1000</span><span class="op">)</span>, n2_n1<span class="op">=</span><span class="fl">44</span><span class="op">/</span><span class="fl">28</span>, sdx1<span class="op">=</span><span class="fl">9.02914</span>, sdx2<span class="op">=</span><span class="fl">11.86779</span>, dbeta<span class="op">=</span><span class="fl">0.01592</span>,</span>
 <span>      sigma<span class="op">=</span><span class="fl">0.5578413</span>, gen_fun<span class="op">=</span><span class="va">gen_twogroup</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.8</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1000</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.8</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:01:58</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:02:01</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 8</span></span>
@@ -1041,11 +1042,11 @@ for variance ratio of
 using a one-tailed variance ratio test, assuming that the target power
 is
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>β</mi><mo>=</mo><mn>.80</mn></mrow><annotation encoding="application/x-tex">1-\beta=.80</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_var.test.html">p_var.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, vars<span class="op">=</span><span class="fl">1</span>, sigma2<span class="op">=</span><span class="fl">1.5</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_var.test.html">p_var.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">200</span><span class="op">)</span>, vars<span class="op">=</span><span class="fl">1</span>, sigma2<span class="op">=</span><span class="fl">1.5</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:33</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:34</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 6</span></span>
@@ -1062,12 +1063,12 @@ is
 </h3>
 <p>For a two-sample equality of variance test with equal sample
 sizes,</p>
-<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># solve n for variance ratio of 1/1.5 = 2/3, two.tailed, 80% power</span></span>
-<span><span class="fu"><a href="../reference/p_var.test.html">p_var.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span><span class="op">)</span>, two.tailed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">300</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/p_var.test.html">p_var.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">300</span><span class="op">)</span>, vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span><span class="op">)</span>, two.tailed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:45</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:46</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 4</span></span>
@@ -1094,11 +1095,11 @@ one-tailed, medium effect size
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>β</mi><mo>=</mo><mn>0.95</mn></mrow><annotation encoding="application/x-tex">1-\beta = 0.95</annotation></semantics></math>),
 equal sample sizes
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>n</mi><mn>2</mn></msub><msub><mi>n</mi><mn>1</mn></msub></mfrac><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\frac{n_2}{n_1}=1</annotation></semantics></math>).</p>
-<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">(</span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n <span class="op">=</span> <span class="cn">NA</span>, d <span class="op">=</span> <span class="fl">.5</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
-<span>               <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.95</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">500</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">500</span><span class="op">)</span>, d <span class="op">=</span> <span class="fl">.5</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
+<span>               <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.95</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:11</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:12</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 5</span></span>
@@ -1123,7 +1124,7 @@ while
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><mo>=</mo><mn>.55</mn></mrow><annotation encoding="application/x-tex">r_{xy} = .55</annotation></semantics></math>,
 then this results in the repeated
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>r</mi></msub><mo>=</mo><mfrac><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>μ</mi><mi>x</mi></msub><mo>−</mo><msub><mi>μ</mi><mi>y</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><msqrt><mrow><msubsup><mi>σ</mi><mi>x</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>σ</mi><mi>y</mi><mn>2</mn></msubsup><mo>−</mo><mn>2</mn><msub><mi>ρ</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><msub><mi>σ</mi><mi>x</mi></msub><msub><mi>σ</mi><mi>y</mi></msub></mrow></msqrt></mfrac></mrow><annotation encoding="application/x-tex">d_r=\frac{|\mu_x-\mu_y|}{\sqrt{\sigma^2_x + \sigma^2_y - 2\rho_{xy}\sigma_x\sigma_y}}</annotation></semantics></math>).</p>
-<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span> <span class="op">*</span> <span class="fl">2</span>, d<span class="op">=</span><span class="fl">0.421637</span>, type <span class="op">=</span> <span class="st">'paired'</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>replications<span class="op">=</span><span class="fl">50000</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:22</span></span>
@@ -1140,7 +1141,7 @@ then this results in the repeated
 closer to .840. When
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0.2828427</mn></mrow><annotation encoding="application/x-tex">d=0.2828427</annotation></semantics></math>
 this leads to</p>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span> <span class="op">*</span> <span class="fl">2</span>, d<span class="op">=</span><span class="fl">.2828427</span>, type <span class="op">=</span> <span class="st">'paired'</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>replications<span class="op">=</span><span class="fl">50000</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:22</span></span>
@@ -1156,11 +1157,13 @@ this leads to</p>
 <p>In this case G*Power 3.1 gives the estimate .500. To answer the
 question “How many subjects would we need to arrive at a power of about
 0.832114 in a two-group design?” this is specified within
-<code><a href="../reference/Spower.html">Spower()</a></code> and where <code>n</code> is set to
-<code>NA</code>.</p>
-<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, d<span class="op">=</span><span class="fl">0.2828427</span>, type <span class="op">=</span> <span class="st">'paired'</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">0.832114</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">300</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<code><a href="../reference/Spower.html">Spower()</a></code> and where <code>n</code> is set to <code>NA</code>
+and <code><a href="../reference/Spower.html">Spower()</a></code> is passed an <code>interval</code> argument,
+or <code><a href="../reference/Spower.html">interval()</a></code> is passed directly to the <code>n</code>
+element in the experiment.</p>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">300</span><span class="op">)</span>, d<span class="op">=</span><span class="fl">0.2828427</span>, type <span class="op">=</span> <span class="st">'paired'</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">0.832114</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:21</span></span>
 <span><span class="co">## Design conditions: </span></span>
@@ -1190,9 +1193,9 @@ given a one-tailed
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>.625</mn></mrow><annotation encoding="application/x-tex">d=.625</annotation></semantics></math>
 to achieve
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>β</mi><mo>=</mo><mn>.95</mn></mrow><annotation encoding="application/x-tex">1-\beta=.95</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, d<span class="op">=</span><span class="fl">.625</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span>, type<span class="op">=</span><span class="st">'one.sample'</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.95</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">100</span><span class="op">)</span>, d<span class="op">=</span><span class="fl">.625</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span>, type<span class="op">=</span><span class="st">'one.sample'</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.95</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:09</span></span>
 <span><span class="co">## Design conditions: </span></span>
@@ -1207,9 +1210,9 @@ to achieve
 <p>G*power gives sample size of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">n=30</annotation></semantics></math>.
 Similarly, though with different inputs.</p>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, d<span class="op">=</span><span class="fl">.1</span>, type<span class="op">=</span><span class="st">'one.sample'</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.9</span>,sig.level<span class="op">=</span><span class="fl">.01</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">2000</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">100</span>,<span class="fl">2000</span><span class="op">)</span>, d<span class="op">=</span><span class="fl">.1</span>, type<span class="op">=</span><span class="st">'one.sample'</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
+<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.9</span>,sig.level<span class="op">=</span><span class="fl">.01</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:14</span></span>
 <span><span class="co">## Design conditions: </span></span>
@@ -1231,7 +1234,7 @@ Similarly, though with different inputs.</p>
 <h4 id="example-22-3-one-sample-test-with-normal-distribution">Example 22.3; One-sample test with normal distribution<a class="anchor" aria-label="anchor" href="#example-22-3-one-sample-test-with-normal-distribution"></a>
 </h4>
 <p>Same as Example 22.1 above.</p>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_wilcox.test.html">p_wilcox.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">649</span>, d<span class="op">=</span><span class="fl">.1</span>, type<span class="op">=</span><span class="st">'one.sample'</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:21</span></span>
@@ -1252,7 +1255,7 @@ a Laplace distribution, and that
 were used instead. This requires defining an alternative parent
 distribution, which below uses the <code>rlaplace</code> function from
 the <code>extraDistr</code> package.</p>
-<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sigbertklinke/extraDistr" class="external-link">extraDistr</a></span><span class="op">)</span></span>
 <span><span class="va">parent1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">d</span><span class="op">)</span> <span class="fu">extraDistr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/Laplace.html" class="external-link">rlaplace</a></span><span class="op">(</span><span class="va">n</span>, mu<span class="op">=</span><span class="va">d</span>, sigma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -1263,10 +1266,10 @@ the <code>extraDistr</code> package.</p>
 <span><span class="co">##   &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
 <span><span class="co">## 1 df    100000    NA 0.800   0.799 0.999 0.727  0.00702     3.06 -7.94 0.309</span></span>
 <span><span class="co">## # ℹ 3 more variables: Q_50 &lt;dbl&gt;, Q_75 &lt;dbl&gt;, max &lt;dbl&gt;</span></span></code></pre>
-<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_wilcox.test.html">p_wilcox.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">11</span>, d<span class="op">=</span><span class="fl">.8</span>, type<span class="op">=</span><span class="st">'one.sample'</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span>, parent1 <span class="op">=</span> <span class="va">parent1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:03</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:04</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## # A tibble: 1 × 6</span></span>
@@ -1283,7 +1286,7 @@ the <code>extraDistr</code> package.</p>
 </h4>
 <p>Two-sample Wilcoxon test comparing Laplace distributions with
 different central tendencies.</p>
-<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sigbertklinke/extraDistr" class="external-link">extraDistr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">parent1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">d</span><span class="op">)</span> <span class="fu">extraDistr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/Laplace.html" class="external-link">rlaplace</a></span><span class="op">(</span><span class="va">n</span>, mu<span class="op">=</span><span class="va">d</span>, sigma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
@@ -1296,14 +1299,14 @@ different central tendencies.</p>
 <span><span class="co">##   &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></span>
 <span><span class="co">## 1 df    100000    NA 0.381   0.382 0.997 0.725   0.0256     3.02 -6.07 -0.107</span></span>
 <span><span class="co">## # ℹ 3 more variables: Q_50 &lt;dbl&gt;, Q_75 &lt;dbl&gt;, max &lt;dbl&gt;</span></span></code></pre>
-<div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="http://philchalmers.github.io/SimDesign/reference/descript.html" class="external-link">descript</a></span><span class="op">(</span><span class="fu">parent1</span><span class="op">(</span>n<span class="op">=</span><span class="fl">100000</span>, d<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## # A tibble: 1 × 14</span></span>
 <span><span class="co">##   VARS       n  miss    mean trimmed    sd   mad skewness kurtosis   min   Q_25</span></span>
 <span><span class="co">##   &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></span>
 <span><span class="co">## 1 df    100000    NA 0.00267 0.00272 1.000 0.726  0.00490     2.86 -8.77 -0.485</span></span>
 <span><span class="co">## # ℹ 3 more variables: Q_50 &lt;dbl&gt;, Q_75 &lt;dbl&gt;, max &lt;dbl&gt;</span></span></code></pre>
-<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nr</span> <span class="op">&lt;-</span> <span class="fl">134</span><span class="op">/</span><span class="fl">67</span></span>
 <span><span class="fu"><a href="../reference/p_wilcox.test.html">p_wilcox.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">67</span>, n2_n1<span class="op">=</span><span class="va">nr</span>, d<span class="op">=</span><span class="fl">0.375</span>, parent1<span class="op">=</span><span class="va">parent1</span>, parent2<span class="op">=</span><span class="va">parent2</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -1327,7 +1330,7 @@ seems to raise questions about the consistency of the results.</p>
 </h4>
 <p>Finally, paired-samples approach using Wilcoxon test with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">N=10</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">parent1</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">d</span><span class="op">)</span> <span class="fu">extraDistr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/Laplace.html" class="external-link">rlaplace</a></span><span class="op">(</span><span class="va">n</span>, mu<span class="op">=</span><span class="va">d</span>, sigma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">parent2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">d</span><span class="op">)</span> <span class="fu">extraDistr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/extraDistr/man/Laplace.html" class="external-link">rlaplace</a></span><span class="op">(</span><span class="va">n</span>, sigma<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -1337,14 +1340,14 @@ seems to raise questions about the consistency of the results.</p>
 <span><span class="co">##   &lt;fct&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
 <span><span class="co">## 1 df    100000    NA  1.14    1.14 0.996 0.727   0.0158     2.93 -7.46 0.653</span></span>
 <span><span class="co">## # ℹ 3 more variables: Q_50 &lt;dbl&gt;, Q_75 &lt;dbl&gt;, max &lt;dbl&gt;</span></span></code></pre>
-<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="http://philchalmers.github.io/SimDesign/reference/descript.html" class="external-link">descript</a></span><span class="op">(</span><span class="fu">parent1</span><span class="op">(</span>n<span class="op">=</span><span class="fl">100000</span>, d<span class="op">=</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## # A tibble: 1 × 14</span></span>
 <span><span class="co">##   VARS      n  miss     mean  trimmed    sd   mad skewness kurtosis   min   Q_25</span></span>
 <span><span class="co">##   &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span></span>
 <span><span class="co">## 1 df      1e5    NA -0.00205 -0.00284  1.00 0.722   0.0147     3.16 -7.60 -0.490</span></span>
 <span><span class="co">## # ℹ 3 more variables: Q_50 &lt;dbl&gt;, Q_75 &lt;dbl&gt;, max &lt;dbl&gt;</span></span></code></pre>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_wilcox.test.html">p_wilcox.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">10</span><span class="op">*</span><span class="fl">2</span>, d<span class="op">=</span><span class="fl">1.13842</span>, type <span class="op">=</span> <span class="st">'paired'</span>,</span>
 <span>              parent1<span class="op">=</span><span class="va">parent1</span>, parent2<span class="op">=</span><span class="va">parent2</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>

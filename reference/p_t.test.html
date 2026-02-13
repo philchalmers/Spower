@@ -183,25 +183,25 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># sample size of 50 per group, "medium" effect size</span></span></span>
 <span class="r-in"><span><span class="fu">p_t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, d<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.02750116</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00426157</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># point-biserial correlation effect size</span></span></span>
 <span class="r-in"><span><span class="fu">p_t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, r<span class="op">=</span><span class="fl">.3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.987074e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001188444</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># second group 2x as large as the first group</span></span></span>
 <span class="r-in"><span><span class="fu">p_t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, d<span class="op">=</span><span class="fl">0.5</span>, n2_n1 <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.143716e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001567926</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># specify mean/SDs explicitly</span></span></span>
 <span class="r-in"><span><span class="fu">p_t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, means <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, sds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1599785</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1640622</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># paired and one-sample tests</span></span></span>
 <span class="r-in"><span><span class="fu">p_t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, d<span class="op">=</span><span class="fl">0.5</span>, type <span class="op">=</span> <span class="st">'paired'</span><span class="op">)</span> <span class="co"># n = number of pairs</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.005248709</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.429731e-05</span>
 <span class="r-in"><span><span class="fu">p_t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, d<span class="op">=</span><span class="fl">0.5</span>, type <span class="op">=</span> <span class="st">'one.sample'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.04008779</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.890236e-06</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis object</span></span></span>
 <span class="r-in"><span><span class="fu">p_t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, d<span class="op">=</span><span class="fl">0.5</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -209,13 +209,13 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Two Sample t-test</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  dat[[1]] and dat[[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t = 1.4601, df = 98, p-value = 0.1475</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t = 1.998, df = 98, p-value = 0.04849</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true difference in means is not equal to 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  -0.08907146  0.58515879</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.002262706 0.668296605</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mean of x mean of y </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.4175904 0.1695468 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  mean of x  mean of y </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.36545967 0.03018001 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
@@ -243,8 +243,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    60   0.2 one.sample TRUE             0.1 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.458</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.448, 0.468]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.443, 0.462]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="fu">pwr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pwr/man/pwr.t.test.html" class="external-link">pwr.t.test</a></span><span class="op">(</span>d<span class="op">=</span><span class="fl">0.3</span>, power<span class="op">=</span><span class="fl">0.80</span>, type<span class="op">=</span><span class="st">"two.sample"</span>,</span></span>
 <span class="r-in"><span>                  alternative<span class="op">=</span><span class="st">"greater"</span><span class="op">)</span></span></span>
@@ -262,7 +262,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-in"><span>  <span class="fu">p_t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="Spower.html">interval</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">200</span><span class="op">)</span>, d<span class="op">=</span><span class="fl">0.3</span>, type<span class="op">=</span><span class="st">'two.sample'</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>         <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">0.80</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:19</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 6</span></span>
@@ -271,7 +271,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.3 two.sample FALSE           0.05   0.8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of n: 138.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Predicted Confidence Interval: [136.2, 140.0]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Predicted Confidence Interval: [136.9, 139.2]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
@@ -303,19 +303,19 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-in"><span><span class="co"># check the sample data properties</span></span></span>
 <span class="r-in"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">my.gen_fun</span><span class="op">(</span>n<span class="op">=</span><span class="fl">10000</span>, d<span class="op">=</span><span class="fl">.5</span>, df1<span class="op">=</span><span class="fl">10</span>, df2<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">mean</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002461766 0.501215449</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004114014 0.505226779</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">sd</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9921297 1.0025769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.0012552 0.9997937</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">p_t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">100</span>, d<span class="op">=</span><span class="fl">0.5</span>, gen_fun<span class="op">=</span><span class="va">my.gen_fun</span>, df1<span class="op">=</span><span class="fl">10</span>, df2<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001272169</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.03106032</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># power given Gaussian distributions</span></span></span>
 <span class="r-in"><span>  <span class="fu">p_t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">100</span>, d<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span>replications<span class="op">=</span><span class="fl">30000</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:09</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 4</span></span>
@@ -323,7 +323,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   100   0.5      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.940</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.939</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.937, 0.942]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># estimate power given the customized data generating function</span></span></span>
@@ -338,8 +338,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   100   0.5    10     5      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.959</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.956, 0.961]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.956</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.954, 0.959]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># evaluate Type I error rate to see if liberal/conservative given</span></span></span>
 <span class="r-in"><span>  <span class="co"># assumption violations (should be close to alpha/sig.level)</span></span></span>
@@ -354,8 +354,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   100     0    10     5      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.052</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.049, 0.054]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimate of power: 0.053</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [0.050, 0.055]</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>

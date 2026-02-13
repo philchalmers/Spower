@@ -299,7 +299,7 @@ approach by default.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/p_2r.html">p_2r</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">500</span><span class="op">)</span>, r.ab<span class="op">=</span><span class="fl">.4</span>, r.ac<span class="op">=</span><span class="fl">.2</span>, r.bc<span class="op">=</span><span class="fl">.5</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.80</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:01:00</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:59</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
@@ -361,7 +361,7 @@ following sensitivity analysis structure:</p>
 <span><span class="fu"><a href="../../reference/p_2r.html">p_2r</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">144</span>, r.ab<span class="op">=</span><span class="fl">.4</span>, r.ac<span class="op">=</span><span class="fu"><a href="../../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">.4</span>, <span class="fl">.001</span><span class="op">)</span>, r.bc<span class="op">=</span><span class="op">-</span><span class="fl">0.6</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../../reference/Spower.html">Spower</a></span><span class="op">(</span>power <span class="op">=</span> <span class="fl">.80</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:01:14</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:01:13</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
@@ -555,7 +555,7 @@ shape (default).</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/p_wilcox.test.html">p_wilcox.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">649</span>, d<span class="op">=</span><span class="fl">.1</span>, type<span class="op">=</span><span class="st">'one.sample'</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:13</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:12</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
@@ -667,7 +667,7 @@ p. 161-163).</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/p_mcnemar.test.html">p_mcnemar.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, prop<span class="op">=</span><span class="va">obrien2002</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:01</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:02</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
@@ -688,7 +688,7 @@ can be supplied</p>
 <span><span class="va">disc</span> <span class="op">&lt;-</span> <span class="va">obrien2002</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="va">obrien2002</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../../reference/p_mcnemar.test.html">p_mcnemar.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, OR<span class="op">=</span><span class="va">OR</span>, prop.disc<span class="op">=</span><span class="va">disc</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:01</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:02</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
@@ -735,7 +735,7 @@ predictor variables gives the estimate.</p>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/p_lm.R2.html">p_lm.R2</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">95</span>, R2<span class="op">=</span><span class="fl">.1</span>, k<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../../reference/Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:31</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:30</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
@@ -782,7 +782,7 @@ Solving the sample size to achieve 80% power</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/p_lm.R2.html">p_lm.R2</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">400</span><span class="op">)</span>, R2<span class="op">=</span><span class="fl">.3</span>, R2_0 <span class="op">=</span> <span class="fl">.25</span>, k<span class="op">=</span><span class="fl">9</span>, k.R2_0<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>        <span class="fu"><a href="../../reference/Spower.html">Spower</a></span><span class="op">(</span>sig.level<span class="op">=</span><span class="fl">.01</span>, power<span class="op">=</span><span class="fl">.8</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:02:15</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:02:14</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
@@ -806,7 +806,7 @@ for models with 12 IVs versus 9 IVs. Requires the specification of the
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/p_lm.R2.html">p_lm.R2</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">200</span>, R2<span class="op">=</span><span class="fl">.16</span>, R2_0 <span class="op">=</span> <span class="fl">.1</span>, k<span class="op">=</span><span class="fl">12</span>, k.R2_0<span class="op">=</span><span class="fl">9</span>, R2.resid<span class="op">=</span><span class="fl">.8</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../../reference/Spower.html">Spower</a></span><span class="op">(</span>sig.level<span class="op">=</span><span class="fl">.01</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:52</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:53</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
@@ -1046,7 +1046,7 @@ is
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/p_var.test.html">p_var.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">200</span><span class="op">)</span>, vars<span class="op">=</span><span class="fl">1</span>, sigma2<span class="op">=</span><span class="fl">1.5</span>, two.tailed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:24</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:25</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
@@ -1068,7 +1068,7 @@ sizes,</p>
 <span><span class="fu"><a href="../../reference/p_var.test.html">p_var.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">300</span><span class="op">)</span>, vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span><span class="op">)</span>, two.tailed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:32</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:33</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
@@ -1144,7 +1144,7 @@ this leads to</p>
 <div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span> <span class="op">*</span> <span class="fl">2</span>, d<span class="op">=</span><span class="fl">.2828427</span>, type <span class="op">=</span> <span class="st">'paired'</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../../reference/Spower.html">Spower</a></span><span class="op">(</span>replications<span class="op">=</span><span class="fl">50000</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:12</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:13</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>

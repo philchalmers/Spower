@@ -347,7 +347,7 @@ gives the following power estimate.</p>
 <code class="sourceCode R"><span><span class="fu">l_single.Bayes.t_BF</span><span class="op">(</span>n<span class="op">=</span><span class="fl">100</span>, mean<span class="op">=</span><span class="fl">.5</span>, mu<span class="op">=</span><span class="fl">.3</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>select<span class="op">=</span><span class="st">'largeBF'</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">BFsim</span></span>
 <span><span class="va">BFsim</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:01:27</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:01:24</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
@@ -449,7 +449,7 @@ notably lower power.</p>
 <span><span class="fu">pp_single.Bayes.t</span><span class="op">(</span>n<span class="op">=</span><span class="fl">100</span>, mean<span class="op">=</span><span class="fl">.5</span>, mu<span class="op">=</span><span class="fl">.3</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>sig.level <span class="op">=</span> <span class="fl">.90</span>, sig.direction <span class="op">=</span> <span class="st">'above'</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:01:22</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:01:23</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
@@ -648,7 +648,7 @@ available cores.</p>
 <code class="sourceCode R"><span><span class="fu">rope.lm</span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, beta0<span class="op">=</span><span class="fl">2</span>, beta1<span class="op">=</span><span class="fl">1</span>, sigma<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, range<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.8</span>, <span class="fl">1.2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>sig.level<span class="op">=</span><span class="fl">.95</span>, sig.direction<span class="op">=</span><span class="st">'above'</span>, parallel<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:19:59</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:04:03</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
@@ -665,7 +665,7 @@ HDI-ROPE criteria.</p>
 <code class="sourceCode R"><span><span class="fu">rope.lm</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">200</span><span class="op">)</span>, beta0<span class="op">=</span><span class="fl">2</span>, beta1<span class="op">=</span><span class="fl">1</span>, sigma<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, range<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.8</span>, <span class="fl">1.2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span>, sig.level<span class="op">=</span><span class="fl">.95</span>, sig.direction<span class="op">=</span><span class="st">'above'</span>, parallel<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Execution time (H:M:S): 00:40:36</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:14:53</span></span>
 <span><span class="co">## Design conditions: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>

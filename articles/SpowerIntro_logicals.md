@@ -272,7 +272,7 @@ BFsim
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:01:27
+    ## Execution time (H:M:S): 00:01:24
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 5
@@ -377,7 +377,7 @@ pp_single.Bayes.t(n=100, mean=.5, mu=.3) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:01:22
+    ## Execution time (H:M:S): 00:01:23
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 5
@@ -578,7 +578,7 @@ rope.lm(n=50, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:19:59
+    ## Execution time (H:M:S): 00:04:03
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 5
@@ -599,7 +599,7 @@ rope.lm(n=interval(50, 200), beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:40:36
+    ## Execution time (H:M:S): 00:14:53
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 5
