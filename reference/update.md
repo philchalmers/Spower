@@ -62,7 +62,7 @@ out <- p_t.test(n = 50, d = .5) |> Spower()
 # update power estimate given sig.level=.01 and .20
 update(out, sig.level=.01)
 #> 
-#> Execution time (H:M:S): 00:00:03
+#> Execution time (H:M:S): 00:00:02
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -74,7 +74,7 @@ update(out, sig.level=.01)
 #> 95% Confidence Interval: [0.446, 0.467]
 update(out, sig.level=.20)
 #> 
-#> Execution time (H:M:S): 00:00:03
+#> Execution time (H:M:S): 00:00:02
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4

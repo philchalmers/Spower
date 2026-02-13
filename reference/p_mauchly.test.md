@@ -88,7 +88,7 @@ p_mauchly.test(100, sigma=sigma.H0)
     # empirical power estimate
     p_mauchly.test(100, sigma=sigma) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:09
+#> Execution time (H:M:S): 00:00:10
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 3

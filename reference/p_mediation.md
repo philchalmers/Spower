@@ -142,7 +142,7 @@ p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
   p_mediation(n=50, a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
     Spower(parallel=TRUE, replications=1000)
 #> 
-#> Execution time (H:M:S): 00:00:20
+#> Execution time (H:M:S): 00:00:24
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -157,7 +157,7 @@ p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
   p_mediation(n=interval(50,200), a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
     Spower(power=.95, parallel=TRUE)
 #> 
-#> Execution time (H:M:S): 00:23:56
+#> Execution time (H:M:S): 00:25:14
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4

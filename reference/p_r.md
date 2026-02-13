@@ -157,7 +157,7 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
     p_r(n=interval(10, 200), r=0.3) |> Spower(power=.80)
 #> 
-#> Execution time (H:M:S): 00:00:40
+#> Execution time (H:M:S): 00:00:42
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -180,7 +180,7 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
     p_r(n=interval(200, 1000), r=0.1) |> Spower(power=.80)
 #> 
-#> Execution time (H:M:S): 00:00:38
+#> Execution time (H:M:S): 00:00:40
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4

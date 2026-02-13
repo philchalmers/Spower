@@ -186,10 +186,13 @@ interval(lower, upper, integer, check.interval = FALSE)
   analyses, where the `sig.level` is set to `NA`, if not set explicitly
   then the interval will default to `c(0,1)`.
 
-  Alternatively, the function `interval` can be used within the
-  experiment function definition itself where the canonical `NA`
-  placeholder is used. Arguments from `interval` will then be extracted
-  and passed to `Spower` as usual
+  Alternatively, though only for the function `Spower()`, the function
+  `interval` can be used within the experiment function definition where
+  the canonical `NA` placeholder is used. Arguments from `interval` will
+  then be extracted and passed to `Spower` as usual. Note that this is
+  not supported in `SpowerBatch` and `SpowerCurve` as multiple interval
+  definitions are often required; hence, `NA` placeholders are always
+  required in these wrapper functions
 
 - beta_alpha:
 
@@ -492,7 +495,7 @@ summary(out)   # extra information
 #>  collate  C
 #>  ctype    C.UTF-8
 #>  tz       UTC
-#>  date     2026-02-12
+#>  date     2026-02-13
 #>  pandoc   3.1.11 @ /opt/hostedtoolcache/pandoc/3.1.11/x64/ (via rmarkdown)
 #>  quarto   NA
 #> 
@@ -575,7 +578,7 @@ summary(out)   # extra information
 #>  scales         1.4.0    2025-04-24 [1] RSPM
 #>  sessioninfo    1.2.3    2025-02-05 [1] RSPM
 #>  SimDesign    * 2.23     2026-02-10 [1] RSPM
-#>  Spower       * 0.5.2    2026-02-12 [1] local
+#>  Spower       * 0.5.2    2026-02-13 [1] local
 #>  systemfonts    1.3.1    2025-10-01 [1] RSPM
 #>  testthat       3.3.2    2026-01-11 [1] RSPM
 #>  textshaping    1.0.4    2025-10-10 [1] RSPM
@@ -608,10 +611,10 @@ summary(out)   # extra information
 #> [1] 1
 #> 
 #> $date_completed
-#> [1] Thu Feb 12 21:47:23 2026
+#> [1] Fri Feb 13 15:18:58 2026
 #> 
 #> $total_elapsed_time
-#> [1] 3.01s
+#> [1] 3.10s
 #> 
 #> $SEED_history
 #> [1] 1629703387
@@ -684,7 +687,7 @@ summary(out)  # extra information
 #> [1] TRUE
 #> 
 #> $time
-#> [1] 38.96s
+#> [1] 38.95s
 #> 
 #> $iterations
 #> [1] 145
@@ -747,7 +750,7 @@ summary(out.par)
 #> [1] TRUE
 #> 
 #> $time
-#> [1] 45.05s
+#> [1] 45.62s
 #> 
 #> $iterations
 #> [1] 126
@@ -782,10 +785,10 @@ summary(out.par)
 ceiling(pwr$n) * 2
 #> [1] 128
 
-# If greater precision is required and the user has a specific amount of time
-# they are willing to wait (e.g., 5 minutes) then wait.time can be used. Below
-# estimates root after searching for 1 minute, and run in parallel
-#  with 2 cores (not run)
+# If greater precision is required and the user has a specific amount of
+# time they are willing to wait (e.g., 5 minutes) then wait.time can be used.
+# Below estimates root after searching for 1 minute, and run in parallel
+# with 2 cores (not run)
 p_t.test(n = interval(2,500), d = .5) |>
   Spower(power=.8, wait.time='1', parallel=TRUE, ncores=2)
 #> 
@@ -819,7 +822,7 @@ p_t.test(n = interval(2,500), d = .5) |>
 #> 95% Predicted Confidence Interval: [62.5, 63.4]
 
 # Solve d to get .80 power (sensitivity power analysis)
-p_t.test(n = 50, d = NA) |> Spower(power=.8, interval=c(.1, 2))
+p_t.test(n = 50, d = interval(.1, 2)) |> Spower(power=.8)
 #> 
 #> Execution time (H:M:S): 00:00:19
 #> Design conditions: 
@@ -966,8 +969,8 @@ p_my_t.test <- function(n, d, var.equal=FALSE, n2_n1=1, df=10){
 }
 
 # Solve N to get .80 power (a priori power analysis), using defaults
-p_my_t.test(n = NA, d = .5, n2_n1=2) |>
-  Spower(power=.8, interval=c(2,500)) -> out
+p_my_t.test(n = interval(2,500), d = .5, n2_n1=2) |>
+  Spower(power=.8) -> out
 
 # total sample size required
 with(out, ceiling(n) + ceiling(n * 2))
@@ -1006,7 +1009,7 @@ ci_ind.t.test(n=100, d=.2)
 # simulated prospective power
 ci_ind.t.test(n=100, d=.2) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:02
+#> Execution time (H:M:S): 00:00:03
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -1165,10 +1168,10 @@ p_t.test() |> SpowerBatch(n=c(30, 90, 270),
 
 # Batches also useful for drawing graphics outside of current framework
 # in SpowerCurve(). Below an image is drawn pertaining to the distribution
-# of the effects (H0 vs Ha hypotheses), giving the classic sampling distribution
-# comparisons of the effect sizes, however presents the information using
-# kernel density plots as this may be useful when the sampling distributions
-# are non-normal
+# of the effects (H0 vs Ha hypotheses), giving the classic sampling
+# distribution comparisons of the effect sizes, however presents the
+# information using kernel density plots as this may be useful when the
+# sampling distributions are non-normal
 
 # Define wrapper function that returns p-value and estimated mean difference
 Ice_T <- function(...){
@@ -1198,15 +1201,18 @@ library(patchwork)
 gg1 <- ggplot(subset(results, d %in% c(0, .2)),
         aes(mu_d, colour=d)) +
   geom_density() + ggtitle('Small effect (d = 0.2)') +
-  theme(legend.position='none') + xlab(expression(mu[d])) + xlim(c(-0.75, 1.5))
+  theme(legend.position='none') +
+  xlab(expression(mu[d])) + xlim(c(-0.75, 1.5))
 gg2 <- ggplot(subset(results, d %in% c(0, .5)),
         aes(mu_d, colour=d)) +
-  geom_density() + ggtitle('Medium effect  (d = 0.5)') +
-  theme(legend.position='none') + xlab(expression(mu[d])) +  xlim(c(-0.75, 1.5))
+    geom_density() + ggtitle('Medium effect (d = 0.5)') +
+    theme(legend.position='none') + xlab(expression(mu[d])) +
+    xlim(c(-0.75, 1.5))
 gg3 <- ggplot(subset(results, d %in% c(0, .8)),
         aes(mu_d, colour=d)) +
-  geom_density() + ggtitle('Large effect  (d = 0.8)') +
-  theme(legend.position='none') + xlab(expression(mu[d])) + xlim(c(-0.75, 1.5))
+    geom_density() + ggtitle('Large effect (d = 0.8)') +
+    theme(legend.position='none') + xlab(expression(mu[d])) +
+    xlim(c(-0.75, 1.5))
 
 gg1 / gg2 / gg3
 
@@ -1222,7 +1228,7 @@ gg1 / gg2 / gg3
 # estimate power given varying sample sizes
 gg <- p_t.test(d=0.2) |> SpowerCurve(n=c(30, 90, 270, 550))
 
-# Output is a ggplot2 (rendered with plotly by default); hence, can be modified
+# Output ggplot2 object (rendered with plotly); hence, can be modified
 library(ggplot2)
 gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05) +
   ylab(expression(1-beta)) + theme_grey()
@@ -1658,13 +1664,13 @@ build
 #>     super:  <ggproto object: Class Guides, gg> 
 #>  .. @ mapping    : <ggplot2::mapping> List of 4
 #>  .. .. $ x     : language ~.data[["n"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55690ef03818> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55dfc0e24b50> 
 #>  .. .. $ y     : language ~power
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55690ef03818> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55dfc0e24b50> 
 #>  .. .. $ colour: language ~.data[["d"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55690ef03818> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55dfc0e24b50> 
 #>  .. .. $ fill  : language ~.data[["d"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55690ef03818> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55dfc0e24b50> 
 #>  .. @ theme      : <theme> List of 144
 #>  .. .. $ line                            : <ggplot2::element_line>
 #>  .. ..  ..@ colour       : chr "black"
@@ -2101,7 +2107,7 @@ build
 #>  .. .. $ fill  : chr "d"
 #>  .. .. $ alt   : chr ""
 #>  .. @ meta       : list()
-#>  .. @ plot_env   :<environment: 0x55690ef03818> 
+#>  .. @ plot_env   :<environment: 0x55dfc0e24b50> 
 
 df <- build$plot$data
 head(df)

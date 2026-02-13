@@ -145,7 +145,7 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
   # power to detect three-group variance differences
   p_var.test(n=100, vars=c(10,9,11)) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:31
+#> Execution time (H:M:S): 00:00:32
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 3
@@ -159,7 +159,7 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
   # sample size per group to achieve 80% power
   p_var.test(n=interval(100, 2000), vars=c(10,9,11)) |> Spower(power=.80)
 #> 
-#> Execution time (H:M:S): 00:03:49
+#> Execution time (H:M:S): 00:03:56
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 3

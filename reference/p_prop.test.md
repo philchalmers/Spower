@@ -196,7 +196,7 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
     # compare with switched null
     Spower(p_prop.test(n=60, h=h, pi=.5))
 #> 
-#> Execution time (H:M:S): 00:00:03
+#> Execution time (H:M:S): 00:00:04
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4

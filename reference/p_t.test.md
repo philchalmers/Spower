@@ -210,7 +210,7 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
   p_t.test(n=interval(10, 200), d=0.3, type='two.sample', two.tailed=FALSE) |>
          Spower(power=0.80)
 #> 
-#> Execution time (H:M:S): 00:00:20
+#> Execution time (H:M:S): 00:00:21
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 6
@@ -263,7 +263,7 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
   # power given Gaussian distributions
   p_t.test(n=100, d=0.5) |> Spower(replications=30000)
 #> 
-#> Execution time (H:M:S): 00:00:09
+#> Execution time (H:M:S): 00:00:08
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4

@@ -98,7 +98,7 @@ p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
   # empirical power estimate
   p_kruskal.test(n=30, k=3, means=c(0, .5, .6)) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:06
+#> Execution time (H:M:S): 00:00:07
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4

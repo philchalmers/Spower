@@ -91,7 +91,7 @@ p_scale(30, scale=2, parent=parent, df=3)
   # empirical power of the experiments
   p_scale(30, scale=2) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:23
+#> Execution time (H:M:S): 00:00:24
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -116,7 +116,7 @@ p_scale(30, scale=2, parent=parent, df=3)
 
   p_scale(30, scale=2, parent=parent, df=3) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:23
+#> Execution time (H:M:S): 00:00:24
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 5

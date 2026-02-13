@@ -137,7 +137,7 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #> 95% Confidence Interval: [0.886, 0.890]
     p_chisq.test(n=100, P0=P0, P=P) |> Spower(replications=100000)
 #> 
-#> Execution time (H:M:S): 00:00:17
+#> Execution time (H:M:S): 00:00:18
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 3
@@ -176,7 +176,7 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
     p_chisq.test(n=interval(50, 200), w=w, df=df, correct=FALSE) |>
       Spower(power=.80)
 #> 
-#> Execution time (H:M:S): 00:00:16
+#> Execution time (H:M:S): 00:00:17
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4

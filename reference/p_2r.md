@@ -154,7 +154,7 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
    # estimate empirical power
    p_2r(n=100, r.ab=.5, r.ab2=.6) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:19
+#> Execution time (H:M:S): 00:00:18
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 5
