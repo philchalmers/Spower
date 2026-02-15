@@ -78,14 +78,14 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 # n=30 per group,
 #  Distributions Gaussian with sd=1 for first group and sd=2 for second
 p_scale(30, scale=2)
-#> [1] 3.110729e-05
+#> [1] 0.0107018
 p_scale(30, scale=2, test='Mood')
-#> [1] 0.1173551
+#> [1] 0.01788184
 
 # compare chi-squared distributions
 parent <- function(n, df, ...) rchisq(n, df=df) - df
 p_scale(30, scale=2, parent=parent, df=3)
-#> [1] 0.003431284
+#> [1] 0.005612145
 
 # \donttest{
   # empirical power of the experiments
@@ -99,8 +99,8 @@ p_scale(30, scale=2, parent=parent, df=3)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    30     2      0.05 NA   
 #> 
-#> Estimate of power: 0.774
-#> 95% Confidence Interval: [0.765, 0.782]
+#> Estimate of power: 0.779
+#> 95% Confidence Interval: [0.771, 0.788]
   p_scale(30, scale=2, test='Mood') |> Spower()
 #> 
 #> Execution time (H:M:S): 00:00:02
@@ -111,8 +111,8 @@ p_scale(30, scale=2, parent=parent, df=3)
 #>   <dbl> <dbl> <chr>     <dbl> <lgl>
 #> 1    30     2 Mood       0.05 NA   
 #> 
-#> Estimate of power: 0.867
-#> 95% Confidence Interval: [0.860, 0.873]
+#> Estimate of power: 0.857
+#> 95% Confidence Interval: [0.850, 0.864]
 
   p_scale(30, scale=2, parent=parent, df=3) |> Spower()
 #> 
@@ -124,8 +124,8 @@ p_scale(30, scale=2, parent=parent, df=3)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    30     2     3      0.05 NA   
 #> 
-#> Estimate of power: 0.907
-#> 95% Confidence Interval: [0.901, 0.913]
+#> Estimate of power: 0.900
+#> 95% Confidence Interval: [0.894, 0.906]
   p_scale(30, scale=2, test='Mood', parent=parent, df=3) |> Spower()
 #> 
 #> Execution time (H:M:S): 00:00:02
@@ -136,8 +136,8 @@ p_scale(30, scale=2, parent=parent, df=3)
 #>   <dbl> <dbl> <chr> <dbl>     <dbl> <lgl>
 #> 1    30     2 Mood      3      0.05 NA   
 #> 
-#> Estimate of power: 0.949
-#> 95% Confidence Interval: [0.945, 0.954]
+#> Estimate of power: 0.948
+#> 95% Confidence Interval: [0.944, 0.953]
 
 # }
 ```

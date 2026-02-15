@@ -92,24 +92,24 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # one sample
 p_var.test(100, vars=10, sigma2=9)
-#> [1] 0.8698271
+#> [1] 0.0368655
 
 # return analysis object
 p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> $statistic
 #> Chi-Squared 
-#>    98.47016 
+#>    86.96455 
 #> 
 #> $parameters
 #> df 
 #> 99 
 #> 
 #> $p.value
-#> [1] 0.9922601
+#> [1] 0.3982388
 #> 
 #> $estimate
 #> variance 
-#> 8.951833 
+#> 7.905868 
 #> 
 #> $null.value
 #> variance 
@@ -126,7 +126,7 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> 
 #> $conf.int
 #>       LCL       UCL 
-#>  6.900932 12.080404 
+#>  6.094602 10.668885 
 #> attr(,"conf.level")
 #> [1] 0.95
 #> 
@@ -135,17 +135,17 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 
 # three sample
 p_var.test(100, vars=c(10, 9, 11))
-#> [1] 0.1659917
+#> [1] 0.1555242
 p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
-#> [1] 0.3943148
+#> [1] 0.469724
 p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
-#> [1] 0.6316487
+#> [1] 0.01680101
 
 # \donttest{
   # power to detect three-group variance differences
   p_var.test(n=100, vars=c(10,9,11)) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:32
+#> Execution time (H:M:S): 00:00:31
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 3
@@ -153,13 +153,13 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.119
-#> 95% Confidence Interval: [0.113, 0.125]
+#> Estimate of power: 0.120
+#> 95% Confidence Interval: [0.114, 0.127]
 
   # sample size per group to achieve 80% power
   p_var.test(n=interval(100, 2000), vars=c(10,9,11)) |> Spower(power=.80)
 #> 
-#> Execution time (H:M:S): 00:02:21
+#> Execution time (H:M:S): 00:04:13
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 3
@@ -167,7 +167,7 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>   <dbl>     <dbl> <dbl>
 #> 1    NA      0.05   0.8
 #> 
-#> Estimate of n: 1086.1
-#> 95% Predicted Confidence Interval: [1080.6, 1091.5]
+#> Estimate of n: 1088.8
+#> 95% Predicted Confidence Interval: [1080.2, 1097.4]
 # }
 ```
