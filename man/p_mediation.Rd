@@ -87,6 +87,27 @@ p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
 # return analysis model
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
 
+# data generation properties
+N <- 1000
+dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
+					 sd.X = 2, sd.Y = 3, sd.M = 2)
+descript(dat) # specific SDs
+
+# two-step regression-based estimates (not used)
+lm(M ~ X, data=dat) |> coef()       # a
+lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
+lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
+
+# same properties, but dichotomous X variable
+dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
+					 sd.X = 2, sd.Y = 3, sd.M = 2, dichotomous.X = TRUE)
+descript(dat) # specific SDs
+
+# two-step regression-based estimates (not used)
+lm(M ~ X, data=dat) |> coef()       # a
+lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
+lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
+
 \donttest{
 
   # power to detect mediation

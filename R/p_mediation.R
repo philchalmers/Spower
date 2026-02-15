@@ -41,6 +41,27 @@
 #' # return analysis model
 #' p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
 #'
+#' # data generation properties
+#' N <- 1000
+#' dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
+#' 					 sd.X = 2, sd.Y = 3, sd.M = 2)
+#' descript(dat) # specific SDs
+#'
+#' # two-step regression-based estimates (not used)
+#' lm(M ~ X, data=dat) |> coef()       # a
+#' lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
+#' lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
+#'
+#' # same properties, but dichotomous X variable
+#' dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
+#' 					 sd.X = 2, sd.Y = 3, sd.M = 2, dichotomous.X = TRUE)
+#' descript(dat) # specific SDs
+#'
+#' # two-step regression-based estimates (not used)
+#' lm(M ~ X, data=dat) |> coef()       # a
+#' lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
+#' lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
+#'
 #' \donttest{
 #'
 #'   # power to detect mediation
@@ -90,9 +111,16 @@ gen_mediation <- function(n, a, b, cprime, dichotomous.X=FALSE,
 		X <- rep(0:1, each=n)
 		X <- X * sd.X / sqrt(.25)
 		n <- n*2
-	} else X <- rnorm(n)
-	M <- a*X + rnorm(n, sd=sd.M - a^2)
-	Y <- b*M + cprime*X + rnorm(n, sd=sd.Y - b^2 - cprime^2)
-	dat <- data.frame(X=X * sd.X, Y=Y * sd.Y, M=M * sd.M)
+	} else X <- rnorm(n, sd=sd.X)
+	sigma2.eM <- sd.M^2 - a^2 * sd.X^2
+	sigma2.eY <- sd.Y^2 - (b^2 * sd.M^2 + cprime^2 * sd.X^2 +
+			2 * b * cprime * a * sd.X^2)
+	if (sigma2.eM <= 0) stop("Residual variance of M <= 0")
+	if (sigma2.eY <= 0) stop("Residual variance of Y <= 0")
+	eM <- rnorm(n, 0, sqrt(sigma2.eM))
+	eY <- rnorm(n, 0, sqrt(sigma2.eY))
+	M  <- a*X + eM
+	Y  <- b*M + cprime*X + eY
+	dat <- data.frame(X = X, M = M, Y = Y)
 	dat
 }
