@@ -74,9 +74,12 @@ p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE,
 	p
 }
 
+#' @param means mean vector for data generation, of length 2.
+#'   Defaults to \code{c(0,0)}
 #' @rdname p_r
 #' @export
-gen_r <- function(n, r, ...){
-	dat <- SimDesign::rmvnorm(n, sigma = matrix(c(1,r,r,1), 2, 2))
+gen_r <- function(n, r, means = c(0,0), ...){
+	dat <- SimDesign::rmvnorm(n, mean = means,
+							  sigma = matrix(c(1,r,r,1), 2, 2))
 	dat
 }

@@ -16,7 +16,7 @@ p_r(
   ...
 )
 
-gen_r(n, r, ...)
+gen_r(n, r, means = c(0, 0), ...)
 }
 \arguments{
 \item{n}{sample size}
@@ -44,6 +44,9 @@ computed approximation versions}
 
 \item{...}{additional arguments to be passed to \code{gen_fun}. Not used
 unless a customized \code{gen_fun} is defined}
+
+\item{means}{mean vector for data generation, of length 2.
+Defaults to \code{c(0,0)}}
 }
 \value{
 a single p-value
