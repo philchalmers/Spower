@@ -92,24 +92,24 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # one sample
 p_var.test(100, vars=10, sigma2=9)
-#> [1] 0.0368655
+#> [1] 0.2838448
 
 # return analysis object
 p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> $statistic
 #> Chi-Squared 
-#>    86.96455 
+#>    114.9217 
 #> 
 #> $parameters
 #> df 
 #> 99 
 #> 
 #> $p.value
-#> [1] 0.3982388
+#> [1] 0.2615356
 #> 
 #> $estimate
 #> variance 
-#> 7.905868 
+#> 10.44743 
 #> 
 #> $null.value
 #> variance 
@@ -126,7 +126,7 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> 
 #> $conf.int
 #>       LCL       UCL 
-#>  6.094602 10.668885 
+#>  8.053882 14.098695 
 #> attr(,"conf.level")
 #> [1] 0.95
 #> 
@@ -135,17 +135,17 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 
 # three sample
 p_var.test(100, vars=c(10, 9, 11))
-#> [1] 0.1555242
+#> [1] 0.062817
 p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
-#> [1] 0.469724
+#> [1] 0.01275614
 p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
-#> [1] 0.01680101
+#> [1] 0.2953754
 
 # \donttest{
   # power to detect three-group variance differences
   p_var.test(n=100, vars=c(10,9,11)) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:31
+#> Execution time (H:M:S): 00:00:32
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 3
@@ -154,12 +154,12 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #> 1   100      0.05 NA   
 #> 
 #> Estimate of power: 0.120
-#> 95% Confidence Interval: [0.114, 0.127]
+#> 95% Confidence Interval: [0.114, 0.126]
 
   # sample size per group to achieve 80% power
   p_var.test(n=interval(100, 2000), vars=c(10,9,11)) |> Spower(power=.80)
 #> 
-#> Execution time (H:M:S): 00:04:13
+#> Execution time (H:M:S): 00:02:17
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 3
@@ -167,7 +167,7 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>   <dbl>     <dbl> <dbl>
 #> 1    NA      0.05   0.8
 #> 
-#> Estimate of n: 1088.8
-#> 95% Predicted Confidence Interval: [1080.2, 1097.4]
+#> Estimate of n: 1097.9
+#> 95% Predicted Confidence Interval: [1089.2, 1106.5]
 # }
 ```

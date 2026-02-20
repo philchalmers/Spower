@@ -97,13 +97,13 @@ p_ks.test(n=100, p1, p2, return_analysis=TRUE)
 #   against a standard normal distribution
 pc <- function(n, df=15) (rchisq(n, df=df) - df) / sqrt(2*df)
 p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
-#> [1] 0.5073564
+#> [1] 0.05754102
 
 # \donttest{
   # empirical power estimates
   p_ks.test(n=100, p1, p2) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:04
+#> Execution time (H:M:S): 00:00:03
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 3
@@ -111,8 +111,8 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.824
-#> 95% Confidence Interval: [0.816, 0.831]
+#> Estimate of power: 0.828
+#> 95% Confidence Interval: [0.821, 0.835]
   p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1) |> Spower()
 #> 
 #> Execution time (H:M:S): 00:00:03

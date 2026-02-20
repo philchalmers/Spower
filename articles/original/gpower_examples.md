@@ -180,7 +180,7 @@ p_2r(n=interval(500, 2000), r.ab=.1, r.ac=.5, r.ad=.4, r.bc=-.4, r.bd=.8, r.cd=.
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:01:11
+    ## Execution time (H:M:S): 00:01:13
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 9
@@ -221,7 +221,7 @@ p_2r(n=interval(50, 500), r.ab=.4, r.ac=.2, r.bc=.5, two.tailed=FALSE) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:57
+    ## Execution time (H:M:S): 00:01:00
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 7
@@ -289,7 +289,7 @@ p_2r(n=144, r.ab=.4, r.ac=interval(.4, .001), r.bc=-0.6, two.tailed=FALSE) |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:01:12
+    ## Execution time (H:M:S): 00:01:14
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 6
@@ -791,7 +791,7 @@ p_slr(n=100, beta=-0.0667, sd_x=7.5, sd_y = 4) |> Spower()
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:21
+    ## Execution time (H:M:S): 00:00:20
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 5
@@ -919,7 +919,7 @@ p_glm(formula=y~X*S, test="X:S = 0",
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:24
+    ## Execution time (H:M:S): 00:00:23
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 8
@@ -940,7 +940,7 @@ p_glm(formula=y~X*S, test="X:S = 0",
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:01:24
+    ## Execution time (H:M:S): 00:01:23
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 8
@@ -1017,7 +1017,7 @@ one-tailed, medium effect size ($d = 0.5$), $\alpha = 0.05$, 95% power
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:09
+    ## Execution time (H:M:S): 00:00:08
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 5
@@ -1117,7 +1117,7 @@ p_t.test(n=interval(10, 100), d=.625, two.tailed=FALSE, type='one.sample') |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:07
+    ## Execution time (H:M:S): 00:00:06
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 6
@@ -1137,7 +1137,7 @@ p_t.test(n=interval(100,2000), d=.1, type='one.sample') |>
 ```
 
     ## 
-    ## Execution time (H:M:S): 00:00:11
+    ## Execution time (H:M:S): 00:00:10
     ## Design conditions: 
     ## 
     ## # A tibble: 1 × 5

@@ -117,9 +117,9 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # joint test H0: a*b = 0
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
-#> [1] 2.177183e-07
+#> [1] 2.359283e-05
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
-#> [1] 8.061746e-08
+#> [1] 2.584064e-08
 
 # return analysis model
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
@@ -144,44 +144,44 @@ descript(dat) # specific SDs
 #> # A tibble: 3 × 14
 #>   VARS      n  miss    mean trimmed    sd   mad skewness kurtosis   min  Q_25
 #>   <fct> <dbl> <dbl>   <dbl>   <dbl> <dbl> <dbl>    <dbl>    <dbl> <dbl> <dbl>
-#> 1 X      1000    NA  0.112   0.131   2.12  2.18  -0.0612  -0.182  -6.59 -1.34
-#> 2 M      1000    NA  0.0822  0.0963  2.02  2.11  -0.0466  -0.163  -5.67 -1.30
-#> 3 Y      1000    NA -0.147  -0.137   2.97  3.01  -0.0611  -0.0395 -9.53 -2.19
+#> 1 X      1000    NA  0.0384  0.0358  1.89  1.89  -0.0207   -0.143 -5.64 -1.28
+#> 2 M      1000    NA  0.0716  0.0828  1.97  2.00  -0.0815   -0.137 -6.54 -1.26
+#> 3 Y      1000    NA -0.0384 -0.0831  3.03  3.20   0.117    -0.227 -9.84 -2.18
 #> # ℹ 3 more variables: Q_50 <dbl>, Q_75 <dbl>, max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
-#>  (Intercept)            X 
-#> -0.004358922  0.771736024 
+#> (Intercept)           X 
+#>  0.03962081  0.83270952 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
-#> (Intercept)           M           X 
-#>  -0.1116111  -0.6904618   0.1903087 
+#>  (Intercept)            M            X 
+#>  0.003421063 -0.750061890  0.308934171 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  -0.1086015  -0.3425456 
+#>  -0.0262970  -0.3156495 
 
 # same properties, but dichotomous X variable
 dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2, dichotomous.X = TRUE)
 descript(dat) # specific SDs
 #> # A tibble: 3 × 14
-#>   VARS      n  miss   mean trimmed    sd   mad skewness kurtosis    min    Q_25
-#>   <fct> <dbl> <dbl>  <dbl>   <dbl> <dbl> <dbl>    <dbl>    <dbl>  <dbl>   <dbl>
-#> 1 X      2000    NA  2       2      2.00  2.97   0       -2.00     0     0     
-#> 2 M      2000    NA  1.60    1.61   1.96  2.35  -0.0348  -0.724   -4.68  0.0205
-#> 3 Y      2000    NA -0.746  -0.738  3.06  3.03  -0.0256   0.0621 -12.4  -2.81  
+#>   VARS      n  miss   mean trimmed    sd   mad skewness kurtosis    min   Q_25
+#>   <fct> <dbl> <dbl>  <dbl>   <dbl> <dbl> <dbl>    <dbl>    <dbl>  <dbl>  <dbl>
+#> 1 X      2000    NA  2       2      2.00  2.97   0        -2.00    0     0    
+#> 2 M      2000    NA  1.56    1.56   2.03  2.47   0.0213   -0.903  -3.87 -0.124
+#> 3 Y      2000    NA -0.764  -0.795  3.02  2.94   0.133     0.144 -10.5  -2.77 
 #> # ℹ 3 more variables: Q_50 <dbl>, Q_75 <dbl>, max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#>  0.04366232  0.78023708 
+#> -0.07499256  0.81981342 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
 #>  (Intercept)            M            X 
-#>  0.003028295 -0.752976048  0.229479310 
+#> -0.003718004 -0.632247676  0.114442992 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#> -0.02984838 -0.35802052 
+#>  0.04369587 -0.40388213 
 
 # \donttest{
 
@@ -197,14 +197,14 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #>   <dbl>  <dbl>     <dbl> <lgl>
 #> 1    50   0.39      0.05 NA   
 #> 
-#> Estimate of power: 0.996
-#> 95% Confidence Interval: [0.992, 1.000]
+#> Estimate of power: 0.998
+#> 95% Confidence Interval: [0.995, 1.000]
 
   # sample size estimate for .95 power
   p_mediation(n=interval(50,200), a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
     Spower(power=.95, parallel=TRUE)
 #> 
-#> Execution time (H:M:S): 00:24:11
+#> Execution time (H:M:S): 00:24:07
 #> Design conditions: 
 #> 
 #> # A tibble: 1 × 4
@@ -212,8 +212,8 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #>   <dbl>  <dbl>     <dbl> <dbl>
 #> 1    NA   0.39      0.05  0.95
 #> 
-#> Estimate of n: 51.0
-#> 95% Predicted Confidence Interval: [NA, NA]
+#> Estimate of n: 56.3
+#> 95% Predicted Confidence Interval: [NA, 51.0]
 
 # }
 ```
