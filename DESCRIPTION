@@ -32,6 +32,7 @@ Imports:
 	polycor,
 	parallelly,
 	methods,
+	cli,
 	ggplot2,
 	plotly,
 	lavaan,

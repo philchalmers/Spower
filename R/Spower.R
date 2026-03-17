@@ -212,7 +212,7 @@
 #'   By default this is determined based on whether the session is interactive
 #'   or not
 #'
-#' @import SimDesign stats
+#' @import SimDesign stats cli
 #' @return an invisible \code{tibble}/\code{data.frame}-type object of
 #' class \code{'Spower'} containing the power results from the
 #' simulation experiment
@@ -641,49 +641,49 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 #'   the this will be a \code{list}
 #' @export
 print.Spower <- function(x, ...){
+	cli::cli_h1("Spower Results")
 	lste <- attr(x, 'Spower_extra')
-	time <- format(as.POSIXct(lste$elapsed_time, tz = "UTC"), "%H:%M:%S")
-	cat(sprintf("\nExecution time (H:M:S): %s", time))
-	cat("\nDesign conditions: \n\n")
+	cat("Design conditions:\n\n")
 	print(lste$conditions)
 	if(inherits(x, 'SimSolve')){
 		lst <- attr(x, 'roots')[[1]]
 		pick <- which(is.na(lste$conditions[1,]))
-		cat(sprintf(paste0("\nEstimate of %s: ", if(lst$integer) "%.1f" else "%.3f"),
-					names(lste$conditions)[pick],
-					x[[pick]]))
-		cat(sprintf(paste0("\n%s%% Predicted Confidence Interval: ",
-						   if(lst$integer) "[%.1f, %.1f]" else "[%.3f, %.3f]", '\n'),
-					lste$predCI*100, lst$predCIs_root[1], lst$predCIs_root[2]))
+		pval <- ifelse(lst$integer, round(x[[pick]], 1), round(x[[pick]], 3))
+		cli::cli_text("Estimate of {names(lste$conditions)[pick]}: {.val {pval}}")
+		ppis <- round(lst$predCIs_root, ifelse(lst$integer, 1, 3))
+		cli::cli_text("{lste$predCI*100}% Predicted Confidence Interval:
+					  [{.val {ppis[1]}}, {.val {ppis[2]}}]")
 	} else {
 		if(!is.null(lste$beta_alpha)){
-			cat(sprintf("\nEstimate of Type I error rate (alpha/sig.level): %.3f", x$sig.level))
+			cli::cli_text("Estimate of Type I error rate (alpha/sig.level): {.val {round(x$sig.level, 3)}}")
 			alpha <- 1 - lste$predCI
 			CI <- x$sig.level + c(qnorm(c(alpha/2, lste$predCI+alpha/2))) *
 				sqrt((x$sig.level * (1-x$sig.level))/x$REPLICATIONS)
-			CI <- clip_CI(CI)
-			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
-						lste$predCI*100, CI[1], CI[2]))
+			CI <- round(clip_CI(CI), 3)
+			cli::cli_text("{lste$predCI*100}% Confidence Interval: [{.val {CI[1]}}, {.val {CI[2]}}]")
 			power <- x$power
-			cat(sprintf("\nEstimate of %spower (1-beta): %.3f",
-						if(lste$expected) 'expected ' else "", power))
+			expected <- ifelse(lste$expected, 'expected ', "")
+			cli::cli_text("")
+			cli::cli_text("Estimate of {expected}power (1-beta): {.val {round(power, 3)}}")
 			CI <- power + c(qnorm(c(alpha/2, lste$predCI + alpha/2))) *
 				sqrt((power * (1-power))/x$REPLICATIONS)
-			CI <- clip_CI(CI)
-			cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
-						lste$predCI*100, CI[1], CI[2]))
+			CI <- round(clip_CI(CI), 3)
+			cli::cli_text("{lste$predCI*100}% Confidence Interval: [{.val {CI[1]}}, {.val {CI[2]}}]")
 		} else {
 			CI <- attr(x, 'extra_info')$power.CI
 			nms <- if(is.matrix(CI)){
 				rownames(CI)
 			} else 'power'
 			for(nm in nms){
-				cat(sprintf("\nEstimate of %s: %.3f", nm, x[[nm]]))
-				cat(sprintf("\n%s%% Confidence Interval: [%.3f, %.3f]\n",
-							lste$predCI*100, CI[nm,1], CI[nm,2]))
+				value <- round(x[[nm]], 3)
+				ci <- round(CI[nm,], 3)
+				cli::cli_text("Estimate of {nm}: {.val {value}}")
+				cli::cli_text("Confidence Interval: [{.val {ci[1]}}, {.val {ci[2]}}]")
 			}
 		}
 	}
+	time <- format(as.POSIXct(lste$elapsed_time, tz = "UTC"), "%H:%M:%S")
+	cli::cli_text("Execution time (H:M:S): {.field {time}}")
 	invisible(NULL)
 }
 
