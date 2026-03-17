@@ -662,9 +662,8 @@ print.Spower <- function(x, ...){
 			CI <- round(clip_CI(CI), 3)
 			cli::cli_text("{lste$predCI*100}% Confidence Interval: [{.val {CI[1]}}, {.val {CI[2]}}]")
 			power <- x$power
-			expected <- ifelse(lste$expected, 'expected ', "")
 			cli::cli_text("")
-			cli::cli_text("Estimate of {expected}power (1-beta): {.val {round(power, 3)}}")
+			cli::cli_text("Estimate of power (1-beta): {.val {round(power, 3)}}")
 			CI <- power + c(qnorm(c(alpha/2, lste$predCI + alpha/2))) *
 				sqrt((power * (1-power))/x$REPLICATIONS)
 			CI <- round(clip_CI(CI), 3)
@@ -678,7 +677,7 @@ print.Spower <- function(x, ...){
 				value <- round(x[[nm]], 3)
 				ci <- round(CI[nm,], 3)
 				cli::cli_text("Estimate of {nm}: {.val {value}}")
-				cli::cli_text("Confidence Interval: [{.val {ci[1]}}, {.val {ci[2]}}]")
+				cli::cli_text("{lste$predCI*100}% Confidence Interval: [{.val {ci[1]}}, {.val {ci[2]}}]")
 			}
 		}
 	}

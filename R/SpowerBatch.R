@@ -174,8 +174,9 @@ SpowerBatch <- function(..., interval = NULL, power = NA,
 #' @rdname Spower
 #' @export
 print.SpowerBatch <- function(x, ...){
-	class(x) <- 'list'
-	print(x, ...)
+	for(i in 1:length(x))
+		print(x[[i]], ...)
+	invisible(NULL)
 }
 
 #' @rdname Spower
