@@ -71,46 +71,46 @@ sigma
 
 # H0 test that sphericity holds
 p_mauchly.test(100, sigma=sigma)
-#> [1] 0.06591055
+#> [1] 9.122065e-05
 
 # return analysis object
 p_mauchly.test(100, sigma=sigma, return_analysis=TRUE)
 #>           W df      p.value
-#> 1 0.7838527  2 6.568844e-06
+#> 1 0.7735474  2 3.434479e-06
 
 # Null is true
 sigma.H0 <- diag(3)
 p_mauchly.test(100, sigma=sigma.H0)
-#> [1] 0.4351374
+#> [1] 0.5083513
 
 
 # \donttest{
     # empirical power estimate
     p_mauchly.test(100, sigma=sigma) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:09
-#> Design conditions: 
+#> ── Spower Results ──────────────────────────────────────────────────────────────
+#> Design conditions:
 #> 
 #> # A tibble: 1 × 3
 #>       n sig.level power
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
-#> 
-#> Estimate of power: 0.610
-#> 95% Confidence Interval: [0.600, 0.619]
+#> Estimate of power: 0.603
+#> 95% Confidence Interval: [0.593, 0.612]
+#> Execution time (H:M:S): 00:00:10
 
     # empirical Type I error estimate
     p_mauchly.test(100, sigma=sigma.H0) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:09
-#> Design conditions: 
+#> ── Spower Results ──────────────────────────────────────────────────────────────
+#> Design conditions:
 #> 
 #> # A tibble: 1 × 3
 #>       n sig.level power
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
-#> 
-#> Estimate of power: 0.054
-#> 95% Confidence Interval: [0.050, 0.059]
+#> Estimate of power: 0.05
+#> 95% Confidence Interval: [0.046, 0.054]
+#> Execution time (H:M:S): 00:00:08
 # }
 ```

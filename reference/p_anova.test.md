@@ -97,7 +97,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # n=50 in 3 groups, "medium" effect size
 p_anova.test(50, k=3, f=.25)
-#> [1] 0.01991081
+#> [1] 0.004587461
 
 # return analysis model
 p_anova.test(50, k=3, f=.25, return_analysis=TRUE)
@@ -105,12 +105,12 @@ p_anova.test(50, k=3, f=.25, return_analysis=TRUE)
 #>  One-way analysis of means
 #> 
 #> data:  DV and group
-#> F = 9.249, num df = 2, denom df = 147, p-value = 0.0001647
+#> F = 6.1789, num df = 2, denom df = 147, p-value = 0.002651
 #> 
 
 # explicit means/sds
 p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
-#> [1] 0.0004874258
+#> [1] 1.712664e-05
 
 # \donttest{
   # compare simulated results to pwr package
@@ -128,15 +128,15 @@ p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
 #> 
   p_anova.test(n=20, k=4, f=.28) |> Spower()
 #> 
-#> Execution time (H:M:S): 00:00:09
-#> Design conditions: 
+#> ── Spower Results ──────────────────────────────────────────────────────────────
+#> Design conditions:
 #> 
 #> # A tibble: 1 × 5
 #>       n     k     f sig.level power
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    20     4  0.28      0.05 NA   
-#> 
-#> Estimate of power: 0.513
-#> 95% Confidence Interval: [0.503, 0.523]
+#> Estimate of power: 0.524
+#> 95% Confidence Interval: [0.514, 0.533]
+#> Execution time (H:M:S): 00:00:09
 # }
 ```

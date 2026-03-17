@@ -62,28 +62,28 @@ out <- p_t.test(n = 50, d = .5) |> Spower()
 # update power estimate given sig.level=.01 and .20
 update(out, sig.level=.01)
 #> 
-#> Execution time (H:M:S): 00:00:03
-#> Design conditions: 
+#> ── Spower Results ──────────────────────────────────────────────────────────────
+#> Design conditions:
 #> 
 #> # A tibble: 1 × 4
 #>       n     d sig.level power
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.5      0.01 NA   
-#> 
 #> Estimate of power: 0.452
-#> 95% Confidence Interval: [0.439, 0.461]
+#> 95% Confidence Interval: [0.439, 0.46]
+#> Execution time (H:M:S): 00:00:02
 update(out, sig.level=.20)
 #> 
-#> Execution time (H:M:S): 00:00:03
-#> Design conditions: 
+#> ── Spower Results ──────────────────────────────────────────────────────────────
+#> Design conditions:
 #> 
 #> # A tibble: 1 × 4
 #>       n     d sig.level power
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.5       0.2 NA   
-#> 
 #> Estimate of power: 0.885
-#> 95% Confidence Interval: [0.881, 1.000]
+#> 95% Confidence Interval: [0.881, 1]
+#> Execution time (H:M:S): 00:00:02
 
 
 ########
@@ -95,37 +95,37 @@ out <- p_t.test(n = 50, d = .5) |> Spower(beta_alpha = 2)
 # update beta_alpha criteria without re-simulating
 update(out, beta_alpha=4)
 #> 
-#> Execution time (H:M:S): 00:00:03
-#> Design conditions: 
+#> ── Spower Results ──────────────────────────────────────────────────────────────
+#> Design conditions:
 #> 
 #> # A tibble: 1 × 5
 #>       n     d sig.level power beta_alpha
 #>   <dbl> <dbl>     <dbl> <lgl>      <dbl>
 #> 1    50   0.5        NA NA             4
+#> Estimate of Type I error rate (alpha/sig.level): 0.065
+#> 95% Confidence Interval: [0.061, 0.07]
 #> 
-#> Estimate of Type I error rate (alpha/sig.level): 0.067
-#> 95% Confidence Interval: [0.062, 0.072]
-#> 
-#> Estimate of power (1-beta): 0.733
-#> 95% Confidence Interval: [0.724, 0.742]
+#> Estimate of power (1-beta): 0.739
+#> 95% Confidence Interval: [0.73, 0.747]
+#> Execution time (H:M:S): 00:00:03
 
 # also works if compromise not initially run but prospective/post-hoc power was
 out <- p_t.test(n = 50, d = .5) |> Spower()
 update(out, beta_alpha=4)
 #> 
-#> Execution time (H:M:S): 00:00:03
-#> Design conditions: 
+#> ── Spower Results ──────────────────────────────────────────────────────────────
+#> Design conditions:
 #> 
 #> # A tibble: 1 × 5
 #>       n     d sig.level power beta_alpha
 #>   <dbl> <dbl>     <dbl> <lgl>      <dbl>
 #> 1    50   0.5        NA NA             4
+#> Estimate of Type I error rate (alpha/sig.level): 0.067
+#> 95% Confidence Interval: [0.062, 0.071]
 #> 
-#> Estimate of Type I error rate (alpha/sig.level): 0.065
-#> 95% Confidence Interval: [0.060, 0.070]
-#> 
-#> Estimate of power (1-beta): 0.740
-#> 95% Confidence Interval: [0.731, 0.748]
+#> Estimate of power (1-beta): 0.734
+#> 95% Confidence Interval: [0.725, 0.742]
+#> Execution time (H:M:S): 00:00:02
 
 # }
 ```

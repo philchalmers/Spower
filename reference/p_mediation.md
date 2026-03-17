@@ -117,9 +117,9 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # joint test H0: a*b = 0
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
-#> [1] 2.359283e-05
+#> [1] 0.0008299632
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
-#> [1] 2.584064e-08
+#> [1] 4.798384e-10
 
 # return analysis model
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
@@ -141,47 +141,47 @@ N <- 1000
 dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2)
 descript(dat) # specific SDs
-#> # A tibble: 3 × 14
-#>   VARS      n  miss    mean trimmed    sd   mad skewness kurtosis   min  Q_25
-#>   <fct> <dbl> <dbl>   <dbl>   <dbl> <dbl> <dbl>    <dbl>    <dbl> <dbl> <dbl>
-#> 1 X      1000    NA  0.0384  0.0358  1.89  1.89  -0.0207   -0.143 -5.64 -1.28
-#> 2 M      1000    NA  0.0716  0.0828  1.97  2.00  -0.0815   -0.137 -6.54 -1.26
-#> 3 Y      1000    NA -0.0384 -0.0831  3.03  3.20   0.117    -0.227 -9.84 -2.18
-#> # ℹ 3 more variables: Q_50 <dbl>, Q_75 <dbl>, max <dbl>
+#> # A tibble: 3 × 12
+#>   VARS      n    mean     trim    sd     skew    kurt   min   P25     P50   P75
+#>   <fct> <dbl>   <dbl>    <dbl> <dbl>    <dbl>   <dbl> <dbl> <dbl>   <dbl> <dbl>
+#> 1 X      1000 -0.0121  0.00349  2.04 -0.0926   0.0840 -7.43 -1.35  0.0110  1.40
+#> 2 M      1000 -0.0156 -0.0157   2.01  0.00391 -0.137  -5.63 -1.42  0.0308  1.38
+#> 3 Y      1000 -0.0245 -0.0257   2.97  0.00297 -0.103  -8.80 -1.94 -0.0787  1.99
+#> # ℹ 1 more variable: max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
-#> (Intercept)           X 
-#>  0.03962081  0.83270952 
+#>  (Intercept)            X 
+#> -0.005973476  0.792665303 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
-#>  (Intercept)            M            X 
-#>  0.003421063 -0.750061890  0.308934171 
+#> (Intercept)           M           X 
+#> -0.03345155 -0.67940065  0.13813150 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  -0.0262970  -0.3156495 
+#> -0.02939317 -0.40040583 
 
 # same properties, but dichotomous X variable
 dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2, dichotomous.X = TRUE)
 descript(dat) # specific SDs
-#> # A tibble: 3 × 14
-#>   VARS      n  miss   mean trimmed    sd   mad skewness kurtosis    min   Q_25
-#>   <fct> <dbl> <dbl>  <dbl>   <dbl> <dbl> <dbl>    <dbl>    <dbl>  <dbl>  <dbl>
-#> 1 X      2000    NA  2       2      2.00  2.97   0        -2.00    0     0    
-#> 2 M      2000    NA  1.56    1.56   2.03  2.47   0.0213   -0.903  -3.87 -0.124
-#> 3 Y      2000    NA -0.764  -0.795  3.02  2.94   0.133     0.144 -10.5  -2.77 
-#> # ℹ 3 more variables: Q_50 <dbl>, Q_75 <dbl>, max <dbl>
+#> # A tibble: 3 × 12
+#>   VARS      n   mean   trim    sd   skew    kurt    min     P25    P50   P75
+#>   <fct> <dbl>  <dbl>  <dbl> <dbl>  <dbl>   <dbl>  <dbl>   <dbl>  <dbl> <dbl>
+#> 1 X      2000  2      2      2.00 0      -2.00     0     0       2      4   
+#> 2 M      2000  1.60   1.60   1.96 0.0241 -0.845   -3.19  0.0308  1.56   3.18
+#> 3 Y      2000 -0.733 -0.734  3.00 0.0270  0.0543 -11.7  -2.81   -0.732  1.31
+#> # ℹ 1 more variable: max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#> -0.07499256  0.81981342 
+#>  0.04237714  0.78047231 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
-#>  (Intercept)            M            X 
-#> -0.003718004 -0.632247676  0.114442992 
+#> (Intercept)           M           X 
+#>  0.04729543 -0.67410375  0.15027964 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  0.04369587 -0.40388213 
+#>  0.01872884 -0.37583966 
 
 # \donttest{
 
@@ -189,31 +189,31 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
   p_mediation(n=50, a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
     Spower(parallel=TRUE, replications=1000)
 #> 
-#> Execution time (H:M:S): 00:00:21
-#> Design conditions: 
+#> ── Spower Results ──────────────────────────────────────────────────────────────
+#> Design conditions:
 #> 
 #> # A tibble: 1 × 4
 #>       n cprime sig.level power
 #>   <dbl>  <dbl>     <dbl> <lgl>
 #> 1    50   0.39      0.05 NA   
-#> 
-#> Estimate of power: 0.998
-#> 95% Confidence Interval: [0.995, 1.000]
+#> Estimate of power: 0.994
+#> 95% Confidence Interval: [0.989, 0.999]
+#> Execution time (H:M:S): 00:00:21
 
   # sample size estimate for .95 power
   p_mediation(n=interval(50,200), a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
     Spower(power=.95, parallel=TRUE)
 #> 
-#> Execution time (H:M:S): 00:24:07
-#> Design conditions: 
+#> ── Spower Results ──────────────────────────────────────────────────────────────
+#> Design conditions:
 #> 
 #> # A tibble: 1 × 4
 #>       n cprime sig.level power
 #>   <dbl>  <dbl>     <dbl> <dbl>
 #> 1    NA   0.39      0.05  0.95
-#> 
-#> Estimate of n: 56.3
-#> 95% Predicted Confidence Interval: [NA, 51.0]
+#> Estimate of n: 51
+#> 95% Predicted Confidence Interval: [NA, NA]
+#> Execution time (H:M:S): 00:24:14
 
 # }
 ```
