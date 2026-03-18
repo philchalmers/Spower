@@ -129,15 +129,15 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # independent (same x-y pairing across groups)
 p_2r(100, r.ab=.5, r.ab2=.6)
-#> [1] 0.4524962
+#> [1] 0.4483612
 
 # return cocor object for further analysis
 p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> 
 #>   Results of a comparison of two correlations based on independent groups
 #> 
-#> Comparison between r1.jk (y, x) = 0.4842 and r2.hm (y, x) = 0.6481
-#> Difference: r1.jk - r2.hm = -0.1639
+#> Comparison between r1.jk (y, x) = 0.5541 and r2.hm (y, x) = 0.6619
+#> Difference: r1.jk - r2.hm = -0.1078
 #> Data: sample1: j = y, k = x; sample2: h = y, m = x
 #> Group sizes: n1 = 100, n2 = 100
 #> Null hypothesis: r1.jk is equal to r2.hm
@@ -145,7 +145,7 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> Alpha: 0.05
 #> 
 #> fisher1925: Fisher's z (1925)
-#>   z = -1.6966, p-value = 0.0898
+#>   z = -1.1974, p-value = 0.2311
 #>   Null hypothesis retained
 #> 
 
@@ -155,40 +155,44 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
    p_2r(n=100, r.ab=.5, r.ab2=.6) |> Spower()
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
+#> 
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 5
 #>       n  r.ab r.ab2 sig.level power
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5   0.6      0.05 NA   
-#> Estimate of power: 0.176
-#> 95% Confidence Interval: [0.169, 0.184]
-#> Execution time (H:M:S): 00:00:18
+#> 
+#> Estimate of power: 0.171
+#> 95% Confidence Interval: [0.164, 0.178]
+#> Execution time (H:M:S): 00:00:19
 
    # estimate n required to reach 80% power
    p_2r(n=interval(100, 5000), r.ab=.5, r.ab2=.6) |> Spower(power=.80)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
+#> 
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 5
 #>       n  r.ab r.ab2 sig.level power
 #>   <dbl> <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.5   0.6      0.05   0.8
-#> Estimate of n: 760.1
-#> 95% Predicted Confidence Interval: [753.9, 765.7]
-#> Execution time (H:M:S): 00:01:14
+#> 
+#> Estimate of n: 758.0
+#> 95% Predicted Confidence Interval: [748.5, 768.2]
+#> Execution time (H:M:S): 00:01:08
 
 # }
 
 # overlap (same y, different xs)
 # H0: r.ab = r.bc
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2)
-#> [1] 0.1106307
+#> [1] 0.004069322
 
 # nonoverlap (different ys, different xs)
 # H0: r.ab = r.cd
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2, r.ad=.2, r.bd=.4, r.cd=.2)
-#> [1] 0.03264592
+#> [1] 0.003173101
 
 ```

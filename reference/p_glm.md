@@ -88,17 +88,17 @@ X <- data.frame(G = factor(rep(c('control', 'treatment'), each=50)),
                 C = sample(50:100, 100, replace=TRUE))
 head(X)
 #>         G  C
-#> 1 control 95
-#> 2 control 93
-#> 3 control 99
-#> 4 control 78
-#> 5 control 76
-#> 6 control 67
+#> 1 control 52
+#> 2 control 85
+#> 3 control 95
+#> 4 control 72
+#> 5 control 62
+#> 6 control 91
 
 # ANCOVA setup
 p_glm(y ~ G + C, test="Gtreatment = 0",
   X=X, betas=c(10, .3, 1), sigma=1)
-#> [1] 0.02660137
+#> [1] 0.03572391
 
 # return analysis model
 p_glm(y ~ G + C, test="Gtreatment = 0",
@@ -109,19 +109,19 @@ p_glm(y ~ G + C, test="Gtreatment = 0",
 #> 
 #> Coefficients:
 #> (Intercept)   Gtreatment            C  
-#>     10.4798       0.6572       0.9926  
+#>      9.8291       0.7519       1.0000  
 #> 
 
 
 # ANCOVA setup with logistic regression
 p_glm(y ~ G + C, test="Gtreatment = 0",
   X=X, betas=c(-2, .5, .01), family=binomial())
-#> [1] 0.1713669
+#> [1] 0.2263722
 
 # ANCOVA setup with poisson regression
 p_glm(y ~ G + C, test="Gtreatment = 0",
   X=X, betas=c(-2, .5, .01), family=poisson())
-#> [1] 0.0041808
+#> [1] 0.02708644
 
 # \donttest{
 
@@ -146,14 +146,16 @@ p_glm(formula=y~X*S, test="X:S = 0",
     sigma=0.5, gen_fun=gen_twogroup) |> Spower(replications=1000)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
+#> 
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 8
 #>   test    sigma     n  sdx1  sdx2 dbeta sig.level power
 #>   <chr>   <dbl> <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1 X:S = 0   0.5   100     1     2   0.2      0.05 NA   
-#> Estimate of power: 0.937
-#> 95% Confidence Interval: [0.922, 0.952]
+#> 
+#> Estimate of power: 0.924
+#> 95% Confidence Interval: [0.908, 0.940]
 #> Execution time (H:M:S): 00:00:02
 
 # }

@@ -92,24 +92,24 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # one sample
 p_var.test(100, vars=10, sigma2=9)
-#> [1] 0.6501448
+#> [1] 0.6641551
 
 # return analysis object
 p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> $statistic
 #> Chi-Squared 
-#>    108.8514 
+#>     109.489 
 #> 
 #> $parameters
 #> df 
 #> 99 
 #> 
 #> $p.value
-#> [1] 0.4683482
+#> [1] 0.4427202
 #> 
 #> $estimate
 #> variance 
-#> 9.895584 
+#> 9.953546 
 #> 
 #> $null.value
 #> variance 
@@ -126,7 +126,7 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> 
 #> $conf.int
 #>       LCL       UCL 
-#>  7.628466 13.353986 
+#>  7.673149 13.432204 
 #> attr(,"conf.level")
 #> [1] 0.95
 #> 
@@ -135,39 +135,43 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 
 # three sample
 p_var.test(100, vars=c(10, 9, 11))
-#> [1] 0.4363788
+#> [1] 0.3947884
 p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
-#> [1] 0.3292219
+#> [1] 0.05705764
 p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
-#> [1] 0.2944407
+#> [1] 0.02085305
 
 # \donttest{
   # power to detect three-group variance differences
   p_var.test(n=100, vars=c(10,9,11)) |> Spower()
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
+#> 
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 3
 #>       n sig.level power
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
-#> Estimate of power: 0.12
-#> 95% Confidence Interval: [0.113, 0.126]
+#> 
+#> Estimate of power: 0.122
+#> 95% Confidence Interval: [0.116, 0.128]
 #> Execution time (H:M:S): 00:00:31
 
   # sample size per group to achieve 80% power
   p_var.test(n=interval(100, 2000), vars=c(10,9,11)) |> Spower(power=.80)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
+#> 
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 3
 #>       n sig.level power
 #>   <dbl>     <dbl> <dbl>
 #> 1    NA      0.05   0.8
-#> Estimate of n: 1105.9
-#> 95% Predicted Confidence Interval: [1088.4, 1121.2]
-#> Execution time (H:M:S): 00:03:07
+#> 
+#> Estimate of n: 1090.1
+#> 95% Predicted Confidence Interval: [1081.1, 1098.9]
+#> Execution time (H:M:S): 00:04:17
 # }
 ```

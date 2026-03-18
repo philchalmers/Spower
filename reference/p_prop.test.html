@@ -155,7 +155,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># one sample, 50 observations, tested against pi = .5 by default</span></span></span>
 <span class="r-in"><span><span class="fu">p_prop.test</span><span class="op">(</span><span class="fl">50</span>, prop<span class="op">=</span><span class="fl">.65</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.098677e-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.000305864</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_prop.test</span><span class="op">(</span><span class="fl">50</span>, prop<span class="op">=</span><span class="fl">.65</span>, return_analysis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -163,37 +163,37 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Exact binomial test</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  dat[1, 1] and n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> number of successes = 33, number of trials = 50, p-value = 0.03284</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> number of successes = 34, number of trials = 50, p-value = 0.01535</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true probability of success is not equal to 0.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5123475 0.7879453</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5330062 0.8047958</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> probability of success </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   0.66 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   0.68 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># specified using h and pi</span></span></span>
 <span class="r-in"><span><span class="va">h</span> <span class="op">&lt;-</span> <span class="fu">pwr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pwr/man/ES.h.html" class="external-link">ES.h</a></span><span class="op">(</span><span class="fl">.65</span>, <span class="fl">.4</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">p_prop.test</span><span class="op">(</span><span class="fl">50</span>, h<span class="op">=</span><span class="va">h</span>, pi<span class="op">=</span><span class="fl">.4</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.005557527</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01330511</span>
 <span class="r-in"><span><span class="fu">p_prop.test</span><span class="op">(</span><span class="fl">50</span>, h<span class="op">=</span><span class="op">-</span><span class="va">h</span>, pi<span class="op">=</span><span class="fl">.65</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.442858e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.791995e-05</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># two-sample test</span></span></span>
 <span class="r-in"><span><span class="fu">p_prop.test</span><span class="op">(</span><span class="fl">50</span>, prop<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.65</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2278</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1089594</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># two-sample test, unequal ns</span></span></span>
 <span class="r-in"><span><span class="fu">p_prop.test</span><span class="op">(</span><span class="fl">50</span>, prop<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.65</span><span class="op">)</span>, n.ratios <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2193497</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6828601</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># three-sample test, group2 twice as large as others</span></span></span>
 <span class="r-in"><span><span class="fu">p_prop.test</span><span class="op">(</span><span class="fl">50</span>, prop<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.65</span>, <span class="fl">.7</span><span class="op">)</span>, n.ratios<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.03741208</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004447287</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Fisher exact test</span></span></span>
 <span class="r-in"><span><span class="fu">p_prop.test</span><span class="op">(</span><span class="fl">50</span>, prop<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.5</span>, <span class="fl">.65</span>, <span class="fl">.7</span>, <span class="fl">.5</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0002360662</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.007976453</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span>    <span class="co"># compare simulated results to pwr package</span></span></span>
@@ -216,52 +216,60 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-in"><span>    <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="fu">p_prop.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">60</span>, h<span class="op">=</span><span class="va">h</span>, pi<span class="op">=</span><span class="fl">.4</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       n    pi sig.level power</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    60   0.4      0.05 <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.347</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.338</span>, <span style="color: #0000BB;">0.356</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.348</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.339</span>, <span style="color: #0000BB;">0.357</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): <span style="color: #00BB00;">00:00:03</span></span>
 <span class="r-in"><span>    <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="fu">p_prop.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">60</span>, prop<span class="op">=</span><span class="fl">.5</span>, pi<span class="op">=</span><span class="fl">.4</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       n  prop    pi sig.level power</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    60   0.5   0.4      0.05 <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.35</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.34</span>, <span style="color: #0000BB;">0.359</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.356</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.347</span>, <span style="color: #0000BB;">0.366</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): <span style="color: #00BB00;">00:00:03</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="co"># compare with switched null</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="fu">p_prop.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">60</span>, h<span class="op">=</span><span class="va">h</span>, pi<span class="op">=</span><span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       n    pi sig.level power</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    60   0.5      0.05 <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.261</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.253</span>, <span style="color: #0000BB;">0.27</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.256</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.248</span>, <span style="color: #0000BB;">0.265</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): <span style="color: #00BB00;">00:00:03</span></span>
 <span class="r-in"><span>    <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="fu">p_prop.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">60</span>, prop<span class="op">=</span><span class="fl">.4</span>, pi<span class="op">=</span><span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       n  prop    pi sig.level power</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    60   0.4   0.5      0.05 <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.26</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.251</span>, <span style="color: #0000BB;">0.268</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.259</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.250</span>, <span style="color: #0000BB;">0.267</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): <span style="color: #00BB00;">00:00:03</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="co"># two-sample test, one-tailed</span></span></span>
@@ -283,14 +291,16 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-in"><span>      correct<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       n two.tailed correct sig.level power</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    80 FALSE      FALSE        0.05 <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.713</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.704</span>, <span style="color: #0000BB;">0.722</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.700</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.691</span>, <span style="color: #0000BB;">0.709</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): <span style="color: #00BB00;">00:00:03</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="co"># same as above, but with continuity correction (default)</span></span></span>
@@ -298,28 +308,32 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-in"><span>      <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       n two.tailed sig.level power</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    80 FALSE           0.05 <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.628</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.619</span>, <span style="color: #0000BB;">0.638</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.640</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.631</span>, <span style="color: #0000BB;">0.650</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): <span style="color: #00BB00;">00:00:03</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="co"># three-sample joint test, equal n's</span></span></span>
 <span class="r-in"><span>    <span class="fu">p_prop.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, prop<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.6</span>,<span class="fl">.4</span>,<span class="fl">.7</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       n sig.level power</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    50      0.05 <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.809</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.801</span>, <span style="color: #0000BB;">0.817</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.801</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.793</span>, <span style="color: #0000BB;">0.809</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): <span style="color: #00BB00;">00:00:03</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>

@@ -151,7 +151,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># n=50 in 3 groups, "medium" effect size</span></span></span>
 <span class="r-in"><span><span class="fu">p_anova.test</span><span class="op">(</span><span class="fl">50</span>, k<span class="op">=</span><span class="fl">3</span>, f<span class="op">=</span><span class="fl">.25</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.004587461</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.007232069</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_anova.test</span><span class="op">(</span><span class="fl">50</span>, k<span class="op">=</span><span class="fl">3</span>, f<span class="op">=</span><span class="fl">.25</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -159,12 +159,12 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	One-way analysis of means</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  DV and group</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F = 6.1789, num df = 2, denom df = 147, p-value = 0.002651</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F = 2.1066, num df = 2, denom df = 147, p-value = 0.1253</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># explicit means/sds</span></span></span>
 <span class="r-in"><span><span class="fu">p_anova.test</span><span class="op">(</span><span class="fl">50</span>, <span class="fl">3</span>, means<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>, sds<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.712664e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0004330961</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span>  <span class="co"># compare simulated results to pwr package</span></span></span>
@@ -183,14 +183,16 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-in"><span>  <span class="fu">p_anova.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">20</span>, k<span class="op">=</span><span class="fl">4</span>, f<span class="op">=</span><span class="fl">.28</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Design conditions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       n     k     f sig.level power</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    20     4  0.28      0.05 <span style="color: #BB0000;">NA</span>   </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.524</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.514</span>, <span style="color: #0000BB;">0.533</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.514</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.504</span>, <span style="color: #0000BB;">0.524</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): <span style="color: #00BB00;">00:00:09</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>

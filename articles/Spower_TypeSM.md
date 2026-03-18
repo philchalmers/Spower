@@ -86,12 +86,16 @@ l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    15   0.2      0.05 NA
+
+    ## 
 
     ## Estimate of power: 0.924
 
@@ -127,12 +131,16 @@ l_two.t_correct.sign(n=NA, mean=.2) |>
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA   0.2      0.05  0.99
+
+    ## 
 
     ## Estimate of n: 47.7
 
@@ -202,6 +210,8 @@ l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
@@ -209,9 +219,11 @@ l_two.t_correct.sign(n=15, mean=.2) |> Spower()
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    15   0.2      0.05 NA
 
+    ## 
+
     ## Estimate of power: 0.925
 
-    ## 95% Confidence Interval: [0.92, 0.93]
+    ## 95% Confidence Interval: [0.920, 0.930]
 
     ## Execution time (H:M:S): 00:00:30
 
@@ -276,12 +288,16 @@ typeM
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    50   0.2      0.05 NA
+
+    ## 
 
     ## Estimate of power: 0.861
 
@@ -352,12 +368,16 @@ typeM2
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1   100   0.2      0.05 NA
+
+    ## 
 
     ## Estimate of power: 0.991
 

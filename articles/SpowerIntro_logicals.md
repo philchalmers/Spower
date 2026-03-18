@@ -89,12 +89,16 @@ p_single.t(n=100, mean=.3) |> Spower()
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1   100   0.3      0.05 NA
+
+    ## 
 
     ## Estimate of power: 0.846
 
@@ -110,12 +114,16 @@ l_single.t(n=100, mean=.3) |> Spower()
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1   100   0.3      0.05 NA
+
+    ## 
 
     ## Estimate of power: 0.841
 
@@ -195,6 +203,8 @@ l_precision(n=interval(10, 500), mean=.2, CI.width=1/4) |>
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
@@ -202,9 +212,11 @@ l_precision(n=interval(10, 500), mean=.2, CI.width=1/4) |>
     ##   <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA   0.2      0.05   0.8
 
+    ## 
+
     ## Estimate of n: 272.6
 
-    ## 95% Predicted Confidence Interval: [272, 273.2]
+    ## 95% Predicted Confidence Interval: [272.0, 273.2]
 
     ## Execution time (H:M:S): 00:00:22
 
@@ -224,12 +236,16 @@ l_precision(n=interval(10, 500), mean=.2, CI.width=Inf) |>
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
     ##       n  mean CI.width sig.level power
     ##   <dbl> <dbl>    <dbl>     <dbl> <dbl>
     ## 1    NA   0.2      Inf      0.05   0.8
+
+    ## 
 
     ## Estimate of n: 198.8
 
@@ -295,12 +311,16 @@ BFsim
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
     ##       n  mean    mu sig.level power
     ##   <dbl> <dbl> <dbl>     <dbl> <lgl>
     ## 1   100   0.5   0.3      0.05 NA
+
+    ## 
 
     ## Estimate of power: 0.265
 
@@ -405,6 +425,8 @@ pp_single.Bayes.t(n=100, mean=.5, mu=.3) |>
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
@@ -412,7 +434,9 @@ pp_single.Bayes.t(n=100, mean=.5, mu=.3) |>
     ##   <dbl> <dbl> <dbl>     <dbl> <lgl>
     ## 1   100   0.5   0.3       0.9 NA
 
-    ## Estimate of power: 0.15
+    ## 
+
+    ## Estimate of power: 0.150
 
     ## 95% Confidence Interval: [0.143, 0.157]
 
@@ -488,12 +512,16 @@ l_equiv.t(50, delta=1, equiv=c(-2.5, 2.5),
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n delta sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    50     1      0.05 NA
+
+    ## 
 
     ## Estimate of power: 0.844
 
@@ -553,12 +581,16 @@ l_equiv.t_CI(50, delta=1, equiv=c(-2.5, 2.5),
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n delta sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    50     1      0.05 NA
+
+    ## 
 
     ## Estimate of power: 0.851
 
@@ -621,12 +653,16 @@ rope.lm(n=50, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
     ##       n beta0 beta1 sig.level power
     ##   <dbl> <dbl> <dbl>     <dbl> <lgl>
     ## 1    50     2     1      0.95 NA
+
+    ## 
 
     ## Estimate of power: 0.144
 
@@ -647,12 +683,16 @@ rope.lm(n=interval(50, 200), beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
 
+    ## 
+
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
     ##       n beta0 beta1 sig.level power
     ##   <dbl> <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA     2     1      0.95   0.8
+
+    ## 
 
     ## Estimate of n: 107.7
 

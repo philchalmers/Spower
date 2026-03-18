@@ -131,25 +131,25 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # sample size of 50 per group, "medium" effect size
 p_t.test(n=50, d=0.5)
-#> [1] 0.06095473
+#> [1] 0.0001162539
 
 # point-biserial correlation effect size
 p_t.test(n=50, r=.3)
-#> [1] 5.715954e-06
+#> [1] 3.084327e-05
 
 # second group 2x as large as the first group
 p_t.test(n=50, d=0.5, n2_n1 = 2)
-#> [1] 0.00185409
+#> [1] 0.2605553
 
 # specify mean/SDs explicitly
 p_t.test(n=50, means = c(0,1), sds = c(2,2))
-#> [1] 0.02135529
+#> [1] 2.845397e-05
 
 # paired and one-sample tests
 p_t.test(n=50, d=0.5, type = 'paired') # n = number of pairs
-#> [1] 0.00569152
+#> [1] 0.0004654922
 p_t.test(n=50, d=0.5, type = 'one.sample')
-#> [1] 0.001969231
+#> [1] 0.0003409724
 
 # return analysis object
 p_t.test(n=50, d=0.5, return_analysis=TRUE)
@@ -157,13 +157,13 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>  Two Sample t-test
 #> 
 #> data:  dat[[1]] and dat[[2]]
-#> t = 2.2389, df = 98, p-value = 0.02743
+#> t = 2.0946, df = 98, p-value = 0.03879
 #> alternative hypothesis: true difference in means is not equal to 0
 #> 95 percent confidence interval:
-#>  0.05768439 0.95757011
+#>  0.01943248 0.71976275
 #> sample estimates:
-#> mean of x mean of y 
-#> 0.5993646 0.0917374 
+#>   mean of x   mean of y 
+#>  0.30672060 -0.06287701 
 #> 
 
 # \donttest{
@@ -184,14 +184,16 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
          Spower(sig.level=.10)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
+#> 
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 6
 #>       n     d type       two.tailed sig.level power
 #>   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
 #> 1    60   0.2 one.sample TRUE             0.1 NA   
-#> Estimate of power: 0.451
-#> 95% Confidence Interval: [0.441, 0.461]
+#> 
+#> Estimate of power: 0.448
+#> 95% Confidence Interval: [0.438, 0.458]
 #> Execution time (H:M:S): 00:00:02
 
   pwr::pwr.t.test(d=0.3, power=0.80, type="two.sample",
@@ -211,14 +213,16 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
          Spower(power=0.80)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
+#> 
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 6
 #>       n     d type       two.tailed sig.level power
 #>   <dbl> <dbl> <chr>      <lgl>          <dbl> <dbl>
 #> 1    NA   0.3 two.sample FALSE           0.05   0.8
-#> Estimate of n: 138.5
-#> 95% Predicted Confidence Interval: [137.3, 139.8]
+#> 
+#> Estimate of n: 138.4
+#> 95% Predicted Confidence Interval: [137.0, 139.6]
 #> Execution time (H:M:S): 00:00:21
 
 # }
@@ -251,12 +255,12 @@ my.gen_fun <- function(n, d, df1, df2, ...){
 # check the sample data properties
 dat <- my.gen_fun(n=10000, d=.5, df1=10, df2=5)
 sapply(dat, mean)
-#> [1] -0.01824529  0.50829030
+#> [1] -0.02386074  0.50682585
 sapply(dat, sd)
-#> [1] 0.9876481 1.0018341
+#> [1] 0.9990678 1.0155536
 
 p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
-#> [1] 0.0001805883
+#> [1] 0.003234721
 
 # \donttest{
 
@@ -264,14 +268,16 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
   p_t.test(n=100, d=0.5) |> Spower(replications=30000)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
+#> 
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 4
 #>       n     d sig.level power
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5      0.05 NA   
-#> Estimate of power: 0.944
-#> 95% Confidence Interval: [0.941, 0.946]
+#> 
+#> Estimate of power: 0.939
+#> 95% Confidence Interval: [0.937, 0.942]
 #> Execution time (H:M:S): 00:00:08
 
   # estimate power given the customized data generating function
@@ -279,14 +285,16 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
     Spower(replications=30000)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
+#> 
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 6
 #>       n     d   df1   df2 sig.level power
 #>   <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5    10     5      0.05 NA   
-#> Estimate of power: 0.956
-#> 95% Confidence Interval: [0.954, 0.959]
+#> 
+#> Estimate of power: 0.955
+#> 95% Confidence Interval: [0.953, 0.958]
 #> Execution time (H:M:S): 00:00:09
 
   # evaluate Type I error rate to see if liberal/conservative given
@@ -295,14 +303,16 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
     Spower(replications=30000)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
+#> 
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 6
 #>       n     d   df1   df2 sig.level power
 #>   <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100     0    10     5      0.05 NA   
-#> Estimate of power: 0.051
-#> 95% Confidence Interval: [0.049, 0.054]
+#> 
+#> Estimate of power: 0.050
+#> 95% Confidence Interval: [0.048, 0.053]
 #> Execution time (H:M:S): 00:00:09
 
 # }
