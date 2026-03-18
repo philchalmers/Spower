@@ -691,7 +691,7 @@ print.Spower <- function(x, ...){
 		}
 	}
 	time <- format(as.POSIXct(lste$elapsed_time, tz = "UTC"), "%H:%M:%S")
-	cli::cli_text("Execution time (H:M:S): {.field {time}}")
+	cli::cli_text("Execution time (H:M:S): {time}")
 	invisible(NULL)
 }
 
