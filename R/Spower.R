@@ -642,17 +642,20 @@ sim_function_aug <- function(condition, dat, fixed_objects){
 #' @export
 print.Spower <- function(x, ...){
 	cli::cli_h1("Spower Results")
+	cli::cli_text("")
 	lste <- attr(x, 'Spower_extra')
 	cat("Design conditions:\n\n")
 	print(lste$conditions)
+	cli::cli_text("")
 	if(inherits(x, 'SimSolve')){
 		lst <- attr(x, 'roots')[[1]]
 		pick <- which(is.na(lste$conditions[1,]))
-		pval <- ifelse(lst$integer, round(x[[pick]], 1), round(x[[pick]], 3))
-		cli::cli_text("Estimate of {names(lste$conditions)[pick]}: {.val {pval}}")
-		ppis <- round(lst$predCIs_root, ifelse(lst$integer, 1, 3))
+		digits <- ifelse(lst$integer, '%.1f', '%.3f')
+		cli::cli_text("Estimate of {names(lste$conditions)[pick]}:
+					  {.val {noquote(sprintf(digits, x[[pick]]))}}")
 		cli::cli_text("{lste$predCI*100}% Predicted Confidence Interval:
-					  [{.val {ppis[1]}}, {.val {ppis[2]}}]")
+					  [{.val {noquote(sprintf(digits, lst$predCIs_root[1]))}},
+					  {.val {noquote(sprintf(digits, lst$predCIs_root[2]))}}]")
 	} else {
 		if(!is.null(lste$beta_alpha)){
 			cli::cli_text("Estimate of Type I error rate (alpha/sig.level): {.val {round(x$sig.level, 3)}}")
@@ -660,14 +663,18 @@ print.Spower <- function(x, ...){
 			CI <- x$sig.level + c(qnorm(c(alpha/2, lste$predCI+alpha/2))) *
 				sqrt((x$sig.level * (1-x$sig.level))/x$REPLICATIONS)
 			CI <- round(clip_CI(CI), 3)
-			cli::cli_text("{lste$predCI*100}% Confidence Interval: [{.val {CI[1]}}, {.val {CI[2]}}]")
+			cli::cli_text("{lste$predCI*100}% Confidence Interval:
+						  [{.val {noquote(sprintf('%.3f', CI[1]))}},
+						  {.val {noquote(sprintf('%.3f', CI[2]))}}]")
 			power <- x$power
 			cli::cli_text("")
-			cli::cli_text("Estimate of power (1-beta): {.val {round(power, 3)}}")
+			cli::cli_text("Estimate of power (1-beta): {.val {noquote(sprintf('%.3f', power))}}")
 			CI <- power + c(qnorm(c(alpha/2, lste$predCI + alpha/2))) *
 				sqrt((power * (1-power))/x$REPLICATIONS)
 			CI <- round(clip_CI(CI), 3)
-			cli::cli_text("{lste$predCI*100}% Confidence Interval: [{.val {CI[1]}}, {.val {CI[2]}}]")
+			cli::cli_text("{lste$predCI*100}% Confidence Interval:
+						  [{.val {noquote(sprintf('%.3f', CI[1]))}},
+						  {.val {noquote(sprintf('%.3f', CI[2]))}}]")
 		} else {
 			CI <- attr(x, 'extra_info')$power.CI
 			nms <- if(is.matrix(CI)){
@@ -676,8 +683,10 @@ print.Spower <- function(x, ...){
 			for(nm in nms){
 				value <- round(x[[nm]], 3)
 				ci <- round(CI[nm,], 3)
-				cli::cli_text("Estimate of {nm}: {.val {value}}")
-				cli::cli_text("{lste$predCI*100}% Confidence Interval: [{.val {ci[1]}}, {.val {ci[2]}}]")
+				cli::cli_text("Estimate of {nm}: {.val {noquote(sprintf('%.3f', value))}}")
+				cli::cli_text("{lste$predCI*100}% Confidence Interval:
+							  [{.val {noquote(sprintf('%.3f', ci[1]))}},
+							  {.val {noquote(sprintf('%.3f', ci[2]))}}]")
 			}
 		}
 	}
