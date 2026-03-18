@@ -87,13 +87,13 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # 50 observations, .5 correlation
 p_r(50, r=.5)
-#> [1] 1.033675e-05
+#> [1] 0.006133985
 p_r(50, r=.5, method = 'spearman')
-#> [1] 0.0008785017
+#> [1] 0.005758565
 
 # test against constant other than rho = .6
 p_r(50, .5, rho=.60)
-#> [1] 0.2636215
+#> [1] 0.01605431
 
 # return analysis model
 p_r(50, .5, return_analysis=TRUE)
@@ -101,26 +101,26 @@ p_r(50, .5, return_analysis=TRUE)
 #>  Pearson's product-moment correlation
 #> 
 #> data:  x and y
-#> t = 3.7711, df = 48, p-value = 0.0004459
+#> t = 5.4214, df = 48, p-value = 1.894e-06
 #> alternative hypothesis: true correlation is not equal to 0
 #> 95 percent confidence interval:
-#>  0.2303853 0.6675865
+#>  0.4078747 0.7636191
 #> sample estimates:
-#>       cor 
-#> 0.4780753 
+#>      cor 
+#> 0.616258 
 #> 
 p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
 #>  Pearson's product-moment correlation
 #> 
 #> data:  x and y
-#> t = 0.78816, df = Inf, p-value = 0.4306
+#> t = 0.30054, df = Inf, p-value = 0.7638
 #> alternative hypothesis: true correlation is not equal to 0.6
 #> 95 percent confidence interval:
-#>  0.4794134 0.7983344
+#>  0.4227989 0.7710352
 #> sample estimates:
 #>       cor 
-#> 0.6685477 
+#> 0.6273204 
 #> 
 
 # \donttest{
@@ -147,8 +147,8 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.3      0.05 NA   
 #> 
-#> Estimate of power: 0.574
-#> 95% Confidence Interval: [0.565, 0.584]
+#> Estimate of power: 0.559
+#> 95% Confidence Interval: [0.549, 0.569]
 #> Execution time (H:M:S): 00:00:08
 
     pwr::pwr.r.test(r=0.3, power=0.80)
@@ -172,9 +172,9 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.3      0.05   0.8
 #> 
-#> Estimate of n: 84.1
-#> 95% Confidence Interval: [83.6, 84.6]
-#> Execution time (H:M:S): 00:00:36
+#> Estimate of n: 84.2
+#> 95% Confidence Interval: [83.4, 85.0]
+#> Execution time (H:M:S): 00:00:33
 
     pwr::pwr.r.test(r=0.1, power=0.80)
 #> 
@@ -197,9 +197,9 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.1      0.05   0.8
 #> 
-#> Estimate of n: 780.8
-#> 95% Confidence Interval: [774.2, 787.4]
-#> Execution time (H:M:S): 00:00:35
+#> Estimate of n: 775.8
+#> 95% Confidence Interval: [770.2, 781.2]
+#> Execution time (H:M:S): 00:00:40
 
 # }
 ```
