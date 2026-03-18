@@ -290,7 +290,7 @@ power analysis. Function provides a general wrapper to the
 \code{SimDesign} package's \code{\link[SimDesign]{runSimulation}} and
 \code{\link[SimDesign]{SimSolve}} functions. As such, parallel processing is
 automatically supported, along with progress bars,
-confidence/predicted confidence intervals for the results estimates,
+(predicted) confidence intervals for the results estimates,
 safety checks, and more.
 
 The function \code{\link{SpowerBatch}}, on the other hand, can be used to

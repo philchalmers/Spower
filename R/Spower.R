@@ -6,7 +6,7 @@
 #' \code{SimDesign} package's \code{\link[SimDesign]{runSimulation}} and
 #' \code{\link[SimDesign]{SimSolve}} functions. As such, parallel processing is
 #' automatically supported, along with progress bars,
-#' confidence/predicted confidence intervals for the results estimates,
+#' (predicted) confidence intervals for the results estimates,
 #' safety checks, and more.
 #'
 #' Five types of power analysis flavors can be performed with \code{Spower},
@@ -653,7 +653,7 @@ print.Spower <- function(x, ...){
 		digits <- ifelse(lst$integer, '%.1f', '%.3f')
 		cli::cli_text("Estimate of {names(lste$conditions)[pick]}:
 					  {.val {noquote(sprintf(digits, x[[pick]]))}}")
-		cli::cli_text("{lste$predCI*100}% Predicted Confidence Interval:
+		cli::cli_text("{lste$predCI*100}% Confidence Interval:
 					  [{.val {noquote(sprintf(digits, lst$predCIs_root[1]))}},
 					  {.val {noquote(sprintf(digits, lst$predCIs_root[2]))}}]")
 	} else {
