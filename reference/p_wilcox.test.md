@@ -85,11 +85,11 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # with normal distributions defaults d is standardized
 p_wilcox.test(100, .5)
-#> [1] 7.744196e-05
+#> [1] 0.0002811268
 p_wilcox.test(100, .5, type = 'paired')  # n = number of pairs
-#> [1] 1.932472e-06
+#> [1] 0.1966721
 p_wilcox.test(100, .5, type = 'one.sample')
-#> [1] 0.0004273942
+#> [1] 2.140024e-06
 
 # return analysis object
 p_wilcox.test(100, .5, return_analysis = TRUE)
@@ -97,16 +97,16 @@ p_wilcox.test(100, .5, return_analysis = TRUE)
 #>  Wilcoxon rank sum test with continuity correction
 #> 
 #> data:  dat1 and dat2
-#> W = 6243, p-value = 0.002398
+#> W = 5727, p-value = 0.07588
 #> alternative hypothesis: true location shift is not equal to 0
 #> 
 
 # using chi-squared distributions (standardizing to 0-1)
 p_wilcox.test(100, .5, type = 'one.sample',
    parent1 = function(n, d) rchisq(n, df=10) - 10 + d)
-#> [1] 0.2348566
+#> [1] 0.1861562
 p_wilcox.test(100, .5,
    parent1 = function(n, d) (rchisq(n, df=10) - 10)/sqrt(20) + d,
    parent2 = function(n, d) (rchisq(n, df=10) - 10)/sqrt(20))
-#> [1] 6.848109e-05
+#> [1] 4.965451e-05
 ```

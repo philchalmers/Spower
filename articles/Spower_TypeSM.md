@@ -144,7 +144,7 @@ l_two.t_correct.sign(n=NA, mean=.2) |>
 
     ## Estimate of n: 47.7
 
-    ## 95% Predicted Confidence Interval: [44.1, 51.7]
+    ## 95% Confidence Interval: [44.1, 51.7]
 
     ## Execution time (H:M:S): 00:00:18
 

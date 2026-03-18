@@ -216,7 +216,7 @@ l_precision(n=interval(10, 500), mean=.2, CI.width=1/4) |>
 
     ## Estimate of n: 272.6
 
-    ## 95% Predicted Confidence Interval: [272.0, 273.2]
+    ## 95% Confidence Interval: [272.0, 273.2]
 
     ## Execution time (H:M:S): 00:00:22
 
@@ -249,7 +249,7 @@ l_precision(n=interval(10, 500), mean=.2, CI.width=Inf) |>
 
     ## Estimate of n: 198.8
 
-    ## 95% Predicted Confidence Interval: [197.2, 200.2]
+    ## 95% Confidence Interval: [197.2, 200.2]
 
     ## Execution time (H:M:S): 00:00:20
 
@@ -696,6 +696,6 @@ rope.lm(n=interval(50, 200), beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
 
     ## Estimate of n: 107.7
 
-    ## 95% Predicted Confidence Interval: [106.7, 108.7]
+    ## 95% Confidence Interval: [106.7, 108.7]
 
     ## Execution time (H:M:S): 00:14:53

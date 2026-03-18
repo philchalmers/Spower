@@ -374,7 +374,7 @@ p_single.t(n=NA, mean=.5) |>
 
     ## Estimate of n: 32.8
 
-    ## 95% Predicted Confidence Interval: [32.4, 33.1]
+    ## 95% Confidence Interval: [32.4, 33.1]
 
     ## Execution time (H:M:S): 00:00:25
 
@@ -408,7 +408,7 @@ p_single.t(n=interval(20, 200), mean=.5) |> Spower(power=.8)
 
     ## Estimate of n: 32.8
 
-    ## 95% Predicted Confidence Interval: [32.4, 33.1]
+    ## 95% Confidence Interval: [32.4, 33.1]
 
     ## Execution time (H:M:S): 00:00:25
 
@@ -455,7 +455,7 @@ p_single.t(n=100, mean=NA) |>
 
     ## Estimate of mean: 0.281
 
-    ## 95% Predicted Confidence Interval: [0.280, 0.283]
+    ## 95% Confidence Interval: [0.280, 0.283]
 
     ## Execution time (H:M:S): 00:00:20
 
@@ -501,7 +501,7 @@ p_single.t(n=50, mean=.5) |>
 
     ## Estimate of sig.level: 0.010
 
-    ## 95% Predicted Confidence Interval: [0.009, 0.010]
+    ## 95% Confidence Interval: [0.009, 0.010]
 
     ## Execution time (H:M:S): 00:00:18
 
@@ -645,7 +645,7 @@ apriori.batch
 
     ## Estimate of n: 26.7
 
-    ## 95% Predicted Confidence Interval: [26.5, 27.0]
+    ## 95% Confidence Interval: [26.5, 27.0]
 
     ## Execution time (H:M:S): 00:00:41
 
@@ -666,7 +666,7 @@ apriori.batch
 
     ## Estimate of n: 33.3
 
-    ## 95% Predicted Confidence Interval: [32.9, 33.7]
+    ## 95% Confidence Interval: [32.9, 33.7]
 
     ## Execution time (H:M:S): 00:00:21
 
@@ -687,7 +687,7 @@ apriori.batch
 
     ## Estimate of n: 44.4
 
-    ## 95% Predicted Confidence Interval: [43.8, 44.8]
+    ## 95% Confidence Interval: [43.8, 44.8]
 
     ## Execution time (H:M:S): 00:00:33
 

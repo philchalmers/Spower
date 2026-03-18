@@ -129,15 +129,15 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # independent (same x-y pairing across groups)
 p_2r(100, r.ab=.5, r.ab2=.6)
-#> [1] 0.4483612
+#> [1] 0.01851565
 
 # return cocor object for further analysis
 p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> 
 #>   Results of a comparison of two correlations based on independent groups
 #> 
-#> Comparison between r1.jk (y, x) = 0.5541 and r2.hm (y, x) = 0.6619
-#> Difference: r1.jk - r2.hm = -0.1078
+#> Comparison between r1.jk (y, x) = 0.5052 and r2.hm (y, x) = 0.6163
+#> Difference: r1.jk - r2.hm = -0.1111
 #> Data: sample1: j = y, k = x; sample2: h = y, m = x
 #> Group sizes: n1 = 100, n2 = 100
 #> Null hypothesis: r1.jk is equal to r2.hm
@@ -145,7 +145,7 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> Alpha: 0.05
 #> 
 #> fisher1925: Fisher's z (1925)
-#>   z = -1.1974, p-value = 0.2311
+#>   z = -1.1330, p-value = 0.2572
 #>   Null hypothesis retained
 #> 
 
@@ -163,8 +163,8 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5   0.6      0.05 NA   
 #> 
-#> Estimate of power: 0.171
-#> 95% Confidence Interval: [0.164, 0.178]
+#> Estimate of power: 0.163
+#> 95% Confidence Interval: [0.155, 0.170]
 #> Execution time (H:M:S): 00:00:19
 
    # estimate n required to reach 80% power
@@ -179,20 +179,20 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #>   <dbl> <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.5   0.6      0.05   0.8
 #> 
-#> Estimate of n: 758.0
-#> 95% Predicted Confidence Interval: [748.5, 768.2]
-#> Execution time (H:M:S): 00:01:08
+#> Estimate of n: 757.4
+#> 95% Confidence Interval: [750.3, 764.6]
+#> Execution time (H:M:S): 00:01:10
 
 # }
 
 # overlap (same y, different xs)
 # H0: r.ab = r.bc
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2)
-#> [1] 0.004069322
+#> [1] 0.001265968
 
 # nonoverlap (different ys, different xs)
 # H0: r.ab = r.cd
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2, r.ad=.2, r.bd=.4, r.cd=.2)
-#> [1] 0.003173101
+#> [1] 5.003179e-05
 
 ```
