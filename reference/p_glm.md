@@ -88,17 +88,17 @@ X <- data.frame(G = factor(rep(c('control', 'treatment'), each=50)),
                 C = sample(50:100, 100, replace=TRUE))
 head(X)
 #>         G  C
-#> 1 control 60
-#> 2 control 72
-#> 3 control 81
-#> 4 control 93
-#> 5 control 71
-#> 6 control 76
+#> 1 control 85
+#> 2 control 80
+#> 3 control 98
+#> 4 control 92
+#> 5 control 70
+#> 6 control 95
 
 # ANCOVA setup
 p_glm(y ~ G + C, test="Gtreatment = 0",
   X=X, betas=c(10, .3, 1), sigma=1)
-#> [1] 0.4122627
+#> [1] 0.2102445
 
 # return analysis model
 p_glm(y ~ G + C, test="Gtreatment = 0",
@@ -109,19 +109,19 @@ p_glm(y ~ G + C, test="Gtreatment = 0",
 #> 
 #> Coefficients:
 #> (Intercept)   Gtreatment            C  
-#>      9.9245       0.4856       1.0014  
+#>      9.8438       0.2198       1.0004  
 #> 
 
 
 # ANCOVA setup with logistic regression
 p_glm(y ~ G + C, test="Gtreatment = 0",
   X=X, betas=c(-2, .5, .01), family=binomial())
-#> [1] 0.08237562
+#> [1] 0.8045581
 
 # ANCOVA setup with poisson regression
 p_glm(y ~ G + C, test="Gtreatment = 0",
   X=X, betas=c(-2, .5, .01), family=poisson())
-#> [1] 0.3782993
+#> [1] 0.2409903
 
 # \donttest{
 
@@ -154,8 +154,8 @@ p_glm(formula=y~X*S, test="X:S = 0",
 #>   <chr>   <dbl> <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1 X:S = 0   0.5   100     1     2   0.2      0.05 NA   
 #> 
-#> Estimate of power: 0.931
-#> 95% Confidence Interval: [0.915, 0.947]
+#> Estimate of power: 0.934
+#> 95% Confidence Interval: [0.919, 0.949]
 #> Execution time (H:M:S): 00:00:02
 
 # }

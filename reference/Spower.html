@@ -686,10 +686,10 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $date_completed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Thu Mar 19 02:19:08 2026</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Thu Mar 19 14:25:47 2026</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $total_elapsed_time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.45s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.95s</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $SEED_history</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1910432787</span>
@@ -727,7 +727,7 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.702</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.697</span>, <span style="color: #0000BB;">0.707</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:04</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:05</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Same as above, but executed with multiple cores (not run)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="p_t.test.html">p_t.test</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">50</span>, d <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
@@ -744,7 +744,7 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.702</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.696</span>, <span style="color: #0000BB;">0.707</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:03</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:04</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Solve N to get .80 power (a priori power analysis)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="p_t.test.html">p_t.test</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">interval</span><span class="op">(</span><span class="fl">2</span>,<span class="fl">500</span><span class="op">)</span>, d <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">Spower</span><span class="op">(</span>power<span class="op">=</span><span class="fl">.8</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">out</span></span></span>
@@ -766,7 +766,7 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16.09s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 18.30s</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $iterations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 93</span>
@@ -811,7 +811,7 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of n: <span style="color: #0000BB;">63.7</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">63.0</span>, <span style="color: #0000BB;">64.4</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:24</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:27</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># same as above, but in parallel with 2 cores</span></span></span>
 <span class="r-in"><span><span class="va">out.par</span> <span class="op">&lt;-</span> <span class="fu"><a href="p_t.test.html">p_t.test</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu">interval</span><span class="op">(</span><span class="fl">2</span>,<span class="fl">500</span><span class="op">)</span>, d <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
@@ -834,7 +834,7 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $time</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 27.36s</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 26.53s</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $iterations</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 94</span>
@@ -885,8 +885,8 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.5      0.05   0.8</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of n: <span style="color: #0000BB;">63.8</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">63.4</span>, <span style="color: #0000BB;">64.3</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of n: <span style="color: #0000BB;">63.9</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">63.5</span>, <span style="color: #0000BB;">64.3</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:01:00</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Similar to above for precision improvements, however letting</span></span></span>
@@ -905,9 +905,9 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.5      0.05   0.8</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of n: <span style="color: #0000BB;">63.5</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">62.9</span>, <span style="color: #0000BB;">64.1</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:08</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of n: <span style="color: #0000BB;">63.4</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">62.7</span>, <span style="color: #0000BB;">64.2</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:11</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Solve d to get .80 power (sensitivity power analysis)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="p_t.test.html">p_t.test</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">50</span>, d <span class="op">=</span> <span class="fu">interval</span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">Spower</span><span class="op">(</span>power<span class="op">=</span><span class="fl">.8</span><span class="op">)</span></span></span>
@@ -921,9 +921,9 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    50    <span style="color: #BB0000;">NA</span>      0.05   0.8</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of d: <span style="color: #0000BB;">0.564</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.561</span>, <span style="color: #0000BB;">0.566</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:15</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of d: <span style="color: #0000BB;">0.565</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.562</span>, <span style="color: #0000BB;">0.569</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:17</span>
 <span class="r-in"><span><span class="fu">pwr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pwr/man/pwr.t.test.html" class="external-link">pwr.t.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span>, power<span class="op">=</span><span class="fl">.80</span><span class="op">)</span> <span class="co"># compare</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Two-sample t test power calculation </span>
@@ -950,9 +950,9 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    50   0.5        <span style="color: #BB0000;">NA</span>   0.8</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of sig.level: <span style="color: #0000BB;">0.101</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.100</span>, <span style="color: #0000BB;">0.103</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:15</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of sig.level: <span style="color: #0000BB;">0.103</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.098</span>, <span style="color: #0000BB;">0.107</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:20</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Solve beta/alpha ratio to specific error trade-off constant</span></span></span>
 <span class="r-in"><span><span class="co">#   (compromise power analysis)</span></span></span>
@@ -972,11 +972,11 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    50   0.5        <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>             4</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of Type I error rate (alpha/sig.level): <span style="color: #0000BB;">0.065</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.060</span>, <span style="color: #0000BB;">0.070</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of Type I error rate (alpha/sig.level): <span style="color: #0000BB;">0.066</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.061</span>, <span style="color: #0000BB;">0.070</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power (1-beta): <span style="color: #0000BB;">0.740</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.732</span>, <span style="color: #0000BB;">0.749</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power (1-beta): <span style="color: #0000BB;">0.737</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.729</span>, <span style="color: #0000BB;">0.746</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:02</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/with.html" class="external-link">with</a></span><span class="op">(</span><span class="va">out2</span>, <span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">power</span><span class="op">)</span><span class="op">/</span><span class="va">sig.level</span><span class="op">)</span>   <span class="co"># solved ratio</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
@@ -1008,9 +1008,9 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-in"><span><span class="co"># For Spower, define prior sampler for specific parameter(s)</span></span></span>
 <span class="r-in"><span><span class="va">d_prior</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1</span>, mean<span class="op">=</span><span class="fl">.5</span>, sd<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">8</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">d_prior</span><span class="op">(</span><span class="op">)</span>; <span class="fu">d_prior</span><span class="op">(</span><span class="op">)</span>; <span class="fu">d_prior</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5788032</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6293888</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.347174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8325961</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5637211</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3063296</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Replace d constant with d_prior to compute expected power</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="p_t.test.html">p_t.test</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">50</span>, d <span class="op">=</span> <span class="fu">d_prior</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">Spower</span><span class="op">(</span><span class="op">)</span></span></span>
@@ -1096,9 +1096,9 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># returns logical</span></span></span>
 <span class="r-in"><span><span class="fu">ci_ind.t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">100</span>, d<span class="op">=</span><span class="fl">.2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span><span class="fu">ci_ind.t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">100</span>, d<span class="op">=</span><span class="fl">.2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span><span class="fu">ci_ind.t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">100</span>, d<span class="op">=</span><span class="fl">.2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># simulated prospective power</span></span></span>
 <span class="r-in"><span><span class="fu">ci_ind.t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">100</span>, d<span class="op">=</span><span class="fl">.2</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">Spower</span><span class="op">(</span><span class="op">)</span></span></span>
@@ -1112,8 +1112,8 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   100   0.2      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.283</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.274</span>, <span style="color: #0000BB;">0.292</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.297</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.288</span>, <span style="color: #0000BB;">0.306</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:02</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># compare to pwr package</span></span></span>
@@ -1176,9 +1176,9 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">2</span>000   0.2      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.761</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.752</span>, <span style="color: #0000BB;">0.769</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:03</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.775</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.767</span>, <span style="color: #0000BB;">0.783</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:04</span>
 <span class="r-in"><span><span class="fu">ci_equiv.t.test</span><span class="op">(</span>n<span class="op">=</span><span class="fl">1000</span>, d<span class="op">=</span><span class="fl">.2</span>, tol<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">Spower</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
@@ -1190,8 +1190,8 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>000   0.2      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.614</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.604</span>, <span style="color: #0000BB;">0.623</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.610</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.601</span>, <span style="color: #0000BB;">0.620</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:03</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">####</span></span></span>
@@ -1213,8 +1213,8 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>000   0.2        0.9      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.713</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.705</span>, <span style="color: #0000BB;">0.722</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.717</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.708</span>, <span style="color: #0000BB;">0.725</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:03</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># higher LB means greater requirement for defining superiority (less power)</span></span></span>
@@ -1230,8 +1230,8 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>000   0.2        0.9      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.298</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.289</span>, <span style="color: #0000BB;">0.307</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.299</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.290</span>, <span style="color: #0000BB;">0.308</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:03</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
@@ -1373,10 +1373,10 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;ggplot2::ggplot_built&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ data  :List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ :'data.frame':	12 obs. of  12 variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ ymin       : num [1:12] 0.109 0.251 0.623 0.913 0.456 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ ymax       : num [1:12] 0.135 0.286 0.66 0.934 0.495 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ ymin       : num [1:12] 0.0974 0.2604 0.6042 0.8996 0.4544 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ ymax       : num [1:12] 0.122 0.296 0.642 0.922 0.494 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ x          : num [1:12] 30 90 270 550 30 90 270 550 30 90 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ y          : num [1:12] 0.109 0.251 0.623 0.913 0.456 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ y          : num [1:12] 0.0974 0.2604 0.6042 0.8996 0.4544 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ colour     : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ fill       : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ PANEL      : Factor w/ 1 level "1": 1 1 1 1 1 1 1 1 1 1 ...</span>
@@ -1387,7 +1387,7 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ alpha      : num [1:12] 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ :'data.frame':	12 obs. of  10 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ x          : num [1:12] 30 90 270 550 30 90 270 550 30 90 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ y          : num [1:12] 0.122 0.269 0.642 0.923 0.476 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ y          : num [1:12] 0.11 0.278 0.623 0.911 0.474 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ colour     : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ fill       : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ PANEL      : Factor w/ 1 level "1": 1 1 1 1 1 1 1 1 1 1 ...</span>
@@ -1398,7 +1398,7 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ alpha      : logi [1:12] NA NA NA NA NA NA ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ :'data.frame':	12 obs. of  10 variables:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ x     : num [1:12] 30 90 270 550 30 90 270 550 30 90 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ y     : num [1:12] 0.122 0.269 0.642 0.923 0.476 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ y     : num [1:12] 0.11 0.278 0.623 0.911 0.474 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ colour: chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ fill  : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ..  ..$ PANEL : Factor w/ 1 level "1": 1 1 1 1 1 1 1 1 1 1 ...</span>
@@ -1483,11 +1483,11 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ n        : num  30 90 270 550 30 90 270 550 30 90 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ d        : Factor w/ 3 levels "0.2","0.5","0.8": 1 1 1 1 2 2 2 2 3 3 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ sig.level: num  0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ power    : num  0.122 0.269 0.642 0.923 0.476 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ CI_2.5   : num  0.109 0.251 0.623 0.913 0.456 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ CI_97.5  : num  0.135 0.286 0.66 0.934 0.495 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ CI.low   : num  0.109 0.251 0.623 0.913 0.456 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ CI.high  : num  0.135 0.286 0.66 0.934 0.495 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ power    : num  0.11 0.278 0.623 0.911 0.474 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ CI_2.5   : num  0.0974 0.2604 0.6042 0.8996 0.4544 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ CI_97.5  : num  0.122 0.296 0.642 0.922 0.494 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ CI.low   : num  0.0974 0.2604 0.6042 0.8996 0.4544 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ CI.high  : num  0.122 0.296 0.642 0.922 0.494 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ layers     :List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ geom_ribbon:Classes 'LayerInstance', 'Layer', 'ggproto', 'gg' &lt;ggproto object: Class LayerInstance, Layer, gg&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     aes_params: list</span>
@@ -1770,13 +1770,13 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     super:  &lt;ggproto object: Class Guides, gg&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ mapping    : &lt;ggplot2::mapping&gt; List of 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ x     : language ~.data[["n"]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..- attr(*, ".Environment")=&lt;environment: 0x564706f65a90&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..- attr(*, ".Environment")=&lt;environment: 0x55fc30eef268&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ y     : language ~power</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..- attr(*, ".Environment")=&lt;environment: 0x564706f65a90&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..- attr(*, ".Environment")=&lt;environment: 0x55fc30eef268&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ colour: language ~.data[["d"]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..- attr(*, ".Environment")=&lt;environment: 0x564706f65a90&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..- attr(*, ".Environment")=&lt;environment: 0x55fc30eef268&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ fill  : language ~.data[["d"]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..- attr(*, ".Environment")=&lt;environment: 0x564706f65a90&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..- attr(*, ".Environment")=&lt;environment: 0x55fc30eef268&gt; </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ theme      : &lt;theme&gt; List of 144</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ line                            : &lt;ggplot2::element_line&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. ..  ..@ colour       : chr "black"</span>
@@ -2213,17 +2213,17 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ fill  : chr "d"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. .. $ alt   : chr ""</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ meta       : list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ plot_env   :&lt;environment: 0x564706f65a90&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. @ plot_env   :&lt;environment: 0x55fc30eef268&gt; </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="va">build</span><span class="op">$</span><span class="va">plot</span><span class="op">$</span><span class="va">data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     n   d sig.level  power    CI_2.5   CI_97.5    CI.low   CI.high</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  30 0.2      0.05 0.1220 0.1091706 0.1348294 0.1091706 0.1348294</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  90 0.2      0.05 0.2688 0.2514216 0.2861784 0.2514216 0.2861784</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 270 0.2      0.05 0.6416 0.6228028 0.6603972 0.6228028 0.6603972</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 550 0.2      0.05 0.9232 0.9127623 0.9336377 0.9127623 0.9336377</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  30 0.5      0.05 0.4756 0.4560237 0.4951763 0.4560237 0.4951763</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  90 0.5      0.05 0.9196 0.9089413 0.9302587 0.9089413 0.9302587</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     n   d sig.level  power     CI_2.5   CI_97.5     CI.low   CI.high</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  30 0.2      0.05 0.1096 0.09735452 0.1218455 0.09735452 0.1218455</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  90 0.2      0.05 0.2780 0.26043820 0.2955618 0.26043820 0.2955618</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 270 0.2      0.05 0.6232 0.60420465 0.6421953 0.60420465 0.6421953</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 550 0.2      0.05 0.9108 0.89962694 0.9219731 0.89962694 0.9219731</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  30 0.5      0.05 0.4740 0.45442688 0.4935731 0.45442688 0.4935731</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  90 0.5      0.05 0.9136 0.90258681 0.9246132 0.90258681 0.9246132</span>
 <span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">power</span>, linetype<span class="op">=</span><span class="va">d</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="Spower-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -2250,8 +2250,8 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    30   0.2      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.111</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.092</span>, <span style="color: #0000BB;">0.130</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.129</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.108</span>, <span style="color: #0000BB;">0.150</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:00</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
@@ -2263,8 +2263,8 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    90   0.2      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.264</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.237</span>, <span style="color: #0000BB;">0.291</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.279</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.251</span>, <span style="color: #0000BB;">0.307</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:00</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
@@ -2276,8 +2276,8 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   270   0.2      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.652</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.622</span>, <span style="color: #0000BB;">0.682</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.639</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.609</span>, <span style="color: #0000BB;">0.669</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:00</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span>
@@ -2289,15 +2289,15 @@ over the prior sampling distribution for <code>d</code></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   550   0.2      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.924</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.908</span>, <span style="color: #0000BB;">0.940</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.902</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.884</span>, <span style="color: #0000BB;">0.920</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:00</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">nbatch</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     n   d sig.level power     CI_2.5   CI_97.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  30 0.2      0.05 0.111 0.09153025 0.1304698</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  90 0.2      0.05 0.264 0.23667948 0.2913205</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 270 0.2      0.05 0.652 0.62247693 0.6815231</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 550 0.2      0.05 0.924 0.90757555 0.9404245</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     n   d sig.level power    CI_2.5   CI_97.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  30 0.2      0.05 0.129 0.1082245 0.1497755</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  90 0.2      0.05 0.279 0.2512017 0.3067983</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 270 0.2      0.05 0.639 0.6092318 0.6687682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 550 0.2      0.05 0.902 0.8835726 0.9204274</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># plot the results, but avoid further computations</span></span></span>
 <span class="r-in"><span><span class="fu">SpowerCurve</span><span class="op">(</span>batch<span class="op">=</span><span class="va">nbatch</span><span class="op">)</span></span></span>

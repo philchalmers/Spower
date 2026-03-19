@@ -97,7 +97,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # n=50 in 3 groups, "medium" effect size
 p_anova.test(50, k=3, f=.25)
-#> [1] 0.02328446
+#> [1] 0.001437914
 
 # return analysis model
 p_anova.test(50, k=3, f=.25, return_analysis=TRUE)
@@ -105,12 +105,12 @@ p_anova.test(50, k=3, f=.25, return_analysis=TRUE)
 #>  One-way analysis of means
 #> 
 #> data:  DV and group
-#> F = 7.6119, num df = 2, denom df = 147, p-value = 0.0007151
+#> F = 6.7295, num df = 2, denom df = 147, p-value = 0.001598
 #> 
 
 # explicit means/sds
 p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
-#> [1] 2.106001e-05
+#> [1] 0.01971131
 
 # \donttest{
   # compare simulated results to pwr package
@@ -137,8 +137,8 @@ p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    20     4  0.28      0.05 NA   
 #> 
-#> Estimate of power: 0.523
-#> 95% Confidence Interval: [0.513, 0.533]
+#> Estimate of power: 0.518
+#> 95% Confidence Interval: [0.509, 0.528]
 #> Execution time (H:M:S): 00:00:09
 # }
 ```

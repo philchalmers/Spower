@@ -71,8 +71,8 @@ analysis.
 set.seed(42)
 p_t.test(n=100, d=0.5) |> Spower()
 
+## ── Spower Results ────────────────────────────────────────────────────
 ##
-## Execution time (H:M:S): 00:00:02
 ## Design conditions: 
 ##
 ## # A tibble: 1 × 4
@@ -82,6 +82,7 @@ p_t.test(n=100, d=0.5) |> Spower()
 ## 
 ## Estimate of power: 0.943
 ## 95% Confidence Interval: [0.938, 0.947]
+## Execution time (H:M:S): 00:00:02
 ```
 
 Alternatively, for a priori and sensitive analyses, the respective input
@@ -100,7 +101,8 @@ p_t.test(n=NA, d=0.5) |> Spower(power=.95, interval=c(50, 300))
 
 ## Iter: 56; Median = 101; E(f(x)) = 0.00; Total.reps = 11000; k.tol = 2; Pred = 103.4
 ##
-## Execution time (H:M:S): 00:00:05
+## ── Spower Results ────────────────────────────────────────────────────
+##
 ## Design conditions: 
 ## 
 ## # A tibble: 1 × 4
@@ -109,7 +111,8 @@ p_t.test(n=NA, d=0.5) |> Spower(power=.95, interval=c(50, 300))
 ## 1    NA   0.5      0.05  0.95
 ## 
 ## Estimate of n: 103.4
-## 95% Predicted Confidence Interval: [101.5, 105.4]
+## 95% Confidence Interval: [101.5, 105.4]
+## Execution time (H:M:S): 00:00:05
 ```
 
 Equivalently, the function
@@ -122,6 +125,10 @@ Below will provide the same stochastic root finding task.
 # using interval() function instead
 p_t.test(n=interval(50,300), d=0.5) |> Spower(power=.95)
 ```
+
+For further examples and simulation experiments, see the `pkgdown`
+rendered [on-line
+documentation](https://philchalmers.github.io/Spower/).
 
 ## Estimated power curves
 
