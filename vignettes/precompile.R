@@ -7,4 +7,6 @@ Sys.setenv(SPOWER_EVAL = TRUE)
 rmarkdown::render("SpowerIntro.Rmd")
 rmarkdown::render("SpowerIntro_logicals.Rmd")
 rmarkdown::render("Spower_TypeSM.Rmd")
-SimDesign::SimClean("SpowerIntro.html", "SpowerIntro_logicals.html", "Spower_TypeSM.html")
+rmarkdown::render("gpower_examples.Rmd")
+SimDesign::SimClean("SpowerIntro.html", "SpowerIntro_logicals.html",
+					"Spower_TypeSM.html", "gpower_examples.html")

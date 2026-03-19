@@ -1,7 +1,7 @@
 ---
 title: "G*Power examples evaluated with Spower"
 author: Phil Chalmers
-date: "2026-03-18"
+date: "`r Sys.Date()`"
 output: 
   bookdown::html_document2:
     base_format: rmarkdown::html_vignette
@@ -17,11 +17,36 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r nomessages, echo = FALSE}
+knitr::opts_chunk$set(
+  warning = FALSE,
+  message = FALSE
+)
+options(digits=4)
+par(mar=c(5,4,1,1)+.1)
+```
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
+```{r include=FALSE}
+library(Spower)
+set.seed(42)
+formals(Spower)$verbose <- FALSE
+```
 
+```{r include=FALSE}
+eval <- as.logical(Sys.getenv("SPOWER_EVAL"))
+if(is.na(eval)) eval <- FALSE  # set to FALSE for normal run
+store <- list()
+if(!eval)
+	store <- readRDS(system.file("gpower.rds", package = 'Spower'))
+```
 
-
+```{r include=eval}
+getwd()
+```
 
 This vignette replicates several of the examples found in the G\*Power
 manual (version 3.1). It is not meant to be exhaustive, but instead
@@ -47,25 +72,20 @@ The following estimates the sample size required to reject
 $H_0:\, \rho_0=.60$ in correlation analysis with $1-\beta=.95$
 probability when $\rho=.65$.
 
-
-``` r
+```{r eval=eval}
 p_r(n = interval(500, 3000), r = .65, rho = .60) |> Spower(power = .95)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 5
-##       n     r   rho sig.level power
-##   <dbl> <dbl> <dbl>     <dbl> <dbl>
-## 1    NA  0.65   0.6      0.05  0.95
+```{r echo=FALSE}
+if(eval) store$ex3.3 <- getLastSpower()
+print(store$ex3.3)
 ```
 
-``` r
-# this is equivalent:
-# p_r(n = NA, r = .65, rho = .60) |> 
-#	Spower(power = .95, interval=c(500,3000))
+```{r}
+# this is equivalent (not run):
+# p_r(n = NA, r = .65, rho = .60) |> Spower(power = .95, interval=c(500,3000))
 ```
+
 
 G\*power estimates this $n$ to be 1929 using the Fisher
 $z$-transformation approximation, which is what is used by the `Spower`
@@ -78,55 +98,33 @@ appear when $rho_0=0$, as these do not require the Fisher approximation.
 For instance, the power associated with $\rho = .3$ with 100 pairs of
 observations, tested against $\rho_0=0$, results in the following.
 
-
-``` r
+```{r eval=eval}
 p_r(n = 100, r = .3) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 4
-##       n     r sig.level power
-##   <dbl> <dbl>     <dbl> <lgl>
-## 1   100   0.3      0.05 NA
+```{r echo=FALSE}
+if(eval) store$rconst <- getLastSpower()
+print(store$rconst)
 ```
 
 Next, the sample sample size estimate required to reject
 $H_0:\, \rho_0=0$ in correlation analysis with $1-\beta=.95$ probability
 when $\rho=.3$ is expressed as
 
-
-``` r
+```{r eval=eval}
 p_r(n = interval(50, 1000), r = .3) |> Spower(power = .95)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 4
-##       n     r sig.level power
-##   <dbl> <dbl>     <dbl> <dbl>
-## 1    NA   0.3      0.05  0.95
+```{r echo=FALSE}
+if(eval) store$rconst2 <- getLastSpower()
+print(store$rconst2)
 ```
 
 G\*power 3.1 provides the same estimate as the `pwr` package in this
 case, which for comparison is presented below.
 
-
-``` r
+```{r}
 pwr::pwr.r.test(r=.3, power=.95, n=NULL)
-```
-
-```
-## 
-##      approximate correlation power calculation (arctangh transformation) 
-## 
-##               n = 137.8
-##               r = 0.3
-##       sig.level = 0.05
-##           power = 0.95
-##     alternative = two.sided
 ```
 
 ### Example 27.3; Correlation - inequality of two independent Pearson r's
@@ -137,18 +135,13 @@ observations appeared in the first sample ($r=.75$), while the second
 sample ($r=.88$) contained only $N_2=51$ observations (hence, the ratio
 $N_2/N_1=51/206$). This results in the post-hoc/observed power of
 
-
-``` r
+```{r eval=eval}
 p_2r(n=206, r.ab=.75, r.ab2=.88, n2_n1=51/206) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 5
-##       n  r.ab r.ab2 sig.level power
-##   <dbl> <dbl> <dbl>     <dbl> <lgl>
-## 1   206  0.75  0.88      0.05 NA
+```{r echo=FALSE}
+if(eval) store$rineq <- getLastSpower()
+print(store$rineq)
 ```
 
 G\*power 3.1 returns the power of .726 in this context.
@@ -156,8 +149,7 @@ G\*power 3.1 returns the power of .726 in this context.
 ### Example 28.3.1; Correlation - inequality of two dependent Pearson r's (no common index)
 
 The following two examples assume the correlation matrix 
-
-``` r
+```{r}
 # From Gpower 3.1 manual
 Cp <- matrix(c(1, .5, .4, .1, 
 			   .5, 1, .2, -.4, 
@@ -169,34 +161,22 @@ Cp <- Cp[c(1,4,2,3), c(1,4,2,3)]
 colnames(Cp) <- rownames(Cp) <- c('x1', 'y1', 'x2', 'y2')
 Cp
 ```
-
-```
-##     x1   y1   x2  y2
-## x1 1.0  0.1  0.5 0.4
-## y1 0.1  1.0 -0.4 0.8
-## x2 0.5 -0.4  1.0 0.2
-## y2 0.4  0.8  0.2 1.0
-```
 is the population structure. For the no common index tests all of these elements are required, while for the common index form only a $3\times 3$ subset is needed.
 
 Evaluating the null hypothesis that 
 $$H_0: \rho_{ab} = \rho_{cd}$$
 where in this case $\rho_{ab} = .5$ and $\rho_{cd} = .8$ can be explored using the `p_2r()` function. The following performs an a priori analyses to determine the sample size ($N$) required to achieve 80% power using Steiger's (1980) inferential $z$ approach. 
 
-
-``` r
+```{r eval=eval}
 p_2r(n=interval(500, 2000), r.ab=.1, r.ac=.5, r.ad=.4, r.bc=-.4, r.bd=.8, r.cd=.2, two.tailed=FALSE) |> 
 	Spower(power = .80)
 ```
 
+```{r echo=FALSE}
+if(eval) store$ex.28.3.1 <- getLastSpower()
+print(store$ex.28.3.1)
 ```
-## Design conditions:
-## 
-## # A tibble: 1 × 9
-##       n  r.ab  r.ac  r.ad  r.bd  r.cd two.tailed sig.level power
-##   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <lgl>          <dbl> <dbl>
-## 1    NA   0.1   0.5   0.4   0.8   0.2 FALSE           0.05   0.8
-```
+
 
 G\*power 3.1 returns the required sample size of $N=886$.
 
@@ -205,51 +185,33 @@ G\*power 3.1 returns the required sample size of $N=886$.
 
 The information in this example is the same as `Example 28.3.1`, however it is assumed that there is a common index between the correlation measures instead of a complete overlap. As such, the previous `Cp` object may be further subset to see what type of correlation structure is required for the common index setup.
 
-
-``` r
+```{r}
 Cp[c(4,3,1),c(4,3,1)]
-```
-
-```
-##     y2  x2  x1
-## y2 1.0 0.2 0.4
-## x2 0.2 1.0 0.5
-## x1 0.4 0.5 1.0
 ```
 
 The null under instigation in this case is 
 $$H_0:\rho_{ab} = \rho_{ac}$$
 where $\rho_{ab} = .2$ and $\rho_{ac} = .4$. In `Spower`, this equates to the following inputs, which again use Steiger's (1980) inferential $z$ approach by default.
 
-
-``` r
+```{r eval=eval}
 p_2r(n=interval(50, 500), r.ab=.4, r.ac=.2, r.bc=.5, two.tailed=FALSE) |> 
 	Spower(power = .80)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 7
-##       n  r.ab  r.ac  r.bc two.tailed sig.level power
-##   <dbl> <dbl> <dbl> <dbl> <lgl>          <dbl> <dbl>
-## 1    NA   0.4   0.2   0.5 FALSE           0.05   0.8
+```{r echo=FALSE}
+if(eval) store$ex.28.3.2 <- getLastSpower()
+print(store$ex.28.3.2)
 ```
 
 G\*power 3.1 returns the required sample size of $N=144$, which interestingly is slightly higher than the simulation version from `Spower`. Providing $N=144$ to the above to obtain the power estimate gives the following:
 
-
-``` r
+```{r eval=eval}
 p_2r(n=144, r.ab=.4, r.ac=.2, r.bc=.5, two.tailed=FALSE) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 7
-##       n  r.ab  r.ac  r.bc two.tailed sig.level power
-##   <dbl> <dbl> <dbl> <dbl> <lgl>          <dbl> <lgl>
-## 1   144   0.4   0.2   0.5 FALSE           0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.28.3.2b <- getLastSpower()
+print(store$ex.28.3.2b)
 ```
 
 
@@ -257,38 +219,28 @@ p_2r(n=144, r.ab=.4, r.ac=.2, r.bc=.5, two.tailed=FALSE) |> Spower()
 
 It is also possible to perform a sensitivity analyses rather than the above a priori power analysis. Below fixes $N=144$, while `r.ac` is solved to obtain 80% power. G\*power 3.1 reports that $\rho_{ac} = 0.047702$, which is confirmed using the simulation below.
 
-
-``` r
+```{r eval=eval}
 # confirm solution obtained by G*power (post hoc power estimate)
 p_2r(n=144, r.ab=.4, r.ac=0.047702, r.bc=-0.6, two.tailed=FALSE) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 6
-##       n  r.ab     r.ac two.tailed sig.level power
-##   <dbl> <dbl>    <dbl> <lgl>          <dbl> <lgl>
-## 1   144   0.4 0.047702 FALSE           0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.28.3.3 <- getLastSpower()
+print(store$ex.28.3.3)
 ```
 
 Obtaining a similar estimate using `Spower()` requires the following sensitivity analysis structure:
 
-
-``` r
+```{r eval=eval}
 # note that interval is specified as c(upper, lower) as higher values
 # of r.ac result in lower power in this context
 p_2r(n=144, r.ab=.4, r.ac=interval(.4, .001), r.bc=-0.6, two.tailed=FALSE) |> 
 	Spower(power = .80)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 6
-##       n  r.ab  r.ac two.tailed sig.level power
-##   <dbl> <dbl> <dbl> <lgl>          <dbl> <dbl>
-## 1   144   0.4    NA FALSE           0.05   0.8
+```{r echo=FALSE}
+if(eval) store$ex.28.3.3b <- getLastSpower()
+print(store$ex.28.3.3b)
 ```
 
 For this example, `Spower` and G\*power 3.1 seem to agree. 
@@ -300,30 +252,22 @@ $1-\beta=.95$ given that $r=.25$ is the true correlation, evaluated
 under the null $H_0:\rho\le0$ (hence, is one-tailed) with
 $\alpha = .05$.
 
-
-``` r
+```{r eval=eval}
 # solution per group
 out <- p_t.test(r = .25, n = interval(50, 200), two.tailed=FALSE) |> 
 	Spower(power = .95)
 out
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 5
-##       n     r two.tailed sig.level power
-##   <dbl> <dbl> <lgl>          <dbl> <dbl>
-## 1    NA  0.25 FALSE           0.05  0.95
+```{r echo=FALSE}
+if(eval) store$ex.16.3 <- getLastSpower()
+out <- store$ex.16.3
+print(store$ex.16.3)
 ```
 
-``` r
+```{r}
 # total sample size required
 ceiling(out$n) * 2
-```
-
-```
-## [1] 164
 ```
 
 G\*power gives the result $N=164$.
@@ -340,41 +284,29 @@ $\tau$ threshold coefficients for the population normal truncation
 processes, as well as the bivariate correlation itself prior to the
 truncation.
 
-
-``` r
+```{r}
 F <- matrix(c(203, 186, 167, 374), 2, 2)
 N <- sum(F)
 (marginal.x <- colSums(F)/N)
-```
-
-```
-## [1] 0.4183 0.5817
-```
-
-``` r
 (marginal.y <- rowSums(F)/N)
-```
 
-```
-## [1] 0.3978 0.6022
-```
-
-``` r
 # converted to intercepts
 tauX <- qnorm(1-marginal.x)[2]
 tauY <- qnorm(1-marginal.y)[2]
 c(tauX, tauY)
 ```
 
-```
-## [1] -0.2063 -0.2589
-```
-
 These $\tau$ values correspond to where along the assumed normal p.d.f.
 the truncation took place, which for the $X$ variable can be seen in the
 following graphic.
 
-
+```{r echo=FALSE, eval=FALSE}
+curve(dnorm, -6, 6, las=1, ylab='Normal PDF', xlab = 'z')
+abline(v = tauX)
+text(2, .3, sprintf("tauX = %.2f", tauX))
+text(-1, .05, round(marginal.x[1], 2))
+text(1, .05, round(marginal.x[2], 2))
+```
 
 ![Tetrachoric](tetrachoric.png)
 
@@ -384,8 +316,7 @@ the sample size required to reject the null hypothesis that the
 tetrachoric correlation is less than or equal to 0 in this population
 (one-tailed) is expressed as
 
-
-``` r
+```{r eval=FALSE}
 p_r.cat(n=interval(100, 500), r=0.2399846, tauX=tauX, tauY=tauY, 
 		score=TRUE, two.tailed=FALSE) |> 
 	Spower(power = .95, parallel=TRUE)
@@ -424,8 +355,7 @@ G\*power requires a term $g$ to be specified as the proportion
 `p_prop.teset()` accepts the null and alternative probability values
 as-is.
 
-
-``` r
+```{r eval=eval}
 pi <- .65
 g <- .15
 p <- pi + g
@@ -434,33 +364,24 @@ p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |>
 	Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 4
-##       n two.tailed sig.level power
-##   <dbl> <lgl>          <dbl> <lgl>
-## 1    20 FALSE           0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.4.3 <- getLastSpower()
+print(store$ex.4.3)
 ```
 
 G\*power gives the estimate $1-\beta=.4112$. Note that with
 `p_prop.test()`, the Fisher's exact version of this test is also
 supported by passing the argument `exact = TRUE`.
 
-
-``` r
+```{r eval=eval}
 # Fisher exact test
 p_prop.test(n=20, prop=p, pi=pi, exact=TRUE, 
 			two.tailed=FALSE) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 5
-##       n two.tailed exact sig.level power
-##   <dbl> <lgl>      <lgl>     <dbl> <lgl>
-## 1    20 FALSE      TRUE       0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.4.3b <- getLastSpower()
+print(store$ex.4.3b)
 ```
 
 ### Example 22.1; Wilcoxon signed-rank test
@@ -469,19 +390,14 @@ The following performed a one-sample, one-tailed Wilcoxon signed rank
 test given $N=649$, $d=.1$, where the parent distribution is assumed to
 follow a Normal/Gaussian shape (default).
 
-
-``` r
+```{r eval=eval}
 p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> 
 	Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 6
-##       n     d type       two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-## 1   649   0.1 one.sample FALSE           0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.22.1 <- getLastSpower()
+print(store$ex.22.1)
 ```
 
 G\*power gives the power estimate of .800.
@@ -495,8 +411,7 @@ not specified. `Spower()`'s stochastic root-solving approach would
 likely get closer to more optimal $N$ estimates were these the target of
 the analyses.
 
-
-``` r
+```{r eval=eval}
 # For Gaussian(d,1)
 out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |> 
 	SpowerBatch(n=c(649, 164, 42, 20, 12, 9),
@@ -504,14 +419,9 @@ out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |>
 as.data.frame(out)
 ```
 
-```
-##     n   d       type two.tailed sig.level  power CI_2.5 CI_97.5
-## 1 649 0.1 one.sample      FALSE      0.05 0.8012 0.7977  0.8047
-## 2 164 0.2 one.sample      FALSE      0.05 0.8027 0.7992  0.8062
-## 3  42 0.4 one.sample      FALSE      0.05 0.8043 0.8009  0.8078
-## 4  20 0.6 one.sample      FALSE      0.05 0.8070 0.8035  0.8105
-## 5  12 0.8 one.sample      FALSE      0.05 0.8018 0.7983  0.8053
-## 6   9 1.0 one.sample      FALSE      0.05 0.8467 0.8435  0.8498
+```{r echo=FALSE}
+if(eval) store$ex.4.3b <- getLastSpower()
+print(as.data.frame(store$ex.4.3b))
 ```
 
 #### Laplace($\mu$, 1) version
@@ -520,8 +430,7 @@ A one-sample Wilcoxon signed rank test with Laplace distribution as the
 parent. Note that this requires defining the parent distribution
 manually, accepting arguments such as `n` and `d`.
 
-
-``` r
+```{r eval=eval}
 library(extraDistr)
 
 # generate data with scale 0-1 for d effect size to be same as mean
@@ -533,13 +442,9 @@ p_wilcox.test(n=11, d=.8, parent1=parent, type='one.sample',
 			  two.tailed=FALSE, correct = FALSE) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 7
-##       n     d type       correct two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
-## 1    11   0.8 one.sample FALSE   FALSE           0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.4.3c <- getLastSpower()
+print(store$ex.4.3c)
 ```
 
 G\*power gives the estimate .830, which seems somewhat high (see below).
@@ -552,8 +457,7 @@ not specified. `Spower()`'s stochastic root-solving approach would
 likely get closer to more optimal $N$ estimates were these the target of
 the analyses.
 
-
-``` r
+```{r eval=eval}
 # For Laplace(0,1)
 out <- p_wilcox.test(parent1=parent, type='one.sample',
 			  two.tailed=FALSE) |> 
@@ -562,14 +466,9 @@ out <- p_wilcox.test(parent1=parent, type='one.sample',
 as.data.frame(out)
 ```
 
-```
-##     n   d       type two.tailed sig.level  power CI_2.5 CI_97.5
-## 1 419 0.1 one.sample      FALSE      0.05 0.8021 0.7986  0.8056
-## 2 109 0.2 one.sample      FALSE      0.05 0.7992 0.7957  0.8028
-## 3  31 0.4 one.sample      FALSE      0.05 0.8031 0.7996  0.8065
-## 4  16 0.6 one.sample      FALSE      0.05 0.8007 0.7972  0.8042
-## 5  11 0.8 one.sample      FALSE      0.05 0.8032 0.7998  0.8067
-## 6   8 1.0 one.sample      FALSE      0.05 0.7771 0.7735  0.7808
+```{r echo=FALSE}
+if(eval) store$ex.4.3d <- getLastSpower()
+print(as.data.frame(store$ex.4.3d))
 ```
 
 ### Example 5.3; Two dependent proportions test (McNemar's test)
@@ -577,32 +476,21 @@ as.data.frame(out)
 The following performs a proportions test between two dependent groups
 using McNemar's test. The data is from O'Brien (2002, p. 161-163).
 
-
-``` r
+```{r}
 obrien2002 <- matrix(c(.54, .32, .08, .06), 2, 2,
 					 dimnames = list('Treatment' = c('Yes', 'No'),
 					 				'Standard' = c('Yes', 'No')))
 obrien2002
 ```
 
-```
-##          Standard
-## Treatment  Yes   No
-##       Yes 0.54 0.08
-##       No  0.32 0.06
-```
 
-``` r
+```{r eval=eval}
 p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 4
-##       n two.tailed sig.level power
-##   <dbl> <lgl>          <dbl> <lgl>
-## 1    50 FALSE           0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.5.3 <- getLastSpower()
+print(store$ex.5.3)
 ```
 
 Alternatively, specifying the inputs not in terms of proportions but
@@ -610,38 +498,28 @@ rather as the odds ratio ($OR=\pi_{12}/\pi_{21}=.08/.32=.25$) and
 proportions of discordant pairs
 ($\pi_D=\pi_{12} + \pi_{21}=.08 + .32=.40$) can be supplied
 
-
-``` r
+```{r eval=eval}
 OR <- obrien2002[1,2] / obrien2002[2,1]
 disc <- obrien2002[1,2] + obrien2002[2,1]
 p_mcnemar.test(n=50, OR=OR, prop.disc=disc, two.tailed=FALSE) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 4
-##       n two.tailed sig.level power
-##   <dbl> <lgl>          <dbl> <lgl>
-## 1    50 FALSE           0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.5.3b <- getLastSpower()
+print(store$ex.5.3b)
 ```
 
 G\*Power gives .839 ($\alpha = .032$). Slightly more power can be
 achieved when not using the continuity correction, though in general
 this is not recommended in practice.
 
-
-``` r
+```{r eval=eval}
 p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE, correct=FALSE) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 5
-##       n two.tailed correct sig.level power
-##   <dbl> <lgl>      <lgl>       <dbl> <lgl>
-## 1    50 FALSE      FALSE        0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.5.3c <- getLastSpower()
+print(store$ex.5.3c)
 ```
 
 # Multiple Linear Regression (Fixed IVs)
@@ -652,18 +530,13 @@ Evaluating $R^2=.1$ generated data for a linear regression model given
 the null hypothesis $H_0:R^2_0=0$. When evaluated using $N=95$
 observations with $k=5$ predictor variables gives the estimate.
 
-
-``` r
+```{r eval=eval}
 p_lm.R2(n=95, R2=.1, k=5) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 5
-##       n    R2     k sig.level power
-##   <dbl> <dbl> <dbl>     <dbl> <lgl>
-## 1    95   0.1     5      0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.13.1 <- getLastSpower()
+print(store$ex.13.1)
 ```
 
 G\*power gives $1-\beta = .673$.
@@ -675,36 +548,26 @@ following, note that `k` is total IVs (in this case, 9), while `k.R2_0`
 is number of IVs for baseline model (in this case, 5). At $\alpha=.01$
 and a change of $\Delta R^2=.05$ from the baseline $R^2_0=.25$ gives
 
-
-``` r
+```{r eval=eval}
 p_lm.R2(n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5) |> Spower(sig.level=.01)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 7
-##       n    R2     k  R2_0 k.R2_0 sig.level power
-##   <dbl> <dbl> <dbl> <dbl>  <dbl>     <dbl> <lgl>
-## 1    90   0.3     9  0.25      5      0.01 NA
+```{r echo=FALSE}
+if(eval) store$ex.14.3 <- getLastSpower()
+print(store$ex.14.3)
 ```
 
 G\*power gives $1-\beta = .241$. Solving the sample size to achieve 80%
 power
 
-
-``` r
+```{r eval=eval}
 p_lm.R2(n=interval(100, 400), R2=.3, R2_0 = .25, k=9, k.R2_0=5) |> 
 		Spower(sig.level=.01, power=.8)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 7
-##       n    R2     k  R2_0 k.R2_0 sig.level power
-##   <dbl> <dbl> <dbl> <dbl>  <dbl>     <dbl> <dbl>
-## 1    NA   0.3     9  0.25      5      0.01   0.8
+```{r echo=FALSE}
+if(eval) store$ex.14.3b <- getLastSpower()
+print(store$ex.14.3b)
 ```
 
 G\*power gives $n = 242$.
@@ -714,19 +577,14 @@ G\*power gives $n = 242$.
 Nested model comparison for changes in $R^2$ for models with 12 IVs
 versus 9 IVs. Requires the specification of the $R^2_{residual}$.
 
-
-``` r
+```{r eval=eval}
 p_lm.R2(n=200, R2=.16, R2_0 = .1, k=12, k.R2_0=9, R2.resid=.8) |> 
 	Spower(sig.level=.01)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 8
-##       n    R2     k  R2_0 k.R2_0 R2.resid sig.level power
-##   <dbl> <dbl> <dbl> <dbl>  <dbl>    <dbl>     <dbl> <lgl>
-## 1   200  0.16    12   0.1      9      0.8      0.01 NA
+```{r echo=FALSE}
+if(eval) store$ex.14.3c <- getLastSpower()
+print(store$ex.14.3c)
 ```
 
 G\*power gives $1-\beta = .767$.
@@ -738,18 +596,13 @@ G\*power gives $1-\beta = .767$.
 Same as in Example 13.1 above, however assuming that the IVs are
 randomly sampled instead of fixed.
 
-
-``` r
+```{r eval=eval}
 p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 6
-##       n    R2     k fixed sig.level power
-##   <dbl> <dbl> <dbl> <lgl>     <dbl> <lgl>
-## 1    95   0.1     5 FALSE      0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.7.3 <- getLastSpower()
+print(store$ex.7.3)
 ```
 
 G\*power gives 0.662 using a one-tailed test criterion.
@@ -762,18 +615,13 @@ Evaluate post-hoc power for simple linear regression model null
 hypothesis $H_0:\beta_1=0$ given $\sigma_x = 7.5$, $\sigma_y$,
 $\beta_1=-0.0667$, and $N=100$.
 
-
-``` r
+```{r eval=eval}
 p_slr(n=100, beta=-0.0667, sd_x=7.5, sd_y = 4) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 5
-##       n  sd_x  sd_y sig.level power
-##   <dbl> <dbl> <dbl>     <dbl> <lgl>
-## 1   100   7.5     4      0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.12.3 <- getLastSpower()
+print(store$ex.12.3)
 ```
 
 G\*power returns the power estimate $1-\beta = 0.2389$.
@@ -785,18 +633,13 @@ G\*power returns the power estimate $1-\beta = 0.2389$.
 One-way ANOVA example to solve $n$ per group (of which there are
 $k=10$), using Cohen's $f=.25$, to achieve a power of $1-\beta=.95$.
 
-
-``` r
+```{r eval=eval}
 p_anova.test(n=interval(20, 300), k=10, f=.25) |>  Spower(power=.95)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 5
-##       n     k     f sig.level power
-##   <dbl> <dbl> <dbl>     <dbl> <dbl>
-## 1    NA    10  0.25      0.05  0.95
+```{r echo=FALSE}
+if(eval) store$ex.10.3 <- getLastSpower()
+print(store$ex.10.3)
 ```
 
 G\*power gives the estimate $n=39$.
@@ -804,18 +647,13 @@ G\*power gives the estimate $n=39$.
 Fixing $n=200$ in total (hence, $n=200/k=20$) and performing a
 compromise analysis assuming $q=\frac{\beta}{\alpha}=1$,
 
-
-``` r
+```{r eval=eval}
 p_anova.test(n=20, k=10, f=.25) |> Spower(beta_alpha=1, replications=30000)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 6
-##       n     k     f sig.level power beta_alpha
-##   <dbl> <dbl> <dbl>     <dbl> <lgl>      <dbl>
-## 1    20    10  0.25        NA NA             1
+```{r echo=FALSE}
+if(eval) store$ex.10.3b <- getLastSpower()
+print(store$ex.10.3b)
 ```
 
 G\*Power gives $\alpha=\beta=0.159$.
@@ -859,8 +697,7 @@ columns `y`, `X`, and `S`, where the interaction effect reflects the
 magnitude of the difference between the $\beta$ coefficients across the
 independent samples.
 
-
-``` r
+```{r}
 gen_twogroup <- function(n, dbeta, sdx1, sdx2, sigma, n2_n1 = 1, ...){
 	X1 <- rnorm(n, sd=sdx1)
 	X2 <- rnorm(n*n2_n1, sd=sdx2)
@@ -876,39 +713,29 @@ gen_twogroup <- function(n, dbeta, sdx1, sdx2, sigma, n2_n1 = 1, ...){
 To demonstrate, the post-hoc power for the described example in G\*Power
 is the following.
 
-
-``` r
+```{r eval=eval}
 p_glm(formula=y~X*S, test="X:S = 0",
 	  n=28, n2_n1=44/28, sdx1=9.02914, sdx2=11.86779, dbeta=0.01592,
 	  sigma=0.5578413, gen_fun=gen_twogroup) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 8
-##   test      sigma     n   sdx1   sdx2   dbeta sig.level power
-##   <chr>     <dbl> <dbl>  <dbl>  <dbl>   <dbl>     <dbl> <lgl>
-## 1 X:S = 0 0.55784    28 9.0291 11.868 0.01592      0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.17.3 <- getLastSpower()
+print(store$ex.17.3)
 ```
 
 For the a priori power analysis to achieve a power of .80
 
-
-``` r
+```{r eval=eval}
 p_glm(formula=y~X*S, test="X:S = 0",
 	  n=interval(100, 1000), n2_n1=44/28, sdx1=9.02914, sdx2=11.86779, dbeta=0.01592,
 	  sigma=0.5578413, gen_fun=gen_twogroup) |> 
 	Spower(power=.8)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 8
-##   test      sigma     n   sdx1   sdx2   dbeta sig.level power
-##   <chr>     <dbl> <dbl>  <dbl>  <dbl>   <dbl>     <dbl> <dbl>
-## 1 X:S = 0 0.55784    NA 9.0291 11.868 0.01592      0.05   0.8
+```{r echo=FALSE}
+if(eval) store$ex.17.3b <- getLastSpower()
+print(store$ex.17.3b)
 ```
 
 G\*Power gives the estimate for $n$ to be 163 (and therefore 256 in the
@@ -921,19 +748,14 @@ second group given the `n2_n1`).
 Solve $n$ for variance ratio of $1/1.5 = 2/3$ using a one-tailed
 variance ratio test, assuming that the target power is $1-\beta=.80$.
 
-
-``` r
+```{r eval=eval}
 p_var.test(n=interval(10, 200), vars=1, sigma2=1.5, two.tailed=FALSE) |> 
 	Spower(power=.80)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 6
-##       n  vars sigma2 two.tailed sig.level power
-##   <dbl> <dbl>  <dbl> <lgl>          <dbl> <dbl>
-## 1    NA     1    1.5 FALSE           0.05   0.8
+```{r echo=FALSE}
+if(eval) store$ex.26.3 <- getLastSpower()
+print(store$ex.26.3)
 ```
 
 G\*power gives sample size of 81.
@@ -942,20 +764,15 @@ G\*power gives sample size of 81.
 
 For a two-sample equality of variance test with equal sample sizes,
 
-
-``` r
+```{r eval=eval}
 # solve n for variance ratio of 1/1.5 = 2/3, two.tailed, 80% power
 p_var.test(n=interval(50, 300), vars=c(1, 1.5), two.tailed=TRUE) |> 
 	Spower(power=.80)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 4
-##       n two.tailed sig.level power
-##   <dbl> <lgl>          <dbl> <dbl>
-## 1    NA TRUE            0.05   0.8
+```{r echo=FALSE}
+if(eval) store$ex.15.3 <- getLastSpower()
+print(store$ex.15.3)
 ```
 
 G\*Power gives estimate of 193 per group.
@@ -966,25 +783,23 @@ Estimate sample size ($n$) per group in independent samples $t$-test,
 one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power
 ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
 
-
-``` r
+```{r eval=eval}
 (out <- p_t.test(n = interval(10,500), d = .5, two.tailed=FALSE) |>  
 			   Spower(power = .95))
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 5
-##       n     d two.tailed sig.level power
-##   <dbl> <dbl> <lgl>          <dbl> <dbl>
-## 1    NA   0.5 FALSE           0.05  0.95
+```{r echo=FALSE}
+if(eval) store$ex.15.3b <- getLastSpower()
+out <- store$ex.15.3b
+print(store$ex.15.3b)
 ```
 
+```{r echo=FALSE}
+so <- summary(out)
+```
 
-
-G\*power estimate is 88 per group, `Spower` estimate is 86.9348 with
-the 95% CI [85.2011, 88.4739].
+G\*power estimate is 88 per group, `Spower` estimate is `r out$n` with
+the 95% CI [`r so$predCIs_root`].
 
 ### Example 19.3; Paired samples t-test
 
@@ -993,35 +808,25 @@ repeated measures Cohen's $d_r=.421637$ (e.g., were the unadjusted
 $d=.4$, while $r_{xy} = .55$, then this results in the repeated
 $d_r=\frac{|\mu_x-\mu_y|}{\sqrt{\sigma^2_x + \sigma^2_y - 2\rho_{xy}\sigma_x\sigma_y}}$).
 
-
-``` r
+```{r eval=eval}
 p_t.test(n=50 * 2, d=0.421637, type = 'paired') |> Spower(replications=50000)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 4
-##         d type   sig.level power
-##     <dbl> <chr>      <dbl> <lgl>
-## 1 0.42164 paired      0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.19.3 <- getLastSpower()
+print(store$ex.19.3)
 ```
 
 G\*power gives power estimate of .832, though Cohen reported a value
 closer to .840. When $d=0.2828427$ this leads to
 
-
-``` r
+```{r eval=eval}
 p_t.test(n=50 * 2, d=.2828427, type = 'paired') |> Spower(replications=50000)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 4
-##         d type   sig.level power
-##     <dbl> <chr>      <dbl> <lgl>
-## 1 0.28284 paired      0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.19.3b <- getLastSpower()
+print(store$ex.19.3b)
 ```
 
 In this case G\*Power 3.1 gives the estimate .500. To answer the
@@ -1030,19 +835,14 @@ question "How many subjects would we need to arrive at a power of about
 where `n` is set to `NA` and `Spower()` is passed an `interval` argument, or `interval()`
 is passed directly to the `n` element in the experiment.
 
-
-``` r
+```{r eval=eval}
 p_t.test(n=interval(100,300), d=0.2828427, type = 'paired') |> 
 	Spower(power=0.832114)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 5
-##       n       d type   sig.level   power
-##   <dbl>   <dbl> <chr>      <dbl>   <dbl>
-## 1    NA 0.28284 paired      0.05 0.83211
+```{r echo=FALSE}
+if(eval) store$ex.19.3c <- getLastSpower()
+print(store$ex.19.3c)
 ```
 
 G\*power reports that around $N=110*2=220$ pairs are required, though
@@ -1056,37 +856,27 @@ $$H_a:\mu>\mu_0$$
 using a one-sample $t$-test. The following estimates $n$ given a
 one-tailed $d=.625$ to achieve $1-\beta=.95$.
 
-
-``` r
+```{r eval=eval}
 p_t.test(n=interval(10, 100), d=.625, two.tailed=FALSE, type='one.sample') |>  
 	Spower(power=.95)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 6
-##       n     d type       two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>          <dbl> <dbl>
-## 1    NA 0.625 one.sample FALSE           0.05  0.95
+```{r echo=FALSE}
+if(eval) store$ex.20.3 <- getLastSpower()
+print(store$ex.20.3)
 ```
 
 G\*power gives sample size of $n=30$. Similarly, though with different
 inputs.
 
-
-``` r
+```{r eval=eval}
 p_t.test(n=interval(100,2000), d=.1, type='one.sample') |>  
 	Spower(power=.9,sig.level=.01)
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 5
-##       n     d type       sig.level power
-##   <dbl> <dbl> <chr>          <dbl> <dbl>
-## 1    NA   0.1 one.sample      0.01   0.9
+```{r echo=FALSE}
+if(eval) store$ex.20.3b <- getLastSpower()
+print(store$ex.20.3b)
 ```
 
 G\*power gives sample size of $n=1492$.
@@ -1097,18 +887,13 @@ G\*power gives sample size of $n=1492$.
 
 Same as Example 22.1 above.
 
-
-``` r
+```{r eval=eval}
 p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 6
-##       n     d type       two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-## 1   649   0.1 one.sample FALSE           0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.22.1 <- getLastSpower()
+print(store$ex.22.1)
 ```
 
 G\*power 3.1 provides a power estimate of .800, agreeing with `Spower`.
@@ -1118,33 +903,19 @@ Laplace distribution, and that $N=11$ were used instead. This requires
 defining an alternative parent distribution, which below uses the
 `rlaplace` function from the `extraDistr` package.
 
-
-``` r
+```{r eval=eval}
 library(extraDistr)
 parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
 
 # properties of sampled distribution
 descript(parent1(n=100000, d=0.8))
-```
 
-```
-## # A tibble: 1 × 11
-##        n  mean  trim    sd    skew  kurt   min   P25   P50   P75   max
-##    <dbl> <dbl> <dbl> <dbl>   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-## 1 100000 0.800 0.799 0.999 0.00702  3.06 -7.94 0.309 0.800  1.29  9.46
-```
-
-``` r
 p_wilcox.test(n=11, d=.8, type='one.sample', two.tailed=FALSE, parent1 = parent1) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 6
-##       n     d type       two.tailed sig.level power
-##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-## 1    11   0.8 one.sample FALSE           0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.22.1b <- getLastSpower()
+print(store$ex.22.1b)
 ```
 
 Interestingly, G\*power 3.1 reports this power to be 0.830.
@@ -1154,8 +925,7 @@ Interestingly, G\*power 3.1 reports this power to be 0.830.
 Two-sample Wilcoxon test comparing Laplace distributions with different
 central tendencies.
 
-
-``` r
+```{r eval=eval}
 library(extraDistr)
 
 parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
@@ -1163,39 +933,16 @@ parent2 <- function(n, d) extraDistr::rlaplace(n, sigma=sqrt(1/2))
 
 # properties of sampled distributions
 descript(parent1(n=100000, d=0.375))
-```
-
-```
-## # A tibble: 1 × 11
-##        n  mean  trim    sd   skew  kurt   min    P25   P50   P75   max
-##    <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
-## 1 100000 0.381 0.382 0.997 0.0256  3.02 -6.07 -0.107 0.382 0.871  9.25
-```
-
-``` r
 descript(parent1(n=100000, d=0))
-```
 
-```
-## # A tibble: 1 × 11
-##        n    mean    trim    sd    skew  kurt   min    P25     P50   P75   max
-##    <dbl>   <dbl>   <dbl> <dbl>   <dbl> <dbl> <dbl>  <dbl>   <dbl> <dbl> <dbl>
-## 1 100000 0.00267 0.00272 1.000 0.00490  2.86 -8.77 -0.485 0.00313 0.494  7.78
-```
-
-``` r
 nr <- 134/67
 p_wilcox.test(n=67, n2_n1=nr, d=0.375, parent1=parent1, parent2=parent2) |> 
 	Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 4
-##       n     d sig.level power
-##   <dbl> <dbl>     <dbl> <lgl>
-## 1    67 0.375      0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.22.1c <- getLastSpower()
+print(store$ex.22.1c)
 ```
 
 Unlike before with the Laplace distribution, G\*power 3.1 seems to agree
@@ -1205,45 +952,25 @@ with `Spower`, where a power of .847 is reported. This seems to raise questions 
 
 Finally, paired-samples approach using Wilcoxon test with $N=10$.
 
-
-``` r
+```{r eval=eval}
 parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
 parent2 <- function(n, d) extraDistr::rlaplace(n, sigma=sqrt(1/2))
 
 descript(parent1(n=100000, d=1.13842))
-```
-
-```
-## # A tibble: 1 × 11
-##        n  mean  trim    sd   skew  kurt   min   P25   P50   P75   max
-##    <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-## 1 100000  1.14  1.14 0.996 0.0158  2.93 -7.46 0.653  1.14  1.63  9.25
-```
-
-``` r
 descript(parent1(n=100000, d=0))
-```
 
-```
-## # A tibble: 1 × 11
-##        n     mean     trim    sd   skew  kurt   min    P25      P50   P75   max
-##    <dbl>    <dbl>    <dbl> <dbl>  <dbl> <dbl> <dbl>  <dbl>    <dbl> <dbl> <dbl>
-## 1 100000 -0.00205 -0.00284  1.00 0.0147  3.16 -7.60 -0.490 0.000379 0.484  9.32
-```
-
-``` r
 p_wilcox.test(n=10*2, d=1.13842, type = 'paired',
 			  parent1=parent1, parent2=parent2) |> Spower()
 ```
 
-```
-## Design conditions:
-## 
-## # A tibble: 1 × 4
-##        d type   sig.level power
-##    <dbl> <chr>      <dbl> <lgl>
-## 1 1.1384 paired      0.05 NA
+```{r echo=FALSE}
+if(eval) store$ex.23.3 <- getLastSpower()
+print(store$ex.23.3)
 ```
 
 Again, the simulation approach and G\*power 3.1 differ in their outputs,
 where in G\*power 3.1 the reported power is 0.853.
+
+```{r include=FALSE, eval=eval}
+saveRDS(store, '../inst/gpower.rds') # rebuild package when done
+```
