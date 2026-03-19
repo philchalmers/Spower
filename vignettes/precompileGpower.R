@@ -2,4 +2,4 @@
 
 library(knitr)
 setwd('vignettes')
-rmarkdown::render("original/gpower_examples.Rmd", output_file="gpower_examples.Rmd")
+knitr::knit("original/gpower_examples.Rmd", "gpower_examples.Rmd")
