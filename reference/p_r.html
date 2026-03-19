@@ -135,13 +135,13 @@ Defaults to <code>c(0,0)</code></p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 50 observations, .5 correlation</span></span></span>
 <span class="r-in"><span><span class="fu">p_r</span><span class="op">(</span><span class="fl">50</span>, r<span class="op">=</span><span class="fl">.5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.719588e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.033675e-05</span>
 <span class="r-in"><span><span class="fu">p_r</span><span class="op">(</span><span class="fl">50</span>, r<span class="op">=</span><span class="fl">.5</span>, method <span class="op">=</span> <span class="st">'spearman'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.008382962</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0008785017</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># test against constant other than rho = .6</span></span></span>
 <span class="r-in"><span><span class="fu">p_r</span><span class="op">(</span><span class="fl">50</span>, <span class="fl">.5</span>, rho<span class="op">=</span><span class="fl">.60</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.07911766</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2636215</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_r</span><span class="op">(</span><span class="fl">50</span>, <span class="fl">.5</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -149,26 +149,26 @@ Defaults to <code>c(0,0)</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Pearson's product-moment correlation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  x and y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t = 4.3326, df = 48, p-value = 7.485e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t = 3.7711, df = 48, p-value = 0.0004459</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true correlation is not equal to 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.2954781 0.7045801</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.2303853 0.6675865</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       cor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.5302177 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.4780753 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">p_r</span><span class="op">(</span><span class="fl">50</span>, <span class="fl">.5</span>, rho<span class="op">=</span><span class="fl">.60</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Pearson's product-moment correlation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  x and y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> t = -1.6743, df = Inf, p-value = 0.09408</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t = 0.78816, df = Inf, p-value = 0.4306</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true correlation is not equal to 0.6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 95 percent confidence interval:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.1616103 0.6260053</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.4794134 0.7983344</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       cor </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.4210189 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.6685477 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
@@ -195,9 +195,9 @@ Defaults to <code>c(0,0)</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    50   0.3      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.571</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.561</span>, <span style="color: #0000BB;">0.580</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:08</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.574</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.565</span>, <span style="color: #0000BB;">0.584</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:07</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="fu">pwr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pwr/man/pwr.r.test.html" class="external-link">pwr.r.test</a></span><span class="op">(</span>r<span class="op">=</span><span class="fl">0.3</span>, power<span class="op">=</span><span class="fl">0.80</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -220,9 +220,9 @@ Defaults to <code>c(0,0)</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.3      0.05   0.8</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of n: <span style="color: #0000BB;">83.6</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">82.9</span>, <span style="color: #0000BB;">84.3</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:36</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of n: <span style="color: #0000BB;">84.1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">83.6</span>, <span style="color: #0000BB;">84.6</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:33</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="fu">pwr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pwr/man/pwr.r.test.html" class="external-link">pwr.r.test</a></span><span class="op">(</span>r<span class="op">=</span><span class="fl">0.1</span>, power<span class="op">=</span><span class="fl">0.80</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -245,9 +245,9 @@ Defaults to <code>c(0,0)</code></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.1      0.05   0.8</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of n: <span style="color: #0000BB;">781.4</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">772.9</span>, <span style="color: #0000BB;">789.4</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:47</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of n: <span style="color: #0000BB;">780.8</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">774.2</span>, <span style="color: #0000BB;">787.4</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:33</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
