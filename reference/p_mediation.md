@@ -117,9 +117,9 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # joint test H0: a*b = 0
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
-#> [1] 8.68881e-06
+#> [1] 6.120743e-07
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
-#> [1] 4.16041e-10
+#> [1] 8.924708e-10
 
 # return analysis model
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
@@ -142,46 +142,46 @@ dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2)
 descript(dat) # specific SDs
 #> # A tibble: 3 × 12
-#>   VARS      n    mean    trim    sd      skew    kurt   min   P25      P50   P75
-#>   <fct> <dbl>   <dbl>   <dbl> <dbl>     <dbl>   <dbl> <dbl> <dbl>    <dbl> <dbl>
-#> 1 X      1000 -0.0159 -0.0212  2.01 -0.000670 -0.182  -6.08 -1.42  0.00955  1.32
-#> 2 M      1000  0.0606  0.0754  2.00 -0.0674    0.0367 -6.28 -1.26  0.0125   1.44
-#> 3 Y      1000  0.0539  0.0141  2.89  0.116    -0.0182 -8.42 -1.81 -0.0152   2.08
+#>   VARS      n    mean    trim    sd    skew   kurt   min   P25     P50   P75
+#>   <fct> <dbl>   <dbl>   <dbl> <dbl>   <dbl>  <dbl> <dbl> <dbl>   <dbl> <dbl>
+#> 1 X      1000 -0.0794 -0.0792  2.03 -0.0125 -0.180 -6.59 -1.45 -0.130   1.27
+#> 2 M      1000 -0.0270 -0.0348  2.03  0.0334 -0.292 -5.69 -1.43 -0.0782  1.33
+#> 3 Y      1000 -0.0635 -0.0509  2.97 -0.0265 -0.174 -8.41 -2.09 -0.0493  2.08
 #> # ℹ 1 more variable: max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#>  0.07311681  0.78810615 
+#>  0.03764014  0.81430728 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
 #> (Intercept)           M           X 
-#>  0.09465864 -0.63333423  0.15341382 
+#> -0.06813398 -0.64682295  0.16147702 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  0.04835126 -0.34572078 
+#> -0.09248048 -0.36523561 
 
 # same properties, but dichotomous X variable
 dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2, dichotomous.X = TRUE)
 descript(dat) # specific SDs
 #> # A tibble: 3 × 12
-#>   VARS      n   mean   trim    sd     skew    kurt    min     P25    P50   P75
-#>   <fct> <dbl>  <dbl>  <dbl> <dbl>    <dbl>   <dbl>  <dbl>   <dbl>  <dbl> <dbl>
-#> 1 X      2000  2      2      2.00  0       -2.00     0     0       2      4   
-#> 2 M      2000  1.59   1.59   2.04 -0.00928 -0.870   -3.85 -0.0627  1.62   3.23
-#> 3 Y      2000 -0.733 -0.754  3.04  0.0528  -0.0541 -10.1  -2.71   -0.819  1.27
+#>   VARS      n   mean   trim    sd    skew   kurt    min     P25    P50   P75
+#>   <fct> <dbl>  <dbl>  <dbl> <dbl>   <dbl>  <dbl>  <dbl>   <dbl>  <dbl> <dbl>
+#> 1 X      2000  2      2      2.00  0      -2.00    0     0       2      4   
+#> 2 M      2000  1.66   1.65   2.00  0.0404 -0.790  -3.03  0.0686  1.59   3.24
+#> 3 Y      2000 -0.739 -0.726  2.94 -0.0619 -0.147 -10.5  -2.67   -0.673  1.15
 #> # ℹ 1 more variable: max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#> -0.04826898  0.81872708 
+#>  0.07159505  0.79273935 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
 #> (Intercept)           M           X 
-#> -0.02802952 -0.71638522  0.21668857 
+#> -0.01412546 -0.68377555  0.20387583 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  0.00654966 -0.36983541 
+#> -0.06308041 -0.33817995 
 
 # \donttest{
 
@@ -200,7 +200,7 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> 
 #> Estimate of power: 0.996
 #> 95% Confidence Interval: [0.992, 1.000]
-#> Execution time (H:M:S): 00:00:21
+#> Execution time (H:M:S): 00:00:20
 
   # sample size estimate for .95 power
   p_mediation(n=interval(50,200), a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
@@ -215,9 +215,9 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #>   <dbl>  <dbl>     <dbl> <dbl>
 #> 1    NA   0.39      0.05  0.95
 #> 
-#> Estimate of n: 57.2
-#> 95% Confidence Interval: [NA, 51.0]
-#> Execution time (H:M:S): 00:23:33
+#> Estimate of n: 51.0
+#> 95% Confidence Interval: [NA, NA]
+#> Execution time (H:M:S): 00:22:56
 
 # }
 ```

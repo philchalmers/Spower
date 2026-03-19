@@ -103,7 +103,7 @@ p_lm.R2(50, k=3, R2=.3) |> Spower()
 
     ## 95% Confidence Interval: [0.968, 0.974]
 
-    ## Execution time (H:M:S): 00:00:41
+    ## Execution time (H:M:S): 00:00:40
 
 Each of the `p_*` functions return a $p$-value ($P(D|H_{0}$) as this is
 the general information required to evaluate statistical power with

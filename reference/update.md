@@ -71,8 +71,8 @@ update(out, sig.level=.01)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.5      0.01 NA   
 #> 
-#> Estimate of power: 0.459
-#> 95% Confidence Interval: [0.446, 0.467]
+#> Estimate of power: 0.447
+#> 95% Confidence Interval: [0.434, 0.455]
 #> Execution time (H:M:S): 00:00:02
 update(out, sig.level=.20)
 #> 
@@ -85,8 +85,8 @@ update(out, sig.level=.20)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.5       0.2 NA   
 #> 
-#> Estimate of power: 0.887
-#> 95% Confidence Interval: [0.883, 1.000]
+#> Estimate of power: 0.881
+#> 95% Confidence Interval: [0.877, 1.000]
 #> Execution time (H:M:S): 00:00:02
 
 
@@ -109,10 +109,10 @@ update(out, beta_alpha=4)
 #> 1    50   0.5        NA NA             4
 #> 
 #> Estimate of Type I error rate (alpha/sig.level): 0.066
-#> 95% Confidence Interval: [0.061, 0.071]
+#> 95% Confidence Interval: [0.061, 0.070]
 #> 
-#> Estimate of power (1-beta): 0.735
-#> 95% Confidence Interval: [0.726, 0.744]
+#> Estimate of power (1-beta): 0.738
+#> 95% Confidence Interval: [0.729, 0.746]
 #> Execution time (H:M:S): 00:00:02
 
 # also works if compromise not initially run but prospective/post-hoc power was
@@ -129,10 +129,10 @@ update(out, beta_alpha=4)
 #> 1    50   0.5        NA NA             4
 #> 
 #> Estimate of Type I error rate (alpha/sig.level): 0.066
-#> 95% Confidence Interval: [0.061, 0.071]
+#> 95% Confidence Interval: [0.062, 0.071]
 #> 
-#> Estimate of power (1-beta): 0.735
-#> 95% Confidence Interval: [0.726, 0.744]
+#> Estimate of power (1-beta): 0.734
+#> 95% Confidence Interval: [0.725, 0.743]
 #> Execution time (H:M:S): 00:00:02
 
 # }

@@ -326,7 +326,7 @@ BFsim
 
     ## 95% Confidence Interval: [0.257, 0.274]
 
-    ## Execution time (H:M:S): 00:01:24
+    ## Execution time (H:M:S): 00:01:26
 
 To view the complete simulation results use
 [`SimResults()`](http://philchalmers.github.io/SimDesign/reference/SimResults.md)
@@ -440,7 +440,7 @@ pp_single.Bayes.t(n=100, mean=.5, mu=.3) |>
 
     ## 95% Confidence Interval: [0.143, 0.157]
 
-    ## Execution time (H:M:S): 00:01:23
+    ## Execution time (H:M:S): 00:01:19
 
 With this approach all of the power analysis criteria described in
 [`help(Spower)`](https://philchalmers.github.io/Spower/reference/Spower.md)
@@ -668,7 +668,7 @@ rope.lm(n=50, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
 
     ## 95% Confidence Interval: [0.138, 0.151]
 
-    ## Execution time (H:M:S): 00:04:03
+    ## Execution time (H:M:S): 00:15:11
 
 Finally, to demonstrate why this might be useful, the following
 estimates the required sample size to achieve 80% power when using a 95%
@@ -698,4 +698,4 @@ rope.lm(n=interval(50, 200), beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
 
     ## 95% Confidence Interval: [106.7, 108.7]
 
-    ## Execution time (H:M:S): 00:14:53
+    ## Execution time (H:M:S): 00:28:06

@@ -101,7 +101,7 @@ l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 
     ## 95% Confidence Interval: [0.919, 0.929]
 
-    ## Execution time (H:M:S): 00:00:22
+    ## Execution time (H:M:S): 00:00:21
 
 From the output from
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md),
@@ -225,7 +225,7 @@ l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 
     ## 95% Confidence Interval: [0.920, 0.930]
 
-    ## Execution time (H:M:S): 00:00:30
+    ## Execution time (H:M:S): 00:00:29
 
 If at all possible it is recommended to use the `return_analysis`
 approach as the simulation experiments defined within the package have
@@ -303,7 +303,7 @@ typeM
 
     ## 95% Confidence Interval: [0.854, 0.868]
 
-    ## Execution time (H:M:S): 00:00:20
+    ## Execution time (H:M:S): 00:00:19
 
 In this case, `power` represents the probability that, given a
 significant result was observed, the resulting $M$ ratio was less than
@@ -383,7 +383,7 @@ typeM2
 
     ## 95% Confidence Interval: [0.989, 0.993]
 
-    ## Execution time (H:M:S): 00:00:15
+    ## Execution time (H:M:S): 00:00:14
 
 where the Type M error for the $M.ratio = 3$ cutoff is now
 
