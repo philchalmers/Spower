@@ -129,15 +129,15 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # independent (same x-y pairing across groups)
 p_2r(100, r.ab=.5, r.ab2=.6)
-#> [1] 0.01851565
+#> [1] 0.4986141
 
 # return cocor object for further analysis
 p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> 
 #>   Results of a comparison of two correlations based on independent groups
 #> 
-#> Comparison between r1.jk (y, x) = 0.5052 and r2.hm (y, x) = 0.6163
-#> Difference: r1.jk - r2.hm = -0.1111
+#> Comparison between r1.jk (y, x) = 0.5386 and r2.hm (y, x) = 0.577
+#> Difference: r1.jk - r2.hm = -0.0384
 #> Data: sample1: j = y, k = x; sample2: h = y, m = x
 #> Group sizes: n1 = 100, n2 = 100
 #> Null hypothesis: r1.jk is equal to r2.hm
@@ -145,7 +145,7 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> Alpha: 0.05
 #> 
 #> fisher1925: Fisher's z (1925)
-#>   z = -1.1330, p-value = 0.2572
+#>   z = -0.3885, p-value = 0.6977
 #>   Null hypothesis retained
 #> 
 
@@ -163,9 +163,9 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5   0.6      0.05 NA   
 #> 
-#> Estimate of power: 0.163
-#> 95% Confidence Interval: [0.155, 0.170]
-#> Execution time (H:M:S): 00:00:17
+#> Estimate of power: 0.173
+#> 95% Confidence Interval: [0.166, 0.181]
+#> Execution time (H:M:S): 00:00:19
 
    # estimate n required to reach 80% power
    p_2r(n=interval(100, 5000), r.ab=.5, r.ab2=.6) |> Spower(power=.80)
@@ -179,20 +179,20 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #>   <dbl> <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.5   0.6      0.05   0.8
 #> 
-#> Estimate of n: 757.4
-#> 95% Confidence Interval: [750.3, 764.6]
-#> Execution time (H:M:S): 00:01:07
+#> Estimate of n: 758.5
+#> 95% Confidence Interval: [752.4, 764.3]
+#> Execution time (H:M:S): 00:01:10
 
 # }
 
 # overlap (same y, different xs)
 # H0: r.ab = r.bc
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2)
-#> [1] 0.001265968
+#> [1] 0.001171925
 
 # nonoverlap (different ys, different xs)
 # H0: r.ab = r.cd
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2, r.ad=.2, r.bd=.4, r.cd=.2)
-#> [1] 5.003179e-05
+#> [1] 0.5021054
 
 ```

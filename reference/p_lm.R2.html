@@ -23,7 +23,6 @@ R^2 statistic."></head><body>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/gpower_examples.html">G*Power examples evaluated with Spower</a></li>
-    <li><a class="dropdown-item" href="../articles/original/gpower_examples.html">G*Power examples evaluated with Spower</a></li>
     <li><a class="dropdown-item" href="../articles/Spower_TypeSM.html">Type M and Type S errors</a></li>
     <li><a class="dropdown-item" href="../articles/SpowerIntro_logicals.html">Logical Vectors, Bayesian power analyses, and ROPEs</a></li>
     <li><a class="dropdown-item" href="../articles/SpowerIntro.html">Introduction to the Spower package</a></li>
@@ -128,11 +127,11 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 5 fixed IVs, R^2 = .1, sample size of 95</span></span></span>
 <span class="r-in"><span><span class="fu">p_lm.R2</span><span class="op">(</span>n<span class="op">=</span><span class="fl">95</span>, R2<span class="op">=</span><span class="fl">.1</span>, k<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002262878</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01183284</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># random model</span></span></span>
 <span class="r-in"><span><span class="fu">p_lm.R2</span><span class="op">(</span>n<span class="op">=</span><span class="fl">95</span>, R2<span class="op">=</span><span class="fl">.1</span>, k<span class="op">=</span><span class="fl">5</span>, fixed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.882118e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003040528</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_lm.R2</span><span class="op">(</span>n<span class="op">=</span><span class="fl">95</span>, R2<span class="op">=</span><span class="fl">.1</span>, k<span class="op">=</span><span class="fl">5</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -142,7 +141,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)           X1           X2           X3           X4           X5  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     0.02565      0.37670     -0.05581     -0.07449     -0.15633     -0.13322  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    -0.05109      0.39618     -0.05774      0.09585      0.08525      0.01014  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

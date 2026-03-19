@@ -647,7 +647,7 @@ apriori.batch
 
     ## 95% Confidence Interval: [26.5, 27.0]
 
-    ## Execution time (H:M:S): 00:00:41
+    ## Execution time (H:M:S): 00:00:42
 
     ## 
 
@@ -689,7 +689,7 @@ apriori.batch
 
     ## 95% Confidence Interval: [43.8, 44.8]
 
-    ## Execution time (H:M:S): 00:00:33
+    ## Execution time (H:M:S): 00:00:34
 
 ``` r
 as.data.frame(apriori.batch)

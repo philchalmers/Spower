@@ -38,9 +38,8 @@ p_r(n = interval(500, 3000), r = .65, rho = .60) |> Spower(power = .95)
     ## 1    NA  0.65   0.6      0.05  0.95
 
 ``` r
-# this is equivalent:
-# p_r(n = NA, r = .65, rho = .60) |> 
-#   Spower(power = .95, interval=c(500,3000))
+# this is equivalent (not run):
+# p_r(n = NA, r = .65, rho = .60) |> Spower(power = .95, interval=c(500,3000))
 ```
 
 G\*power estimates this $n$ to be 1929 using the Fisher
@@ -406,10 +405,45 @@ p_prop.test(n=20, prop=p, pi=pi, exact=TRUE,
 
     ## Design conditions:
     ## 
-    ## # A tibble: 1 × 5
-    ##       n two.tailed exact sig.level power
-    ##   <dbl> <lgl>      <lgl>     <dbl> <lgl>
-    ## 1    20 FALSE      TRUE       0.05 NA
+    ## # A tibble: 1 × 6
+    ##       n     d type       two.tailed sig.level power
+    ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+    ## 1   649   0.1 one.sample FALSE           0.05 NA
+
+    ## Design conditions:
+    ## 
+    ## # A tibble: 1 × 6
+    ##       n     d type       two.tailed sig.level power
+    ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+    ## 1   164   0.2 one.sample FALSE           0.05 NA
+
+    ## Design conditions:
+    ## 
+    ## # A tibble: 1 × 6
+    ##       n     d type       two.tailed sig.level power
+    ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+    ## 1    42   0.4 one.sample FALSE           0.05 NA
+
+    ## Design conditions:
+    ## 
+    ## # A tibble: 1 × 6
+    ##       n     d type       two.tailed sig.level power
+    ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+    ## 1    20   0.6 one.sample FALSE           0.05 NA
+
+    ## Design conditions:
+    ## 
+    ## # A tibble: 1 × 6
+    ##       n     d type       two.tailed sig.level power
+    ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+    ## 1    12   0.8 one.sample FALSE           0.05 NA
+
+    ## Design conditions:
+    ## 
+    ## # A tibble: 1 × 6
+    ##       n     d type       two.tailed sig.level power
+    ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
+    ## 1     9     1 one.sample FALSE           0.05 NA
 
 #### Example 22.1; Wilcoxon signed-rank test
 
@@ -1002,14 +1036,7 @@ parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
 
 # properties of sampled distribution
 descript(parent1(n=100000, d=0.8))
-```
 
-    ## # A tibble: 1 × 11
-    ##        n  mean  trim    sd    skew  kurt   min   P25   P50   P75   max
-    ##    <dbl> <dbl> <dbl> <dbl>   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-    ## 1 100000 0.800 0.799 0.999 0.00702  3.06 -7.94 0.309 0.800  1.29  9.46
-
-``` r
 p_wilcox.test(n=11, d=.8, type='one.sample', two.tailed=FALSE, parent1 = parent1) |> Spower()
 ```
 
@@ -1035,23 +1062,8 @@ parent2 <- function(n, d) extraDistr::rlaplace(n, sigma=sqrt(1/2))
 
 # properties of sampled distributions
 descript(parent1(n=100000, d=0.375))
-```
-
-    ## # A tibble: 1 × 11
-    ##        n  mean  trim    sd   skew  kurt   min    P25   P50   P75   max
-    ##    <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl>
-    ## 1 100000 0.381 0.382 0.997 0.0256  3.02 -6.07 -0.107 0.382 0.871  9.25
-
-``` r
 descript(parent1(n=100000, d=0))
-```
 
-    ## # A tibble: 1 × 11
-    ##        n    mean    trim    sd    skew  kurt   min    P25     P50   P75   max
-    ##    <dbl>   <dbl>   <dbl> <dbl>   <dbl> <dbl> <dbl>  <dbl>   <dbl> <dbl> <dbl>
-    ## 1 100000 0.00267 0.00272 1.000 0.00490  2.86 -8.77 -0.485 0.00313 0.494  7.78
-
-``` r
 nr <- 134/67
 p_wilcox.test(n=67, n2_n1=nr, d=0.375, parent1=parent1, parent2=parent2) |> 
     Spower()
@@ -1077,23 +1089,8 @@ parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
 parent2 <- function(n, d) extraDistr::rlaplace(n, sigma=sqrt(1/2))
 
 descript(parent1(n=100000, d=1.13842))
-```
-
-    ## # A tibble: 1 × 11
-    ##        n  mean  trim    sd   skew  kurt   min   P25   P50   P75   max
-    ##    <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-    ## 1 100000  1.14  1.14 0.996 0.0158  2.93 -7.46 0.653  1.14  1.63  9.25
-
-``` r
 descript(parent1(n=100000, d=0))
-```
 
-    ## # A tibble: 1 × 11
-    ##        n     mean     trim    sd   skew  kurt   min    P25      P50   P75   max
-    ##    <dbl>    <dbl>    <dbl> <dbl>  <dbl> <dbl> <dbl>  <dbl>    <dbl> <dbl> <dbl>
-    ## 1 100000 -0.00205 -0.00284  1.00 0.0147  3.16 -7.60 -0.490 0.000379 0.484  9.32
-
-``` r
 p_wilcox.test(n=10*2, d=1.13842, type = 'paired',
               parent1=parent1, parent2=parent2) |> Spower()
 ```
