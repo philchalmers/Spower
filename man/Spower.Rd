@@ -699,7 +699,8 @@ gg + geom_text(aes(label=power), size=5, colour='red', nudge_y=.05) +
 
 # Increase precision by using 10000 replications. Parallel computations
 #   generally recommended in this case to save time
-p_t.test(d=0.2) |> SpowerCurve(n=c(30, 90, 270, 550), replications=10000)
+p_t.test(d=0.2) |> SpowerCurve(n=c(30, 90, 270, 550),
+                               replications=10000, parallel=TRUE)
 
 # estimate sample sizes given varying power
 p_t.test(n=NA, d=0.2) |>

@@ -45,7 +45,8 @@
 #'
 #' # Increase precision by using 10000 replications. Parallel computations
 #' #   generally recommended in this case to save time
-#' p_t.test(d=0.2) |> SpowerCurve(n=c(30, 90, 270, 550), replications=10000)
+#' p_t.test(d=0.2) |> SpowerCurve(n=c(30, 90, 270, 550),
+#'                                replications=10000, parallel=TRUE)
 #'
 #' # estimate sample sizes given varying power
 #' p_t.test(n=NA, d=0.2) |>
@@ -103,7 +104,16 @@ SpowerCurve <- function(..., interval = NULL, power = NA,
 					   ncores = parallelly::availableCores(omit = 1L),
 					   predCI = 0.95, predCI.tol = .01, verbose = interactive(),
 					   check.interval=FALSE, maxiter=50, wait.time = NULL,
-					   select = NULL, batch = NULL, control = list()){
+					   select = NULL, batch = NULL, control = list())
+{
+	if(parallel){
+		if(is.null(cl)){
+			cl <- mirai::make_cluster(ncores)
+			on.exit(mirai::stop_cluster(cl), add = TRUE)
+		}
+		if(verbose)
+			message(sprintf("\nNumber of parallel clusters in use: %i", length(cl)))
+	}
 	if(is.null(batch)){
 		dots <- match.call(expand.dots = FALSE)$...
 		if(is.na(sig.level))

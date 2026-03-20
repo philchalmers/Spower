@@ -113,8 +113,16 @@ SpowerBatch <- function(..., interval = NULL, power = NA,
 						ncores = parallelly::availableCores(omit = 1L),
 						predCI = 0.95, predCI.tol = .01, verbose = interactive(),
 						check.interval=FALSE, maxiter=150, wait.time = NULL,
-						select = NULL, control = list()){
-
+						select = NULL, control = list())
+{
+	if(parallel){
+		if(is.null(cl)){
+			cl <- mirai::make_cluster(ncores)
+			on.exit(mirai::stop_cluster(cl), add = TRUE)
+		}
+		if(verbose)
+			message(sprintf("\nNumber of parallel clusters in use: %i", length(cl)))
+	}
 	dots <- match.call(expand.dots = FALSE)$...
 	if(all(is.na(sig.level))){
 		interval <- c(0,1)

@@ -485,15 +485,13 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	pf <- parent.frame(nparent)
 	export_funs <- ls(envir = pf)
 	if(parallel){
-		type <- if(is.null(control$type))
-			ifelse(.Platform$OS.type == 'windows', 'PSOCK', 'FORK')
-		else control$type
+		print_cores <- verbose
 		if(is.null(cl)){
-			cl <- mirai::make_cluster(ncores, ...)
+			cl <- mirai::make_cluster(ncores)
 			on.exit(mirai::stop_cluster(cl), add = TRUE)
-		}
+		} else print_cores <- FALSE
 		parallel::clusterExport(cl=cl, export_funs, envir = pf)
-		if(verbose)
+		if(print_cores)
 			message(sprintf("\nNumber of parallel clusters in use: %i", length(cl)))
 	}
 	packages <- c(packages, 'Spower')
