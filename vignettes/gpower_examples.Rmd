@@ -1,7 +1,7 @@
 ---
 title: "G*Power examples evaluated with Spower"
 author: Phil Chalmers
-date: "`r Sys.Date()`"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
 output: 
   bookdown::html_document2:
     base_format: rmarkdown::html_vignette
@@ -11,24 +11,7 @@ vignette: >
   %\VignetteIndexEntry{G*Power examples evaluated with Spower}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  markdown: 
-    wrap: 72
-  chunk_output_type: console
 ---
-
-```{r nomessages, echo = FALSE}
-knitr::opts_chunk$set(
-  warning = FALSE,
-  message = FALSE
-)
-options(digits=4)
-par(mar=c(5,4,1,1)+.1)
-```
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 ```{r include=FALSE}
 library(Spower)
