@@ -403,8 +403,8 @@ as.data.frame(out)
 ```
 
 ```{r echo=FALSE}
-if(eval) store$ex.4.3b <- getLastSpower()
-print(as.data.frame(store$ex.4.3b))
+if(eval) store$ex.22.1b <- getLastSpower()
+print(as.data.frame(store$ex.22.1b))
 ```
 
 #### Laplace($\mu$, 1) version
