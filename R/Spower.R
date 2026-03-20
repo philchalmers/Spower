@@ -180,7 +180,7 @@
 #'   between Type I and Type II errors
 #'
 #' @param parallel for parallel computing for slower simulation experiments,
-#'   defined using the \code{marai} package by default
+#'   defined using the \code{mirai} package by default
 #'   (see \code{\link[SimDesign]{runSimulation}} for details).
 #'
 #   Note that
