@@ -109,7 +109,7 @@ p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
 #> 
 #> Estimate of power: 0.555
 #> 95% Confidence Interval: [0.546, 0.565]
-#> Execution time (H:M:S): 00:00:07
+#> Execution time (H:M:S): 00:00:06
   p_kruskal.test(n=30, k=3, means=c(0, 1, 2), gen_fun=gen_chisq,
          dfs = c(10, 15, 20)) |> Spower()
 #> 
@@ -124,7 +124,7 @@ p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
 #> 
 #> Estimate of power: 0.184
 #> 95% Confidence Interval: [0.177, 0.192]
-#> Execution time (H:M:S): 00:00:06
+#> Execution time (H:M:S): 00:00:07
 
 # }
 ```

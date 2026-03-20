@@ -278,7 +278,7 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #> 
 #> Estimate of power: 0.939
 #> 95% Confidence Interval: [0.937, 0.942]
-#> Execution time (H:M:S): 00:00:09
+#> Execution time (H:M:S): 00:00:08
 
   # estimate power given the customized data generating function
   p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5) |>

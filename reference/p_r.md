@@ -149,7 +149,7 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
 #> Estimate of power: 0.580
 #> 95% Confidence Interval: [0.570, 0.590]
-#> Execution time (H:M:S): 00:00:08
+#> Execution time (H:M:S): 00:00:07
 
     pwr::pwr.r.test(r=0.3, power=0.80)
 #> 

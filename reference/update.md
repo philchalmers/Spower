@@ -73,7 +73,7 @@ update(out, sig.level=.01)
 #> 
 #> Estimate of power: 0.451
 #> 95% Confidence Interval: [0.438, 0.459]
-#> Execution time (H:M:S): 00:00:03
+#> Execution time (H:M:S): 00:00:02
 update(out, sig.level=.20)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -87,7 +87,7 @@ update(out, sig.level=.20)
 #> 
 #> Estimate of power: 0.886
 #> 95% Confidence Interval: [0.882, 1.000]
-#> Execution time (H:M:S): 00:00:03
+#> Execution time (H:M:S): 00:00:02
 
 
 ########

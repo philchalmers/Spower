@@ -618,10 +618,10 @@ summary(out)   # extra information
 #> [1] 1
 #> 
 #> $date_completed
-#> [1] Fri Mar 20 13:25:19 2026
+#> [1] Fri Mar 20 14:41:52 2026
 #> 
 #> $total_elapsed_time
-#> [1] 2.95s
+#> [1] 3.02s
 #> 
 #> $SEED_history
 #> [1] 1910432787
@@ -676,7 +676,7 @@ p_t.test(n = 50, d = .5) |>
 #> 
 #> Estimate of power: 0.698
 #> 95% Confidence Interval: [0.692, 0.703]
-#> Execution time (H:M:S): 00:00:05
+#> Execution time (H:M:S): 00:00:06
 
 # Solve N to get .80 power (a priori power analysis)
 p_t.test(n = interval(2,500), d = .5) |> Spower(power=.8) -> out
@@ -698,7 +698,7 @@ summary(out)  # extra information
 #> [1] TRUE
 #> 
 #> $time
-#> [1] 20.23s
+#> [1] 20.46s
 #> 
 #> $iterations
 #> [1] 97
@@ -761,7 +761,7 @@ summary(out.par)
 #> [1] FALSE
 #> 
 #> $time
-#> [1] 46.99s
+#> [1] 48.37s
 #> 
 #> $iterations
 #> [1] 150
@@ -852,7 +852,7 @@ p_t.test(n = 50, d = interval(.1, 2)) |> Spower(power=.8)
 #> 
 #> Estimate of d: 0.563
 #> 95% Confidence Interval: [0.562, 0.565]
-#> Execution time (H:M:S): 00:00:16
+#> Execution time (H:M:S): 00:00:17
 pwr::pwr.t.test(n=50, power=.80) # compare
 #> 
 #>      Two-sample t test power calculation 
@@ -1107,7 +1107,7 @@ ci_equiv.t.test(n=2000, d=.2, tol=c(.1, .3)) |> Spower()
 #> 
 #> Estimate of power: 0.773
 #> 95% Confidence Interval: [0.765, 0.782]
-#> Execution time (H:M:S): 00:00:04
+#> Execution time (H:M:S): 00:00:05
 ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .5)) |> Spower()
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -1700,13 +1700,13 @@ build
 #>     super:  <ggproto object: Class Guides, gg> 
 #>  .. @ mapping    : <ggplot2::mapping> List of 4
 #>  .. .. $ x     : language ~.data[["n"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x56454e2a4c50> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x559a2dd69f28> 
 #>  .. .. $ y     : language ~power
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x56454e2a4c50> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x559a2dd69f28> 
 #>  .. .. $ colour: language ~.data[["d"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x56454e2a4c50> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x559a2dd69f28> 
 #>  .. .. $ fill  : language ~.data[["d"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x56454e2a4c50> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x559a2dd69f28> 
 #>  .. @ theme      : <theme> List of 144
 #>  .. .. $ line                            : <ggplot2::element_line>
 #>  .. ..  ..@ colour       : chr "black"
@@ -2143,7 +2143,7 @@ build
 #>  .. .. $ fill  : chr "d"
 #>  .. .. $ alt   : chr ""
 #>  .. @ meta       : list()
-#>  .. @ plot_env   :<environment: 0x56454e2a4c50> 
+#>  .. @ plot_env   :<environment: 0x559a2dd69f28> 
 
 df <- build$plot$data
 head(df)

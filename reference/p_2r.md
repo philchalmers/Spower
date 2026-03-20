@@ -165,7 +165,7 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> 
 #> Estimate of power: 0.169
 #> 95% Confidence Interval: [0.162, 0.176]
-#> Execution time (H:M:S): 00:00:18
+#> Execution time (H:M:S): 00:00:19
 
    # estimate n required to reach 80% power
    p_2r(n=interval(100, 5000), r.ab=.5, r.ab2=.6) |> Spower(power=.80)
@@ -181,7 +181,7 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> 
 #> Estimate of n: 764.3
 #> 95% Confidence Interval: [757.7, 770.7]
-#> Execution time (H:M:S): 00:01:10
+#> Execution time (H:M:S): 00:01:11
 
 # }
 
