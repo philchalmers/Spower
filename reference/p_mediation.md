@@ -117,9 +117,9 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # joint test H0: a*b = 0
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
-#> [1] 0.000100413
+#> [1] 0.0002565864
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
-#> [1] 1.498888e-07
+#> [1] 5.341437e-07
 
 # return analysis model
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
@@ -142,46 +142,46 @@ dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2)
 descript(dat) # specific SDs
 #> # A tibble: 3 × 12
-#>   VARS      n    mean     trim    sd   skew    kurt    min   P25     P50   P75
-#>   <fct> <dbl>   <dbl>    <dbl> <dbl>  <dbl>   <dbl>  <dbl> <dbl>   <dbl> <dbl>
-#> 1 X      1000  0.0176  0.00985  1.98 0.0291 -0.0586  -6.60 -1.32  0.0158  1.37
-#> 2 M      1000  0.0919  0.0933   1.99 0.0112 -0.0802  -5.76 -1.27  0.0953  1.39
-#> 3 Y      1000 -0.137  -0.165    3.13 0.0544  0.0225 -11.0  -2.30 -0.256   1.94
+#>   VARS      n    mean    trim    sd    skew    kurt    min   P25     P50   P75
+#>   <fct> <dbl>   <dbl>   <dbl> <dbl>   <dbl>   <dbl>  <dbl> <dbl>   <dbl> <dbl>
+#> 1 X      1000  0.0345  0.0448  1.97 -0.0649 -0.169   -6.50 -1.24  0.0504  1.33
+#> 2 M      1000 -0.0307 -0.0224  2.02 -0.0261 -0.184   -5.57 -1.43  0.0151  1.34
+#> 3 Y      1000  0.0812  0.0713  2.98  0.0223 -0.0146 -10.3  -1.87 -0.0236  2.18
 #> # ℹ 1 more variable: max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#>  0.07782875  0.80084659 
+#> -0.05822562  0.79561851 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
 #> (Intercept)           M           X 
-#> -0.07660235 -0.69091069  0.15385004 
+#>  0.05258074 -0.69532842  0.21069509 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  -0.1303751  -0.3994634 
+#>  0.09306667 -0.34252107 
 
 # same properties, but dichotomous X variable
 dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2, dichotomous.X = TRUE)
 descript(dat) # specific SDs
 #> # A tibble: 3 × 12
-#>   VARS      n   mean   trim    sd     skew   kurt    min     P25    P50   P75
-#>   <fct> <dbl>  <dbl>  <dbl> <dbl>    <dbl>  <dbl>  <dbl>   <dbl>  <dbl> <dbl>
-#> 1 X      2000  2      2      2.00  0       -2.00    0     0       2      4   
-#> 2 M      2000  1.59   1.59   1.99  0.00111 -0.708  -4.70 -0.0190  1.51   3.16
-#> 3 Y      2000 -0.798 -0.785  2.95 -0.0261   0.126 -10.7  -2.71   -0.809  1.15
+#>   VARS      n   mean   trim    sd    skew    kurt   min     P25    P50   P75
+#>   <fct> <dbl>  <dbl>  <dbl> <dbl>   <dbl>   <dbl> <dbl>   <dbl>  <dbl> <dbl>
+#> 1 X      2000  2      2      2.00  0      -2.00    0     0       2      4   
+#> 2 M      2000  1.58   1.59   2.00 -0.0107 -0.858  -3.75 -0.0453  1.56   3.23
+#> 3 Y      2000 -0.720 -0.709  2.95 -0.0104 -0.0973 -9.56 -2.74   -0.669  1.26
 #> # ℹ 1 more variable: max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
-#>  (Intercept)            X 
-#> -0.009989879  0.798564572 
+#> (Intercept)           X 
+#> -0.02934882  0.80493087 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
 #> (Intercept)           M           X 
-#>  -0.1824188  -0.5956448   0.1649657 
+#>  0.01563743 -0.61796916  0.12075761 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  -0.1764684  -0.3106952 
+#>  0.03377409 -0.37666484 
 
 # \donttest{
 
@@ -200,18 +200,24 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> 
 #> Estimate of power: 0.997
 #> 95% Confidence Interval: [0.994, 1.000]
-#> Execution time (H:M:S): 00:00:22
+#> Execution time (H:M:S): 00:00:21
 
   # sample size estimate for .95 power
   p_mediation(n=interval(50,200), a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
     Spower(power=.95, parallel=TRUE)
-#> Warning: lavaan->lav_data_full():  
-#>    some observed variables are perfectly correlated; please check your data; 
-#>    variables involved are: Y M
-#> Warning: lavaan->lav_data_full():  
-#>    small number of observations (nobs < nvar) : nobs = 2 nvar = 3
-#> Error: lavaan->lav_samplestats_icov():  
-#>    sample covariance matrix is not positive-definite
+#> 
+#> ── Spower Results ──────────────────────────────────────────────────────────────
+#> 
+#> Design conditions:
+#> 
+#> # A tibble: 1 × 4
+#>       n cprime sig.level power
+#>   <dbl>  <dbl>     <dbl> <dbl>
+#> 1    NA   0.39      0.05  0.95
+#> 
+#> Estimate of n: 51.0
+#> 95% Confidence Interval: [NA, NA]
+#> Execution time (H:M:S): 00:23:18
 
 # }
 ```

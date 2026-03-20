@@ -89,7 +89,7 @@ p_ks.test(n=100, p1, p2, return_analysis=TRUE)
 #>  Asymptotic two-sample Kolmogorov-Smirnov test
 #> 
 #> data:  dat1 and dat2
-#> D = 0.26, p-value = 0.002318
+#> D = 0.2, p-value = 0.03663
 #> alternative hypothesis: two-sided
 #> 
 
@@ -97,7 +97,7 @@ p_ks.test(n=100, p1, p2, return_analysis=TRUE)
 #   against a standard normal distribution
 pc <- function(n, df=15) (rchisq(n, df=df) - df) / sqrt(2*df)
 p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
-#> [1] 0.09989962
+#> [1] 0.7856172
 
 # \donttest{
   # empirical power estimates
@@ -112,8 +112,8 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.837
-#> 95% Confidence Interval: [0.830, 0.844]
+#> Estimate of power: 0.832
+#> 95% Confidence Interval: [0.825, 0.840]
 #> Execution time (H:M:S): 00:00:03
   p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1) |> Spower()
 #> 
@@ -127,7 +127,7 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #> 1   100     0     1      0.05 NA   
 #> 
 #> Estimate of power: 0.139
-#> 95% Confidence Interval: [0.132, 0.146]
+#> 95% Confidence Interval: [0.133, 0.146]
 #> Execution time (H:M:S): 00:00:02
 
 # }
