@@ -71,17 +71,17 @@ sigma
 
 # H0 test that sphericity holds
 p_mauchly.test(100, sigma=sigma)
-#> [1] 0.164101
+#> [1] 0.03948967
 
 # return analysis object
 p_mauchly.test(100, sigma=sigma, return_analysis=TRUE)
-#>           W df   p.value
-#> 1 0.9856832  2 0.4933228
+#>           W df     p.value
+#> 1 0.9000641  2 0.005746426
 
 # Null is true
 sigma.H0 <- diag(3)
 p_mauchly.test(100, sigma=sigma.H0)
-#> [1] 0.9916215
+#> [1] 0.1559234
 
 
 # \donttest{
@@ -113,8 +113,8 @@ p_mauchly.test(100, sigma=sigma.H0)
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.055
-#> 95% Confidence Interval: [0.050, 0.059]
+#> Estimate of power: 0.049
+#> 95% Confidence Interval: [0.044, 0.053]
 #> Execution time (H:M:S): 00:00:09
 # }
 ```

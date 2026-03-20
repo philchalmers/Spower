@@ -131,18 +131,18 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>G <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'control'</span>, <span class="st">'treatment'</span><span class="op">)</span>, each<span class="op">=</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                C <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">50</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">100</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         G   C</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 control  57</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 control  61</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 control  97</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 control 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 control  85</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 control  98</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         G  C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 control 90</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 control 57</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 control 78</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 control 58</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 control 71</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 control 69</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ANCOVA setup</span></span></span>
 <span class="r-in"><span><span class="fu">p_glm</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">G</span> <span class="op">+</span> <span class="va">C</span>, test<span class="op">=</span><span class="st">"Gtreatment = 0"</span>,</span></span>
 <span class="r-in"><span>  X<span class="op">=</span><span class="va">X</span>, betas<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">.3</span>, <span class="fl">1</span><span class="op">)</span>, sigma<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5683921</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5827529</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_glm</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">G</span> <span class="op">+</span> <span class="va">C</span>, test<span class="op">=</span><span class="st">"Gtreatment = 0"</span>,</span></span>
@@ -153,19 +153,19 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   Gtreatment            C  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      9.5355       0.3956       1.0045  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    10.67925      0.01102      0.99567  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ANCOVA setup with logistic regression</span></span></span>
 <span class="r-in"><span><span class="fu">p_glm</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">G</span> <span class="op">+</span> <span class="va">C</span>, test<span class="op">=</span><span class="st">"Gtreatment = 0"</span>,</span></span>
 <span class="r-in"><span>  X<span class="op">=</span><span class="va">X</span>, betas<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">.5</span>, <span class="fl">.01</span><span class="op">)</span>, family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6552036</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1223876</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># ANCOVA setup with poisson regression</span></span></span>
 <span class="r-in"><span><span class="fu">p_glm</span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">G</span> <span class="op">+</span> <span class="va">C</span>, test<span class="op">=</span><span class="st">"Gtreatment = 0"</span>,</span></span>
 <span class="r-in"><span>  X<span class="op">=</span><span class="va">X</span>, betas<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">.5</span>, <span class="fl">.01</span><span class="op">)</span>, family<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002378039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8386471</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span></span></span>
@@ -198,8 +198,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> X:S = 0   0.5   100     1     2   0.2      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.940</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.925</span>, <span style="color: #0000BB;">0.955</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.936</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.921</span>, <span style="color: #0000BB;">0.951</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:02</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>

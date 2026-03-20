@@ -735,13 +735,8 @@ out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |>
 as.data.frame(out)
 ```
 
-    ##     n   d       type two.tailed sig.level   power    CI_2.5   CI_97.5
-    ## 1 649 0.1 one.sample      FALSE      0.05 0.80124 0.7977421 0.8047379
-    ## 2 164 0.2 one.sample      FALSE      0.05 0.80270 0.7992118 0.8061882
-    ## 3  42 0.4 one.sample      FALSE      0.05 0.80434 0.8008628 0.8078172
-    ## 4  20 0.6 one.sample      FALSE      0.05 0.80700 0.8035408 0.8104592
-    ## 5  12 0.8 one.sample      FALSE      0.05 0.80178 0.7982857 0.8052743
-    ## 6   9 1.0 one.sample      FALSE      0.05 0.84668 0.8435219 0.8498381
+    ##        n   d       type two.tailed sig.level  power    CI_2.5   CI_97.5
+    ## power 11 0.8 one.sample      FALSE      0.05 0.8147 0.8070847 0.8223153
 
 ##### Laplace($\mu$, 1) version
 
