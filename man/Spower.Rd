@@ -196,7 +196,8 @@ If missing, automatically set to \code{FALSE} if \code{interval} contains
 non-integer numbers or the range is less than 5, as well as
 when \code{sig.level = NA}}
 
-\item{parallel}{for parallel computing for slower simulation experiments
+\item{parallel}{for parallel computing for slower simulation experiments,
+defined using the \code{marai} package by default
 (see \code{\link[SimDesign]{runSimulation}} for details).}
 
 \item{cl}{see \code{\link[SimDesign]{runSimulation}}}

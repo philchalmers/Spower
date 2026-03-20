@@ -179,7 +179,8 @@
 #'   less than one the opposite. A ratio equal to 1 gives an equal trade-off
 #'   between Type I and Type II errors
 #'
-#' @param parallel for parallel computing for slower simulation experiments
+#' @param parallel for parallel computing for slower simulation experiments,
+#'   defined using the \code{marai} package by default
 #'   (see \code{\link[SimDesign]{runSimulation}} for details).
 #'
 #   Note that
@@ -213,6 +214,7 @@
 #'   or not
 #'
 #' @import SimDesign stats cli
+#' @importFrom mirai make_cluster stop_cluster
 #' @return an invisible \code{tibble}/\code{data.frame}-type object of
 #' class \code{'Spower'} containing the power results from the
 #' simulation experiment
@@ -487,8 +489,8 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 			ifelse(.Platform$OS.type == 'windows', 'PSOCK', 'FORK')
 		else control$type
 		if(is.null(cl)){
-			cl <- parallel::makeCluster(ncores, type=type)
-			on.exit(parallel::stopCluster(cl), add = TRUE)
+			cl <- mirai::make_cluster(ncores, ...)
+			on.exit(mirai::stop_cluster(cl), add = TRUE)
 		}
 		parallel::clusterExport(cl=cl, export_funs, envir = pf)
 		if(verbose)
