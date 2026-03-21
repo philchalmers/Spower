@@ -218,7 +218,7 @@ l_precision(n=interval(10, 500), mean=.2, CI.width=1/4) |>
 
     ## 95% Confidence Interval: [272.0, 273.2]
 
-    ## Execution time (H:M:S): 00:00:23
+    ## Execution time (H:M:S): 00:00:22
 
 Compared to the required $N$ from a power analysis that just contains a
 significant result, this joint practical significance criteria requires
@@ -251,7 +251,7 @@ l_precision(n=interval(10, 500), mean=.2, CI.width=Inf) |>
 
     ## 95% Confidence Interval: [197.2, 200.2]
 
-    ## Execution time (H:M:S): 00:00:21
+    ## Execution time (H:M:S): 00:00:20
 
 ### Bayes Factors
 
@@ -326,7 +326,7 @@ BFsim
 
     ## 95% Confidence Interval: [0.257, 0.274]
 
-    ## Execution time (H:M:S): 00:01:26
+    ## Execution time (H:M:S): 00:01:25
 
 To view the complete simulation results use
 [`SimResults()`](http://philchalmers.github.io/SimDesign/reference/SimResults.md)
@@ -440,7 +440,7 @@ pp_single.Bayes.t(n=100, mean=.5, mu=.3) |>
 
     ## 95% Confidence Interval: [0.143, 0.157]
 
-    ## Execution time (H:M:S): 00:01:22
+    ## Execution time (H:M:S): 00:01:20
 
 With this approach all of the power analysis criteria described in
 [`help(Spower)`](https://philchalmers.github.io/Spower/reference/Spower.md)
@@ -666,9 +666,9 @@ rope.lm(n=50, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
 
     ## Estimate of power: 0.144
 
-    ## 95% Confidence Interval: [0.138, 0.151]
+    ## 95% Confidence Interval: [0.137, 0.151]
 
-    ## Execution time (H:M:S): 00:21:27
+    ## Execution time (H:M:S): 00:34:07
 
 Finally, to demonstrate why this might be useful, the following
 estimates the required sample size to achieve 80% power when using a 95%
@@ -694,8 +694,8 @@ rope.lm(n=interval(50, 200), beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
 
     ## 
 
-    ## Estimate of n: 107.7
+    ## Estimate of n: 108.3
 
-    ## 95% Confidence Interval: [106.7, 108.7]
+    ## 95% Confidence Interval: [107.6, 109.0]
 
-    ## Execution time (H:M:S): 01:47:23
+    ## Execution time (H:M:S): 01:11:44

@@ -101,7 +101,7 @@ l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 
     ## 95% Confidence Interval: [0.919, 0.929]
 
-    ## Execution time (H:M:S): 00:00:22
+    ## Execution time (H:M:S): 00:00:21
 
 From the output from
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md),
