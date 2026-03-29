@@ -140,24 +140,24 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># one sample</span></span></span>
 <span class="r-in"><span><span class="fu">p_var.test</span><span class="op">(</span><span class="fl">100</span>, vars<span class="op">=</span><span class="fl">10</span>, sigma2<span class="op">=</span><span class="fl">9</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.02408541</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6003182</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis object</span></span></span>
 <span class="r-in"><span><span class="fu">p_var.test</span><span class="op">(</span><span class="fl">100</span>, vars<span class="op">=</span><span class="fl">10</span>, sigma2<span class="op">=</span><span class="fl">9</span>, return_analysis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Chi-Squared </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    90.89266 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    136.7419 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> df </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 99 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5857836</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0143819</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $estimate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> variance </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8.262969 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12.43108 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $null.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> variance </span>
@@ -173,8 +173,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "dat$DV"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $conf.int</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      LCL      UCL </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6.36989 11.15079 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       LCL       UCL </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9.583073 16.775615 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"conf.level")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -183,11 +183,11 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># three sample</span></span></span>
 <span class="r-in"><span><span class="fu">p_var.test</span><span class="op">(</span><span class="fl">100</span>, vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">9</span>, <span class="fl">11</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3570286</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7725944</span>
 <span class="r-in"><span><span class="fu">p_var.test</span><span class="op">(</span><span class="fl">100</span>, vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">9</span>, <span class="fl">11</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">'Fligner'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2865528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8399223</span>
 <span class="r-in"><span><span class="fu">p_var.test</span><span class="op">(</span><span class="fl">100</span>, vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">9</span>, <span class="fl">11</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">'Bartlett'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5095477</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.03824413</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span>  <span class="co"># power to detect three-group variance differences</span></span></span>
@@ -204,7 +204,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.117</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.111</span>, <span style="color: #0000BB;">0.123</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:32</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:30</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>  <span class="co"># sample size per group to achieve 80% power</span></span></span>
 <span class="r-in"><span>  <span class="fu">p_var.test</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="Spower.html">interval</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">2000</span><span class="op">)</span>, vars<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">9</span>,<span class="fl">11</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">.80</span><span class="op">)</span></span></span>
@@ -218,9 +218,9 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>      0.05   0.8</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of n: <span style="color: #0000BB;">1097.8</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">1089.1</span>, <span style="color: #0000BB;">1106.6</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:02:33</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of n: <span style="color: #0000BB;">1097.1</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">1086.9</span>, <span style="color: #0000BB;">1106.9</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:02:31</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

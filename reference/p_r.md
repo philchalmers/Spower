@@ -87,13 +87,13 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ``` r
 # 50 observations, .5 correlation
 p_r(50, r=.5)
-#> [1] 1.863372e-05
+#> [1] 0.03706987
 p_r(50, r=.5, method = 'spearman')
-#> [1] 0.01228988
+#> [1] 0.01591984
 
 # test against constant other than rho = .6
 p_r(50, .5, rho=.60)
-#> [1] 0.1723153
+#> [1] 0.3815898
 
 # return analysis model
 p_r(50, .5, return_analysis=TRUE)
@@ -101,26 +101,26 @@ p_r(50, .5, return_analysis=TRUE)
 #>  Pearson's product-moment correlation
 #> 
 #> data:  x and y
-#> t = 3.8027, df = 48, p-value = 0.0004044
+#> t = 2.917, df = 48, p-value = 0.005361
 #> alternative hypothesis: true correlation is not equal to 0
 #> 95 percent confidence interval:
-#>  0.2341751 0.6698012
+#>  0.1229777 0.6014294
 #> sample estimates:
 #>       cor 
-#> 0.4811598 
+#> 0.3880425 
 #> 
 p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
 #>  Pearson's product-moment correlation
 #> 
 #> data:  x and y
-#> t = -1.0488, df = Inf, p-value = 0.2942
+#> t = -2.7894, df = Inf, p-value = 0.00528
 #> alternative hypothesis: true correlation is not equal to 0.6
 #> 95 percent confidence interval:
-#>  0.2489252 0.6783477
+#>  0.0003793756 0.5169435590
 #> sample estimates:
 #>       cor 
-#> 0.4931067 
+#> 0.2786977 
 #> 
 
 # \donttest{
@@ -148,7 +148,7 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 1    50   0.3      0.05 NA   
 #> 
 #> Estimate of power: 0.571
-#> 95% Confidence Interval: [0.561, 0.581]
+#> 95% Confidence Interval: [0.562, 0.581]
 #> Execution time (H:M:S): 00:00:07
 
     pwr::pwr.r.test(r=0.3, power=0.80)
@@ -172,9 +172,9 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.3      0.05   0.8
 #> 
-#> Estimate of n: 83.9
-#> 95% Confidence Interval: [82.6, 85.2]
-#> Execution time (H:M:S): 00:01:00
+#> Estimate of n: 84.5
+#> 95% Confidence Interval: [83.5, 85.5]
+#> Execution time (H:M:S): 00:00:49
 
     pwr::pwr.r.test(r=0.1, power=0.80)
 #> 
@@ -197,8 +197,8 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.1      0.05   0.8
 #> 
-#> Estimate of n: 781.8
-#> 95% Confidence Interval: [775.1, 788.1]
+#> Estimate of n: 787.5
+#> 95% Confidence Interval: [775.2, 799.5]
 #> Execution time (H:M:S): 00:00:38
 
 # }
