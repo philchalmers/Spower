@@ -81,7 +81,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 p1 <- function(n) rnorm(n)
 p2 <- function(n) rnorm(n, mean=-.5)
 p_ks.test(n=100, p1, p2)
-#> [1] 0.01008352
+#> [1] 0.0158141
 
 # return analysis model
 p_ks.test(n=100, p1, p2, return_analysis=TRUE)
@@ -97,7 +97,7 @@ p_ks.test(n=100, p1, p2, return_analysis=TRUE)
 #   against a standard normal distribution
 pc <- function(n, df=15) (rchisq(n, df=df) - df) / sqrt(2*df)
 p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
-#> [1] 0.346977
+#> [1] 0.7856172
 
 # \donttest{
   # empirical power estimates
@@ -112,8 +112,8 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.825
-#> 95% Confidence Interval: [0.818, 0.833]
+#> Estimate of power: 0.832
+#> 95% Confidence Interval: [0.825, 0.840]
 #> Execution time (H:M:S): 00:00:03
   p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1) |> Spower()
 #> 
@@ -126,8 +126,8 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100     0     1      0.05 NA   
 #> 
-#> Estimate of power: 0.147
-#> 95% Confidence Interval: [0.140, 0.154]
+#> Estimate of power: 0.139
+#> 95% Confidence Interval: [0.133, 0.146]
 #> Execution time (H:M:S): 00:00:02
 
 # }
