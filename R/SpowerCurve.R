@@ -112,7 +112,7 @@ SpowerCurve <- function(..., interval = NULL, power = NA,
 			on.exit(mirai::stop_cluster(cl), add = TRUE)
 		}
 		if(verbose)
-			message(sprintf("\nNumber of parallel clusters in use: %i", length(cl)))
+			message(sprintf("\nNumber of cores used in cluster: %i", length(cl)))
 	}
 	if(is.null(batch)){
 		dots <- match.call(expand.dots = FALSE)$...

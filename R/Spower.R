@@ -492,7 +492,7 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 		} else print_cores <- FALSE
 		parallel::clusterExport(cl=cl, export_funs, envir = pf)
 		if(print_cores)
-			message(sprintf("\nNumber of parallel clusters in use: %i", length(cl)))
+			message(sprintf("\nNumber of cores used in cluster: %i", length(cl)))
 	}
 	packages <- c(packages, 'Spower')
 	if(is.na(sig.level)){
