@@ -71,7 +71,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # three group test where data generate from Gaussian distributions
 p_kruskal.test(n=30, k=3, means=c(0, .5, .6))
-#> [1] 0.0002095651
+#> [1] 0.0461189
 
 # return analysis model
 p_kruskal.test(n=30, k=3, means=c(0, .5, .6), return_analysis=TRUE)
@@ -79,7 +79,7 @@ p_kruskal.test(n=30, k=3, means=c(0, .5, .6), return_analysis=TRUE)
 #>  Kruskal-Wallis rank sum test
 #> 
 #> data:  dat
-#> Kruskal-Wallis chi-squared = 14.474, df = 2, p-value = 0.0007194
+#> Kruskal-Wallis chi-squared = 4.7757, df = 2, p-value = 0.09183
 #> 
 
 # generate data from chi-squared distributions with different variances
@@ -93,7 +93,7 @@ gen_chisq <- function(n, k, n.ratios, means, dfs, ...){
 
 p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
    gen_fun=gen_chisq, dfs=c(10, 15, 20))
-#> [1] 0.6819103
+#> [1] 0.4613145
 
 # \donttest{
   # empirical power estimate
@@ -108,9 +108,9 @@ p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    30     3      0.05 NA   
 #> 
-#> Estimate of power: 0.555
-#> 95% Confidence Interval: [0.546, 0.565]
-#> Execution time (H:M:S): 00:00:06
+#> Estimate of power: 0.548
+#> 95% Confidence Interval: [0.539, 0.558]
+#> Execution time (H:M:S): 00:00:07
   p_kruskal.test(n=30, k=3, means=c(0, 1, 2), gen_fun=gen_chisq,
          dfs = c(10, 15, 20)) |> Spower()
 #> 
@@ -123,8 +123,8 @@ p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    30     3      0.05 NA   
 #> 
-#> Estimate of power: 0.183
-#> 95% Confidence Interval: [0.175, 0.190]
+#> Estimate of power: 0.186
+#> 95% Confidence Interval: [0.178, 0.193]
 #> Execution time (H:M:S): 00:00:07
 
 # }

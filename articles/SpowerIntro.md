@@ -87,24 +87,17 @@ p_lm.R2(50, k=3, R2=.3) |> Spower()
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
     ##       n    R2     k sig.level power
     ##   <dbl> <dbl> <dbl>     <dbl> <lgl>
     ## 1    50   0.3     3      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.971
-
     ## 95% Confidence Interval: [0.968, 0.974]
-
     ## Execution time (H:M:S): 00:00:40
 
 Each of the `p_*` functions return a $`p`$-value ($`P(D|H_0`$) as this
@@ -209,24 +202,17 @@ prospective
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
     ##       n  mean    mu sig.level power
     ##   <dbl> <dbl> <dbl>     <dbl> <lgl>
     ## 1   100   0.5   0.3      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.515
-
     ## 95% Confidence Interval: [0.505, 0.525]
-
     ## Execution time (H:M:S): 00:00:03
 
 ### Compromise power analysis
@@ -249,30 +235,20 @@ compromise
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 6
     ##       n  mean    mu sig.level power beta_alpha
     ##   <dbl> <dbl> <dbl>     <dbl> <lgl>      <dbl>
     ## 1   100   0.5   0.3        NA NA             4
-
     ## 
-
     ## Estimate of Type I error rate (alpha/sig.level): 0.093
-
     ## 95% Confidence Interval: [0.087, 0.098]
-
     ## 
-
     ## Estimate of power (1-beta): 0.629
-
     ## 95% Confidence Interval: [0.620, 0.638]
-
     ## Execution time (H:M:S): 00:00:03
 
 This returns the estimated `sig.level` ($`\hat{\alpha}`$) and resulting
@@ -295,34 +271,23 @@ all the necessary information for obtaining the compromise estimates.
 
 # using previous post-hoc/prospective power analysis
 update(prospective, beta_alpha=4)
+## 
+## ── Spower Results ──────────────────────────────────────────────────────────────
+## 
+## Design conditions:
+## 
+## # A tibble: 1 × 6
+##       n  mean    mu sig.level power beta_alpha
+##   <dbl> <dbl> <dbl>     <dbl> <lgl>      <dbl>
+## 1   100   0.5   0.3        NA NA             4
+## 
+## Estimate of Type I error rate (alpha/sig.level): 0.093
+## 95% Confidence Interval: [0.088, 0.099]
+## 
+## Estimate of power (1-beta): 0.627
+## 95% Confidence Interval: [0.617, 0.636]
+## Execution time (H:M:S): 00:00:03
 ```
-
-    ## 
-
-    ## ── Spower Results ──────────────────────────────────────────────────────────────
-
-    ## 
-
-    ## Design conditions:
-    ## 
-    ## # A tibble: 1 × 6
-    ##       n  mean    mu sig.level power beta_alpha
-    ##   <dbl> <dbl> <dbl>     <dbl> <lgl>      <dbl>
-    ## 1   100   0.5   0.3        NA NA             4
-
-    ## 
-
-    ## Estimate of Type I error rate (alpha/sig.level): 0.093
-
-    ## 95% Confidence Interval: [0.088, 0.099]
-
-    ## 
-
-    ## Estimate of power (1-beta): 0.627
-
-    ## 95% Confidence Interval: [0.617, 0.636]
-
-    ## Execution time (H:M:S): 00:00:03
 
 In either case, the use of S3 generic
 [`update()`](https://rdrr.io/r/stats/update.html) function can be
@@ -366,24 +331,17 @@ p_single.t(n=NA, mean=.5) |>
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA   0.5      0.05   0.8
-
     ## 
-
     ## Estimate of n: 32.8
-
     ## 95% Confidence Interval: [32.4, 33.1]
-
     ## Execution time (H:M:S): 00:00:25
 
 Equivalently, rather than placing the `interval` definition within
@@ -393,7 +351,7 @@ and providing a suitable `NA` placeholder to indicate which argument
 [`interval()`](https://philchalmers.github.io/Spower/reference/Spower.md)
 can be used directly in the experiment definition argument. Hence, the
 following will be identical to the above example, though requires less
-back-and-forth reading between the pipe seperator.
+back-and-forth reading between the pipe separator.
 
 ``` r
 
@@ -401,24 +359,17 @@ p_single.t(n=interval(20, 200), mean=.5) |> Spower(power=.8)
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA   0.5      0.05   0.8
-
     ## 
-
     ## Estimate of n: 32.8
-
     ## 95% Confidence Interval: [32.4, 33.1]
-
     ## Execution time (H:M:S): 00:00:25
 
 Of course, the output will still be presented in terms of the `NA`
@@ -449,24 +400,17 @@ p_single.t(n=100, mean=NA) |>
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <dbl>
     ## 1   100    NA      0.05   0.8
-
     ## 
-
     ## Estimate of mean: 0.281
-
     ## 95% Confidence Interval: [0.280, 0.283]
-
     ## Execution time (H:M:S): 00:00:20
 
 Equivalently, using
@@ -497,24 +441,17 @@ p_single.t(n=50, mean=.5) |>
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <dbl>
     ## 1    50   0.5        NA   0.8
-
     ## 
-
     ## Estimate of sig.level: 0.010
-
     ## 95% Confidence Interval: [0.009, 0.010]
-
     ## Execution time (H:M:S): 00:00:18
 
 ## Multiple power evaluation functions
@@ -555,66 +492,43 @@ prospective.batch
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    30   0.5      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.752
-
     ## 95% Confidence Interval: [0.743, 0.760]
-
     ## Execution time (H:M:S): 00:00:03
-
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    60   0.5      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.967
-
     ## 95% Confidence Interval: [0.963, 0.970]
-
     ## Execution time (H:M:S): 00:00:03
-
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    90   0.5      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.996
-
     ## 95% Confidence Interval: [0.995, 0.997]
-
     ## Execution time (H:M:S): 00:00:03
 
 This can further be coerced to a `data.frame` object if there is reason
@@ -644,66 +558,43 @@ apriori.batch
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA   0.5      0.05   0.7
-
     ## 
-
     ## Estimate of n: 26.7
-
     ## 95% Confidence Interval: [26.5, 27.0]
-
     ## Execution time (H:M:S): 00:00:41
-
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA   0.5      0.05   0.8
-
     ## 
-
     ## Estimate of n: 33.3
-
     ## 95% Confidence Interval: [32.9, 33.7]
-
     ## Execution time (H:M:S): 00:00:21
-
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA   0.5      0.05   0.9
-
     ## 
-
     ## Estimate of n: 44.4
-
     ## 95% Confidence Interval: [43.8, 44.8]
-
     ## Execution time (H:M:S): 00:00:33
 
 ``` r

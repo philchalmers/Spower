@@ -13,7 +13,7 @@ for one or both of the variables."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Spower</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@ for one or both of the variables."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>p-value from tetrachoric/polychoric or polyserial</h1>
-      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/v0.6.2/R/p_r.cat.R" class="external-link"><code>R/p_r.cat.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/main/R/p_r.cat.R" class="external-link"><code>R/p_r.cat.R</code></a></small>
       <div class="d-none name"><code>p_r.cat.Rd</code></div>
     </div>
 
@@ -148,29 +148,29 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 100 observations, .5 correlation, tetrachoric estimate</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">100</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span>, tauY<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001403071</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01103873</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">100</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span>, tauY<span class="op">=</span><span class="fl">1</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Polychoric Correlation, ML est. = 0.481 (0.1734)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Polychoric Correlation, ML est. = 0.6173 (0.1761)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Row Threshold</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Threshold Std.Err.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1.036   0.1531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1.405   0.1825</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Column Threshold</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Threshold Std.Err.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     -0.2533   0.1268</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      0.2019   0.1263</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Wald test</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">100</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span>, tauY<span class="op">=</span><span class="fl">1</span>, score<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001718902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001910946</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># polyserial estimate (Y continuous)</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">50</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.736567e-07</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0004709337</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

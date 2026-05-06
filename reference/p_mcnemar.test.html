@@ -9,7 +9,7 @@ return a p-value. Uses mcnemar.test."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Spower</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,7 +37,7 @@ return a p-value. Uses mcnemar.test."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>p-value from McNemar test simulation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/v0.6.2/R/p_mcnemar.test.R" class="external-link"><code>R/p_mcnemar.test.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/main/R/p_mcnemar.test.R" class="external-link"><code>R/p_mcnemar.test.R</code></a></small>
       <div class="d-none name"><code>p_mcnemar.test.Rd</code></div>
     </div>
 
@@ -140,7 +140,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># one sample + test and resulting p-value</span></span></span>
 <span class="r-in"><span><span class="fu">p_mcnemar.test</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">Performance</span><span class="op">)</span>, prop<span class="op">=</span><span class="va">prop</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.967489e-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001215696</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_mcnemar.test</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">Performance</span><span class="op">)</span>, prop<span class="op">=</span><span class="va">prop</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -148,7 +148,7 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	McNemar's Chi-squared test with continuity correction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  dat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> McNemar's chi-squared = 6.1116, df = 1, p-value = 0.01343</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> McNemar's chi-squared = 4.7572, df = 1, p-value = 0.02918</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
@@ -173,8 +173,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    50  0.25 FALSE           0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.332</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.327</span>, <span style="color: #0000BB;">0.337</span>]</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:05</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.326</span>, <span style="color: #0000BB;">0.337</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:06</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>

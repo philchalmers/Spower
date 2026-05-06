@@ -81,11 +81,11 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # 5 fixed IVs, R^2 = .1, sample size of 95
 p_lm.R2(n=95, R2=.1, k=5)
-#> [1] 0.4302313
+#> [1] 0.0004236718
 
 # random model
 p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE)
-#> [1] 0.2482063
+#> [1] 0.007577099
 
 # return analysis model
 p_lm.R2(n=95, R2=.1, k=5, return_analysis=TRUE)
@@ -95,6 +95,6 @@ p_lm.R2(n=95, R2=.1, k=5, return_analysis=TRUE)
 #> 
 #> Coefficients:
 #> (Intercept)           X1           X2           X3           X4           X5  
-#>    -0.18195      0.40125     -0.05470     -0.12357      0.08422      0.12779  
+#>     0.08097      0.21023      0.02372      0.07627     -0.12872     -0.14374  
 #> 
 ```

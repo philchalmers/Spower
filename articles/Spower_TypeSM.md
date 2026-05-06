@@ -85,24 +85,17 @@ l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    15   0.2      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.924
-
     ## 95% Confidence Interval: [0.919, 0.929]
-
     ## Execution time (H:M:S): 00:00:21
 
 From the output from
@@ -131,24 +124,17 @@ l_two.t_correct.sign(n=NA, mean=.2) |>
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA   0.2      0.05  0.99
-
     ## 
-
     ## Estimate of n: 47.7
-
     ## 95% Confidence Interval: [44.1, 51.7]
-
     ## Execution time (H:M:S): 00:00:18
 
 Hence, one would need a sample size of approximately 48 per group in
@@ -214,24 +200,17 @@ l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    15   0.2      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.925
-
     ## 95% Confidence Interval: [0.920, 0.930]
-
     ## Execution time (H:M:S): 00:00:28
 
 If at all possible it is recommended to use the `return_analysis`
@@ -294,24 +273,17 @@ typeM
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    50   0.2      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.861
-
     ## 95% Confidence Interval: [0.854, 0.868]
-
     ## Execution time (H:M:S): 00:00:19
 
 In this case, `power` represents the probability that, given a
@@ -378,24 +350,17 @@ typeM2
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1   100   0.2      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.991
-
     ## 95% Confidence Interval: [0.989, 0.993]
-
     ## Execution time (H:M:S): 00:00:14
 
 where the Type M error for the $`M.ratio = 3`$ cutoff is now

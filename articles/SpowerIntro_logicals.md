@@ -89,24 +89,17 @@ p_single.t(n=100, mean=.3) |> Spower()
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1   100   0.3      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.846
-
     ## 95% Confidence Interval: [0.839, 0.853]
-
     ## Execution time (H:M:S): 00:00:03
 
 ``` r
@@ -115,24 +108,17 @@ l_single.t(n=100, mean=.3) |> Spower()
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1   100   0.3      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.841
-
     ## 95% Confidence Interval: [0.834, 0.849]
-
     ## Execution time (H:M:S): 00:00:04
 
 #### Using previouls defined simulation code
@@ -207,24 +193,17 @@ l_precision(n=interval(10, 500), mean=.2, CI.width=1/4) |>
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n  mean sig.level power
     ##   <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA   0.2      0.05   0.8
-
     ## 
-
     ## Estimate of n: 272.6
-
     ## 95% Confidence Interval: [272.0, 273.2]
-
     ## Execution time (H:M:S): 00:00:22
 
 Compared to the required $`N`$ from a power analysis that just contains
@@ -241,24 +220,17 @@ l_precision(n=interval(10, 500), mean=.2, CI.width=Inf) |>
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
     ##       n  mean CI.width sig.level power
     ##   <dbl> <dbl>    <dbl>     <dbl> <dbl>
     ## 1    NA   0.2      Inf      0.05   0.8
-
     ## 
-
     ## Estimate of n: 198.8
-
     ## 95% Confidence Interval: [197.2, 200.2]
-
     ## Execution time (H:M:S): 00:00:20
 
 ### Bayes Factors
@@ -319,24 +291,17 @@ BFsim
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
     ##       n  mean    mu sig.level power
     ##   <dbl> <dbl> <dbl>     <dbl> <lgl>
     ## 1   100   0.5   0.3      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.265
-
     ## 95% Confidence Interval: [0.257, 0.274]
-
     ## Execution time (H:M:S): 00:01:25
 
 To view the complete simulation results use
@@ -435,24 +400,17 @@ pp_single.Bayes.t(n=100, mean=.5, mu=.3) |>
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
     ##       n  mean    mu sig.level power
     ##   <dbl> <dbl> <dbl>     <dbl> <lgl>
     ## 1   100   0.5   0.3       0.9 NA
-
     ## 
-
     ## Estimate of power: 0.150
-
     ## 95% Confidence Interval: [0.143, 0.157]
-
     ## Execution time (H:M:S): 00:01:20
 
 With this approach all of the power analysis criteria described in
@@ -531,24 +489,17 @@ l_equiv.t(50, delta=1, equiv=c(-2.5, 2.5),
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n delta sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    50     1      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.844
-
     ## 95% Confidence Interval: [0.837, 0.851]
-
     ## Execution time (H:M:S): 00:00:06
 
 In this case, the power to conclude that the two groups are equivalent,
@@ -603,24 +554,17 @@ l_equiv.t_CI(50, delta=1, equiv=c(-2.5, 2.5),
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
     ##       n delta sig.level power
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    50     1      0.05 NA
-
     ## 
-
     ## Estimate of power: 0.851
-
     ## 95% Confidence Interval: [0.844, 0.858]
-
     ## Execution time (H:M:S): 00:00:05
 
 ### Bayesian approach to ROPEs (HDI + ROPE)
@@ -677,24 +621,17 @@ rope.lm(n=50, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
     ##       n beta0 beta1 sig.level power
     ##   <dbl> <dbl> <dbl>     <dbl> <lgl>
     ## 1    50     2     1      0.95 NA
-
     ## 
-
     ## Estimate of power: 0.144
-
     ## 95% Confidence Interval: [0.137, 0.151]
-
     ## Execution time (H:M:S): 00:34:07
 
 Finally, to demonstrate why this might be useful, the following
@@ -708,22 +645,15 @@ rope.lm(n=interval(50, 200), beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
 ```
 
     ## 
-
     ## ── Spower Results ──────────────────────────────────────────────────────────────
-
     ## 
-
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
     ##       n beta0 beta1 sig.level power
     ##   <dbl> <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA     2     1      0.95   0.8
-
     ## 
-
     ## Estimate of n: 108.3
-
     ## 95% Confidence Interval: [107.6, 109.0]
-
     ## Execution time (H:M:S): 01:11:44

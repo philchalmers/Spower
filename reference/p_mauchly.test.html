@@ -13,7 +13,7 @@ normal distribution, however this can be modified."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Spower</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@ normal distribution, however this can be modified."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>p-value from Mauchly's Test of Sphericity simulation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/v0.6.2/R/p_mauchly.test.R" class="external-link"><code>R/p_mauchly.test.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/main/R/p_mauchly.test.R" class="external-link"><code>R/p_mauchly.test.R</code></a></small>
       <div class="d-none name"><code>p_mauchly.test.Rd</code></div>
     </div>
 
@@ -122,17 +122,17 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># H0 test that sphericity holds</span></span></span>
 <span class="r-in"><span><span class="fu">p_mauchly.test</span><span class="op">(</span><span class="fl">100</span>, sigma<span class="op">=</span><span class="va">sigma</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2250208</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1064471</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis object</span></span></span>
 <span class="r-in"><span><span class="fu">p_mauchly.test</span><span class="op">(</span><span class="fl">100</span>, sigma<span class="op">=</span><span class="va">sigma</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           W df    p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.9454956  2 0.06416749</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          W df    p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.952676  2 0.09296418</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Null is true</span></span></span>
 <span class="r-in"><span><span class="va">sigma.H0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">p_mauchly.test</span><span class="op">(</span><span class="fl">100</span>, sigma<span class="op">=</span><span class="va">sigma.H0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4720484</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2791296</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># \donttest{</span></span></span>
@@ -148,8 +148,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   100      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.610</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.600</span>, <span style="color: #0000BB;">0.619</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.605</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.595</span>, <span style="color: #0000BB;">0.614</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:09</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span>    <span class="co"># empirical Type I error estimate</span></span></span>
@@ -164,8 +164,8 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>   100      0.05 <span style="color: #BB0000;">NA</span>   </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.049</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.045</span>, <span style="color: #0000BB;">0.053</span>]</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Estimate of power: <span style="color: #0000BB;">0.051</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> 95% Confidence Interval: [<span style="color: #0000BB;">0.047</span>, <span style="color: #0000BB;">0.055</span>]</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Execution time (H:M:S): 00:00:09</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
