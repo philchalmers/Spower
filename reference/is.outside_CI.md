@@ -36,6 +36,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ## Examples
 
 ``` r
+
 p0 <- .3
 CI <- c(.2, .4)
 is.outside_CI(p0, CI)

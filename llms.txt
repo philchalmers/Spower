@@ -22,6 +22,7 @@ Chalmers (2025).
 You can install `Spower` from CRAN:
 
 ``` r
+
 install.packages("Spower")
 ```
 
@@ -29,6 +30,7 @@ To install the development version of the `Spower` package, you need to
 install the `remotes` package then the `Spower` package.
 
 ``` r
+
 install.packages("remotes")
 remotes::install_github("philchalmers/Spower")
 ```
@@ -49,12 +51,13 @@ compromise, or criterion power analysis.
 For example, the built-in
 [`p_t.test()`](https://philchalmers.github.io/Spower/reference/p_t.test.md)
 function performs *t*-tests using various inputs, where below a sample
-size of $N = 200$ is supplied (`n = 100` per group) and a Cohen’s $d$ of
-.5 (a so-called “medium” effect). This returns a single $p$-value given
-the null hypotheses of no mean difference, which in this single case
-returns a ‘surprising’ result given this null position tested.
+size of $`N=200`$ is supplied (`n = 100` per group) and a Cohen’s $`d`$
+of .5 (a so-called “medium” effect). This returns a single $`p`$-value
+given the null hypotheses of no mean difference, which in this single
+case returns a ‘surprising’ result given this null position tested.
 
 ``` r
+
 library(Spower)
 p_t.test(n=100, d=0.5)
 ## [1] 0.001231514
@@ -68,6 +71,7 @@ collecting and summarizing all relevant information for the power
 analysis.
 
 ``` r
+
 set.seed(42)
 p_t.test(n=100, d=0.5) |> Spower()
 
@@ -89,11 +93,12 @@ Alternatively, for a priori and sensitive analyses, the respective input
 to the simulation function must be set to `NA`, while within
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md)
 the target power rate must be included along with a suitable search
-`interval` range. Below the target power is set to $1 - \beta = .95$,
-while the associated $n$ is suspected to lay somewhere within the
-boundary $\lbrack 50,300\rbrack$.
+`interval` range. Below the target power is set to $`1-\beta = .95`$,
+while the associated $`n`$ is suspected to lay somewhere within the
+boundary $`[50,300]`$.
 
 ``` r
+
 set.seed(01123581321)
 
 # estimate the require n value to achieve a power of 1 - beta = .95 
@@ -122,6 +127,7 @@ can be used instead of placing the interval range within
 Below will provide the same stochastic root finding task.
 
 ``` r
+
 # using interval() function instead
 p_t.test(n=interval(50,300), d=0.5) |> Spower(power=.95)
 ```
@@ -148,6 +154,7 @@ Below is an example varying sample size (`n`), while the next example
 varies both `n` and the effect size `d`.
 
 ``` r
+
 set.seed(8675309) # Jenny Jenny
 p_t.test(d=0.2) |> SpowerCurve(n=seq(50, 550, by=100))
 ```
@@ -155,6 +162,7 @@ p_t.test(d=0.2) |> SpowerCurve(n=seq(50, 550, by=100))
 ![](reference/figures/README-unnamed-chunk-4-1.png)
 
 ``` r
+
 p_t.test() |> SpowerCurve(n=seq(50, 350, by=50), d=c(.2, .3, .4, .5))
 ```
 
@@ -179,6 +187,7 @@ If you have a simulation experiment you’d like to contribute in the form
 of either
 
 ``` r
+
 # returns a p-value, P(D|H0)
 p_yourSimulation()
 

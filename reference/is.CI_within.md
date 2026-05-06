@@ -36,6 +36,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ## Examples
 
 ``` r
+
 CI <- c(.2, .4)
 LU <- c(.1, .3)
 is.CI_within(CI, LU)        # not within tolerable interval

@@ -62,6 +62,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ## Examples
 
 ``` r
+
 sigma <- diag(c(1,2,1))
 sigma
 #>      [,1] [,2] [,3]
@@ -71,17 +72,17 @@ sigma
 
 # H0 test that sphericity holds
 p_mauchly.test(100, sigma=sigma)
-#> [1] 0.164101
+#> [1] 0.2250208
 
 # return analysis object
 p_mauchly.test(100, sigma=sigma, return_analysis=TRUE)
-#>           W df   p.value
-#> 1 0.9856832  2 0.4933228
+#>           W df    p.value
+#> 1 0.9454956  2 0.06416749
 
 # Null is true
 sigma.H0 <- diag(3)
 p_mauchly.test(100, sigma=sigma.H0)
-#> [1] 0.9916215
+#> [1] 0.4720484
 
 
 # \donttest{
@@ -97,8 +98,8 @@ p_mauchly.test(100, sigma=sigma.H0)
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.618
-#> 95% Confidence Interval: [0.608, 0.627]
+#> Estimate of power: 0.610
+#> 95% Confidence Interval: [0.600, 0.619]
 #> Execution time (H:M:S): 00:00:09
 
     # empirical Type I error estimate
@@ -113,8 +114,8 @@ p_mauchly.test(100, sigma=sigma.H0)
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.055
-#> 95% Confidence Interval: [0.050, 0.059]
+#> Estimate of power: 0.049
+#> 95% Confidence Interval: [0.045, 0.053]
 #> Execution time (H:M:S): 00:00:09
 # }
 ```

@@ -62,9 +62,9 @@
                         <h4 data-toc-skip class="author">Phil
 Chalmers</h4>
             
-            <h4 data-toc-skip class="date">March 31, 2026</h4>
+            <h4 data-toc-skip class="date">May 06, 2026</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/main/vignettes/gpower_examples.Rmd" class="external-link"><code>vignettes/gpower_examples.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/v0.6.2/vignettes/gpower_examples.Rmd" class="external-link"><code>vignettes/gpower_examples.Rmd</code></a></small>
       <div class="d-none name"><code>gpower_examples.Rmd</code></div>
     </div>
 
@@ -787,7 +787,7 @@ For the following, note that <code>k</code> is total IVs (in this case,
 this case, 5). At
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>.01</mn></mrow><annotation encoding="application/x-tex">\alpha=.01</annotation></semantics></math>
 and a change of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><msup><mi>R</mi><mn>2</mn></msup><mo>=</mo><mn>.05</mn></mrow><annotation encoding="application/x-tex">\Delta R^2=.05</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><msup><mi>R</mi><mn>2</mn></msup><mo>=</mo><mn>.05</mn></mrow><annotation encoding="application/x-tex">\Delta R^2=.05</annotation></semantics></math>
 from the baseline
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>R</mi><mn>0</mn><mn>2</mn></msubsup><mo>=</mo><mn>.25</mn></mrow><annotation encoding="application/x-tex">R^2_0=.25</annotation></semantics></math>
 gives</p>
@@ -893,7 +893,7 @@ hypothesis
 given
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>σ</mi><mi>x</mi></msub><mo>=</mo><mn>7.5</mn></mrow><annotation encoding="application/x-tex">\sigma_x = 7.5</annotation></semantics></math>,
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>σ</mi><mi>y</mi></msub><annotation encoding="application/x-tex">\sigma_y</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>=</mo><mo>−</mo><mn>0.0667</mn></mrow><annotation encoding="application/x-tex">\beta_1=-0.0667</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>=</mo><mi>−</mi><mn>0.0667</mn></mrow><annotation encoding="application/x-tex">\beta_1=-0.0667</annotation></semantics></math>,
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>100</mn></mrow><annotation encoding="application/x-tex">N=100</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
@@ -986,10 +986,10 @@ case</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>:</mo><mspace width="0.167em"></mspace><msub><mi>β</mi><mn>1</mn></msub><mo>−</mo><msubsup><mi>β</mi><mn>1</mn><mo>*</mo></msubsup><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">H_0:\, \beta_1 - \beta_1^* = 0</annotation></semantics></math></p>
 <p>To do this a multiple linear regression model is setup with three
 variables</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><mi>X</mi><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><mi>S</mi><mo>+</mo><msub><mi>β</mi><mn>3</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>S</mi><mo>⋅</mo><mi>X</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">Y = \beta_0 + \beta_1 X + \beta_2 S + \beta_3 (S\cdot X) + \epsilon</annotation></semantics></math>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><msub><mi>β</mi><mn>0</mn></msub><mo>+</mo><msub><mi>β</mi><mn>1</mn></msub><mi>X</mi><mo>+</mo><msub><mi>β</mi><mn>2</mn></msub><mi>S</mi><mo>+</mo><msub><mi>β</mi><mn>3</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>S</mi><mo>⋅</mo><mi>X</mi><mo stretchy="false" form="postfix">)</mo><mo>+</mo><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">Y = \beta_0 + \beta_1 X + \beta_2 S + \beta_3 (S\cdot X) + \epsilon</annotation></semantics></math>
 where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>Y</mi><mn>1</mn></msub><mo>,</mo><msub><mi>Y</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">Y=[Y_1, Y_2]</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>X</mi><mn>1</mn></msub><mo>,</mo><msub><mi>X</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">X = [X_1, X_2]</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi><mo>=</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>Y</mi><mn>1</mn></msub><mo>,</mo><msub><mi>Y</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">Y=[Y_1, Y_2]</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>=</mo><mo stretchy="false" form="prefix">[</mo><msub><mi>X</mi><mn>1</mn></msub><mo>,</mo><msub><mi>X</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">X = [X_1, X_2]</annotation></semantics></math>,
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>
 is a binary indicator variable indicating whether the observations were
@@ -1176,7 +1176,7 @@ assuming the generated difference is the repeated measures Cohen’s
 while
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><mo>=</mo><mn>.55</mn></mrow><annotation encoding="application/x-tex">r_{xy} = .55</annotation></semantics></math>,
 then this results in the repeated
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>r</mi></msub><mo>=</mo><mfrac><mrow><mo stretchy="true" form="prefix">|</mo><msub><mi>μ</mi><mi>x</mi></msub><mo>−</mo><msub><mi>μ</mi><mi>y</mi></msub><mo stretchy="true" form="postfix">|</mo></mrow><msqrt><mrow><msubsup><mi>σ</mi><mi>x</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>σ</mi><mi>y</mi><mn>2</mn></msubsup><mo>−</mo><mn>2</mn><msub><mi>ρ</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><msub><mi>σ</mi><mi>x</mi></msub><msub><mi>σ</mi><mi>y</mi></msub></mrow></msqrt></mfrac></mrow><annotation encoding="application/x-tex">d_r=\frac{|\mu_x-\mu_y|}{\sqrt{\sigma^2_x + \sigma^2_y - 2\rho_{xy}\sigma_x\sigma_y}}</annotation></semantics></math>).</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>r</mi></msub><mo>=</mo><mfrac><mrow><mo stretchy="false" form="prefix">|</mo><msub><mi>μ</mi><mi>x</mi></msub><mo>−</mo><msub><mi>μ</mi><mi>y</mi></msub><mo stretchy="false" form="prefix">|</mo></mrow><msqrt><mrow><msubsup><mi>σ</mi><mi>x</mi><mn>2</mn></msubsup><mo>+</mo><msubsup><mi>σ</mi><mi>y</mi><mn>2</mn></msubsup><mo>−</mo><mn>2</mn><msub><mi>ρ</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><msub><mi>σ</mi><mi>x</mi></msub><msub><mi>σ</mi><mi>y</mi></msub></mrow></msqrt></mfrac></mrow><annotation encoding="application/x-tex">d_r=\frac{|\mu_x-\mu_y|}{\sqrt{\sigma^2_x + \sigma^2_y - 2\rho_{xy}\sigma_x\sigma_y}}</annotation></semantics></math>).</p>
 <div class="sourceCode" id="cb298"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/p_t.test.html">p_t.test</a></span><span class="op">(</span>n<span class="op">=</span><span class="fl">50</span> <span class="op">*</span> <span class="fl">2</span>, d<span class="op">=</span><span class="fl">0.421637</span>, type <span class="op">=</span> <span class="st">'paired'</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>replications<span class="op">=</span><span class="fl">50000</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span></code></pre>

@@ -23,16 +23,16 @@ to perform a given simulation experiment with a set of meaningful (often
 scalar) functional arguments, where the output from this function
 returns either:
 
-1.  A suitable $p$-value under the null hypothesis statistical testing
-    (NHST) paradigm, $P\left( D|H_{0} \right)$,
+1.  A suitable $`p`$-value under the null hypothesis statistical testing
+    (NHST) paradigm, $`P(D|H_0)`$,
 2.  The posterior probability of a (typically alternative) hypothesis,
-    $P\left( H_{1}|D \right)$, or
+    $`P(H_1|D)`$, or
 3.  A logical value indicating support for the hypothesis of interest
 
-For the first two cases, the $p$ value returned is compared to a
-suitable cut-off defined by the package (e.g., is $p$ less than
-$\alpha = .05$ for the first option, while the second might be $p$
-greater than $\alpha.95$), and therefore converted to a `TRUE/FALSE`
+For the first two cases, the $`p`$ value returned is compared to a
+suitable cut-off defined by the package (e.g., is $`p`$ less than
+$`\alpha=.05`$ for the first option, while the second might be $`p`$
+greater than $`\alpha.95`$), and therefore converted to a `TRUE/FALSE`
 value internally, while the ladder does not require such a
 transformation. In all cases, the average of the resulting
 `TRUE`/`FALSE` values reflects something to do with statistical power
@@ -43,7 +43,7 @@ etc), thereby forming the basis for all subsequent power analysis
 procedures.
 
 The internal functions available in `Spower` primarily focuses on the
-first approach criteria involving NHST $p$-values, as this is
+first approach criteria involving NHST $`p`$-values, as this is
 historically the most common in similar software (e.g., *GPower 3*),
 however nothing precludes `Spower` from more complex and interesting
 power analyses. See the vignette *“Logical Vectors, Bayesian power
@@ -59,28 +59,30 @@ respective Type S and Type M errors (Gelman and Carlin, 2014).
 
 `Spower` ships with several common statistical inference experiments,
 such as those involving linear regression models, mediation analyses,
-ANOVAs, $t$-tests, correlations, and so on. The simulation experiments
+ANOVAs, $`t`$-tests, correlations, and so on. The simulation experiments
 are organized with the prefix `p_`, followed by the name of the analysis
 method. For instance,
 
 ``` r
+
 p_lm.R2(50, k=3, R2=.3)
 ```
 
     ## [1] 0.004935905
 
 performs a single simulation experiment reflecting the null hypothesis
-$H_{0}:\, R^{2} = 0$ for a linear regression model with $k = 3$
-predictor variables and a sample size of $N = 50$.
+$`H_0:\, R^2=0`$ for a linear regression model with $`k=3`$ predictor
+variables and a sample size of $`N=50`$.
 
 Translating this information into a power analysis context now simply
 requires passing this experiment to
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md)
 (the details of which are discussed below), where by default the
-estimate of power ($1 - \widehat{\beta}$) is returned using the default
+estimate of power ($`1-\hat{\beta}`$) is returned using the default
 `sig.level = .05`.
 
 ``` r
+
 p_lm.R2(50, k=3, R2=.3) |> Spower() 
 ```
 
@@ -105,8 +107,8 @@ p_lm.R2(50, k=3, R2=.3) |> Spower()
 
     ## Execution time (H:M:S): 00:00:40
 
-Each of the `p_*` functions return a $p$-value ($P(D|H_{0}$) as this is
-the general information required to evaluate statistical power with
+Each of the `p_*` functions return a $`p`$-value ($`P(D|H_0`$) as this
+is the general information required to evaluate statistical power with
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md).
 Alternatively, users may define their own simulation functions if the
 desired experiment has not been defined within the package.
@@ -114,16 +116,17 @@ desired experiment has not been defined within the package.
 ### User-defined simulation experiments
 
 As a very simple example, suppose one were interested in the power to
-reject the null hypothesis $H_{0}:\,\mu = \mu_{0}$ in a one-sample
-$t$-test scenario, where $P\left( D|H_{0} \right)$ is the probability of
-the data given the null hypothesis of interest. Note that while the
-package already supports this type of analysis (see
+reject the null hypothesis $`H_0:\, \mu = \mu_0`$ in a one-sample
+$`t`$-test scenario, where $`P(D|H_0)`$ is the probability of the data
+given the null hypothesis of interest. Note that while the package
+already supports this type of analysis (see
 [`help(p_t.test)`](https://philchalmers.github.io/Spower/reference/p_t.test.md))
 it is instructive to see how users they can write their own version of
 this experiment, as this will help in defining simulations outside what
 is currently included in the package.
 
 ``` r
+
 p_single.t <- function(n, mean, mu=0){
     g <- rnorm(n, mean=mean)
     p <- t.test(g, mu=mu)$p.value
@@ -132,15 +135,16 @@ p_single.t <- function(n, mean, mu=0){
 ```
 
 This simulation experiment will first obtain sample of data drawn from a
-Gaussian distribution with some specific `mean` ($\mu$), and evaluate
+Gaussian distribution with some specific `mean` ($`\mu`$), and evaluate
 the conditional probability that the data were generated from a
-population with a $\mu_{0} = 0$ (the null; hence,
-$P\left( D|\mu_{0} = 0 \right)$). As such, the $p$-value returned from
-this experiments reflects the probability of observing the data given
-the null hypothesis $H_{0}:\,\mu = \mu_{0}$, or more specifically
-$H_{0}:\,\mu = 0$, for a single generated dataset.
+population with a $`\mu_0=0`$ (the null; hence, $`P(D|\mu_0=0)`$). As
+such, the $`p`$-value returned from this experiments reflects the
+probability of observing the data given the null hypothesis
+$`H_0:\, \mu=\mu_0`$, or more specifically $`H_0:\, \mu=0`$, for a
+single generated dataset.
 
 ``` r
+
 # a single experiment
 p_single.t(n=100, mean=.2)
 ```
@@ -149,15 +153,15 @@ p_single.t(n=100, mean=.2)
 
 From here, a suitable cut-off is required to evaluate whether the
 experiment was ‘significant’, which is the purpose of the parameter
-$\alpha$. Specifically, if the observed data ($D$) were plausibly drawn
-from a population with $\mu_{0}$ (hence,
-$P\left( D|\mu_{0} \right) \geq \alpha$) then a `FALSE` significance
-would be returned; otherwise, if the data were unlikely to have been
-observed given the ($P\left( D|\mu_{0} = 0 \right) < \alpha$) then a
-`TRUE` would be returned, thereby indicating statistical significance.
+$`\alpha`$. Specifically, if the observed data ($`D`$) were plausibly
+drawn from a population with $`\mu_0`$ (hence,
+$`P(D|\mu_0) \ge \alpha`$) then a `FALSE` significance would be
+returned; otherwise, if the data were unlikely to have been observed
+given the ($`P(D|\mu_0=0) < \alpha`$) then a `TRUE` would be returned,
+thereby indicating statistical significance.
 
 For convenience, and for the purpose of other types of specialized power
-analyses (e.g., compromise analyses), the $\alpha$ parameter has been
+analyses (e.g., compromise analyses), the $`\alpha`$ parameter has been
 controlled via the argument `Spower(..., sig.level = .05)`, which
 creates the `TRUE/FALSE` evaluations internally. This saves a step in
 the writing, but if users wished to defined `sig.level` within the
@@ -166,9 +170,9 @@ simulation experiment itself that is an acceptable approach too.
 ## Types of power analyses to evaluate
 
 For power analyses there are typically four parameters that can be
-manipulated/solved in a given experiment: the $\alpha$ level (Type I
-error, often reflexively set to $\alpha = .05$), power (the complement
-of the Type II error, $1 - \beta$), an effect size of interest, and the
+manipulated/solved in a given experiment: the $`\alpha`$ level (Type I
+error, often reflexively set to $`\alpha=.05`$), power (the complement
+of the Type II error, $`1-\beta`$), an effect size of interest, and the
 sample size. Given three of these values, the fourth can always be
 solved.
 
@@ -188,17 +192,18 @@ the following presentation may be instructive nonetheless.
 The canonical setup for
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md)
 will evaluate prospective or post-hoc power, thereby obtaining the
-estimate $1 - \widehat{\beta}$. By default,
+estimate $`1-\hat{\beta}`$. By default,
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md)
-uses $10,000$ independent simulation `replications` to estimate the
+uses $`10,000`$ independent simulation `replications` to estimate the
 power when this is the target criterion.
 
 Given the above simulation definition, the following provides an
-estimate of power given the null hypothesis $H_{0}:\,\mu = 0.3$ given
-that the data were generated from a distribution with $\mu = .5$ with
-$n = 100$.
+estimate of power given the null hypothesis $`H_0:\, \mu=0.3`$ given
+that the data were generated from a distribution with $`\mu = .5`$ with
+$`n=100`$.
 
 ``` r
+
 p_single.t(n=100, mean=.5, mu=.3) |> Spower() -> prospective
 prospective
 ```
@@ -226,9 +231,9 @@ prospective
 
 ### Compromise power analysis
 
-Compromise power analysis involves manipulating the $\alpha$ level until
-some sufficient balance between the Type I and Type II error rates are
-met, expressed in terms of the ratio $q = \frac{\beta}{\alpha}$.
+Compromise power analysis involves manipulating the $`\alpha`$ level
+until some sufficient balance between the Type I and Type II error rates
+are met, expressed in terms of the ratio $`q=\frac{\beta}{\alpha}`$.
 
 In `Spower`, there are two ways to approach this criterion. The first,
 which focuses on the `beta_alpha` ratio at the outset, requires passing
@@ -237,6 +242,7 @@ the target ratio to
 using the same setup as the previous prospective power analysis.
 
 ``` r
+
 p_single.t(n=100, mean=.5, mu=.3) |> 
     Spower(beta_alpha=4) -> compromise
 compromise
@@ -269,11 +275,12 @@ compromise
 
     ## Execution time (H:M:S): 00:00:03
 
-This returns the estimated `sig.level` ($\widehat{\alpha}$) and
-resulting $\widehat{\beta}$ that satisfies the target $q$ ratio
-$q = \beta/\alpha = 4$.
+This returns the estimated `sig.level` ($`\hat{\alpha}`$) and resulting
+$`\hat{\beta}`$ that satisfies the target $`q`$ ratio
+$`q = \beta/\alpha = 4`$.
 
 ``` r
+
 # satisfies q = 4 ratio
 with(compromise, (1 - power) / sig.level)
 ```
@@ -285,6 +292,7 @@ evaluation of a prospective/post-hoc power analysis, as this contains
 all the necessary information for obtaining the compromise estimates.
 
 ``` r
+
 # using previous post-hoc/prospective power analysis
 update(prospective, beta_alpha=4)
 ```
@@ -325,8 +333,8 @@ experimental data.
 ### A priori power analysis
 
 The goal of a priori power analysis is generally to obtain the sample
-size ($N$) associated with a specific power rate of interest (e.g.,
-$1 - \beta = .90$), which is useful in the context of future data
+size ($`N`$) associated with a specific power rate of interest (e.g.,
+$`1-\beta=.90`$), which is useful in the context of future data
 collection planning.
 
 To estimate the sample size using Monte Carlo simulation experiments,
@@ -346,13 +354,13 @@ considering if the simulation experiment under evaluation is very time
 consuming.
 
 Below the sample size `n` is solved to achieve a target power of
-$1 - \beta = .80$, where the solution for $N$ was suspected to lie
+$`1-\beta=.80`$, where the solution for $`N`$ was suspected to lie
 somewhere between the search `interval = c(20, 200)`, with the initial
-starting guess of $\widehat{N} = (20 + 200)/2 = 110$ (quite far from the
-true solution, but in this case adds little to the overall computation
-time).
+starting guess of $`\hat{N}=(20 + 200)/2=110`$ (quite far from the true
+solution, but in this case adds little to the overall computation time).
 
 ``` r
+
 p_single.t(n=NA, mean=.5) |> 
     Spower(power=.8, interval=c(20,200))
 ```
@@ -388,6 +396,7 @@ following will be identical to the above example, though requires less
 back-and-forth reading between the pipe seperator.
 
 ``` r
+
 p_single.t(n=interval(20, 200), mean=.5) |> Spower(power=.8)
 ```
 
@@ -425,8 +434,8 @@ particular power rate. This pertains to the question of how large an
 effect size must be in order to reliably detect the effect of interest,
 holding constant other information such as sample size.
 
-Below the sample size is fixed at $N = 100$, while the interval for the
-standardized effect size $d$ is searched between `c(.1, 3)`. Note that
+Below the sample size is fixed at $`N=100`$, while the interval for the
+standardized effect size $`d`$ is searched between `c(.1, 3)`. Note that
 the use of decimals in the interval tells
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md)
 to use a continuous rather than discrete search space (cf. with a
@@ -434,6 +443,7 @@ priori, which uses an integer search space for the simulation
 replicates).
 
 ``` r
+
 p_single.t(n=100, mean=NA) |> 
     Spower(power=.8, interval=c(.1, 3))
 ```
@@ -464,22 +474,24 @@ Equivalently, using
 (not run).
 
 ``` r
+
 # p_single.t(n=100, mean=interval(.1, 3)) |> Spower(power=.8)
 ```
 
 ### Criterion power analysis
 
 Finally, in criterion power analysis the goal is to locate the
-associated $\alpha$ level (`sig.level`) required to achieve a target
+associated $`\alpha`$ level (`sig.level`) required to achieve a target
 power output holding constant the other modeling information. This is
 done in
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md)
 by setting the `sig.level` input to `NA` while providing values for the
 other parameters. Note that technically no search interval is require in
-this context as $\alpha$ necessarily lies between the interval
-$\lbrack 0,1\rbrack$.
+this context as $`\alpha`$ necessarily lies between the interval
+$`[0,1]`$.
 
 ``` r
+
 p_single.t(n=50, mean=.5) |> 
     Spower(power=.8, sig.level=NA)
 ```
@@ -523,19 +535,20 @@ is the underlying estimation engine.
 ### SpowerBatch()
 
 To begin, suppose that there were interest in evaluating the
-`p_single.t()` function across multiple $n$ inputs to obtain estimates
-of $1 - \beta$. While this could be performed using independent calls to
+`p_single.t()` function across multiple $`n`$ inputs to obtain estimates
+of $`1-\beta`$. While this could be performed using independent calls to
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md),
 the function
 [`SpowerBatch()`](https://philchalmers.github.io/Spower/reference/Spower.md)
 can be used instead, where the variable inputs can be specified in a
 suitable vector format.
 
-For instance, given the effect size $\mu = .5$, what would the power be
-to reject the null hypothesis $H_{0}:\,\mu = 0$ across three different
-sample sizes, $N = \lbrack 30,60,90\rbrack$?
+For instance, given the effect size $`\mu=.5`$, what would the power be
+to reject the null hypothesis $`H_0:\, \mu=0`$ across three different
+sample sizes, $`N = [30,60,90]`$?
 
 ``` r
+
 p_single.t(mean=.5) |> 
     SpowerBatch(n=c(30, 60, 90)) -> prospective.batch
 prospective.batch
@@ -609,6 +622,7 @@ to do so (e.g., for plotting purposes, though see also
 [`SpowerCurve()`](https://philchalmers.github.io/Spower/reference/Spower.md)).
 
 ``` r
+
 as.data.frame(prospective.batch)
 ```
 
@@ -623,6 +637,7 @@ planning then the inputs to
 would be modified to set `n` to the missing quantity.
 
 ``` r
+
 apriori.batch <- p_single.t(mean=.5, n=NA) |> 
     SpowerBatch(power=c(.7, .8, .9), interval=c(20, 200)) 
 apriori.batch
@@ -692,6 +707,7 @@ apriori.batch
     ## Execution time (H:M:S): 00:00:33
 
 ``` r
+
 as.data.frame(apriori.batch)
 ```
 
@@ -714,14 +730,15 @@ estimates of the Monte Carlo sampling uncertainty to deter
 over-interpretation of any resulting point-estimates.
 
 To demonstrate, suppose one were interested in visualizing the power for
-the running single-sample $t$ test across four different sample sizes,
-$N = \lbrack 30,60,90,120\rbrack$. To do this requires passing the
-simulation experiment and varying information to the function
+the running single-sample $`t`$ test across four different sample sizes,
+$`N=[30,60,90,120]`$. To do this requires passing the simulation
+experiment and varying information to the function
 [`SpowerCurve()`](https://philchalmers.github.io/Spower/reference/Spower.md),
 which fills in the variable information to the supplied simulation
 experiment and plots the resulting output.
 
 ``` r
+
 p_single.t(mean=.5) |> 
     SpowerCurve(n=c(30, 60, 90, 120))
 ```
@@ -736,6 +753,7 @@ argument `batch`, thereby avoiding the need to re-evaluate the
 simulation experiments.
 
 ``` r
+
 # pass previous SpowerBatch() object
 SpowerCurve(batch=batch)
 ```
@@ -746,10 +764,11 @@ experiment definition, however it will only provide aesthetic mappings
 for the first three variable input specifications as anything past this
 becomes more difficult to display automatically. Below is an example
 that varies both the `n` input as well as the input `mean`, where the
-first input appears on the $x$-axis while the second is mapped to the
+first input appears on the $`x`$-axis while the second is mapped to the
 default colour aesthetic in `ggplot2`.
 
 ``` r
+
 p_single.t() |> 
     SpowerCurve(n=c(30, 60, 90, 120), mean=c(.2, .5, .8))
 ```

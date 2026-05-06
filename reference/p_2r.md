@@ -127,17 +127,18 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 ## Examples
 
 ``` r
+
 # independent (same x-y pairing across groups)
 p_2r(100, r.ab=.5, r.ab2=.6)
-#> [1] 0.2620914
+#> [1] 0.1546222
 
 # return cocor object for further analysis
 p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> 
 #>   Results of a comparison of two correlations based on independent groups
 #> 
-#> Comparison between r1.jk (y, x) = 0.39 and r2.hm (y, x) = 0.5329
-#> Difference: r1.jk - r2.hm = -0.143
+#> Comparison between r1.jk (y, x) = 0.5152 and r2.hm (y, x) = 0.6567
+#> Difference: r1.jk - r2.hm = -0.1415
 #> Data: sample1: j = y, k = x; sample2: h = y, m = x
 #> Group sizes: n1 = 100, n2 = 100
 #> Null hypothesis: r1.jk is equal to r2.hm
@@ -145,7 +146,7 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> Alpha: 0.05
 #> 
 #> fisher1925: Fisher's z (1925)
-#>   z = -1.2708, p-value = 0.2038
+#>   z = -1.5126, p-value = 0.1304
 #>   Null hypothesis retained
 #> 
 
@@ -163,8 +164,8 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5   0.6      0.05 NA   
 #> 
-#> Estimate of power: 0.169
-#> 95% Confidence Interval: [0.162, 0.176]
+#> Estimate of power: 0.166
+#> 95% Confidence Interval: [0.158, 0.173]
 #> Execution time (H:M:S): 00:00:18
 
    # estimate n required to reach 80% power
@@ -179,20 +180,20 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #>   <dbl> <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.5   0.6      0.05   0.8
 #> 
-#> Estimate of n: 764.3
-#> 95% Confidence Interval: [757.7, 770.7]
-#> Execution time (H:M:S): 00:01:10
+#> Estimate of n: 756.5
+#> 95% Confidence Interval: [746.7, 766.0]
+#> Execution time (H:M:S): 00:01:19
 
 # }
 
 # overlap (same y, different xs)
 # H0: r.ab = r.bc
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2)
-#> [1] 0.0004407995
+#> [1] 0.08460663
 
 # nonoverlap (different ys, different xs)
 # H0: r.ab = r.cd
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2, r.ad=.2, r.bd=.4, r.cd=.2)
-#> [1] 7.789299e-05
+#> [1] 2.850731e-05
 
 ```

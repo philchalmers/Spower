@@ -8,7 +8,7 @@ Psychological Science, 9(6), 641-651.
 In the publication above, Gelman and Carlin (2014) present *conditional*
 power analysis ideas to investigate *Type S* and *Type M* errors, which
 add augmentations to the usual evaluation of power via the average
-(expected) rejection of $H_{0}$ or support for $H_{1}$ across
+(expected) rejection of $`H_0`$ or support for $`H_1`$ across
 independent samples. Specifically:
 
 - **Type S errors** occur when a null hypothesis is confidently rejected
@@ -17,7 +17,7 @@ independent samples. Specifically:
   “statistical significance” decision, what is the probability that the
   correct sign was inferred?
   - Ideally Type S errors should be close to 0.
-  - In the limiting case, where $H_{0}$ is true (no effect at all),
+  - In the limiting case, where $`H_0`$ is true (no effect at all),
     then  
     Type S errors will be .50 as the sign will be a coin-flip
   - Type S errors are particularly prevalent in under powered research
@@ -28,26 +28,26 @@ independent samples. Specifically:
   detected effect is *much larger* than the expected effect given that
   “statistical significance” has occurred.
   - Gelman and Carlin (2014) presented this as a ratio idea
-    ($M = E\left( \frac{|estimate|}{parameter} \right)$), where large
-    ratios indicate that the estimate had to be on average that many
-    times higher than the expected value of the parameter (e.g., a Type
-    M ratio of 8 indicates that of those effect sizes flagged as
-    significant the effect estimate had to be on average 8 times larger
-    than the true parameter).
+    ($`M=E(\frac{|estimate|}{parameter})`$), where large ratios indicate
+    that the estimate had to be on average that many times higher than
+    the expected value of the parameter (e.g., a Type M ratio of 8
+    indicates that of those effect sizes flagged as significant the
+    effect estimate had to be on average 8 times larger than the true
+    parameter).
 
 Note that while the ratio for Type M errors gets at the idea nicely as
 it indicates a type of conditional “exaggeration” effect, nothing really
 precludes us from drawing further lines in the sand to better map this
 concept into a power framework. For instance, if we would only be
-confidence that our sample size is “large enough” if we only treat $M$
+confidence that our sample size is “large enough” if we only treat $`M`$
 ratios less than, say, 2 or 3, then `TRUE/FALSE` values could be used to
-indicate that the observed sample has passed the desired $M$ cut-off.
+indicate that the observed sample has passed the desired $`M`$ cut-off.
 
 ## Type S errors via simulation
 
 To demonstrate how to estimate Type S errors via simulation, the
-following simulation experiment performs a two-sample $t$-test with a
-“small” effect size (Cohen’s $d = .2$) with smaller sample sizes. The
+following simulation experiment performs a two-sample $`t`$-test with a
+“small” effect size (Cohen’s $`d=.2`$) with smaller sample sizes. The
 first implementation demonstrate the logic with a user-defined data
 generation and analysis, while the second approach demonstrates how the
 `p_*` functions defined within `Spower` can be used instead — provided
@@ -58,14 +58,15 @@ that they are relevant to the power analysis under investigation.
 In the manual implementation, where the user write both the data
 generation and analysis components themselves into a single function,
 the use of a `while()` loop is required to generate and analyse the
-experiment until a significant $p$-value is observed. When observed, the
-`while()` loop is then terminated as the generated data matches the
+experiment until a significant $`p`$-value is observed. When observed,
+the `while()` loop is then terminated as the generated data matches the
 conditional significance criterion, at which point the subsequent
 analyses relevant to the compliment of Type S error (the *correct* sign
 decision) is returned as a `logical` so that conditional power will be
 reflected in the output.
 
 ``` r
+
 l_two.t_correct.sign <- function(n, mean, mu = 0, alpha = .05, ...){
     while(TRUE){
         g1 <- rnorm(n)
@@ -79,6 +80,7 @@ l_two.t_correct.sign <- function(n, mean, mu = 0, alpha = .05, ...){
 ```
 
 ``` r
+
 l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 ```
 
@@ -107,7 +109,7 @@ From the output from
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md),
 the `power` information reflects the estimated probability that the
 correct sign decision was made given that “significance” was observed,
-while $1 - power$ provides the estimate of the associated Type S error
+while $`1-power`$ provides the estimate of the associated Type S error
 (probability of an incorrect sign given significance). As can be seen,
 there is about a 0.9241 probability of making the correct sign decision
 about the true effect, and a complimentary probability estimate of
@@ -119,9 +121,10 @@ that we wish to know the requisite sample size such that Type S errors
 are made with very little frequency (hence, high conditional sign
 power). Further suppose we only want to make a Type S error, say, 1/100
 times a significant effect is observed. The following code evaluates how
-to obtain such an $n$ estimate.
+to obtain such an $`n`$ estimate.
 
 ``` r
+
 typeS <- .01
 l_two.t_correct.sign(n=NA, mean=.2) |> 
     Spower(power=1-typeS, interval=c(10, 200))
@@ -162,16 +165,17 @@ potentially avoiding implementation issues using previously defined
 simulation experiment code.
 
 As a reminder, the default `p_*` functions in the package always return
-a $p$-value under the null hypothesis specified as this is the canonical
-way in which power analysis via simulation is explored (cf. posterior
-probability approaches). However, these simulation experiment functions
-also contain a logical argument `return_analysis`, which if set to
-`TRUE` will return the complete analysis object instead of just the
-extracted $p$-value (most commonly in the element `p.value`, though
-please use functions like [`str()`](https://rdrr.io/r/utils/str.html) to
-inspect fully). For Type M/S errors multiple components are clearly
-required, and therefore further information should be extracted from the
-analysis objects directly to accommodate.
+a $`p`$-value under the null hypothesis specified as this is the
+canonical way in which power analysis via simulation is explored
+(cf. posterior probability approaches). However, these simulation
+experiment functions also contain a logical argument `return_analysis`,
+which if set to `TRUE` will return the complete analysis object instead
+of just the extracted $`p`$-value (most commonly in the element
+`p.value`, though please use functions like
+[`str()`](https://rdrr.io/r/utils/str.html) to inspect fully). For Type
+M/S errors multiple components are clearly required, and therefore
+further information should be extracted from the analysis objects
+directly to accommodate.
 
 To demonstrate, the built-in function
 [`p_t.test()`](https://philchalmers.github.io/Spower/reference/p_t.test.md)
@@ -182,6 +186,7 @@ definitions now provide the data generation and analyses so that the
 front-end user does not have to.
 
 ``` r
+
 l_two.t_correct.sign <- function(n, mean, mu = 0, alpha = .05, ...){
     while(TRUE){
         # return_analysis argument used to return model object
@@ -194,15 +199,17 @@ l_two.t_correct.sign <- function(n, mean, mu = 0, alpha = .05, ...){
 ```
 
 ``` r
+
 l_two.t_correct.sign(100, mean=.5)
 ```
 
     ## [1] TRUE
 
-Setting the sample size to $N = 30$ (hence, `n=15`) leads to the
+Setting the sample size to $`N=30`$ (hence, `n=15`) leads to the
 following power estimates.
 
 ``` r
+
 l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 ```
 
@@ -236,31 +243,32 @@ the cost of safety.
 
 ## Type M errors via simulation
 
-Continuing with the above two-sample $t$-test structure, suppose we’re
+Continuing with the above two-sample $`t`$-test structure, suppose we’re
 interested in minimizing Type M errors to ensure that significant
 results weren’t due to higher sampling variability, ultimately resulting
 in significance being raised only when unreasonably large effect sizes
 estimates are observed. For the purpose of this power demonstration,
 suppose “unreasonably large” is defined such that the ratio of the
-absolute (standardized) mean difference in a two-sample $t$-test, which
-was flagged as significant, was larger than three times the value of the
-true (standardized) mean difference (hence, `M.ratio = 3`).
+absolute (standardized) mean difference in a two-sample $`t`$-test,
+which was flagged as significant, was larger than three times the value
+of the true (standardized) mean difference (hence, `M.ratio = 3`).
 
 Note that while focusing on an `M.ratio = 3` provides the sufficient
 means to study Type M errors using a cut-off logic to define power, it
-is also possible to store the observed $M$ values for further inspection
-too, which can be done in `Spower` if a `list` or `data.frame` is
-returned from the supplied experiment. For this to behave correctly,
-however, output information relevant to the `power` computations
-(probability values/logicals) must be explicitly specified using
-`Spower(..., select)` so that other values returned from the simulation
-are stored but not summarised.
+is also possible to store the observed $`M`$ values for further
+inspection too, which can be done in `Spower` if a `list` or
+`data.frame` is returned from the supplied experiment. For this to
+behave correctly, however, output information relevant to the `power`
+computations (probability values/logicals) must be explicitly specified
+using `Spower(..., select)` so that other values returned from the
+simulation are stored but not summarised.
 
 As before, the first step is to define the experiment using the
-conditional $p$-value logic nested within a `while()` loop, followed by
-the power (and extra) criteria of interest.
+conditional $`p`$-value logic nested within a `while()` loop, followed
+by the power (and extra) criteria of interest.
 
 ``` r
+
 l_two.t_typeM <- function(n, mean, mu = 0, 
                           alpha = .05, M.ratio = 3, ...){
     while(TRUE){
@@ -275,10 +283,11 @@ l_two.t_typeM <- function(n, mean, mu = 0,
 }
 ```
 
-With $N = 50$ per group and a “small” standardized effect size of .2
+With $`N=50`$ per group and a “small” standardized effect size of .2
 gives the following.
 
 ``` r
+
 # only use the "retain" information to compute power, though store the rest
 l_two.t_typeM(n=50, mean=.2) |> Spower(select='retain') -> typeM
 typeM
@@ -306,21 +315,22 @@ typeM
     ## Execution time (H:M:S): 00:00:19
 
 In this case, `power` represents the probability that, given a
-significant result was observed, the resulting $M$ ratio was less than
+significant result was observed, the resulting $`M`$ ratio was less than
 the cutoff of 3 (hence, was less than three times the true effect size).
 The compliment, which reflects the Type M error, is then 0.139, which is
 indeed quite high as approximately 14% of the samples flagged as
 significant would have needed rather large observed effects to indicate
 that the sample was “unusual” in the statistical significance sense.
 
-With respect to the distribution of the observed $M$ values themselves,
-these can be further extracted using
+With respect to the distribution of the observed $`M`$ values
+themselves, these can be further extracted using
 [`SimResults()`](http://philchalmers.github.io/SimDesign/reference/SimResults.md).
 Notice that when plotted, the rejection magnitudes are not normally
 distributed, which is to be expected given the nature of the conditional
 simulation experiment.
 
 ``` r
+
 results <- SimResults(typeM)
 results
 ```
@@ -341,6 +351,7 @@ results
     ## # ℹ 9,990 more rows
 
 ``` r
+
 subset(results, select=M) |> descript()
 ```
 
@@ -350,6 +361,7 @@ subset(results, select=M) |> descript()
     ## 1 10000  2.49  2.43 0.470  1.17  1.69  1.62  2.14  2.38  2.73  5.31
 
 ``` r
+
 with(results, hist(M, 30))
 ```
 
@@ -359,6 +371,7 @@ Finally, increasing the sample size greatly helps with the Type M
 issues, as seen below by doubling the sample size below.
 
 ``` r
+
 # double the total sample size
 l_two.t_typeM(n=100, mean=.2) |> Spower(select='retain') -> typeM2
 typeM2
@@ -385,9 +398,10 @@ typeM2
 
     ## Execution time (H:M:S): 00:00:14
 
-where the Type M error for the $M.ratio = 3$ cutoff is now
+where the Type M error for the $`M.ratio = 3`$ cutoff is now
 
 ``` r
+
 last <- getLastSpower()
 1 - last$power
 ```
@@ -396,10 +410,11 @@ last <- getLastSpower()
 
 so approximately 1% of the significant results would have been due to an
 overly large effect size estimate. Again, the distributional properties
-of the observed $M$ values can be extracted and further analyzed should
-the need arise.
+of the observed $`M`$ values can be extracted and further analyzed
+should the need arise.
 
 ``` r
+
 results <- SimResults(typeM2)
 results
 ```
@@ -420,6 +435,7 @@ results
     ## # ℹ 9,990 more rows
 
 ``` r
+
 subset(results, select=M) |> descript()
 ```
 
@@ -429,6 +445,7 @@ subset(results, select=M) |> descript()
     ## 1 10000  1.83  1.79 0.367  1.12  1.42  1.22  1.55  1.75  2.04  4.46
 
 ``` r
+
 with(results, hist(M, 30))
 ```
 

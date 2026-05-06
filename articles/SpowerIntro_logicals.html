@@ -62,9 +62,9 @@
                         <h4 data-toc-skip class="author">Phil
 Chalmers</h4>
             
-            <h4 data-toc-skip class="date">March 31, 2026</h4>
+            <h4 data-toc-skip class="date">May 06, 2026</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/main/vignettes/SpowerIntro_logicals.Rmd" class="external-link"><code>vignettes/SpowerIntro_logicals.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/v0.6.2/vignettes/SpowerIntro_logicals.Rmd" class="external-link"><code>vignettes/SpowerIntro_logicals.Rmd</code></a></small>
       <div class="d-none name"><code>SpowerIntro_logicals.Rmd</code></div>
     </div>
 
@@ -100,7 +100,7 @@ power to reject the null hypothesis
 in a one-sample
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>-test,
 where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(D|H_0)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(D|H_0)</annotation></semantics></math>
 is the probability of the observing the data given the null hypothesis.
 Normally, one could simply write an experiment that returns a
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-value
@@ -116,7 +116,7 @@ to investigate the same null hypothesis via <em>confidence
 intervals</em> given a specific
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 level to define their range, where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><msub><mi>I</mi><mi>μ</mi></msub><mo>=</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>C</mi><msub><mi>I</mi><mrow><mi>α</mi><mi>/</mi><mn>2</mn></mrow></msub><mo>,</mo><mi>C</mi><msub><mi>I</mi><mrow><mn>1</mn><mo>−</mo><mi>α</mi><mi>/</mi><mn>2</mn></mrow></msub><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">CI_\mu=[CI_{\alpha/2},CI_{1-\alpha/2}]</annotation></semantics></math>.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><msub><mi>I</mi><mi>μ</mi></msub><mo>=</mo><mo stretchy="false" form="prefix">[</mo><mi>C</mi><msub><mi>I</mi><mrow><mi>α</mi><mi>/</mi><mn>2</mn></mrow></msub><mo>,</mo><mi>C</mi><msub><mi>I</mi><mrow><mn>1</mn><mo>−</mo><mi>α</mi><mi>/</mi><mn>2</mn></mrow></msub><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">CI_\mu=[CI_{\alpha/2},CI_{1-\alpha/2}]</annotation></semantics></math>.</p>
 <p>If one were to take this approach, the defined simulation function
 should return a <code>logical</code> value based on the relation of the
 parameter estimate to the CI, where the CI is used to evaluate the
@@ -305,7 +305,7 @@ example, returning whether the observed
 in a given random sample would indicate at least “moderate” supporting
 evidence for the hypothesis of interest compared to some competing
 hypothesis (often the complementary null,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(H_0|D)</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(H_0|D)</annotation></semantics></math>,
 though not necessarily), and the average across the independent samples
 would indicate the degree of power when using this Bayes factor
 cut-off.</p>
@@ -403,7 +403,7 @@ in natural log units.</p>
 primarily on
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-values
 involving the null hypothesis to be tested
-(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(D|H_0)</annotation></semantics></math>).
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>D</mi><mo stretchy="false" form="prefix">|</mo><msub><mi>H</mi><mn>0</mn></msub><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(D|H_0)</annotation></semantics></math>).
 The reason for setting the package up this way is so that the parameter
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 (<code>sig.level</code>) can be used as the “line-in-the-sand” threshold
@@ -411,14 +411,14 @@ to flag whether a null hypothesis was rejected in each sample of data as
 this behaviour is common among popular power analysis software. Bayesian
 power analysis, on the other hand, are also supported by the package,
 where instead the posterior probability of the alternative hypothesis,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(H_1|D)</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(H_1|D)</annotation></semantics></math>,
 is the focus of the simulation experiment.</p>
 <p>Continuing with the simple one-sample
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>-test
 example in the introduction vignette and above, were the power analysis
 context be that of a Bayesian analysis the conditional probability of
 the alternative,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(H_1|D)</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><msub><mi>H</mi><mn>1</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(H_1|D)</annotation></semantics></math>,
 may be used instead. For this to work with <em>Spower</em> though, the
 argument <code>sig.direction = 'above'</code> should be supplied, where
 now the <code>sig.level</code> indicates that “significance” only occurs
@@ -430,7 +430,7 @@ using the <code>BayesFactor</code> package, which is obtained by
 translating the Bayes factor output into a suitable posterior
 probability and focusing on the alternative hypothesis (hence, the
 posterior probability returned corresponds to
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>μ</mi><mo>≠</mo><msub><mi>μ</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>D</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">P(\mu \ne \mu_0|D)</annotation></semantics></math>).
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false" form="prefix">(</mo><mi>μ</mi><mo>≠</mo><msub><mi>μ</mi><mn>0</mn></msub><mo stretchy="false" form="prefix">|</mo><mi>D</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">P(\mu \ne \mu_0|D)</annotation></semantics></math>).
 The following also assumes that the competing hypotheses are equally
 likely when obtaining the posterior probability (hence, prior odds are
 1:1, reflected in the argument <code>prior_odds</code>).</p>
@@ -506,12 +506,12 @@ are used to define the <strong>equivalence interval</strong>. If, for
 instance, two groups are to be deemed statistically equivalent given
 these boundary locations then, using a two-one sided hypothesis testing
 approach (TOST), the two null hypotheses must be evaluated are
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mrow><mn>0</mn><mi>a</mi></mrow></msub><mo>:</mo><mspace width="0.167em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>≤</mo><mo>−</mo><msub><mi>ϵ</mi><mi>L</mi></msub></mrow><annotation encoding="application/x-tex">H_{0a}:\, (\mu_1 - \mu_2) \le -\epsilon_L</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mrow><mn>0</mn><mi>a</mi></mrow></msub><mo>:</mo><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>≤</mo><mi>−</mi><msub><mi>ϵ</mi><mi>L</mi></msub></mrow><annotation encoding="application/x-tex">H_{0a}:\, (\mu_1 - \mu_2) \le -\epsilon_L</annotation></semantics></math>
 and
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mrow><mn>0</mn><mi>b</mi></mrow></msub><mo>:</mo><mspace width="0.167em"></mspace><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>≥</mo><msub><mi>ϵ</mi><mi>U</mi></msub></mrow><annotation encoding="application/x-tex">H_{0b}:\,(\mu_1 - \mu_2) \ge \epsilon_U</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mrow><mn>0</mn><mi>b</mi></mrow></msub><mo>:</mo><mspace width="0.167em"></mspace><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>≥</mo><msub><mi>ϵ</mi><mi>U</mi></msub></mrow><annotation encoding="application/x-tex">H_{0b}:\,(\mu_1 - \mu_2) \ge \epsilon_U</annotation></semantics></math>
 Rejecting both of these null hypotheses leads to the induced
 complementary hypothesis of interest
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>:</mo><mspace width="0.167em"></mspace><msub><mi>ϵ</mi><mi>L</mi></msub><mo>&lt;</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>μ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>&lt;</mo><msub><mi>ϵ</mi><mi>U</mi></msub></mrow><annotation encoding="application/x-tex">H_1:\, \epsilon_L &lt; (\mu_1 - \mu_2) &lt; \epsilon_U</annotation></semantics></math>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>1</mn></msub><mo>:</mo><mspace width="0.167em"></mspace><msub><mi>ϵ</mi><mi>L</mi></msub><mo>&lt;</mo><mo stretchy="false" form="prefix">(</mo><msub><mi>μ</mi><mn>1</mn></msub><mo>−</mo><msub><mi>μ</mi><mn>2</mn></msub><mo stretchy="false" form="postfix">)</mo><mo>&lt;</mo><msub><mi>ϵ</mi><mi>U</mi></msub></mrow><annotation encoding="application/x-tex">H_1:\, \epsilon_L &lt; (\mu_1 - \mu_2) &lt; \epsilon_U</annotation></semantics></math>
 or in words, the population mean difference falls within the defined
 region of equivalence. Superiority testing and non-inferiority testing
 follow the same type of logic, however rather than defining a region of
@@ -524,7 +524,7 @@ difference between the groups was
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>D</mi><mo>=</mo><mn>2.5</mn></mrow><annotation encoding="application/x-tex">SD = 2.5</annotation></semantics></math>
 (labeled <code>sds</code>). Furthermore, suppose <em>any</em> true
 difference that fell within the equivalence interval
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">[</mo><mo>−</mo><mn>2.5</mn><mo>,</mo><mn>2.5</mn><mo stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[-2.5, 2.5]</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mi>−</mi><mn>2.5</mn><mo>,</mo><mn>2.5</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[-2.5, 2.5]</annotation></semantics></math>
 (labeled <code>equiv</code>) would be deemed practically equivalent a
 priori. The power to jointly reject the above null hypotheses, and
 therefore conclude the groups are practically equivalence
@@ -655,7 +655,7 @@ where the ROPE criteria is deemed satisfied/significant if 95% of the
 posterior distribution for the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>β</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\beta_1=1</annotation></semantics></math>
 falls within the defined range of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>±</mo><mn>.2</mn><mo>→</mo><mrow><mo stretchy="true" form="prefix">[</mo><mn>.8</mn><mo>,</mo><mn>1.2</mn><mo stretchy="true" form="postfix">]</mo></mrow></mrow><annotation encoding="application/x-tex">1 \pm .2\rightarrow [.8,1.2]</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>±</mo><mn>.2</mn><mo>→</mo><mo stretchy="false" form="prefix">[</mo><mn>.8</mn><mo>,</mo><mn>1.2</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">1 \pm .2\rightarrow [.8,1.2]</annotation></semantics></math>.
 Due to the slower execution speeds of the simulations the power
 evaluations are computed using <code>parallel=TRUE</code> to utilize all
 available cores.</p>
