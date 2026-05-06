@@ -109,7 +109,7 @@ l_two.t_correct.sign <- function(n, mean, mu = 0, alpha = .05, ...){
 l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, collapse=TRUE}
 if(eval) store$typeS <- getLastSpower()
 typeS <- store$typeS
 print(typeS)
@@ -136,7 +136,7 @@ l_two.t_correct.sign(n=NA, mean=.2) |>
 	Spower(power=1-typeS, interval=c(10, 200))
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, collapse=TRUE}
 if(eval) store$typeS.N <- getLastSpower()
 typeS.N <- store$typeS.N
 print(typeS.N)
@@ -189,7 +189,7 @@ Setting the sample size to $N=30$ (hence, `n=15`) leads to the following power e
 l_two.t_correct.sign(n=15, mean=.2) |> Spower()
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, collapse=TRUE}
 if(eval) store$typeS2 <- getLastSpower()
 typeS2 <- store$typeS2
 print(typeS2)
@@ -246,7 +246,7 @@ l_two.t_typeM(n=50, mean=.2) |> Spower(select='retain') -> typeM
 typeM
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, collapse=TRUE}
 if(eval) store$typeM <- getLastSpower()
 typeM <- store$typeM
 print(typeM)
@@ -281,7 +281,7 @@ l_two.t_typeM(n=100, mean=.2) |> Spower(select='retain') -> typeM2
 typeM2
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, collapse=TRUE}
 if(eval) store$typeM2 <- getLastSpower()
 typeM2 <- store$typeM2
 print(typeM2)
