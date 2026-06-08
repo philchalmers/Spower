@@ -35,7 +35,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # 50 observations drawn from normal distribution (null is true)
 p_shapiro.test(rnorm(50))
-#> [1] 0.8359497
+#> [1] 0.09496979
 
 # return analysis object
 p_shapiro.test(rnorm(50), TRUE)
@@ -43,44 +43,46 @@ p_shapiro.test(rnorm(50), TRUE)
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  dist
-#> W = 0.98676, p-value = 0.8438
+#> W = 0.97401, p-value = 0.3344
 #> 
 
 # 50 observations from slightly skewed chi-squared distribution (power)
 p_shapiro.test(rchisq(50, df=100))
-#> [1] 0.9303694
+#> [1] 0.54508
 
 # \donttest{
     # empirical Type I error rate estimate
     p_shapiro.test(rnorm(50)) |> Spower()
+#> Warning: number of items to replace is not a multiple of replacement length
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 2
-#>   sig.level power
-#>       <dbl> <lgl>
-#> 1      0.05 NA   
+#> # A tibble: 1 × 3
+#>      dist sig.level power
+#>     <dbl>     <dbl> <lgl>
+#> 1 0.87673      0.05 NA   
 #> 
 #> Estimate of power: 0.050
-#> 95% Confidence Interval: [0.045, 0.054]
+#> 95% Confidence Interval: [0.046, 0.054]
 #> Execution time (H:M:S): 00:00:02
 
     # power
     p_shapiro.test(rchisq(50, df=100)) |> Spower()
+#> Warning: number of items to replace is not a multiple of replacement length
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 2
-#>   sig.level power
-#>       <dbl> <lgl>
-#> 1      0.05 NA   
+#> # A tibble: 1 × 3
+#>     dist sig.level power
+#>    <dbl>     <dbl> <lgl>
+#> 1 82.917      0.05 NA   
 #> 
-#> Estimate of power: 0.101
-#> 95% Confidence Interval: [0.095, 0.107]
+#> Estimate of power: 0.104
+#> 95% Confidence Interval: [0.098, 0.110]
 #> Execution time (H:M:S): 00:00:02
 # }
 ```

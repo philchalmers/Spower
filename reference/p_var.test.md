@@ -93,24 +93,24 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # one sample
 p_var.test(100, vars=10, sigma2=9)
-#> [1] 0.0008286494
+#> [1] 0.8437036
 
 # return analysis object
 p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> $statistic
 #> Chi-Squared 
-#>    121.2722 
+#>    123.4603 
 #> 
 #> $parameters
 #> df 
 #> 99 
 #> 
 #> $p.value
-#> [1] 0.1274623
+#> [1] 0.0970567
 #> 
 #> $estimate
 #> variance 
-#> 11.02475 
+#> 11.22366 
 #> 
 #> $null.value
 #> variance 
@@ -127,7 +127,7 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> 
 #> $conf.int
 #>       LCL       UCL 
-#>  8.498934 14.877780 
+#>  8.652277 15.146215 
 #> attr(,"conf.level")
 #> [1] 0.95
 #> 
@@ -136,43 +136,45 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 
 # three sample
 p_var.test(100, vars=c(10, 9, 11))
-#> [1] 0.3687625
+#> [1] 0.1316016
 p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
-#> [1] 0.2179293
+#> [1] 0.6267242
 p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
-#> [1] 0.3763357
+#> [1] 0.4202452
 
 # \donttest{
   # power to detect three-group variance differences
   p_var.test(n=100, vars=c(10,9,11)) |> Spower()
+#> Warning: number of items to replace is not a multiple of replacement length
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 3
-#>       n sig.level power
-#>   <dbl>     <dbl> <lgl>
-#> 1   100      0.05 NA   
+#> # A tibble: 1 × 4
+#>       n  vars sig.level power
+#>   <dbl> <dbl>     <dbl> <lgl>
+#> 1   100    10      0.05 NA   
 #> 
-#> Estimate of power: 0.119
-#> 95% Confidence Interval: [0.112, 0.125]
+#> Estimate of power: 0.126
+#> 95% Confidence Interval: [0.120, 0.133]
 #> Execution time (H:M:S): 00:00:31
 
   # sample size per group to achieve 80% power
   p_var.test(n=interval(100, 2000), vars=c(10,9,11)) |> Spower(power=.80)
+#> Warning: number of items to replace is not a multiple of replacement length
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 3
-#>       n sig.level power
-#>   <dbl>     <dbl> <dbl>
-#> 1    NA      0.05   0.8
+#> # A tibble: 1 × 4
+#>       n  vars sig.level power
+#>   <dbl> <dbl>     <dbl> <dbl>
+#> 1    NA    10      0.05   0.8
 #> 
-#> Estimate of n: 1082.4
-#> 95% Confidence Interval: [1066.3, 1097.4]
-#> Execution time (H:M:S): 00:02:29
+#> Estimate of n: 1085.3
+#> 95% Confidence Interval: [1078.2, 1091.9]
+#> Execution time (H:M:S): 00:02:19
 # }
 ```
