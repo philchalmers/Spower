@@ -535,7 +535,12 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 			 call.=FALSE)
 	lst_expr <- as.list(expr)[-1]
 	if(length(lst_expr))
-		lst_expr <- lst_expr[sapply(lst_expr, \(x) is.atomic(x) || is.list(x))]
+		lst_expr <- lst_expr[sapply(lst_expr, \(x) is.atomic(x) || is.list(x) || is.call(x))]
+	if(length(lst_expr) && any(sapply(lst_expr, is.call))){
+		lst_expr[sapply(lst_expr, is.call)] <- sapply(lst_expr[sapply(lst_expr, is.call)], eval)
+		lst_expr[sapply(lst_expr, \(x) is(x, 'formula'))] <-
+			sapply(lst_expr[sapply(lst_expr, \(x) is(x, 'formula'))], deparse1)
+	}
 	conditions <- do.call(SimDesign::createDesign, c(lst_expr, sig.level=sig.level, power=power))
 	if(missing(interval)){
 		if(is.na(sig.level) || length(fixed_objects$pick))
