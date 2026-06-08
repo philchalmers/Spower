@@ -63,7 +63,7 @@ $`z`$-transformation approximation, which is what is used by the
 #### Test against constant $`\rho_0=0`$
 
 The more canonical version hypotheses involving correlation coefficients
-appear when $`rho_0=0`$, as these do not require the Fisher
+appear when $`\rho_0=0`$, as these do not require the Fisher
 approximation. For instance, the power associated with $`\rho = .3`$
 with 100 pairs of observations, tested against $`\rho_0=0`$, results in
 the following.
@@ -444,16 +444,18 @@ p_r.cat(n=interval(100, 500), r=0.2399846, tauX=tauX, tauY=tauY,
     Spower(power = .95, parallel=TRUE)
 ```
 
+    ## ── Spower Results ──────────────────────────────────────────────────────────────────────────────────────────
     ## 
-    ## Design conditions: 
+    ## Design conditions:
     ## 
-    ## # A tibble: 1 × 8
-    ##       n     r   tauX   tauY score two.tailed sig.level power
-    ##   <dbl> <dbl> <dbl> <dbl> <lgl> <lgl>          <dbl> <dbl>
-    ## 1    NA 0.240 -0.206 -0.259 FALSE FALSE           0.05  0.95
+    ## # A tibble: 1 × 6
+    ##       n       r two.tailed score sig.level power
+    ##   <dbl>   <dbl> <lgl>      <lgl>     <dbl> <dbl>
+    ## 1    NA 0.23998 FALSE      TRUE       0.05  0.95
     ## 
-    ## Estimate of n: 462.9
-    ## 95% Prediction Interval: [458.5, 466.6]
+    ## Estimate of n: 460.0
+    ## 95% Confidence Interval: [455.8, 464.6]
+    ## Execution time (H:M:S): 00:07:23
 
 G\*power gives $`n=463`$, though uses the SE value at the null (Score
 test).
