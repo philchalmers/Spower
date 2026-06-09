@@ -132,25 +132,25 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # sample size of 50 per group, "medium" effect size
 p_t.test(n=50, d=0.5)
-#> [1] 0.07851418
+#> [1] 0.1867855
 
 # point-biserial correlation effect size
 p_t.test(n=50, r=.3)
-#> [1] 0.00515977
+#> [1] 0.001199962
 
 # second group 2x as large as the first group
 p_t.test(n=50, d=0.5, n2_n1 = 2)
-#> [1] 8.549163e-08
+#> [1] 8.442126e-06
 
 # specify mean/SDs explicitly
 p_t.test(n=50, means = c(0,1), sds = c(2,2))
-#> [1] 0.01554954
+#> [1] 0.004449382
 
 # paired and one-sample tests
 p_t.test(n=50, d=0.5, type = 'paired') # n = number of pairs
-#> [1] 0.001990675
+#> [1] 0.02478692
 p_t.test(n=50, d=0.5, type = 'one.sample')
-#> [1] 0.2638832
+#> [1] 0.003408985
 
 # return analysis object
 p_t.test(n=50, d=0.5, return_analysis=TRUE)
@@ -158,13 +158,13 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>  Two Sample t-test
 #> 
 #> data:  dat[[1]] and dat[[2]]
-#> t = 3.5049, df = 98, p-value = 0.0006904
+#> t = 3.1311, df = 98, p-value = 0.002296
 #> alternative hypothesis: true difference in means is not equal to 0
 #> 95 percent confidence interval:
-#>  0.3020155 1.0904053
+#>  0.2165583 0.9661625
 #> sample estimates:
 #>  mean of x  mean of y 
-#>  0.5444522 -0.1517582 
+#> 0.61390600 0.02254559 
 #> 
 
 # \donttest{
@@ -193,8 +193,8 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
 #> 1    60   0.2 one.sample TRUE             0.1 NA   
 #> 
-#> Estimate of power: 0.456
-#> 95% Confidence Interval: [0.446, 0.465]
+#> Estimate of power: 0.454
+#> 95% Confidence Interval: [0.444, 0.463]
 #> Execution time (H:M:S): 00:00:02
 
   pwr::pwr.t.test(d=0.3, power=0.80, type="two.sample",
@@ -222,9 +222,9 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>   <dbl> <dbl> <chr>      <lgl>          <dbl> <dbl>
 #> 1    NA   0.3 two.sample FALSE           0.05   0.8
 #> 
-#> Estimate of n: 138.6
-#> 95% Confidence Interval: [136.7, 140.9]
-#> Execution time (H:M:S): 00:00:20
+#> Estimate of n: 138.9
+#> 95% Confidence Interval: [137.0, 140.6]
+#> Execution time (H:M:S): 00:00:18
 
 # }
 
@@ -256,12 +256,12 @@ my.gen_fun <- function(n, d, df1, df2, ...){
 # check the sample data properties
 dat <- my.gen_fun(n=10000, d=.5, df1=10, df2=5)
 sapply(dat, mean)
-#> [1] 0.004135842 0.510173764
+#> [1] 0.007559324 0.494006021
 sapply(dat, sd)
-#> [1] 1.006256 1.024283
+#> [1] 0.9919513 0.9987916
 
 p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
-#> [1] 1.681485e-06
+#> [1] 0.002027955
 
 # \donttest{
 
@@ -278,7 +278,7 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #> 1   100   0.5      0.05 NA   
 #> 
 #> Estimate of power: 0.940
-#> 95% Confidence Interval: [0.937, 0.942]
+#> 95% Confidence Interval: [0.938, 0.943]
 #> Execution time (H:M:S): 00:00:07
 
   # estimate power given the customized data generating function
@@ -294,9 +294,9 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #>   <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5    10     5      0.05 NA   
 #> 
-#> Estimate of power: 0.957
-#> 95% Confidence Interval: [0.955, 0.959]
-#> Execution time (H:M:S): 00:00:08
+#> Estimate of power: 0.956
+#> 95% Confidence Interval: [0.954, 0.959]
+#> Execution time (H:M:S): 00:00:07
 
   # evaluate Type I error rate to see if liberal/conservative given
   # assumption violations (should be close to alpha/sig.level)
@@ -312,9 +312,9 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #>   <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100     0    10     5      0.05 NA   
 #> 
-#> Estimate of power: 0.052
-#> 95% Confidence Interval: [0.049, 0.054]
-#> Execution time (H:M:S): 00:00:08
+#> Estimate of power: 0.054
+#> 95% Confidence Interval: [0.051, 0.056]
+#> Execution time (H:M:S): 00:00:07
 
 # }
 ```
