@@ -537,8 +537,10 @@ Spower <- function(..., power = NA, sig.level=.05, interval,
 	if(length(lst_expr) && any(sapply(lst_expr, is.call))){
 		tmp <- lst_expr
 		tmp[sapply(lst_expr, is.call)] <- sapply(tmp[sapply(lst_expr, is.call)], eval)
-		lst_expr[sapply(tmp, \(x) is(x, 'formula'))] <-
-			sapply(tmp[sapply(tmp, \(x) is(x, 'formula'))], deparse1)
+		pick <- sapply(tmp, \(x) (is.atomic(x) || is.list(x)) && length(x) == 1)
+		lst_expr[pick] <- tmp[pick]
+		pick <- sapply(tmp, \(x) is(x, 'formula'))
+		lst_expr[pick] <- sapply(tmp[pick], deparse1)
 	}
 	if(length(lst_expr))
 		lst_expr <- lst_expr[sapply(lst_expr, \(x) is.atomic(x) || is.list(x))]

@@ -259,3 +259,45 @@ test_that('scope', {
 	expect_is(out, 'Spower')
 })
 
+test_that('call_inputs', {
+
+	library(bayestestR)
+	library(rstanarm)
+
+	rope.lm <- function(n, beta0, beta1, range, sigma=1, ...){
+		# generate data
+		x <- matrix(rep(0:1, each=n))
+		y <- beta0 + beta1 * x + rnorm(nrow(x), sd=sigma)
+		dat <- data.frame(y, x)
+
+		# run model, but tell stan_glm() to use its indoor voice
+		model <- quiet(rstanarm::stan_glm(y ~ x, data = dat))
+		rope <- bayestestR::rope(model, ci=1, range=range, parameters="x")
+		as.numeric(rope)
+	}
+
+	out <- rope.lm(n=50, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
+		Spower(sig.level=.95, sig.direction='above', parallel=FALSE, replications=2)
+
+	expect_all_true(colnames(out) ==
+						c("n","beta0","beta1","sigma","sig.level","power",
+						  "REPLICATIONS","SIM_TIME","SEED","COMPLETED"))
+
+	gen_twogroup <- function(n, dbeta, sdx1, sdx2, sigma, n2_n1 = 1, ...){
+		X1 <- rnorm(n, sd=sdx1)
+		X2 <- rnorm(n*n2_n1, sd=sdx2)
+		X <- c(X1, X2)
+		N <- length(X)
+		S <- c(rep(0, n), rep(1, N-n))
+		y <- dbeta * X*S + rnorm(N, sd=sigma)
+		dat <- data.frame(y, X, S)
+		dat
+	}
+
+	out <- p_glm(formula=y~X*S, test="X:S = 0",
+				 n=28, n2_n1=44/28, sdx1=9.02914, sdx2=11.86779, dbeta=0.01592,
+				 sigma=0.5578413, gen_fun=gen_twogroup) |> Spower(replications=2)
+	expect_all_true(colnames(out) ==
+						c("formula","test","sigma","n","n2_n1","sdx1","sdx2","dbeta",
+						  "sig.level","power","REPLICATIONS","SIM_TIME","SEED","COMPLETED"))
+})
