@@ -1,4 +1,4 @@
-# Type M and Type S errors
+# Conditional Power Analyses via Type M and Type S errors
 
 *Gelman, A., & Carlin, J. (2014). Beyond Power Calculations: Assessing
 Type S (Sign) and Type M (Magnitude) Errors. Perspectives on
@@ -15,18 +15,24 @@ independent samples. Specifically:
   in light of the alternative being true, however *the rejection is in
   the wrong direction of the underlying effect*. Hence, conditional on a
   “statistical significance” decision, what is the probability that the
-  correct sign was inferred?
+  correct *sign* was inferred?
   - Ideally Type S errors should be close to 0.
-  - In the limiting case, where $`H_0`$ is true (no effect at all),
-    then  
-    Type S errors will be .50 as the sign will be a coin-flip
+  - As the magnitude of an effect sizes approaches $`H_0`$ (i.e., there
+    is no effect) the  
+    the probability of a making a Type S error will tend to .50
   - Type S errors are particularly prevalent in under powered research
     studies, where the sampling variability could result in detection of
     an effect that happens to be *opposite* what should have been
     detected from the population generating structure
 - **Type M errors**, on the other hand, occur when the *magnitude* of a
-  detected effect is *much larger* than the expected effect given that
-  “statistical significance” has occurred.
+  detected effect is *much larger* than the true/expected effect, and
+  was likely the very reason why “statistical significance” occurred in
+  the first place. These types of errors are effectively errors of
+  exaggeration, occurring due to larger sampling variability, and should
+  be treated as “too large” to be taken seriously (e.g., an observed
+  Cohen’s $`d`$ estimate of 5 is often highly unlikely in practice, such
+  as in psychological research, but surely would be flagged as
+  significant even in the smallest of samples drawn from a population).
   - Gelman and Carlin (2014) presented this as a ratio idea
     ($`M=E(\frac{|estimate|}{parameter})`$), where large ratios indicate
     that the estimate had to be on average that many times higher than
@@ -119,8 +125,7 @@ to obtain such an $`n`$ estimate.
 ``` r
 
 typeS <- .01
-l_two.t_correct.sign(n=NA, mean=.2) |> 
-    Spower(power=1-typeS, interval=c(10, 200))
+l_two.t_correct.sign(n=interval(10, 200), mean=.2) |> Spower(power=1-typeS)
 ```
 
     ## 
@@ -142,13 +147,13 @@ order to have a Type S error be approximately 1%.
 
 ### Implementation using built-in `p_t.test()` function
 
-Alternatively, if the simulation function and analysis already appear in
-the context of the package definition then `Spower`’s internally defined
-`p_*` functions can be used in place of the complete manual
-implementation. This is beneficial as the data generation and analysis
-components then do not need to be written by the front-end user,
-potentially avoiding implementation issues using previously defined
-simulation experiment code.
+Alternatively, and often preferably, if the simulation function and
+analysis already appear in the context of the package definition then
+`Spower`’s internally defined `p_*` functions can be used in place of
+the complete manual implementation. This is beneficial as the data
+generation and analysis components then do not need to be written by the
+front-end user, potentially avoiding implementation issues using
+previously defined simulation experiment code.
 
 As a reminder, the default `p_*` functions in the package always return
 a $`p`$-value under the null hypothesis specified as this is the
@@ -240,7 +245,7 @@ inspection too, which can be done in `Spower` if a `list` or
 behave correctly, however, output information relevant to the `power`
 computations (probability values/logicals) must be explicitly specified
 using `Spower(..., select)` so that other values returned from the
-simulation are stored but not summarised.
+simulation are stored but not summarized.
 
 As before, the first step is to define the experiment using the
 conditional $`p`$-value logic nested within a `while()` loop, followed

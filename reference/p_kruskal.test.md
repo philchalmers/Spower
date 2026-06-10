@@ -71,7 +71,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # three group test where data generate from Gaussian distributions
 p_kruskal.test(n=30, k=3, means=c(0, .5, .6))
-#> [1] 0.0007636979
+#> [1] 0.0002095651
 
 # return analysis model
 p_kruskal.test(n=30, k=3, means=c(0, .5, .6), return_analysis=TRUE)
@@ -79,7 +79,7 @@ p_kruskal.test(n=30, k=3, means=c(0, .5, .6), return_analysis=TRUE)
 #>  Kruskal-Wallis rank sum test
 #> 
 #> data:  dat
-#> Kruskal-Wallis chi-squared = 13.24, df = 2, p-value = 0.001334
+#> Kruskal-Wallis chi-squared = 14.474, df = 2, p-value = 0.0007194
 #> 
 
 # generate data from chi-squared distributions with different variances
@@ -93,7 +93,7 @@ gen_chisq <- function(n, k, n.ratios, means, dfs, ...){
 
 p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
    gen_fun=gen_chisq, dfs=c(10, 15, 20))
-#> [1] 0.2415429
+#> [1] 0.6819103
 
 # \donttest{
   # empirical power estimate
@@ -104,13 +104,13 @@ p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 5
-#>       n     k means sig.level power
-#>   <dbl> <dbl> <dbl>     <dbl> <lgl>
-#> 1    30     3     0      0.05 NA   
+#> # A tibble: 1 × 4
+#>       n     k sig.level power
+#>   <dbl> <dbl>     <dbl> <lgl>
+#> 1    30     3      0.05 NA   
 #> 
-#> Estimate of power: 0.550
-#> 95% Confidence Interval: [0.540, 0.560]
+#> Estimate of power: 0.555
+#> 95% Confidence Interval: [0.546, 0.565]
 #> Execution time (H:M:S): 00:00:06
   p_kruskal.test(n=30, k=3, means=c(0, 1, 2), gen_fun=gen_chisq,
          dfs = c(10, 15, 20)) |> Spower()
@@ -120,13 +120,13 @@ p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 6
-#>       n     k means   dfs sig.level power
-#>   <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
-#> 1    30     3     0     1      0.05 NA   
+#> # A tibble: 1 × 4
+#>       n     k sig.level power
+#>   <dbl> <dbl>     <dbl> <lgl>
+#> 1    30     3      0.05 NA   
 #> 
-#> Estimate of power: 0.189
-#> 95% Confidence Interval: [0.181, 0.196]
+#> Estimate of power: 0.183
+#> 95% Confidence Interval: [0.175, 0.190]
 #> Execution time (H:M:S): 00:00:06
 
 # }

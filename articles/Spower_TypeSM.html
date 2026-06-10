@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Type M and Type S errors • Spower</title>
+<title>Conditional Power Analyses via Type M and Type S errors • Spower</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Type M and Type S errors">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Conditional Power Analyses via Type M and Type S errors">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,7 +34,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/gpower_examples.html">G*Power examples evaluated with Spower</a></li>
-    <li><a class="dropdown-item" href="../articles/Spower_TypeSM.html">Type M and Type S errors</a></li>
+    <li><a class="dropdown-item" href="../articles/Spower_TypeSM.html">Conditional Power Analyses via Type M and Type S errors</a></li>
     <li><a class="dropdown-item" href="../articles/SpowerIntro_logicals.html">Logical Vectors, Bayesian power analyses, and ROPEs</a></li>
     <li><a class="dropdown-item" href="../articles/SpowerIntro.html">Introduction to the Spower package</a></li>
   </ul>
@@ -58,11 +58,11 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Type M and Type S errors</h1>
+      <h1>Conditional Power Analyses via Type M and Type S errors</h1>
                         <h4 data-toc-skip class="author">Phil
 Chalmers</h4>
             
-            <h4 data-toc-skip class="date">June 09, 2026</h4>
+            <h4 data-toc-skip class="date">June 10, 2026</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/main/vignettes/Spower_TypeSM.Rmd" class="external-link"><code>vignettes/Spower_TypeSM.Rmd</code></a></small>
       <div class="d-none name"><code>Spower_TypeSM.Rmd</code></div>
@@ -87,13 +87,14 @@ across independent samples. Specifically:</p>
 confidently rejected in light of the alternative being true, however
 <em>the rejection is in the wrong direction of the underlying
 effect</em>. Hence, conditional on a “statistical significance”
-decision, what is the probability that the correct sign was inferred?
+decision, what is the probability that the correct <em>sign</em> was
+inferred?
 <ul>
 <li>Ideally Type S errors should be close to 0.</li>
-<li>In the limiting case, where
+<li>As the magnitude of an effect sizes approaches
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>H</mi><mn>0</mn></msub><annotation encoding="application/x-tex">H_0</annotation></semantics></math>
-is true (no effect at all), then<br>
-Type S errors will be .50 as the sign will be a coin-flip</li>
+(i.e., there is no effect) the<br>
+the probability of a making a Type S error will tend to .50</li>
 <li>Type S errors are particularly prevalent in under powered research
 studies, where the sampling variability could result in detection of an
 effect that happens to be <em>opposite</em> what should have been
@@ -103,7 +104,15 @@ detected from the population generating structure</li>
 <li>
 <strong>Type M errors</strong>, on the other hand, occur when the
 <em>magnitude</em> of a detected effect is <em>much larger</em> than the
-expected effect given that “statistical significance” has occurred.
+true/expected effect, and was likely the very reason why “statistical
+significance” occurred in the first place. These types of errors are
+effectively errors of exaggeration, occurring due to larger sampling
+variability, and should be treated as “too large” to be taken seriously
+(e.g., an observed Cohen’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>
+estimate of 5 is often highly unlikely in practice, such as in
+psychological research, but surely would be flagged as significant even
+in the smallest of samples drawn from a population).
 <ul>
 <li>Gelman and Carlin (2014) presented this as a ratio idea
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mo>=</mo><mi>E</mi><mo stretchy="false" form="prefix">(</mo><mfrac><mrow><mo stretchy="false" form="prefix">|</mo><mi>e</mi><mi>s</mi><mi>t</mi><mi>i</mi><mi>m</mi><mi>a</mi><mi>t</mi><mi>e</mi><mo stretchy="false" form="prefix">|</mo></mrow><mrow><mi>p</mi><mi>a</mi><mi>r</mi><mi>a</mi><mi>m</mi><mi>e</mi><mi>t</mi><mi>e</mi><mi>r</mi></mrow></mfrac><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">M=E(\frac{|estimate|}{parameter})</annotation></semantics></math>),
@@ -198,8 +207,7 @@ to obtain such an
 estimate.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">typeS</span> <span class="op">&lt;-</span> <span class="fl">.01</span></span>
-<span><span class="fu">l_two.t_correct.sign</span><span class="op">(</span>n<span class="op">=</span><span class="cn">NA</span>, mean<span class="op">=</span><span class="fl">.2</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">1</span><span class="op">-</span><span class="va">typeS</span>, interval<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">200</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">l_two.t_correct.sign</span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="../reference/Spower.html">interval</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">200</span><span class="op">)</span>, mean<span class="op">=</span><span class="fl">.2</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/Spower.html">Spower</a></span><span class="op">(</span>power<span class="op">=</span><span class="fl">1</span><span class="op">-</span><span class="va">typeS</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Spower Results</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────────────────</span></span></span>
 <span><span class="co">## </span></span>
@@ -219,13 +227,14 @@ order to have a Type S error be approximately 1%.</p>
 <div class="section level3">
 <h3 id="implementation-using-built-in-p_t-test-function">Implementation using built-in <code>p_t.test()</code> function<a class="anchor" aria-label="anchor" href="#implementation-using-built-in-p_t-test-function"></a>
 </h3>
-<p>Alternatively, if the simulation function and analysis already appear
-in the context of the package definition then <code>Spower</code>’s
-internally defined <code>p_*</code> functions can be used in place of
-the complete manual implementation. This is beneficial as the data
-generation and analysis components then do not need to be written by the
-front-end user, potentially avoiding implementation issues using
-previously defined simulation experiment code.</p>
+<p>Alternatively, and often preferably, if the simulation function and
+analysis already appear in the context of the package definition then
+<code>Spower</code>’s internally defined <code>p_*</code> functions can
+be used in place of the complete manual implementation. This is
+beneficial as the data generation and analysis components then do not
+need to be written by the front-end user, potentially avoiding
+implementation issues using previously defined simulation experiment
+code.</p>
 <p>As a reminder, the default <code>p_*</code> functions in the package
 always return a
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-value
@@ -312,7 +321,7 @@ returned from the supplied experiment. For this to behave correctly,
 however, output information relevant to the <code>power</code>
 computations (probability values/logicals) must be explicitly specified
 using <code>Spower(..., select)</code> so that other values returned
-from the simulation are stored but not summarised.</p>
+from the simulation are stored but not summarized.</p>
 <p>As before, the first step is to define the experiment using the
 conditional
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math>-value

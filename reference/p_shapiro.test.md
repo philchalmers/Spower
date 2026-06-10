@@ -35,7 +35,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # 50 observations drawn from normal distribution (null is true)
 p_shapiro.test(rnorm(50))
-#> [1] 0.647198
+#> [1] 0.8154824
 
 # return analysis object
 p_shapiro.test(rnorm(50), TRUE)
@@ -43,12 +43,12 @@ p_shapiro.test(rnorm(50), TRUE)
 #>  Shapiro-Wilk normality test
 #> 
 #> data:  dist
-#> W = 0.96395, p-value = 0.1301
+#> W = 0.97417, p-value = 0.3391
 #> 
 
 # 50 observations from slightly skewed chi-squared distribution (power)
 p_shapiro.test(rchisq(50, df=100))
-#> [1] 0.1067649
+#> [1] 0.8648581
 
 # \donttest{
     # empirical Type I error rate estimate
@@ -59,13 +59,13 @@ p_shapiro.test(rchisq(50, df=100))
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 3
-#>       dist sig.level power
-#>      <dbl>     <dbl> <lgl>
-#> 1 -0.27804      0.05 NA   
+#> # A tibble: 1 × 2
+#>   sig.level power
+#>       <dbl> <lgl>
+#> 1      0.05 NA   
 #> 
-#> Estimate of power: 0.052
-#> 95% Confidence Interval: [0.048, 0.057]
+#> Estimate of power: 0.049
+#> 95% Confidence Interval: [0.045, 0.054]
 #> Execution time (H:M:S): 00:00:01
 
     # power
@@ -76,13 +76,13 @@ p_shapiro.test(rchisq(50, df=100))
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 3
-#>     dist sig.level power
-#>    <dbl>     <dbl> <lgl>
-#> 1 96.174      0.05 NA   
+#> # A tibble: 1 × 2
+#>   sig.level power
+#>       <dbl> <lgl>
+#> 1      0.05 NA   
 #> 
-#> Estimate of power: 0.108
-#> 95% Confidence Interval: [0.102, 0.114]
+#> Estimate of power: 0.107
+#> 95% Confidence Interval: [0.101, 0.113]
 #> Execution time (H:M:S): 00:00:01
 # }
 ```
