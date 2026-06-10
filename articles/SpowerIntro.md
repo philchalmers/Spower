@@ -98,7 +98,7 @@ p_lm.R2(50, k=3, R2=.3) |> Spower()
     ## 
     ## Estimate of power: 0.971
     ## 95% Confidence Interval: [0.968, 0.974]
-    ## Execution time (H:M:S): 00:00:41
+    ## Execution time (H:M:S): 00:00:15
 
 Each of the `p_*` functions return a $`p`$-value ($`P(D|H_0`$) as this
 is the general information required to evaluate statistical power with
@@ -213,7 +213,7 @@ prospective
     ## 
     ## Estimate of power: 0.515
     ## 95% Confidence Interval: [0.505, 0.525]
-    ## Execution time (H:M:S): 00:00:03
+    ## Execution time (H:M:S): 00:00:01
 
 ### Compromise power analysis
 
@@ -249,7 +249,7 @@ compromise
     ## 
     ## Estimate of power (1-beta): 0.629
     ## 95% Confidence Interval: [0.620, 0.638]
-    ## Execution time (H:M:S): 00:00:03
+    ## Execution time (H:M:S): 00:00:01
 
 This returns the estimated `sig.level` ($`\hat{\alpha}`$) and resulting
 $`\hat{\beta}`$ that satisfies the target $`q`$ ratio
@@ -286,7 +286,7 @@ update(prospective, beta_alpha=4)
 ## 
 ## Estimate of power (1-beta): 0.627
 ## 95% Confidence Interval: [0.617, 0.636]
-## Execution time (H:M:S): 00:00:03
+## Execution time (H:M:S): 00:00:01
 ```
 
 In either case, the use of S3 generic
@@ -342,7 +342,7 @@ p_single.t(n=NA, mean=.5) |>
     ## 
     ## Estimate of n: 32.8
     ## 95% Confidence Interval: [32.4, 33.1]
-    ## Execution time (H:M:S): 00:00:25
+    ## Execution time (H:M:S): 00:00:09
 
 Equivalently, rather than placing the `interval` definition within
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md)
@@ -370,7 +370,7 @@ p_single.t(n=interval(20, 200), mean=.5) |> Spower(power=.8)
     ## 
     ## Estimate of n: 32.8
     ## 95% Confidence Interval: [32.4, 33.1]
-    ## Execution time (H:M:S): 00:00:25
+    ## Execution time (H:M:S): 00:00:09
 
 Of course, the output will still be presented in terms of the `NA`
 placeholder logic, however in this case the user does not need to
@@ -411,7 +411,7 @@ p_single.t(n=100, mean=NA) |>
     ## 
     ## Estimate of mean: 0.281
     ## 95% Confidence Interval: [0.280, 0.283]
-    ## Execution time (H:M:S): 00:00:21
+    ## Execution time (H:M:S): 00:00:07
 
 Equivalently, using
 [`interval()`](https://philchalmers.github.io/Spower/reference/Spower.md)
@@ -452,7 +452,7 @@ p_single.t(n=50, mean=.5) |>
     ## 
     ## Estimate of sig.level: 0.010
     ## 95% Confidence Interval: [0.009, 0.010]
-    ## Execution time (H:M:S): 00:00:18
+    ## Execution time (H:M:S): 00:00:06
 
 ## Multiple power evaluation functions
 
@@ -503,7 +503,7 @@ prospective.batch
     ## 
     ## Estimate of power: 0.752
     ## 95% Confidence Interval: [0.743, 0.760]
-    ## Execution time (H:M:S): 00:00:03
+    ## Execution time (H:M:S): 00:00:01
     ## 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
     ## 
@@ -516,7 +516,7 @@ prospective.batch
     ## 
     ## Estimate of power: 0.967
     ## 95% Confidence Interval: [0.963, 0.970]
-    ## Execution time (H:M:S): 00:00:03
+    ## Execution time (H:M:S): 00:00:01
     ## 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
     ## 
@@ -529,7 +529,7 @@ prospective.batch
     ## 
     ## Estimate of power: 0.996
     ## 95% Confidence Interval: [0.995, 0.997]
-    ## Execution time (H:M:S): 00:00:03
+    ## Execution time (H:M:S): 00:00:01
 
 This can further be coerced to a `data.frame` object if there is reason
 to do so (e.g., for plotting purposes, though see also
@@ -569,7 +569,7 @@ apriori.batch
     ## 
     ## Estimate of n: 26.7
     ## 95% Confidence Interval: [26.5, 27.0]
-    ## Execution time (H:M:S): 00:00:42
+    ## Execution time (H:M:S): 00:00:15
     ## 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
     ## 
@@ -582,7 +582,7 @@ apriori.batch
     ## 
     ## Estimate of n: 33.3
     ## 95% Confidence Interval: [32.9, 33.7]
-    ## Execution time (H:M:S): 00:00:21
+    ## Execution time (H:M:S): 00:00:07
     ## 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
     ## 
@@ -595,7 +595,7 @@ apriori.batch
     ## 
     ## Estimate of n: 44.4
     ## 95% Confidence Interval: [43.8, 44.8]
-    ## Execution time (H:M:S): 00:00:34
+    ## Execution time (H:M:S): 00:00:11
 
 ``` r
 

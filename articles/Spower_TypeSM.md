@@ -102,7 +102,7 @@ l_two.t_correct.sign(n=15, mean=.2) |> Spower()
     ## 
     ## Estimate of power: 0.924
     ## 95% Confidence Interval: [0.919, 0.929]
-    ## Execution time (H:M:S): 00:00:21
+    ## Execution time (H:M:S): 00:00:06
 
 From the output from
 [`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md),
@@ -140,7 +140,7 @@ l_two.t_correct.sign(n=interval(10, 200), mean=.2) |> Spower(power=1-typeS)
     ## 
     ## Estimate of n: 47.7
     ## 95% Confidence Interval: [44.1, 51.7]
-    ## Execution time (H:M:S): 00:00:18
+    ## Execution time (H:M:S): 00:00:05
 
 Hence, one would need a sample size of approximately 48 per group in
 order to have a Type S error be approximately 1%.
@@ -216,7 +216,7 @@ l_two.t_correct.sign(n=15, mean=.2) |> Spower()
     ## 
     ## Estimate of power: 0.925
     ## 95% Confidence Interval: [0.920, 0.930]
-    ## Execution time (H:M:S): 00:00:28
+    ## Execution time (H:M:S): 00:00:08
 
 If at all possible it is recommended to use the `return_analysis`
 approach as the simulation experiments defined within the package have
@@ -289,7 +289,7 @@ typeM
     ## 
     ## Estimate of power: 0.861
     ## 95% Confidence Interval: [0.854, 0.868]
-    ## Execution time (H:M:S): 00:00:19
+    ## Execution time (H:M:S): 00:00:05
 
 In this case, `power` represents the probability that, given a
 significant result was observed, the resulting $`M`$ ratio was less than
@@ -366,7 +366,7 @@ typeM2
     ## 
     ## Estimate of power: 0.991
     ## 95% Confidence Interval: [0.989, 0.993]
-    ## Execution time (H:M:S): 00:00:14
+    ## Execution time (H:M:S): 00:00:04
 
 where the Type M error for the $`M.ratio = 3`$ cutoff is now
 
