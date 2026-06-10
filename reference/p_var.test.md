@@ -93,24 +93,24 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # one sample
 p_var.test(100, vars=10, sigma2=9)
-#> [1] 0.6870832
+#> [1] 0.8437036
 
 # return analysis object
 p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> $statistic
 #> Chi-Squared 
-#>    97.97775 
+#>    123.4603 
 #> 
 #> $parameters
 #> df 
 #> 99 
 #> 
 #> $p.value
-#> [1] 0.9796898
+#> [1] 0.0970567
 #> 
 #> $estimate
 #> variance 
-#> 8.907069 
+#> 11.22366 
 #> 
 #> $null.value
 #> variance 
@@ -127,7 +127,7 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> 
 #> $conf.int
 #>       LCL       UCL 
-#>  6.866424 12.019995 
+#>  8.652277 15.146215 
 #> attr(,"conf.level")
 #> [1] 0.95
 #> 
@@ -136,11 +136,11 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 
 # three sample
 p_var.test(100, vars=c(10, 9, 11))
-#> [1] 0.09105273
+#> [1] 0.1316016
 p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
-#> [1] 0.2428926
+#> [1] 0.6267242
 p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
-#> [1] 0.004867389
+#> [1] 0.4202452
 
 # \donttest{
   # power to detect three-group variance differences
@@ -151,14 +151,14 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 3
-#>       n sig.level power
-#>   <dbl>     <dbl> <lgl>
-#> 1   100      0.05 NA   
+#> # A tibble: 1 × 4
+#>       n  vars sig.level power
+#>   <dbl> <dbl>     <dbl> <lgl>
+#> 1   100    10      0.05 NA   
 #> 
-#> Estimate of power: 0.120
-#> 95% Confidence Interval: [0.114, 0.126]
-#> Execution time (H:M:S): 00:00:29
+#> Estimate of power: 0.126
+#> 95% Confidence Interval: [0.120, 0.133]
+#> Execution time (H:M:S): 00:00:31
 
   # sample size per group to achieve 80% power
   p_var.test(n=interval(100, 2000), vars=c(10,9,11)) |> Spower(power=.80)
@@ -168,13 +168,13 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 3
-#>       n sig.level power
-#>   <dbl>     <dbl> <dbl>
-#> 1    NA      0.05   0.8
+#> # A tibble: 1 × 4
+#>       n  vars sig.level power
+#>   <dbl> <dbl>     <dbl> <dbl>
+#> 1    NA    10      0.05   0.8
 #> 
-#> Estimate of n: 1097.6
-#> 95% Confidence Interval: [1086.4, 1108.3]
-#> Execution time (H:M:S): 00:02:53
+#> Estimate of n: 1085.3
+#> 95% Confidence Interval: [1078.2, 1091.9]
+#> Execution time (H:M:S): 00:02:21
 # }
 ```
