@@ -306,6 +306,20 @@ if(eval)
 print(store$gg2)
 ```
 
+Finally, the function `SpowerCurve()` currently supports up to three argument variations, where the third variable is treated as a facet. Should other plots be require then this will fall on the user to customize with `SpowerBatch()` as the types of visualizations past three variables can become convoluted.
+
+```{r eval=FALSE}
+p_single.t() |> 
+	SpowerCurve(n=c(30, 60, 90, 120), mean=c(.2, .5, .8), mu=c(0, .1))
+```
+
+```{r echo=FALSE, collapse=TRUE}
+if(eval)
+	store$gg3 <- p_single.t() |> 
+		SpowerCurve(n=c(30, 60, 90, 120), mean=c(.2, .5, .8), mu=c(0, .1))
+print(store$gg3)
+```
+
 ```{r include=FALSE, eval=eval}
 saveRDS(store, '../inst/intro.rds') # rebuild package when done
 ```
