@@ -877,8 +877,8 @@ p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> Spower()
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
-if(eval) store$ex.22.1 <- getLastSpower()
-print(store$ex.22.1)
+if(eval) store$ex.22.3 <- getLastSpower()
+print(store$ex.22.3)
 ```
 
 G\*power 3.1 provides a power estimate of .800, agreeing with `Spower`.
@@ -899,8 +899,8 @@ p_wilcox.test(n=11, d=.8, type='one.sample', two.tailed=FALSE, parent1 = parent1
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
-if(eval) store$ex.22.1b <- getLastSpower()
-print(store$ex.22.1b)
+if(eval) store$ex.22.3b <- getLastSpower()
+print(store$ex.22.3b)
 ```
 
 Interestingly, G\*power 3.1 reports this power to be 0.830.
