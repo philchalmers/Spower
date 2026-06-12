@@ -130,7 +130,7 @@ p_mcnemar.test(n=50, OR=.25, prop.disc=disc, two.tailed=FALSE) |>
 #> 
 #> Estimate of power: 0.337
 #> 95% Confidence Interval: [0.332, 0.342]
-#> Execution time (H:M:S): 00:00:04
+#> Execution time (H:M:S): 00:00:06
 
 # }
 ```

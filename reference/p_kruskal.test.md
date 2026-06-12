@@ -127,7 +127,7 @@ p_kruskal.test(n=30, k=3, means=c(0, 1, 2),
 #> 
 #> Estimate of power: 0.194
 #> 95% Confidence Interval: [0.186, 0.201]
-#> Execution time (H:M:S): 00:00:06
+#> Execution time (H:M:S): 00:00:07
 
 # }
 ```

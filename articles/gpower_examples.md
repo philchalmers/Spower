@@ -575,8 +575,13 @@ out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |>
 as.data.frame(out)
 ```
 
-    ##        n   d       type two.tailed sig.level  power    CI_2.5   CI_97.5
-    ## power 11 0.8 one.sample      FALSE      0.05 0.8147 0.8070847 0.8223153
+    ##     n   d       type two.tailed sig.level   power    CI_2.5   CI_97.5
+    ## 1 649 0.1 one.sample      FALSE      0.05 0.80156 0.7980642 0.8050558
+    ## 2 164 0.2 one.sample      FALSE      0.05 0.80116 0.7976616 0.8046584
+    ## 3  42 0.4 one.sample      FALSE      0.05 0.79992 0.7964134 0.8034266
+    ## 4  20 0.6 one.sample      FALSE      0.05 0.80724 0.8037824 0.8106976
+    ## 5  12 0.8 one.sample      FALSE      0.05 0.80306 0.7995742 0.8065458
+    ## 6   9 1.0 one.sample      FALSE      0.05 0.84530 0.8421303 0.8484697
 
 ##### Laplace($`\mu`$, 1) version
 
@@ -1307,11 +1312,11 @@ p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> Spower()
     ## # A tibble: 1 × 6
     ##       n     d type       two.tailed sig.level power
     ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-    ## 1   649   0.1 one.sample FALSE           0.05 NA
+    ## 1    11   0.8 one.sample FALSE           0.05 NA
     ## 
-    ## Estimate of power: 0.799
-    ## 95% Confidence Interval: [0.791, 0.806]
-    ## Execution time (H:M:S): 00:00:08
+    ## Estimate of power: 0.813
+    ## 95% Confidence Interval: [0.806, 0.821]
+    ## Execution time (H:M:S): 00:00:01
 
 G\*power 3.1 provides a power estimate of .800, agreeing with `Spower`.
 
@@ -1341,8 +1346,8 @@ p_wilcox.test(n=11, d=.8, type='one.sample', two.tailed=FALSE, parent1 = parent1
     ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
     ## 1    11   0.8 one.sample FALSE           0.05 NA
     ## 
-    ## Estimate of power: 0.815
-    ## 95% Confidence Interval: [0.807, 0.822]
+    ## Estimate of power: 0.813
+    ## 95% Confidence Interval: [0.806, 0.821]
     ## Execution time (H:M:S): 00:00:01
 
 Interestingly, G\*power 3.1 reports this power to be 0.830.

@@ -150,7 +150,7 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
 #> Estimate of power: 0.576
 #> 95% Confidence Interval: [0.567, 0.586]
-#> Execution time (H:M:S): 00:00:06
+#> Execution time (H:M:S): 00:00:07
 
     pwr::pwr.r.test(r=0.3, power=0.80)
 #> 
@@ -175,7 +175,7 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
 #> Estimate of n: 83.6
 #> 95% Confidence Interval: [82.7, 84.5]
-#> Execution time (H:M:S): 00:00:31
+#> Execution time (H:M:S): 00:00:34
 
     pwr::pwr.r.test(r=0.1, power=0.80)
 #> 
@@ -200,7 +200,7 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
 #> Estimate of n: 781.6
 #> 95% Confidence Interval: [772.3, 791.3]
-#> Execution time (H:M:S): 00:00:39
+#> Execution time (H:M:S): 00:00:42
 
 # }
 ```

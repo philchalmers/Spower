@@ -103,7 +103,7 @@ p_scale(30, scale=2, parent=parent, df=3)
 #> 
 #> Estimate of power: 0.774
 #> 95% Confidence Interval: [0.766, 0.782]
-#> Execution time (H:M:S): 00:00:20
+#> Execution time (H:M:S): 00:00:22
   p_scale(30, scale=2, test='Mood') |> Spower()
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -132,7 +132,7 @@ p_scale(30, scale=2, parent=parent, df=3)
 #> 
 #> Estimate of power: 0.907
 #> 95% Confidence Interval: [0.901, 0.913]
-#> Execution time (H:M:S): 00:00:20
+#> Execution time (H:M:S): 00:00:23
   p_scale(30, scale=2, test='Mood', parent=parent, df=3) |> Spower()
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────

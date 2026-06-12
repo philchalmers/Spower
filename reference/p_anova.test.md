@@ -140,6 +140,6 @@ p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
 #> 
 #> Estimate of power: 0.514
 #> 95% Confidence Interval: [0.505, 0.524]
-#> Execution time (H:M:S): 00:00:08
+#> Execution time (H:M:S): 00:00:09
 # }
 ```

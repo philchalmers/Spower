@@ -501,7 +501,7 @@ summary(out)   # extra information
 #>  collate  C
 #>  ctype    C.UTF-8
 #>  tz       UTC
-#>  date     2026-06-10
+#>  date     2026-06-12
 #>  pandoc   3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/ (via rmarkdown)
 #>  quarto   NA
 #> 
@@ -589,7 +589,7 @@ summary(out)   # extra information
 #>  scales         1.4.0     2025-04-24 [1] RSPM
 #>  sessioninfo    1.2.4     2026-06-04 [1] RSPM
 #>  SimDesign    * 2.25      2026-03-31 [1] RSPM
-#>  Spower       * 0.6.4     2026-06-10 [1] local
+#>  Spower       * 0.6.4     2026-06-12 [1] local
 #>  stringfish     0.19.0    2026-04-21 [1] RSPM
 #>  systemfonts    1.3.2     2026-03-05 [1] RSPM
 #>  testthat       3.3.2     2026-01-11 [1] RSPM
@@ -623,10 +623,10 @@ summary(out)   # extra information
 #> [1] 1
 #> 
 #> $date_completed
-#> [1] Wed Jun 10 16:55:19 2026
+#> [1] Fri Jun 12 14:34:45 2026
 #> 
 #> $total_elapsed_time
-#> [1] 2.30s
+#> [1] 2.74s
 #> 
 #> $SEED_history
 #> [1] 1910432787
@@ -664,7 +664,7 @@ out   # as though it were stored from Spower()
 #> 
 #> Estimate of power: 0.702
 #> 95% Confidence Interval: [0.697, 0.707]
-#> Execution time (H:M:S): 00:00:04
+#> Execution time (H:M:S): 00:00:05
 
 # Same as above, but executed with multiple cores (not run)
 p_t.test(n = 50, d = .5) |>
@@ -681,7 +681,7 @@ p_t.test(n = 50, d = .5) |>
 #> 
 #> Estimate of power: 0.698
 #> 95% Confidence Interval: [0.692, 0.703]
-#> Execution time (H:M:S): 00:00:05
+#> Execution time (H:M:S): 00:00:06
 
 # Solve N to get .80 power (a priori power analysis)
 p_t.test(n = interval(2,500), d = .5) |> Spower(power=.8) -> out
@@ -703,7 +703,7 @@ summary(out)  # extra information
 #> [1] TRUE
 #> 
 #> $time
-#> [1] 18.00s
+#> [1] 19.90s
 #> 
 #> $iterations
 #> [1] 97
@@ -743,7 +743,7 @@ p_t.test(n = NA, d = .5) |> Spower(power=.8, interval=c(2,500))
 #> 
 #> Estimate of n: 64.1
 #> 95% Confidence Interval: [63.2, 65.0]
-#> Execution time (H:M:S): 00:00:16
+#> Execution time (H:M:S): 00:00:17
 
 # same as above, but in parallel with 2 cores
 out.par <- p_t.test(n = interval(2,500), d = .5) |>
@@ -766,7 +766,7 @@ summary(out.par)
 #> [1] FALSE
 #> 
 #> $time
-#> [1] 43.43s
+#> [1] 42.66s
 #> 
 #> $iterations
 #> [1] 150
@@ -821,7 +821,7 @@ p_t.test(n = interval(2,500), d = .5) |>
 #> 
 #> Estimate of n: 63.6
 #> 95% Confidence Interval: [63.0, 64.2]
-#> Execution time (H:M:S): 00:01:01
+#> Execution time (H:M:S): 00:01:02
 
 # Similar to above for precision improvements, however letting
 #  the root solver continue searching from an early search history.
@@ -841,7 +841,7 @@ p_t.test(n = interval(2,500), d = .5) |>
 #> 
 #> Estimate of n: 63.7
 #> 95% Confidence Interval: [63.0, 64.3]
-#> Execution time (H:M:S): 00:00:20
+#> Execution time (H:M:S): 00:00:22
 
 # Solve d to get .80 power (sensitivity power analysis)
 p_t.test(n = 50, d = interval(.1, 2)) |> Spower(power=.8)
@@ -857,7 +857,7 @@ p_t.test(n = 50, d = interval(.1, 2)) |> Spower(power=.8)
 #> 
 #> Estimate of d: 0.566
 #> 95% Confidence Interval: [0.562, 0.569]
-#> Execution time (H:M:S): 00:00:16
+#> Execution time (H:M:S): 00:00:18
 pwr::pwr.t.test(n=50, power=.80) # compare
 #> 
 #>      Two-sample t test power calculation 
@@ -886,7 +886,7 @@ p_t.test(n = 50, d = .5) |> Spower(power=.80, sig.level=NA)
 #> 
 #> Estimate of sig.level: 0.102
 #> 95% Confidence Interval: [0.099, 0.106]
-#> Execution time (H:M:S): 00:00:14
+#> Execution time (H:M:S): 00:00:16
 
 # Solve beta/alpha ratio to specific error trade-off constant
 #   (compromise power analysis)
@@ -1710,13 +1710,13 @@ build
 #>     super:  <ggproto object: Class Guides, gg> 
 #>  .. @ mapping    : <ggplot2::mapping> List of 4
 #>  .. .. $ x     : language ~.data[["n"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55972df2e860> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x561627d27cc0> 
 #>  .. .. $ y     : language ~power
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55972df2e860> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x561627d27cc0> 
 #>  .. .. $ colour: language ~.data[["d"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55972df2e860> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x561627d27cc0> 
 #>  .. .. $ fill  : language ~.data[["d"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55972df2e860> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x561627d27cc0> 
 #>  .. @ theme      : <theme> List of 144
 #>  .. .. $ line                            : <ggplot2::element_line>
 #>  .. ..  ..@ colour       : chr "black"
@@ -2153,7 +2153,7 @@ build
 #>  .. .. $ fill  : chr "d"
 #>  .. .. $ alt   : chr ""
 #>  .. @ meta       : list()
-#>  .. @ plot_env   :<environment: 0x55972df2e860> 
+#>  .. @ plot_env   :<environment: 0x561627d27cc0> 
 
 df <- build$plot$data
 head(df)

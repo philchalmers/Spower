@@ -158,7 +158,7 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #> 
 #> Estimate of power: 0.124
 #> 95% Confidence Interval: [0.118, 0.131]
-#> Execution time (H:M:S): 00:00:29
+#> Execution time (H:M:S): 00:00:31
 
   # sample size per group to achieve 80% power
   p_var.test(n=interval(100, 2000), vars=c(10,9,11)) |> Spower(power=.80)
@@ -175,6 +175,6 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #> 
 #> Estimate of n: 1105.8
 #> 95% Confidence Interval: [1087.8, 1125.9]
-#> Execution time (H:M:S): 00:02:24
+#> Execution time (H:M:S): 00:02:29
 # }
 ```

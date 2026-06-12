@@ -196,7 +196,7 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #> 
 #> Estimate of power: 0.353
 #> 95% Confidence Interval: [0.343, 0.362]
-#> Execution time (H:M:S): 00:00:02
+#> Execution time (H:M:S): 00:00:03
 
     # compare with switched null
     Spower(p_prop.test(n=60, h=h, pi=.5))
@@ -226,7 +226,7 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #> 
 #> Estimate of power: 0.254
 #> 95% Confidence Interval: [0.245, 0.262]
-#> Execution time (H:M:S): 00:00:02
+#> Execution time (H:M:S): 00:00:03
 
     # two-sample test, one-tailed
     (h <- pwr::ES.h(0.67, 0.5))
@@ -293,7 +293,7 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #> 
 #> Estimate of power: 0.809
 #> 95% Confidence Interval: [0.801, 0.816]
-#> Execution time (H:M:S): 00:00:02
+#> Execution time (H:M:S): 00:00:03
 
 # }
 ```

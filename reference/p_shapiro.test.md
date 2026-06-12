@@ -66,7 +66,7 @@ p_shapiro.test(rchisq(50, df=100))
 #> 
 #> Estimate of power: 0.049
 #> 95% Confidence Interval: [0.044, 0.053]
-#> Execution time (H:M:S): 00:00:01
+#> Execution time (H:M:S): 00:00:02
 
     # power
     p_shapiro.test(rchisq(50, df=100)) |> Spower()
@@ -83,6 +83,6 @@ p_shapiro.test(rchisq(50, df=100))
 #> 
 #> Estimate of power: 0.107
 #> 95% Confidence Interval: [0.101, 0.113]
-#> Execution time (H:M:S): 00:00:01
+#> Execution time (H:M:S): 00:00:02
 # }
 ```

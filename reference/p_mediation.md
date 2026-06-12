@@ -201,7 +201,7 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> 
 #> Estimate of power: 0.997
 #> 95% Confidence Interval: [0.994, 1.000]
-#> Execution time (H:M:S): 00:00:21
+#> Execution time (H:M:S): 00:00:22
 
   # sample size estimate for .95 power
   p_mediation(n=interval(50,200), a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
@@ -218,7 +218,7 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> 
 #> Estimate of n: 51.0
 #> 95% Confidence Interval: [NA, NA]
-#> Execution time (H:M:S): 00:22:53
+#> Execution time (H:M:S): 00:23:24
 
 # }
 ```

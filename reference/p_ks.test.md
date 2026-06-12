@@ -129,7 +129,7 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #> 
 #> Estimate of power: 0.146
 #> 95% Confidence Interval: [0.139, 0.153]
-#> Execution time (H:M:S): 00:00:02
+#> Execution time (H:M:S): 00:00:03
 
 # }
 ```

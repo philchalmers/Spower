@@ -73,7 +73,7 @@ update(out, sig.level=.01)
 #> 
 #> Estimate of power: 0.448
 #> 95% Confidence Interval: [0.435, 0.456]
-#> Execution time (H:M:S): 00:00:02
+#> Execution time (H:M:S): 00:00:03
 update(out, sig.level=.20)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -87,7 +87,7 @@ update(out, sig.level=.20)
 #> 
 #> Estimate of power: 0.882
 #> 95% Confidence Interval: [0.878, 1.000]
-#> Execution time (H:M:S): 00:00:02
+#> Execution time (H:M:S): 00:00:03
 
 
 ########
@@ -113,7 +113,7 @@ update(out, beta_alpha=4)
 #> 
 #> Estimate of power (1-beta): 0.740
 #> 95% Confidence Interval: [0.731, 0.748]
-#> Execution time (H:M:S): 00:00:02
+#> Execution time (H:M:S): 00:00:03
 
 # also works if compromise not initially run but prospective/post-hoc power was
 out <- p_t.test(n = 50, d = .5) |> Spower()
@@ -133,7 +133,7 @@ update(out, beta_alpha=4)
 #> 
 #> Estimate of power (1-beta): 0.738
 #> 95% Confidence Interval: [0.730, 0.747]
-#> Execution time (H:M:S): 00:00:02
+#> Execution time (H:M:S): 00:00:03
 
 # }
 ```

@@ -224,7 +224,7 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #> 
 #> Estimate of n: 138.6
 #> 95% Confidence Interval: [137.0, 140.1]
-#> Execution time (H:M:S): 00:00:27
+#> Execution time (H:M:S): 00:00:30
 
 # }
 
@@ -279,7 +279,7 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #> 
 #> Estimate of power: 0.940
 #> 95% Confidence Interval: [0.937, 0.942]
-#> Execution time (H:M:S): 00:00:07
+#> Execution time (H:M:S): 00:00:08
 
   # estimate power given the customized data generating function
   p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5) |>
@@ -296,7 +296,7 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #> 
 #> Estimate of power: 0.956
 #> 95% Confidence Interval: [0.954, 0.959]
-#> Execution time (H:M:S): 00:00:08
+#> Execution time (H:M:S): 00:00:09
 
   # evaluate Type I error rate to see if liberal/conservative given
   # assumption violations (should be close to alpha/sig.level)
@@ -314,7 +314,7 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #> 
 #> Estimate of power: 0.051
 #> 95% Confidence Interval: [0.048, 0.053]
-#> Execution time (H:M:S): 00:00:08
+#> Execution time (H:M:S): 00:00:09
 
 # }
 ```
