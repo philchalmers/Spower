@@ -118,9 +118,9 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # joint test H0: a*b = 0
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
-#> [1] 0.0003991021
+#> [1] 0.0008857608
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
-#> [1] 1.62993e-08
+#> [1] 2.136133e-10
 
 # return analysis model
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
@@ -143,23 +143,23 @@ dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2)
 descript(dat) # specific SDs
 #> # A tibble: 3 × 12
-#>   VARS      n    mean    trim    sd     skew   kurt    min   P25     P50   P75
-#>   <fct> <dbl>   <dbl>   <dbl> <dbl>    <dbl>  <dbl>  <dbl> <dbl>   <dbl> <dbl>
-#> 1 X      1000  0.0739  0.0769  1.98  0.00665 -0.145  -5.77 -1.22  0.0652  1.43
-#> 2 M      1000  0.0579  0.0648  2.04 -0.0356  -0.151  -6.58 -1.31  0.125   1.43
-#> 3 Y      1000 -0.0577 -0.0206  3.04 -0.148    0.215 -12.6  -2.03 -0.0251  2.16
+#>   VARS      n     mean    trim    sd   skew     kurt   min   P25     P50   P75
+#>   <fct> <dbl>    <dbl>   <dbl> <dbl>  <dbl>    <dbl> <dbl> <dbl>   <dbl> <dbl>
+#> 1 X      1000 -0.00310 -0.0220  2.04 0.134  -0.0358  -5.91 -1.42 -0.0496  1.42
+#> 2 M      1000 -0.0198  -0.0408  2.08 0.118   0.00681 -6.07 -1.43 -0.0235  1.35
+#> 3 Y      1000 -0.0975  -0.0941  2.99 0.0358  0.182   -9.01 -2.11 -0.103   1.91
 #> # ℹ 1 more variable: max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
-#>  (Intercept)            X 
-#> -0.002798038  0.820529234 
+#> (Intercept)           X 
+#> -0.01725518  0.81214924 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
 #> (Intercept)           M           X 
-#> -0.03474569 -0.63476389  0.18656060 
+#>  -0.1107392  -0.6987668   0.1870986 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  -0.0329696  -0.3342817 
+#> -0.09868181 -0.38040435 
 
 # same properties, but dichotomous X variable
 dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
@@ -169,20 +169,20 @@ descript(dat) # specific SDs
 #>   VARS      n   mean   trim    sd    skew    kurt    min     P25    P50   P75
 #>   <fct> <dbl>  <dbl>  <dbl> <dbl>   <dbl>   <dbl>  <dbl>   <dbl>  <dbl> <dbl>
 #> 1 X      2000  2      2      2.00  0      -2.00     0     0       2      4   
-#> 2 M      2000  1.59   1.58   1.97  0.0440 -0.828   -3.24 -0.0391  1.61   3.20
-#> 3 Y      2000 -0.856 -0.847  2.95 -0.0325  0.0200 -10.3  -2.73   -0.856  1.08
+#> 2 M      2000  1.61   1.61   2.02 -0.0236 -0.854   -3.94 -0.0420  1.63   3.26
+#> 3 Y      2000 -0.773 -0.779  3.01  0.0426  0.0297 -10.4  -2.84   -0.809  1.29
 #> # ℹ 1 more variable: max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#>  0.02204949  0.78373967 
+#> -0.02681293  0.81796198 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
 #> (Intercept)           M           X 
-#>  -0.1564526  -0.6320779   0.1527772 
+#>  0.01946498 -0.71296346  0.17727459 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  -0.1703896  -0.3426073 
+#>  0.03858161 -0.40590242 
 
 # \donttest{
 
@@ -199,9 +199,9 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #>   <dbl>   <dbl>   <dbl>  <dbl>     <dbl> <lgl>
 #> 1    50 0.59161 0.59161   0.39      0.05 NA   
 #> 
-#> Estimate of power: 0.997
-#> 95% Confidence Interval: [0.994, 1.000]
-#> Execution time (H:M:S): 00:00:22
+#> Estimate of power: 0.992
+#> 95% Confidence Interval: [0.986, 0.998]
+#> Execution time (H:M:S): 00:00:16
 
   # sample size estimate for .95 power
   p_mediation(n=interval(50,200), a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
@@ -216,9 +216,9 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #>   <dbl>   <dbl>   <dbl>  <dbl>     <dbl> <dbl>
 #> 1    NA 0.59161 0.59161   0.39      0.05  0.95
 #> 
-#> Estimate of n: 51.0
+#> Estimate of n: 50.0
 #> 95% Confidence Interval: [NA, NA]
-#> Execution time (H:M:S): 00:23:24
+#> Execution time (H:M:S): 00:18:16
 
 # }
 ```

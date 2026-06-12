@@ -665,3 +665,20 @@ p_single.t() |>
 ```
 
 ![](SpowerIntro_files/figure-html/unnamed-chunk-35-1.png)
+
+Finally, the function
+[`SpowerCurve()`](https://philchalmers.github.io/Spower/reference/Spower.md)
+currently supports up to three argument variations, where the third
+variable is treated as a facet. Should other plots be require then this
+will fall on the user to customize with
+[`SpowerBatch()`](https://philchalmers.github.io/Spower/reference/Spower.md)
+as the types of visualizations past three variables can become
+convoluted.
+
+``` r
+
+p_single.t() |> 
+    SpowerCurve(n=c(30, 60, 90, 120), mean=c(.2, .5, .8), mu=c(0, .1))
+```
+
+![](SpowerIntro_files/figure-html/unnamed-chunk-37-1.png)
