@@ -137,18 +137,18 @@ p_t.test <- function(n, d, mu = 0, r = NULL, type = 'two.sample',
 	}
 	dat <- gen_fun(n=n, n2_n1=n2_n1, d=d, r=r, type=type,
 				   means=means, sds=sds, ...)
+	alternative <- ifelse(two.tailed, "two.sided", "greater")
 	res <- if(type == 'paired'){
 		t.test(dat[[1]], dat[[2]], mu=mu,
-			   paired=TRUE, conf.level=conf.level)
+			   paired=TRUE, conf.level=conf.level, alternative=alternative)
 	} else if(type == 'two.sample'){
 		t.test(dat[[1]], dat[[2]], var.equal=var.equal,
-			   mu=mu, conf.level=conf.level)
+			   mu=mu, conf.level=conf.level, alternative=alternative)
 	} else if(type == 'one.sample') {
-		t.test(dat[[1]], mu=mu, conf.level=conf.level)
+		t.test(dat[[1]], mu=mu, conf.level=conf.level, alternative=alternative)
 	}
 	if(return_analysis) return(res)
 	p <- res$p.value
-	p <- ifelse(two.tailed, p, p/2)
 	p
 }
 
