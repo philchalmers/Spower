@@ -101,27 +101,27 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # 100 observations, .5 correlation, tetrachoric estimate
 p_r.cat(100, r=.5, tauX=0, tauY=1)
-#> [1] 3.847978e-08
+#> [1] 0.03401162
 
 # return analysis model
 p_r.cat(100, r=.5, tauX=0, tauY=1, return_analysis=TRUE)
 #> 
-#> Polychoric Correlation, ML est. = 0.5683 (0.1593)
+#> Polychoric Correlation, ML est. = 0.6152 (0.1673)
 #> 
 #>   Row Threshold
 #>   Threshold Std.Err.
-#>       1.126    0.159
+#>       1.227   0.1664
 #> 
 #> 
 #>   Column Threshold
 #>   Threshold Std.Err.
-#>     0.05015   0.1254
+#>    -0.05015   0.1254
 
 # Wald test
 p_r.cat(100, r=.5, tauX=0, tauY=1, score=FALSE)
-#> [1] 1.18869e-05
+#> [1] 0.03764648
 
 # polyserial estimate (Y continuous)
 p_r.cat(50, r=.5, tauX=0)
-#> [1] 0.0001684987
+#> [1] 8.479001e-06
 ```

@@ -493,121 +493,119 @@ summary(out)   # extra information
 #> $sessionInfo
 #> ─ Session info ───────────────────────────────────────────────────────────────
 #>  setting  value
-#>  version  R version 4.6.0 (2026-04-24)
-#>  os       Ubuntu 24.04.4 LTS
+#>  version  R version 4.6.1 (2026-06-24)
+#>  os       Ubuntu 24.04.5 LTS
 #>  system   x86_64, linux-gnu
 #>  ui       X11
 #>  language en
 #>  collate  C
 #>  ctype    C.UTF-8
 #>  tz       UTC
-#>  date     2026-06-18
+#>  date     2026-10-14
 #>  pandoc   3.8.3 @ /opt/hostedtoolcache/pandoc/3.8.3/x64/ (via rmarkdown)
 #>  quarto   NA
 #> 
 #> ─ Packages ───────────────────────────────────────────────────────────────────
-#>  package      * version   date (UTC) lib source
-#>  abind          1.4-8     2024-09-12 [1] RSPM
-#>  askpass        1.2.1     2024-10-04 [1] RSPM
-#>  audio          0.1-12    2025-12-15 [1] RSPM
-#>  beepr          2.0       2024-07-06 [1] RSPM
-#>  brio           1.1.5     2024-04-24 [1] RSPM
-#>  bslib          0.11.0    2026-05-16 [1] RSPM
-#>  cachem         1.1.0     2024-05-16 [1] RSPM
-#>  car            3.1-5     2026-02-03 [1] RSPM
-#>  carData        3.0-6     2026-01-30 [1] RSPM
-#>  class          7.3-23    2025-01-01 [3] CRAN (R 4.6.0)
-#>  cli            3.6.6     2026-04-09 [1] RSPM
-#>  clipr          0.8.1     2026-05-25 [1] RSPM
-#>  cocor          1.1-4     2022-06-28 [1] RSPM
-#>  codetools      0.2-20    2024-03-31 [3] CRAN (R 4.6.0)
-#>  curl           7.1.0     2026-04-22 [1] RSPM
-#>  data.table     1.18.4    2026-05-06 [1] RSPM
-#>  desc           1.4.3     2023-12-10 [1] RSPM
-#>  digest         0.6.39    2025-11-19 [1] RSPM
-#>  downlit        0.4.5     2025-11-14 [1] RSPM
-#>  dplyr          1.2.1     2026-04-03 [1] RSPM
-#>  e1071          1.7-17    2025-12-18 [1] RSPM
-#>  EnvStats       3.1.0     2025-04-24 [1] RSPM
-#>  evaluate       1.0.5     2025-08-27 [1] RSPM
-#>  fansi          1.0.7     2025-11-19 [1] RSPM
-#>  farver         2.1.2     2024-05-13 [1] RSPM
-#>  fastmap        1.2.0     2024-05-15 [1] RSPM
-#>  fontawesome    0.5.3     2024-11-16 [1] RSPM
-#>  Formula        1.2-5     2023-02-24 [1] RSPM
-#>  fs             2.1.0     2026-04-18 [1] RSPM
-#>  future         1.70.0    2026-03-14 [1] RSPM
-#>  future.apply   1.20.2    2026-02-20 [1] RSPM
-#>  generics       0.1.4     2025-05-09 [1] RSPM
-#>  ggplot2        4.0.3     2026-04-22 [1] RSPM
-#>  globals        0.19.1    2026-03-13 [1] RSPM
-#>  glue           1.8.1     2026-04-17 [1] RSPM
-#>  gtable         0.3.6     2024-10-25 [1] RSPM
-#>  htmltools      0.5.9     2025-12-04 [1] RSPM
-#>  htmlwidgets    1.6.4     2023-12-06 [1] RSPM
-#>  httr           1.4.8     2026-02-13 [1] RSPM
-#>  httr2          1.2.2     2025-12-08 [1] RSPM
-#>  jquerylib      0.1.4     2021-04-26 [1] RSPM
-#>  jsonlite       2.0.0     2025-03-27 [1] RSPM
-#>  knitr          1.51      2025-12-20 [1] RSPM
-#>  lavaan         0.6-21    2025-12-21 [1] RSPM
-#>  lazyeval       0.2.3     2026-04-04 [1] RSPM
-#>  lifecycle      1.0.5     2026-01-08 [1] RSPM
-#>  listenv        0.10.1    2026-03-10 [1] RSPM
-#>  magrittr       2.0.5     2026-04-04 [1] RSPM
-#>  memoise        2.0.1     2021-11-26 [1] RSPM
-#>  mirai          2.7.1     2026-06-01 [1] RSPM
-#>  mnormt         2.1.2     2026-01-27 [1] RSPM
-#>  nanonext       1.9.1     2026-06-01 [1] RSPM
-#>  openssl        2.4.2     2026-06-09 [1] RSPM
-#>  otel           0.2.0     2025-08-29 [1] RSPM
-#>  parallelly     1.47.0    2026-04-17 [1] RSPM
-#>  pbapply        1.7-4     2025-07-20 [1] RSPM
-#>  pbivnorm       0.6.0     2015-01-23 [1] RSPM
-#>  pillar         1.11.1    2025-09-17 [1] RSPM
-#>  pkgconfig      2.0.3     2019-09-22 [1] RSPM
-#>  pkgdown        2.2.0     2025-11-06 [1] any (@2.2.0)
-#>  plotly         4.12.0    2026-01-24 [1] RSPM
-#>  progressr      0.19.0    2026-03-31 [1] RSPM
-#>  proxy          0.4-29    2025-12-29 [1] RSPM
-#>  purrr          1.2.2     2026-04-10 [1] RSPM
-#>  qs2            0.2.2     2026-06-03 [1] RSPM
-#>  quadprog       1.5-8     2019-11-20 [1] RSPM
-#>  R.methodsS3    1.8.2     2022-06-13 [1] RSPM
-#>  R.oo           1.27.1    2025-05-02 [1] RSPM
-#>  R.utils        2.13.0    2025-02-24 [1] RSPM
-#>  R6             2.6.1     2025-02-15 [1] RSPM
-#>  ragg           1.5.2     2026-03-23 [1] RSPM
-#>  rappdirs       0.3.4     2026-01-17 [1] RSPM
-#>  RColorBrewer   1.1-3     2022-04-03 [1] RSPM
-#>  Rcpp           1.1.1-1.1 2026-04-24 [1] RSPM
-#>  RcppParallel   5.1.11-2  2026-03-05 [1] RSPM
-#>  rlang          1.2.0     2026-04-06 [1] RSPM
-#>  rmarkdown      2.31      2026-03-26 [1] RSPM
-#>  S7             0.2.2     2026-04-22 [1] RSPM
-#>  sass           0.4.10    2025-04-11 [1] RSPM
-#>  scales         1.4.0     2025-04-24 [1] RSPM
-#>  sessioninfo    1.2.4     2026-06-04 [1] RSPM
-#>  SimDesign    * 2.25      2026-03-31 [1] RSPM
-#>  Spower       * 0.6.4     2026-06-18 [1] local
-#>  stringfish     0.19.0    2026-04-21 [1] RSPM
-#>  systemfonts    1.3.2     2026-03-05 [1] RSPM
-#>  testthat       3.3.2     2026-01-11 [1] RSPM
-#>  textshaping    1.0.5     2026-03-06 [1] RSPM
-#>  tibble         3.3.1     2026-01-11 [1] RSPM
-#>  tidyr          1.3.2     2025-12-19 [1] RSPM
-#>  tidyselect     1.2.1     2024-03-11 [1] RSPM
-#>  vctrs          0.7.3     2026-04-11 [1] RSPM
-#>  viridisLite    0.4.3     2026-02-04 [1] RSPM
-#>  whisker        0.4.1     2022-12-05 [1] RSPM
-#>  withr          3.0.2     2024-10-28 [1] RSPM
-#>  xfun           0.58      2026-06-01 [1] RSPM
-#>  xml2           1.5.2     2026-01-17 [1] RSPM
-#>  yaml           2.3.12    2025-12-10 [1] RSPM
+#>  package      * version  date (UTC) lib source
+#>  abind          1.4-8    2024-09-12 [1] RSPM
+#>  askpass        1.2.1    2024-10-04 [1] RSPM
+#>  audio          0.1-12   2025-12-15 [1] RSPM
+#>  beepr          2.0      2024-07-06 [1] RSPM
+#>  brio           1.1.5    2024-04-24 [1] RSPM
+#>  bslib          0.12.0   2026-08-04 [1] RSPM
+#>  cachem         1.1.0    2024-05-16 [1] RSPM
+#>  car            3.1-5    2026-02-03 [1] RSPM
+#>  carData        3.0-6    2026-01-30 [1] RSPM
+#>  class          7.3-23   2025-01-01 [3] CRAN (R 4.6.1)
+#>  cli            3.6.6    2026-04-09 [1] RSPM
+#>  clipr          0.8.1    2026-05-25 [1] RSPM
+#>  cocor          1.1-4    2022-06-28 [1] RSPM
+#>  codetools      0.2-20   2024-03-31 [3] CRAN (R 4.6.1)
+#>  curl           8.0.0    2026-08-25 [1] RSPM
+#>  data.table     1.18.6.1 2026-08-24 [1] RSPM
+#>  desc           1.4.3    2023-12-10 [1] RSPM
+#>  digest         0.6.39   2025-11-19 [1] RSPM
+#>  downlit        0.4.5    2025-11-14 [1] RSPM
+#>  dplyr          1.2.1    2026-04-03 [1] RSPM
+#>  e1071          1.7-17   2025-12-18 [1] RSPM
+#>  EnvStats       3.1.0    2025-04-24 [1] RSPM
+#>  evaluate       1.0.5    2025-08-27 [1] RSPM
+#>  fansi          1.0.7    2025-11-19 [1] RSPM
+#>  farver         2.1.2    2024-05-13 [1] RSPM
+#>  fastmap        1.2.0    2024-05-15 [1] RSPM
+#>  fontawesome    0.5.3    2024-11-16 [1] RSPM
+#>  Formula        1.2-6    2026-08-03 [1] RSPM
+#>  fs             2.1.0    2026-04-18 [1] RSPM
+#>  future         1.76.0   2026-09-24 [1] RSPM
+#>  future.apply   1.20.2   2026-02-20 [1] RSPM
+#>  generics       0.1.4    2025-05-09 [1] RSPM
+#>  ggplot2        4.0.3    2026-04-22 [1] RSPM
+#>  globals        0.20.0   2026-10-11 [1] RSPM
+#>  glue           1.8.1    2026-04-17 [1] RSPM
+#>  gtable         0.3.6    2024-10-25 [1] RSPM
+#>  htmltools      0.5.9    2025-12-04 [1] RSPM
+#>  htmlwidgets    1.6.4    2023-12-06 [1] RSPM
+#>  httr           1.4.9    2026-09-01 [1] RSPM
+#>  httr2          1.3.0    2026-07-13 [1] RSPM
+#>  jquerylib      0.1.4    2021-04-26 [1] RSPM
+#>  jsonlite       2.0.0    2025-03-27 [1] RSPM
+#>  knitr          1.52     2026-09-06 [1] RSPM
+#>  lavaan         0.7-3    2026-10-08 [1] RSPM
+#>  lifecycle      1.0.5    2026-01-08 [1] RSPM
+#>  listenv        1.1.0    2026-10-04 [1] RSPM
+#>  magrittr       2.0.5    2026-04-04 [1] RSPM
+#>  memoise        2.0.1    2021-11-26 [1] RSPM
+#>  mirai          2.7.3    2026-09-24 [1] RSPM
+#>  mnormt         2.1.2    2026-01-27 [1] RSPM
+#>  nanonext       1.10.3   2026-09-23 [1] RSPM
+#>  openssl        2.4.2    2026-06-09 [1] RSPM
+#>  otel           0.2.0    2025-08-29 [1] RSPM
+#>  parallelly     1.48.0   2026-06-29 [1] RSPM
+#>  pbapply        1.7-5    2026-09-01 [1] RSPM
+#>  pbivnorm       0.6.0    2015-01-23 [1] RSPM
+#>  pillar         1.11.1   2025-09-17 [1] RSPM
+#>  pkgconfig      2.0.3    2019-09-22 [1] RSPM
+#>  pkgdown        2.2.1    2026-07-07 [1] any (@2.2.1)
+#>  plotly         4.12.1   2026-07-22 [1] RSPM
+#>  progressr      1.0.0    2026-07-04 [1] RSPM
+#>  proxy          0.4-29   2025-12-29 [1] RSPM
+#>  purrr          1.2.2    2026-04-10 [1] RSPM
+#>  qs2            0.3.1    2026-08-21 [1] RSPM
+#>  quadprog       1.5-8    2019-11-20 [1] RSPM
+#>  R.methodsS3    1.8.2    2022-06-13 [1] RSPM
+#>  R.oo           1.27.1   2025-05-02 [1] RSPM
+#>  R.utils        2.13.0   2025-02-24 [1] RSPM
+#>  R6             2.6.1    2025-02-15 [1] RSPM
+#>  ragg           1.5.2    2026-03-23 [1] RSPM
+#>  RColorBrewer   1.1-3    2022-04-03 [1] RSPM
+#>  Rcpp           1.1.2    2026-07-05 [1] RSPM
+#>  RcppParallel   6.2.1    2026-08-27 [1] RSPM
+#>  rlang          1.3.0    2026-07-05 [1] RSPM
+#>  rmarkdown      2.32     2026-09-01 [1] RSPM
+#>  S7             0.2.2    2026-04-22 [1] RSPM
+#>  sass           0.4.10   2025-04-11 [1] RSPM
+#>  scales         1.4.0    2025-04-24 [1] RSPM
+#>  sessioninfo    1.2.4    2026-06-04 [1] RSPM
+#>  SimDesign    * 2.28     2026-10-06 [1] RSPM
+#>  Spower       * 0.6.4    2026-10-14 [1] local
+#>  stringfish     0.19.2   2026-08-04 [1] RSPM
+#>  systemfonts    1.3.2    2026-03-05 [1] RSPM
+#>  testthat       3.3.2    2026-01-11 [1] RSPM
+#>  textshaping    1.0.5    2026-03-06 [1] RSPM
+#>  tibble         3.3.1    2026-01-11 [1] RSPM
+#>  tidyr          1.3.2    2025-12-19 [1] RSPM
+#>  tidyselect     1.2.1    2024-03-11 [1] RSPM
+#>  vctrs          0.7.3    2026-04-11 [1] RSPM
+#>  viridisLite    0.4.3    2026-02-04 [1] RSPM
+#>  whisker        0.4.1    2022-12-05 [1] RSPM
+#>  withr          3.0.3    2026-06-19 [1] RSPM
+#>  xfun           0.61     2026-09-16 [1] RSPM
+#>  xml2           1.6.0    2026-06-22 [1] RSPM
+#>  yaml           2.3.12   2025-12-10 [1] RSPM
 #> 
 #>  [1] /home/runner/work/_temp/Library
-#>  [2] /opt/R/4.6.0/lib/R/site-library
-#>  [3] /opt/R/4.6.0/lib/R/library
+#>  [2] /opt/R/4.6.1/lib/R/site-library
+#>  [3] /opt/R/4.6.1/lib/R/library
 #>  * ── Packages attached to the search path.
 #> 
 #> ──────────────────────────────────────────────────────────────────────────────
@@ -623,10 +621,27 @@ summary(out)   # extra information
 #> [1] 1
 #> 
 #> $date_completed
-#> [1] Thu Jun 18 14:46:17 2026
+#> [1] Wed Oct 14 17:59:30 2026
 #> 
 #> $total_elapsed_time
-#> [1] 2.74s
+#> [1] 1.65s
+#> 
+#> $fixed_objects
+#> $fixed_objects$sig.level
+#> [1] 0.05
+#> 
+#> $fixed_objects$sig.direction
+#> [1] "below"
+#> 
+#> $fixed_objects$expr
+#> p_t.test(n = 50, d = 0.5)
+#> 
+#> $fixed_objects$pick
+#> character(0)
+#> 
+#> $fixed_objects$parent_frame
+#> <environment: 0x5624bd05e498>
+#> 
 #> 
 #> $SEED_history
 #> [1] 1910432787
@@ -664,7 +679,7 @@ out   # as though it were stored from Spower()
 #> 
 #> Estimate of power: 0.702
 #> 95% Confidence Interval: [0.697, 0.707]
-#> Execution time (H:M:S): 00:00:05
+#> Execution time (H:M:S): 00:00:03
 
 # Same as above, but executed with multiple cores (not run)
 p_t.test(n = 50, d = .5) |>
@@ -681,7 +696,7 @@ p_t.test(n = 50, d = .5) |>
 #> 
 #> Estimate of power: 0.698
 #> 95% Confidence Interval: [0.692, 0.703]
-#> Execution time (H:M:S): 00:00:06
+#> Execution time (H:M:S): 00:00:04
 
 # Solve N to get .80 power (a priori power analysis)
 p_t.test(n = interval(2,500), d = .5) |> Spower(power=.8) -> out
@@ -703,7 +718,7 @@ summary(out)  # extra information
 #> [1] TRUE
 #> 
 #> $time
-#> [1] 19.49s
+#> [1] 12.78s
 #> 
 #> $iterations
 #> [1] 97
@@ -743,7 +758,7 @@ p_t.test(n = NA, d = .5) |> Spower(power=.8, interval=c(2,500))
 #> 
 #> Estimate of n: 64.1
 #> 95% Confidence Interval: [63.2, 65.0]
-#> Execution time (H:M:S): 00:00:17
+#> Execution time (H:M:S): 00:00:11
 
 # same as above, but in parallel with 2 cores
 out.par <- p_t.test(n = interval(2,500), d = .5) |>
@@ -766,7 +781,7 @@ summary(out.par)
 #> [1] FALSE
 #> 
 #> $time
-#> [1] 44.33s
+#> [1] 34.37s
 #> 
 #> $iterations
 #> [1] 150
@@ -819,8 +834,8 @@ p_t.test(n = interval(2,500), d = .5) |>
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.5      0.05   0.8
 #> 
-#> Estimate of n: 63.5
-#> 95% Confidence Interval: [62.9, 64.1]
+#> Estimate of n: 63.7
+#> 95% Confidence Interval: [63.3, 64.2]
 #> Execution time (H:M:S): 00:01:01
 
 # Similar to above for precision improvements, however letting
@@ -839,9 +854,9 @@ p_t.test(n = interval(2,500), d = .5) |>
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.5      0.05   0.8
 #> 
-#> Estimate of n: 63.2
-#> 95% Confidence Interval: [62.6, 63.8]
-#> Execution time (H:M:S): 00:00:08
+#> Estimate of n: 63.4
+#> 95% Confidence Interval: [62.8, 64.1]
+#> Execution time (H:M:S): 00:00:06
 
 # Solve d to get .80 power (sensitivity power analysis)
 p_t.test(n = 50, d = interval(.1, 2)) |> Spower(power=.8)
@@ -855,9 +870,9 @@ p_t.test(n = 50, d = interval(.1, 2)) |> Spower(power=.8)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    50    NA      0.05   0.8
 #> 
-#> Estimate of d: 0.563
-#> 95% Confidence Interval: [0.562, 0.565]
-#> Execution time (H:M:S): 00:00:16
+#> Estimate of d: 0.564
+#> 95% Confidence Interval: [0.560, 0.567]
+#> Execution time (H:M:S): 00:00:10
 pwr::pwr.t.test(n=50, power=.80) # compare
 #> 
 #>      Two-sample t test power calculation 
@@ -885,8 +900,8 @@ p_t.test(n = 50, d = .5) |> Spower(power=.80, sig.level=NA)
 #> 1    50   0.5        NA   0.8
 #> 
 #> Estimate of sig.level: 0.100
-#> 95% Confidence Interval: [0.097, 0.103]
-#> Execution time (H:M:S): 00:00:16
+#> 95% Confidence Interval: [0.099, 0.102]
+#> Execution time (H:M:S): 00:00:13
 
 # Solve beta/alpha ratio to specific error trade-off constant
 #   (compromise power analysis)
@@ -906,12 +921,12 @@ with(out, (1-power)/sig.level)   # solved ratio
 #>   <dbl> <dbl>     <dbl> <lgl>      <dbl>
 #> 1    50   0.5        NA NA             4
 #> 
-#> Estimate of Type I error rate (alpha/sig.level): 0.066
-#> 95% Confidence Interval: [0.061, 0.071]
+#> Estimate of Type I error rate (alpha/sig.level): 0.065
+#> 95% Confidence Interval: [0.060, 0.070]
 #> 
-#> Estimate of power (1-beta): 0.736
-#> 95% Confidence Interval: [0.728, 0.745]
-#> Execution time (H:M:S): 00:00:02
+#> Estimate of power (1-beta): 0.740
+#> 95% Confidence Interval: [0.731, 0.748]
+#> Execution time (H:M:S): 00:00:01
 with(out2, (1-power)/sig.level)   # solved ratio
 #> [1] 4
 
@@ -942,9 +957,9 @@ curve(dprior, -1, 2, main=expression(d %~% N(0.5, 1/8)),
 # For Spower, define prior sampler for specific parameter(s)
 d_prior <- function() rnorm(1, mean=.5, sd=1/8)
 d_prior(); d_prior(); d_prior()
-#> [1] 0.605251
-#> [1] 0.3813414
-#> [1] 0.3542682
+#> [1] 0.507658
+#> [1] 0.3952496
+#> [1] 0.45378
 
 # Replace d constant with d_prior to compute expected power
 p_t.test(n = 50, d = d_prior()) |> Spower()
@@ -1002,7 +1017,7 @@ p_my_t.test(n = interval(2,500), d = .5, n2_n1=2) |>
 
 # total sample size required
 with(out, ceiling(n) + ceiling(n * 2))
-#> [1] 150
+#> [1] 152
 
 # Solve N to get .80 power (a priori power analysis), assuming
 #   equal variances, group2 2x as large as group1, large skewness
@@ -1011,7 +1026,7 @@ p_my_t.test(n = interval(30,100), d=.5, var.equal=TRUE, n2_n1=2, df=3) |>
 
 # total sample size required
 with(out2, ceiling(n) + ceiling(n * 2))
-#> [1] 149
+#> [1] 147
 
 # prospective power, can be used to extract the adjacent information
 p_my_t.test(n = 100, d = .5) |> Spower() -> post
@@ -1046,9 +1061,9 @@ ci_ind.t.test(n=100, d=.2) |> Spower()
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.2      0.05 NA   
 #> 
-#> Estimate of power: 0.294
-#> 95% Confidence Interval: [0.285, 0.303]
-#> Execution time (H:M:S): 00:00:02
+#> Estimate of power: 0.282
+#> 95% Confidence Interval: [0.273, 0.290]
+#> Execution time (H:M:S): 00:00:01
 
 # compare to pwr package
 pwr::pwr.t.test(n=100, d=.2)
@@ -1097,7 +1112,7 @@ ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .3)) |> Spower()
 #> 
 #> Estimate of power: 0.209
 #> 95% Confidence Interval: [0.201, 0.217]
-#> Execution time (H:M:S): 00:00:03
+#> Execution time (H:M:S): 00:00:02
 
 # higher power with larger N (more precision) or wider tol interval
 ci_equiv.t.test(n=2000, d=.2, tol=c(.1, .3)) |> Spower()
@@ -1112,9 +1127,9 @@ ci_equiv.t.test(n=2000, d=.2, tol=c(.1, .3)) |> Spower()
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1  2000   0.2   0.1      0.05 NA   
 #> 
-#> Estimate of power: 0.773
-#> 95% Confidence Interval: [0.765, 0.782]
-#> Execution time (H:M:S): 00:00:04
+#> Estimate of power: 0.768
+#> 95% Confidence Interval: [0.760, 0.776]
+#> Execution time (H:M:S): 00:00:02
 ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .5)) |> Spower()
 #> Warning: number of items to replace is not a multiple of replacement length
 #> 
@@ -1127,9 +1142,9 @@ ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .5)) |> Spower()
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1  1000   0.2   0.1      0.05 NA   
 #> 
-#> Estimate of power: 0.608
-#> 95% Confidence Interval: [0.598, 0.617]
-#> Execution time (H:M:S): 00:00:03
+#> Estimate of power: 0.610
+#> 95% Confidence Interval: [0.600, 0.619]
+#> Execution time (H:M:S): 00:00:02
 
 ####
 # superiority test (one-tailed)
@@ -1151,9 +1166,9 @@ ci_equiv.t.test(n=1000, d=.2, tol=c(.1, Inf), conf.level=.90) |>
 #>   <dbl> <dbl> <dbl>      <dbl>     <dbl> <lgl>
 #> 1  1000   0.2   0.1        0.9      0.05 NA   
 #> 
-#> Estimate of power: 0.726
-#> 95% Confidence Interval: [0.717, 0.735]
-#> Execution time (H:M:S): 00:00:03
+#> Estimate of power: 0.718
+#> 95% Confidence Interval: [0.709, 0.726]
+#> Execution time (H:M:S): 00:00:02
 
 # higher LB means greater requirement for defining superiority (less power)
 ci_equiv.t.test(n=1000, d=.2, tol=c(.15, Inf), conf.level=.90) |>
@@ -1169,9 +1184,9 @@ ci_equiv.t.test(n=1000, d=.2, tol=c(.15, Inf), conf.level=.90) |>
 #>   <dbl> <dbl> <dbl>      <dbl>     <dbl> <lgl>
 #> 1  1000   0.2  0.15        0.9      0.05 NA   
 #> 
-#> Estimate of power: 0.301
-#> 95% Confidence Interval: [0.292, 0.310]
-#> Execution time (H:M:S): 00:00:03
+#> Estimate of power: 0.302
+#> 95% Confidence Interval: [0.293, 0.311]
+#> Execution time (H:M:S): 00:00:02
 
 # }
 
@@ -1313,10 +1328,10 @@ build
 #> <ggplot2::ggplot_built>
 #>  @ data  :List of 3
 #>  .. $ :'data.frame': 12 obs. of  12 variables:
-#>  ..  ..$ ymin       : num [1:12] 0.101 0.25 0.61 0.897 0.464 ...
-#>  ..  ..$ ymax       : num [1:12] 0.126 0.285 0.648 0.919 0.503 ...
+#>  ..  ..$ ymin       : num [1:12] 0.11 0.237 0.617 0.906 0.458 ...
+#>  ..  ..$ ymax       : num [1:12] 0.136 0.271 0.655 0.928 0.498 ...
 #>  ..  ..$ x          : num [1:12] 30 90 270 550 30 90 270 550 30 90 ...
-#>  ..  ..$ y          : num [1:12] 0.101 0.25 0.61 0.897 0.464 ...
+#>  ..  ..$ y          : num [1:12] 0.11 0.237 0.617 0.906 0.458 ...
 #>  ..  ..$ colour     : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ fill       : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ PANEL      : Factor w/ 1 level "1": 1 1 1 1 1 1 1 1 1 1 ...
@@ -1327,7 +1342,7 @@ build
 #>  ..  ..$ alpha      : num [1:12] 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 ...
 #>  .. $ :'data.frame': 12 obs. of  10 variables:
 #>  ..  ..$ x          : num [1:12] 30 90 270 550 30 90 270 550 30 90 ...
-#>  ..  ..$ y          : num [1:12] 0.114 0.268 0.629 0.908 0.484 ...
+#>  ..  ..$ y          : num [1:12] 0.123 0.254 0.636 0.917 0.478 ...
 #>  ..  ..$ colour     : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ fill       : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ PANEL      : Factor w/ 1 level "1": 1 1 1 1 1 1 1 1 1 1 ...
@@ -1338,7 +1353,7 @@ build
 #>  ..  ..$ alpha      : logi [1:12] NA NA NA NA NA NA ...
 #>  .. $ :'data.frame': 12 obs. of  10 variables:
 #>  ..  ..$ x     : num [1:12] 30 90 270 550 30 90 270 550 30 90 ...
-#>  ..  ..$ y     : num [1:12] 0.114 0.268 0.629 0.908 0.484 ...
+#>  ..  ..$ y     : num [1:12] 0.123 0.254 0.636 0.917 0.478 ...
 #>  ..  ..$ colour: chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ fill  : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ PANEL : Factor w/ 1 level "1": 1 1 1 1 1 1 1 1 1 1 ...
@@ -1423,11 +1438,11 @@ build
 #>  .. .. $ n        : num  30 90 270 550 30 90 270 550 30 90 ...
 #>  .. .. $ d        : Factor w/ 3 levels "0.2","0.5","0.8": 1 1 1 1 2 2 2 2 3 3 ...
 #>  .. .. $ sig.level: num  0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 ...
-#>  .. .. $ power    : num  0.114 0.268 0.629 0.908 0.484 ...
-#>  .. .. $ CI_2.5   : num  0.101 0.25 0.61 0.897 0.464 ...
-#>  .. .. $ CI_97.5  : num  0.126 0.285 0.648 0.919 0.503 ...
-#>  .. .. $ CI.low   : num  0.101 0.25 0.61 0.897 0.464 ...
-#>  .. .. $ CI.high  : num  0.126 0.285 0.648 0.919 0.503 ...
+#>  .. .. $ power    : num  0.123 0.254 0.636 0.917 0.478 ...
+#>  .. .. $ CI_2.5   : num  0.11 0.237 0.617 0.906 0.458 ...
+#>  .. .. $ CI_97.5  : num  0.136 0.271 0.655 0.928 0.498 ...
+#>  .. .. $ CI.low   : num  0.11 0.237 0.617 0.906 0.458 ...
+#>  .. .. $ CI.high  : num  0.136 0.271 0.655 0.928 0.498 ...
 #>  .. @ layers     :List of 3
 #>  .. .. $ geom_ribbon:Classes 'LayerInstance', 'Layer', 'ggproto', 'gg' <ggproto object: Class LayerInstance, Layer, gg>
 #>     aes_params: list
@@ -1710,13 +1725,13 @@ build
 #>     super:  <ggproto object: Class Guides, gg> 
 #>  .. @ mapping    : <ggplot2::mapping> List of 4
 #>  .. .. $ x     : language ~.data[["n"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x560358bf54d8> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x5624c3ff8228> 
 #>  .. .. $ y     : language ~power
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x560358bf54d8> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x5624c3ff8228> 
 #>  .. .. $ colour: language ~.data[["d"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x560358bf54d8> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x5624c3ff8228> 
 #>  .. .. $ fill  : language ~.data[["d"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x560358bf54d8> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x5624c3ff8228> 
 #>  .. @ theme      : <theme> List of 144
 #>  .. .. $ line                            : <ggplot2::element_line>
 #>  .. ..  ..@ colour       : chr "black"
@@ -2153,17 +2168,17 @@ build
 #>  .. .. $ fill  : chr "d"
 #>  .. .. $ alt   : chr ""
 #>  .. @ meta       : list()
-#>  .. @ plot_env   :<environment: 0x560358bf54d8> 
+#>  .. @ plot_env   :<environment: 0x5624c3ff8228> 
 
 df <- build$plot$data
 head(df)
 #>     n   d sig.level  power    CI_2.5   CI_97.5    CI.low   CI.high
-#> 1  30 0.2      0.05 0.1136 0.1011611 0.1260389 0.1011611 0.1260389
-#> 2  90 0.2      0.05 0.2676 0.2502462 0.2849538 0.2502462 0.2849538
-#> 3 270 0.2      0.05 0.6292 0.6102660 0.6481340 0.6102660 0.6481340
-#> 4 550 0.2      0.05 0.9080 0.8966704 0.9193296 0.8966704 0.9193296
-#> 5  30 0.5      0.05 0.4836 0.4640109 0.5031891 0.4640109 0.5031891
-#> 6  90 0.5      0.05 0.9028 0.8911880 0.9144120 0.8911880 0.9144120
+#> 1  30 0.2      0.05 0.1232 0.1103165 0.1360835 0.1103165 0.1360835
+#> 2  90 0.2      0.05 0.2540 0.2369366 0.2710634 0.2369366 0.2710634
+#> 3 270 0.2      0.05 0.6360 0.6171393 0.6548607 0.6171393 0.6548607
+#> 4 550 0.2      0.05 0.9172 0.9063975 0.9280025 0.9063975 0.9280025
+#> 5  30 0.5      0.05 0.4780 0.4584193 0.4975807 0.4584193 0.4975807
+#> 6  90 0.5      0.05 0.9232 0.9127623 0.9336377 0.9127623 0.9336377
 ggplot(df, aes(n, power, linetype=d)) + geom_line()
 
 
@@ -2190,8 +2205,8 @@ nbatch
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    30   0.2      0.05 NA   
 #> 
-#> Estimate of power: 0.106
-#> 95% Confidence Interval: [0.087, 0.125]
+#> Estimate of power: 0.107
+#> 95% Confidence Interval: [0.088, 0.126]
 #> Execution time (H:M:S): 00:00:00
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -2203,8 +2218,8 @@ nbatch
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    90   0.2      0.05 NA   
 #> 
-#> Estimate of power: 0.276
-#> 95% Confidence Interval: [0.248, 0.304]
+#> Estimate of power: 0.269
+#> 95% Confidence Interval: [0.242, 0.296]
 #> Execution time (H:M:S): 00:00:00
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -2216,8 +2231,8 @@ nbatch
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   270   0.2      0.05 NA   
 #> 
-#> Estimate of power: 0.650
-#> 95% Confidence Interval: [0.620, 0.680]
+#> Estimate of power: 0.609
+#> 95% Confidence Interval: [0.579, 0.639]
 #> Execution time (H:M:S): 00:00:00
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -2229,15 +2244,15 @@ nbatch
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   550   0.2      0.05 NA   
 #> 
-#> Estimate of power: 0.921
-#> 95% Confidence Interval: [0.904, 0.938]
+#> Estimate of power: 0.905
+#> 95% Confidence Interval: [0.887, 0.923]
 #> Execution time (H:M:S): 00:00:00
 as.data.frame(nbatch)
 #>     n   d sig.level power     CI_2.5   CI_97.5
-#> 1  30 0.2      0.05 0.106 0.08692038 0.1250796
-#> 2  90 0.2      0.05 0.276 0.24829412 0.3037059
-#> 3 270 0.2      0.05 0.650 0.62043766 0.6795623
-#> 4 550 0.2      0.05 0.921 0.90428173 0.9377183
+#> 1  30 0.2      0.05 0.107 0.08784131 0.1261587
+#> 2  90 0.2      0.05 0.269 0.24151581 0.2964842
+#> 3 270 0.2      0.05 0.609 0.57875559 0.6392444
+#> 4 550 0.2      0.05 0.905 0.88682668 0.9231733
 
 # plot the results, but avoid further computations
 SpowerCurve(batch=nbatch)

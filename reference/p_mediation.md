@@ -118,13 +118,13 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # joint test H0: a*b = 0
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
-#> [1] 0.0002565864
+#> [1] 6.166961e-05
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
-#> [1] 5.341437e-07
+#> [1] 7.175554e-09
 
 # return analysis model
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
-#> lavaan 0.6-21 ended normally after 1 iteration
+#> lavaan 0.7-3 ended normally after 1 iteration
 #> 
 #>   Estimator                                         ML
 #>   Optimization method                           NLMINB
@@ -136,53 +136,56 @@ p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
 #>                                                       
 #>   Test statistic                                 0.000
 #>   Degrees of freedom                                 0
+#>                                                       
+#>   Browne's residual (NT model-based) test             
+#>   Test statistic                                 0.000
+#>   Degrees of freedom                                 0
 
 # data generation properties
 N <- 1000
 dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2)
 descript(dat) # specific SDs
-#> # A tibble: 3 × 12
-#>   VARS      n    mean    trim    sd    skew    kurt    min   P25     P50   P75
-#>   <fct> <dbl>   <dbl>   <dbl> <dbl>   <dbl>   <dbl>  <dbl> <dbl>   <dbl> <dbl>
-#> 1 X      1000  0.0345  0.0448  1.97 -0.0649 -0.169   -6.50 -1.24  0.0504  1.33
-#> 2 M      1000 -0.0307 -0.0224  2.02 -0.0261 -0.184   -5.57 -1.43  0.0151  1.34
-#> 3 Y      1000  0.0812  0.0713  2.98  0.0223 -0.0146 -10.3  -1.87 -0.0236  2.18
+#> # A tibble: 3 × 11
+#>   VARIABLE     n    mean    trim  median    sd   IQR    skew    kurt    min
+#>   <fct>    <dbl>   <dbl>   <dbl>   <dbl> <dbl> <dbl>   <dbl>   <dbl>  <dbl>
+#> 1 X         1000 0.0750   0.0544  0.102   2.07  2.79  0.0649 0.0349   -6.43
+#> 2 M         1000 0.00763 -0.0230 -0.0787  2.06  2.75  0.103  0.00923  -7.25
+#> 3 Y         1000 0.0106   0.0127  0.0326  3.03  4.19 -0.0221 0.0577  -11.4 
 #> # ℹ 1 more variable: max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#> -0.05822562  0.79561851 
+#> -0.05252822  0.80248990 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
-#> (Intercept)           M           X 
-#>  0.05258074 -0.69532842  0.21069509 
+#>   (Intercept)             M             X 
+#>  0.0003394652 -0.6794564909  0.2067061110 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  0.09306667 -0.34252107 
+#>  0.03603011 -0.33855086 
 
 # same properties, but dichotomous X variable
 dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2, dichotomous.X = TRUE)
 descript(dat) # specific SDs
-#> # A tibble: 3 × 12
-#>   VARS      n   mean   trim    sd    skew    kurt   min     P25    P50   P75
-#>   <fct> <dbl>  <dbl>  <dbl> <dbl>   <dbl>   <dbl> <dbl>   <dbl>  <dbl> <dbl>
-#> 1 X      2000  2      2      2.00  0      -2.00    0     0       2      4   
-#> 2 M      2000  1.58   1.59   2.00 -0.0107 -0.858  -3.75 -0.0453  1.56   3.23
-#> 3 Y      2000 -0.720 -0.709  2.95 -0.0104 -0.0973 -9.56 -2.74   -0.669  1.26
-#> # ℹ 1 more variable: max <dbl>
+#> # A tibble: 3 × 11
+#>   VARIABLE     n   mean   trim median    sd   IQR    skew    kurt    min   max
+#>   <fct>    <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>   <dbl>   <dbl>  <dbl> <dbl>
+#> 1 X         2000  2      2      2      2.00  4     0      -2.00     0     4   
+#> 2 M         2000  1.63   1.63   1.64   2.03  3.28 -0.0197 -0.874   -3.71  7.36
+#> 3 Y         2000 -0.782 -0.807 -0.828  2.97  4.02  0.0826  0.0841 -11.7   9.67
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#> -0.02934882  0.80493087 
+#> -0.01950148  0.82304607 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
-#> (Intercept)           M           X 
-#>  0.01563743 -0.61796916  0.12075761 
+#>  (Intercept)            M            X 
+#> -0.007004076 -0.682767333  0.167741889 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
-#> (Intercept)           X 
-#>  0.03377409 -0.37666484 
+#>  (Intercept)            X 
+#>  0.006310899 -0.394207084 
 
 # \donttest{
 
@@ -199,9 +202,9 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #>   <dbl>   <dbl>   <dbl>  <dbl>     <dbl> <lgl>
 #> 1    50 0.59161 0.59161   0.39      0.05 NA   
 #> 
-#> Estimate of power: 0.997
-#> 95% Confidence Interval: [0.994, 1.000]
-#> Execution time (H:M:S): 00:00:22
+#> Estimate of power: 0.999
+#> 95% Confidence Interval: [0.997, 1.000]
+#> Execution time (H:M:S): 00:00:17
 
   # sample size estimate for .95 power
   p_mediation(n=interval(50,200), a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
@@ -218,7 +221,7 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> 
 #> Estimate of n: 51.0
 #> 95% Confidence Interval: [NA, NA]
-#> Execution time (H:M:S): 00:24:18
+#> Execution time (H:M:S): 00:19:31
 
 # }
 ```

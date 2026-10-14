@@ -333,9 +333,9 @@ subset(results, select=M) |> descript()
 ```
 
     ## # A tibble: 1 × 11
-    ##       n  mean  trim    sd  skew  kurt   min   P25   P50   P75   max
-    ##   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-    ## 1 10000  2.49  2.43 0.470  1.17  1.69  1.62  2.14  2.38  2.73  5.31
+    ##   VARIABLE     n  mean  trim median    sd   IQR  skew  kurt   min   max
+    ##   <fct>    <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+    ## 1 M        10000  2.49  2.43   2.38 0.470 0.582  1.17  1.69  1.62  5.31
 
 ``` r
 
@@ -410,9 +410,9 @@ subset(results, select=M) |> descript()
 ```
 
     ## # A tibble: 1 × 11
-    ##       n  mean  trim    sd  skew  kurt   min   P25   P50   P75   max
-    ##   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-    ## 1 10000  1.83  1.79 0.367  1.12  1.42  1.22  1.55  1.75  2.04  4.46
+    ##   VARIABLE     n  mean  trim median    sd   IQR  skew  kurt   min   max
+    ##   <fct>    <dbl> <dbl> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+    ## 1 M        10000  1.83  1.79   1.75 0.367 0.487  1.12  1.42  1.22  4.46
 
 ``` r
 
