@@ -28,7 +28,7 @@ p_scale(
 For one-tailed tests relevant \code{alternative} arguments are set to \code{'less'}}
 
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+(most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
 of \code{two.tailed}}
 
 \item{exact}{a logical indicating whether an exact p-value should be computed}

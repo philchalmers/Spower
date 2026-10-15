@@ -34,7 +34,7 @@ Fisher's z-transformation approximation when non-zero}
 For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
 
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+(most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
 of \code{two.tailed}}
 
 \item{gen_fun}{function used to generate the required dependent bivariate data.

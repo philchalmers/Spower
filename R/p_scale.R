@@ -17,7 +17,7 @@
 #' @param two.tailed logical; use two-tailed test?
 #'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'less'}
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+#'   (most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
 #'   of \code{two.tailed}
 #' @param return_analysis logical; return the analysis object for further
 #'   extraction and customization?

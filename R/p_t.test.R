@@ -20,7 +20,7 @@
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+#'   (most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
 #'   of \code{two.tailed}
 #' @param var.equal logical; use the classical or Welch corrected t-test?
 #' @param n2_n1 allocation ratio reflecting the same size ratio.

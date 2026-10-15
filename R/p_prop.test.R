@@ -20,7 +20,7 @@
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+#'   (most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
 #'   of \code{two.tailed}
 #' @param exact logical; use fisher's exact test via \code{\link{fisher.test}}?
 #'   Use of this flag requires that \code{prop} was specified as a matrix

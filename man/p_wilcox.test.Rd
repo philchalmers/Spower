@@ -40,7 +40,7 @@ in the normal approximation for the p-value}
 For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
 
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+(most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
 of \code{two.tailed}}
 
 \item{parent1}{data generation function for first group. Ideally

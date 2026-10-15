@@ -9,7 +9,7 @@
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+#'   (most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
 #'   of \code{two.tailed}
 #' @param p1 a function indicating how the data were generated for group 1
 #' @param p2 (optional) a function indicating how the data were generated for group 2.
