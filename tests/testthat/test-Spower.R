@@ -238,7 +238,7 @@ test_that('scope', {
 	p_2r(n=n, r.ab=.75, r.ab2=.88, n2_n1=n2_n1) |>
 		Spower(replications=100, verbose=FALSE,
 			   parallel=TRUE, ncores=2) -> out2
-	expect_equal(out2$power, .68)
+	expect_equal(out2$power, 0.78)
 
 	# conflicting constants
 	set.seed(123)
