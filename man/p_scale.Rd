@@ -9,6 +9,7 @@ p_scale(
   scale,
   n2_n1 = 1,
   two.tailed = TRUE,
+  alternative = NULL,
   exact = NULL,
   test = "Ansari",
   parent = function(n, ...) rnorm(n),
@@ -25,6 +26,10 @@ p_scale(
 
 \item{two.tailed}{logical; use two-tailed test?
 For one-tailed tests relevant \code{alternative} arguments are set to \code{'less'}}
+
+\item{alternative}{character vector passed to \code{alternative} analysis function
+(most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+of \code{two.tailed}}
 
 \item{exact}{a logical indicating whether an exact p-value should be computed}
 

@@ -13,6 +13,7 @@ p_wilcox.test(
   exact = NULL,
   correct = TRUE,
   two.tailed = TRUE,
+  alternative = NULL,
   parent1 = function(n, d) rnorm(n, d, 1),
   parent2 = function(n, d) rnorm(n, 0, 1),
   return_analysis = FALSE
@@ -37,6 +38,10 @@ in the normal approximation for the p-value}
 
 \item{two.tailed}{logical; use two-tailed test?
 For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
+
+\item{alternative}{character vector passed to \code{alternative} analysis function
+(most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+of \code{two.tailed}}
 
 \item{parent1}{data generation function for first group. Ideally
 should have SDs = 1 so that \code{d} reflects a standardized

@@ -16,6 +16,7 @@ p_2r(
   r.cd,
   n2_n1 = 1,
   two.tailed = TRUE,
+  alternative = NULL,
   test = NULL,
   gen_fun = gen_2r,
   return_analysis = FALSE,
@@ -49,6 +50,10 @@ used in the non-overlapping hypothesis test, comparing this input to \code{r.ab}
 
 \item{two.tailed}{logical; use two-tailed test?
 For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
+
+\item{alternative}{character vector passed to \code{alternative} analysis function
+(most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+of \code{two.tailed}}
 
 \item{test}{hypothesis testing method to use. Defaults to \code{'fisher1925'}
 for the independent groups test and \code{'steiger1980'} for overlap/non-overlap tests}

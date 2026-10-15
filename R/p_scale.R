@@ -16,6 +16,9 @@
 #'   population mean centered
 #' @param two.tailed logical; use two-tailed test?
 #'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'less'}
+#' @param alternative character vector passed to \code{alternative} analysis function
+#'   (most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+#'   of \code{two.tailed}
 #' @param return_analysis logical; return the analysis object for further
 #'   extraction and customization?
 #' @param ... additional arguments to pass to simulation functions (if used)
@@ -43,13 +46,14 @@
 #'
 #' }
 p_scale <- function(n, scale, n2_n1 = 1, two.tailed = TRUE,
-					exact = NULL, test = 'Ansari',
+					alternative = NULL, exact = NULL, test = 'Ansari',
 					parent = function(n, ...) rnorm(n), ...,
 					return_analysis = FALSE){
 	stopifnot(test %in% c('Ansari', 'Mood'))
 	dat1 <- parent(n, ...)
 	dat2 <- parent(n*n2_n1, ...) * scale
-	alternative <- ifelse(two.tailed, "two.sided", "less")
+	if(is.null(alternative))
+		alternative <- ifelse(two.tailed, "two.sided", "less")
 	ret <- if(test == 'Ansari')
 		ansari.test(dat1, dat2, exact=exact, alternative=alternative)
 	else mood.test(dat1, dat2, alternative=alternative)

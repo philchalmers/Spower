@@ -13,6 +13,9 @@
 #'   Default of 1 sets the groups to be the same size (n * n.ratio)
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}
+#' @param alternative character vector passed to \code{alternative} analysis function
+#'   (most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+#'   of \code{two.tailed}
 #' @param test type of test to use in multi-sample applications.
 #'   Can be either \code{'Levene'} (default), \code{'Bartlett'}, or \code{'Fligner'}
 #' @param sigma2 population variance to test against in one-sample test
@@ -54,13 +57,14 @@
 #' }
 #'
 p_var.test <- function(n, vars, n.ratios = rep(1, length(vars)),
-					   sigma2 = 1, two.tailed = TRUE,
+					   sigma2 = 1, two.tailed = TRUE, alternative = NULL,
 					   test = 'Levene', correct = TRUE,
 					   gen_fun=gen_var.test, return_analysis = FALSE,
 					   ...){
 	stopifnot(test %in% c('Levene', 'Bartlett', 'Fligner'))
 	dat <- gen_fun(n=n, n.ratios=n.ratios, vars=vars, ...)
-	alternative <- ifelse(two.tailed, "two.sided", "greater")
+	if(is.null(alternative))
+		alternative <- ifelse(two.tailed, "two.sided", "greater")
 	if(test == 'Flinger' && alternative != 'two.sided')
 		stop('flinger.test() does not have an alternative option')
 	if(test == 'Flinger' && alternative != 'two.sided')

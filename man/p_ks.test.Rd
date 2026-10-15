@@ -10,6 +10,7 @@ p_ks.test(
   p2,
   n2_n1 = 1,
   two.tailed = TRUE,
+  alternative = NULL,
   parent = NULL,
   return_analysis = FALSE,
   ...
@@ -28,6 +29,10 @@ specified}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?
 For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
+
+\item{alternative}{character vector passed to \code{alternative} analysis function
+(most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+of \code{two.tailed}}
 
 \item{parent}{the cumulative distribution function to use
 (e.g., \code{\link{pnorm}}). Specifying this input will construct a

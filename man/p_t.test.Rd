@@ -13,6 +13,7 @@ p_t.test(
   type = "two.sample",
   n2_n1 = 1,
   two.tailed = TRUE,
+  alternative = NULL,
   var.equal = TRUE,
   means = NULL,
   sds = NULL,
@@ -56,6 +57,10 @@ when \code{type = 'two.sample'}}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?
 For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
+
+\item{alternative}{character vector passed to \code{alternative} analysis function
+(most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+of \code{two.tailed}}
 
 \item{var.equal}{logical; use the classical or Welch corrected t-test?}
 

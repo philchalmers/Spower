@@ -8,6 +8,9 @@
 #' @param n sample size per group, assumed equal across groups
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}
+#' @param alternative character vector passed to \code{alternative} analysis function
+#'   (most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+#'   of \code{two.tailed}
 #' @param p1 a function indicating how the data were generated for group 1
 #' @param p2 (optional) a function indicating how the data were generated for group 2.
 #'   If omitted a one-sample test will be evaluated provided that \code{parent} is also
@@ -48,13 +51,15 @@
 #'
 #' @export
 p_ks.test <- function(n, p1, p2, n2_n1 = 1, two.tailed = TRUE,
+					  alternative = NULL,
 					  parent = NULL, return_analysis = FALSE, ...) {
 	n2 <- n2_n1 * n
 	dat1 <- p1(n=n)
 	if(is.null(parent)){
 		dat2 <- p2(n=n2)
 	} else dat2 <- parent
-	alternative <- ifelse(two.tailed, "two.sided", "greater")
+	if(is.null(alternative))
+		alternative <- ifelse(two.tailed, "two.sided", "greater")
 	ret <- ks.test(dat1, dat2, alternative=alternative, ...)
 	if(return_analysis) return(ret)
 	p <- ret$p.value

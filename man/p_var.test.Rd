@@ -11,6 +11,7 @@ p_var.test(
   n.ratios = rep(1, length(vars)),
   sigma2 = 1,
   two.tailed = TRUE,
+  alternative = NULL,
   test = "Levene",
   correct = TRUE,
   gen_fun = gen_var.test,
@@ -33,6 +34,10 @@ Default of 1 sets the groups to be the same size (n * n.ratio)}
 
 \item{two.tailed}{logical; should a two-tailed or one-tailed test be used?
 For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
+
+\item{alternative}{character vector passed to \code{alternative} analysis function
+(most commonly, \code{'two.tailed', 'greater', 'less}). When used, ignores the value
+of \code{two.tailed}}
 
 \item{test}{type of test to use in multi-sample applications.
 Can be either \code{'Levene'} (default), \code{'Bartlett'}, or \code{'Fligner'}}
