@@ -16,6 +16,7 @@ p_wilcox.test(
   exact = NULL,
   correct = TRUE,
   two.tailed = TRUE,
+  alternative = NULL,
   parent1 = function(n, d) rnorm(n, d, 1),
   parent2 = function(n, d) rnorm(n, 0, 1),
   return_analysis = FALSE
@@ -59,6 +60,12 @@ p_wilcox.test(
   logical; use two-tailed test? For one-tailed tests relevant
   `alternative` arguments are set to `'greater'`
 
+- alternative:
+
+  character vector passed to `alternative` analysis function (most
+  commonly, `'two.tailed', 'greater', 'less'`). When used, ignores the
+  value of `two.tailed`
+
 - parent1:
 
   data generation function for first group. Ideally should have SDs = 1
@@ -87,11 +94,11 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # with normal distributions defaults d is standardized
 p_wilcox.test(100, .5)
-#> [1] 0.0003425616
+#> [1] 0.000790801
 p_wilcox.test(100, .5, type = 'paired')  # n = number of pairs
-#> [1] 1.534384e-05
+#> [1] 0.002888998
 p_wilcox.test(100, .5, type = 'one.sample')
-#> [1] 1.075675e-06
+#> [1] 0.01100181
 
 # return analysis object
 p_wilcox.test(100, .5, return_analysis = TRUE)
@@ -99,16 +106,16 @@ p_wilcox.test(100, .5, return_analysis = TRUE)
 #>  Wilcoxon rank sum test with continuity correction
 #> 
 #> data:  dat1 and dat2
-#> W = 6670, p-value = 4.518e-05
+#> W = 6776, p-value = 1.436e-05
 #> alternative hypothesis: true location shift is not equal to 0
 #> 
 
 # using chi-squared distributions (standardizing to 0-1)
 p_wilcox.test(100, .5, type = 'one.sample',
    parent1 = function(n, d) rchisq(n, df=10) - 10 + d)
-#> [1] 0.9055747
+#> [1] 0.9986283
 p_wilcox.test(100, .5,
    parent1 = function(n, d) (rchisq(n, df=10) - 10)/sqrt(20) + d,
    parent2 = function(n, d) (rchisq(n, df=10) - 10)/sqrt(20))
-#> [1] 0.001784877
+#> [1] 4.614285e-05
 ```

@@ -15,6 +15,7 @@ p_var.test(
   n.ratios = rep(1, length(vars)),
   sigma2 = 1,
   two.tailed = TRUE,
+  alternative = NULL,
   test = "Levene",
   correct = TRUE,
   gen_fun = gen_var.test,
@@ -50,6 +51,12 @@ gen_var.test(n, vars, n.ratios = rep(1, length(vars)), ...)
   logical; should a two-tailed or one-tailed test be used? For
   one-tailed tests relevant `alternative` arguments are set to
   `'greater'`
+
+- alternative:
+
+  character vector passed to `alternative` analysis function (most
+  commonly, `'two.tailed', 'greater', 'less'`). When used, ignores the
+  value of `two.tailed`
 
 - test:
 
@@ -95,24 +102,24 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # one sample
 p_var.test(100, vars=10, sigma2=9)
-#> [1] 0.987613
+#> [1] 0.197701
 
 # return analysis object
 p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> $statistic
 #> Chi-Squared 
-#>    110.6205 
+#>    125.9647 
 #> 
 #> $parameters
 #> df 
 #> 99 
 #> 
 #> $p.value
-#> [1] 0.3994949
+#> [1] 0.06998293
 #> 
 #> $estimate
 #> variance 
-#> 10.05641 
+#> 11.45133 
 #> 
 #> $null.value
 #> variance 
@@ -129,7 +136,7 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> 
 #> $conf.int
 #>       LCL       UCL 
-#>  7.752447 13.571020 
+#>  8.827787 15.453452 
 #> attr(,"conf.level")
 #> [1] 0.95
 #> 
@@ -138,12 +145,12 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 
 # three sample
 p_var.test(100, vars=c(10, 9, 11))
-#> [1] 0.3276431
+#> [1] 0.9524485
 p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
-#> [1] 0.8554035
+#> [1] 0.2357552
 p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>     Chisq 
-#> 0.1276014 
+#> 0.6385314 
 
 # \donttest{
   # power to detect three-group variance differences
@@ -176,8 +183,8 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA    10      0.05   0.8
 #> 
-#> Estimate of n: 1100.6
-#> 95% Confidence Interval: [1086.8, 1114.5]
-#> Execution time (H:M:S): 00:02:51
+#> Estimate of n: 1088.6
+#> 95% Confidence Interval: [1082.0, 1094.9]
+#> Execution time (H:M:S): 00:02:38
 # }
 ```

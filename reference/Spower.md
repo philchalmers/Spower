@@ -441,9 +441,9 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 # Internally defined p_t.test function
 args(p_t.test)    # missing arguments required
 #> function (n, d, mu = 0, r = NULL, type = "two.sample", n2_n1 = 1, 
-#>     two.tailed = TRUE, var.equal = TRUE, means = NULL, sds = NULL, 
-#>     conf.level = 0.95, gen_fun = gen_t.test, return_analysis = FALSE, 
-#>     ...) 
+#>     two.tailed = TRUE, alternative = NULL, var.equal = TRUE, 
+#>     means = NULL, sds = NULL, conf.level = 0.95, gen_fun = gen_t.test, 
+#>     return_analysis = FALSE, ...) 
 #> NULL
 # help(p_t.test)  # additional information
 
@@ -621,10 +621,10 @@ summary(out)   # extra information
 #> [1] 1
 #> 
 #> $date_completed
-#> [1] Thu Oct 15 02:23:53 2026
+#> [1] Thu Oct 15 03:12:34 2026
 #> 
 #> $total_elapsed_time
-#> [1] 2.82s
+#> [1] 2.81s
 #> 
 #> $fixed_objects
 #> $fixed_objects$sig.level
@@ -640,7 +640,7 @@ summary(out)   # extra information
 #> character(0)
 #> 
 #> $fixed_objects$parent_frame
-#> <environment: 0x55cc18fdd320>
+#> <environment: 0x5577a8805400>
 #> 
 #> 
 #> $SEED_history
@@ -718,7 +718,7 @@ summary(out)  # extra information
 #> [1] TRUE
 #> 
 #> $time
-#> [1] 20.27s
+#> [1] 21.21s
 #> 
 #> $iterations
 #> [1] 97
@@ -781,7 +781,7 @@ summary(out.par)
 #> [1] FALSE
 #> 
 #> $time
-#> [1] 45.39s
+#> [1] 46.73s
 #> 
 #> $iterations
 #> [1] 150
@@ -854,9 +854,9 @@ p_t.test(n = interval(2,500), d = .5) |>
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.5      0.05   0.8
 #> 
-#> Estimate of n: 64.1
-#> 95% Confidence Interval: [63.3, 64.9]
-#> Execution time (H:M:S): 00:00:37
+#> Estimate of n: 63.2
+#> 95% Confidence Interval: [62.6, 63.8]
+#> Execution time (H:M:S): 00:00:07
 
 # Solve d to get .80 power (sensitivity power analysis)
 p_t.test(n = 50, d = interval(.1, 2)) |> Spower(power=.8)
@@ -870,9 +870,9 @@ p_t.test(n = 50, d = interval(.1, 2)) |> Spower(power=.8)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    50    NA      0.05   0.8
 #> 
-#> Estimate of d: 0.564
-#> 95% Confidence Interval: [0.560, 0.568]
-#> Execution time (H:M:S): 00:00:18
+#> Estimate of d: 0.563
+#> 95% Confidence Interval: [0.562, 0.565]
+#> Execution time (H:M:S): 00:00:16
 pwr::pwr.t.test(n=50, power=.80) # compare
 #> 
 #>      Two-sample t test power calculation 
@@ -899,9 +899,9 @@ p_t.test(n = 50, d = .5) |> Spower(power=.80, sig.level=NA)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    50   0.5        NA   0.8
 #> 
-#> Estimate of sig.level: 0.101
-#> 95% Confidence Interval: [0.097, 0.105]
-#> Execution time (H:M:S): 00:00:20
+#> Estimate of sig.level: 0.100
+#> 95% Confidence Interval: [0.097, 0.103]
+#> Execution time (H:M:S): 00:00:17
 
 # Solve beta/alpha ratio to specific error trade-off constant
 #   (compromise power analysis)
@@ -921,11 +921,11 @@ with(out, (1-power)/sig.level)   # solved ratio
 #>   <dbl> <dbl>     <dbl> <lgl>      <dbl>
 #> 1    50   0.5        NA NA             4
 #> 
-#> Estimate of Type I error rate (alpha/sig.level): 0.065
-#> 95% Confidence Interval: [0.060, 0.070]
+#> Estimate of Type I error rate (alpha/sig.level): 0.066
+#> 95% Confidence Interval: [0.061, 0.071]
 #> 
-#> Estimate of power (1-beta): 0.739
-#> 95% Confidence Interval: [0.731, 0.748]
+#> Estimate of power (1-beta): 0.736
+#> 95% Confidence Interval: [0.728, 0.745]
 #> Execution time (H:M:S): 00:00:02
 with(out2, (1-power)/sig.level)   # solved ratio
 #> [1] 4
@@ -957,9 +957,9 @@ curve(dprior, -1, 2, main=expression(d %~% N(0.5, 1/8)),
 # For Spower, define prior sampler for specific parameter(s)
 d_prior <- function() rnorm(1, mean=.5, sd=1/8)
 d_prior(); d_prior(); d_prior()
-#> [1] 0.2311513
-#> [1] 0.5605499
-#> [1] 0.4498969
+#> [1] 0.605251
+#> [1] 0.3813414
+#> [1] 0.3542682
 
 # Replace d constant with d_prior to compute expected power
 p_t.test(n = 50, d = d_prior()) |> Spower()
@@ -1045,9 +1045,9 @@ ci_ind.t.test <- function(n, d, psi0=0, conf.level=.95){
 
 # returns logical
 ci_ind.t.test(n=100, d=.2)
-#> [1] TRUE
-ci_ind.t.test(n=100, d=.2)
 #> [1] FALSE
+ci_ind.t.test(n=100, d=.2)
+#> [1] TRUE
 
 # simulated prospective power
 ci_ind.t.test(n=100, d=.2) |> Spower()
@@ -1061,8 +1061,8 @@ ci_ind.t.test(n=100, d=.2) |> Spower()
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.2      0.05 NA   
 #> 
-#> Estimate of power: 0.292
-#> 95% Confidence Interval: [0.283, 0.300]
+#> Estimate of power: 0.294
+#> 95% Confidence Interval: [0.285, 0.303]
 #> Execution time (H:M:S): 00:00:02
 
 # compare to pwr package
@@ -1110,8 +1110,8 @@ ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .3)) |> Spower()
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1  1000   0.2   0.1      0.05 NA   
 #> 
-#> Estimate of power: 0.221
-#> 95% Confidence Interval: [0.213, 0.230]
+#> Estimate of power: 0.209
+#> 95% Confidence Interval: [0.201, 0.217]
 #> Execution time (H:M:S): 00:00:03
 
 # higher power with larger N (more precision) or wider tol interval
@@ -1127,8 +1127,8 @@ ci_equiv.t.test(n=2000, d=.2, tol=c(.1, .3)) |> Spower()
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1  2000   0.2   0.1      0.05 NA   
 #> 
-#> Estimate of power: 0.765
-#> 95% Confidence Interval: [0.756, 0.773]
+#> Estimate of power: 0.773
+#> 95% Confidence Interval: [0.765, 0.782]
 #> Execution time (H:M:S): 00:00:04
 ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .5)) |> Spower()
 #> Warning: number of items to replace is not a multiple of replacement length
@@ -1142,8 +1142,8 @@ ci_equiv.t.test(n=1000, d=.2, tol=c(.1, .5)) |> Spower()
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1  1000   0.2   0.1      0.05 NA   
 #> 
-#> Estimate of power: 0.614
-#> 95% Confidence Interval: [0.605, 0.624]
+#> Estimate of power: 0.608
+#> 95% Confidence Interval: [0.598, 0.617]
 #> Execution time (H:M:S): 00:00:03
 
 ####
@@ -1166,8 +1166,8 @@ ci_equiv.t.test(n=1000, d=.2, tol=c(.1, Inf), conf.level=.90) |>
 #>   <dbl> <dbl> <dbl>      <dbl>     <dbl> <lgl>
 #> 1  1000   0.2   0.1        0.9      0.05 NA   
 #> 
-#> Estimate of power: 0.724
-#> 95% Confidence Interval: [0.715, 0.733]
+#> Estimate of power: 0.726
+#> 95% Confidence Interval: [0.717, 0.735]
 #> Execution time (H:M:S): 00:00:03
 
 # higher LB means greater requirement for defining superiority (less power)
@@ -1184,8 +1184,8 @@ ci_equiv.t.test(n=1000, d=.2, tol=c(.15, Inf), conf.level=.90) |>
 #>   <dbl> <dbl> <dbl>      <dbl>     <dbl> <lgl>
 #> 1  1000   0.2  0.15        0.9      0.05 NA   
 #> 
-#> Estimate of power: 0.296
-#> 95% Confidence Interval: [0.287, 0.305]
+#> Estimate of power: 0.301
+#> 95% Confidence Interval: [0.292, 0.310]
 #> Execution time (H:M:S): 00:00:03
 
 # }
@@ -1328,10 +1328,10 @@ build
 #> <ggplot2::ggplot_built>
 #>  @ data  :List of 3
 #>  .. $ :'data.frame': 12 obs. of  12 variables:
-#>  ..  ..$ ymin       : num [1:12] 0.103 0.261 0.63 0.902 0.468 ...
-#>  ..  ..$ ymax       : num [1:12] 0.128 0.296 0.667 0.924 0.507 ...
+#>  ..  ..$ ymin       : num [1:12] 0.101 0.25 0.61 0.897 0.464 ...
+#>  ..  ..$ ymax       : num [1:12] 0.126 0.285 0.648 0.919 0.503 ...
 #>  ..  ..$ x          : num [1:12] 30 90 270 550 30 90 270 550 30 90 ...
-#>  ..  ..$ y          : num [1:12] 0.103 0.261 0.63 0.902 0.468 ...
+#>  ..  ..$ y          : num [1:12] 0.101 0.25 0.61 0.897 0.464 ...
 #>  ..  ..$ colour     : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ fill       : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ PANEL      : Factor w/ 1 level "1": 1 1 1 1 1 1 1 1 1 1 ...
@@ -1342,7 +1342,7 @@ build
 #>  ..  ..$ alpha      : num [1:12] 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 0.2 ...
 #>  .. $ :'data.frame': 12 obs. of  10 variables:
 #>  ..  ..$ x          : num [1:12] 30 90 270 550 30 90 270 550 30 90 ...
-#>  ..  ..$ y          : num [1:12] 0.115 0.278 0.648 0.913 0.487 ...
+#>  ..  ..$ y          : num [1:12] 0.114 0.268 0.629 0.908 0.484 ...
 #>  ..  ..$ colour     : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ fill       : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ PANEL      : Factor w/ 1 level "1": 1 1 1 1 1 1 1 1 1 1 ...
@@ -1353,7 +1353,7 @@ build
 #>  ..  ..$ alpha      : logi [1:12] NA NA NA NA NA NA ...
 #>  .. $ :'data.frame': 12 obs. of  10 variables:
 #>  ..  ..$ x     : num [1:12] 30 90 270 550 30 90 270 550 30 90 ...
-#>  ..  ..$ y     : num [1:12] 0.115 0.278 0.648 0.913 0.487 ...
+#>  ..  ..$ y     : num [1:12] 0.114 0.268 0.629 0.908 0.484 ...
 #>  ..  ..$ colour: chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ fill  : chr [1:12] "#F8766D" "#F8766D" "#F8766D" "#F8766D" ...
 #>  ..  ..$ PANEL : Factor w/ 1 level "1": 1 1 1 1 1 1 1 1 1 1 ...
@@ -1438,11 +1438,11 @@ build
 #>  .. .. $ n        : num  30 90 270 550 30 90 270 550 30 90 ...
 #>  .. .. $ d        : Factor w/ 3 levels "0.2","0.5","0.8": 1 1 1 1 2 2 2 2 3 3 ...
 #>  .. .. $ sig.level: num  0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 0.05 ...
-#>  .. .. $ power    : num  0.115 0.278 0.648 0.913 0.487 ...
-#>  .. .. $ CI_2.5   : num  0.103 0.261 0.63 0.902 0.468 ...
-#>  .. .. $ CI_97.5  : num  0.128 0.296 0.667 0.924 0.507 ...
-#>  .. .. $ CI.low   : num  0.103 0.261 0.63 0.902 0.468 ...
-#>  .. .. $ CI.high  : num  0.128 0.296 0.667 0.924 0.507 ...
+#>  .. .. $ power    : num  0.114 0.268 0.629 0.908 0.484 ...
+#>  .. .. $ CI_2.5   : num  0.101 0.25 0.61 0.897 0.464 ...
+#>  .. .. $ CI_97.5  : num  0.126 0.285 0.648 0.919 0.503 ...
+#>  .. .. $ CI.low   : num  0.101 0.25 0.61 0.897 0.464 ...
+#>  .. .. $ CI.high  : num  0.126 0.285 0.648 0.919 0.503 ...
 #>  .. @ layers     :List of 3
 #>  .. .. $ geom_ribbon:Classes 'LayerInstance', 'Layer', 'ggproto', 'gg' <ggproto object: Class LayerInstance, Layer, gg>
 #>     aes_params: list
@@ -1725,13 +1725,13 @@ build
 #>     super:  <ggproto object: Class Guides, gg> 
 #>  .. @ mapping    : <ggplot2::mapping> List of 4
 #>  .. .. $ x     : language ~.data[["n"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55cc1b00f3d0> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x5577b638a070> 
 #>  .. .. $ y     : language ~power
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55cc1b00f3d0> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x5577b638a070> 
 #>  .. .. $ colour: language ~.data[["d"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55cc1b00f3d0> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x5577b638a070> 
 #>  .. .. $ fill  : language ~.data[["d"]]
-#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x55cc1b00f3d0> 
+#>  .. ..  ..- attr(*, ".Environment")=<environment: 0x5577b638a070> 
 #>  .. @ theme      : <theme> List of 144
 #>  .. .. $ line                            : <ggplot2::element_line>
 #>  .. ..  ..@ colour       : chr "black"
@@ -2168,17 +2168,17 @@ build
 #>  .. .. $ fill  : chr "d"
 #>  .. .. $ alt   : chr ""
 #>  .. @ meta       : list()
-#>  .. @ plot_env   :<environment: 0x55cc1b00f3d0> 
+#>  .. @ plot_env   :<environment: 0x5577b638a070> 
 
 df <- build$plot$data
 head(df)
 #>     n   d sig.level  power    CI_2.5   CI_97.5    CI.low   CI.high
-#> 1  30 0.2      0.05 0.1152 0.1026851 0.1277149 0.1026851 0.1277149
-#> 2  90 0.2      0.05 0.2784 0.2608304 0.2959696 0.2608304 0.2959696
-#> 3 270 0.2      0.05 0.6484 0.6296835 0.6671165 0.6296835 0.6671165
-#> 4 550 0.2      0.05 0.9132 0.9021638 0.9242362 0.9021638 0.9242362
-#> 5  30 0.5      0.05 0.4872 0.4676068 0.5067932 0.4676068 0.5067932
-#> 6  90 0.5      0.05 0.9196 0.9089413 0.9302587 0.9089413 0.9302587
+#> 1  30 0.2      0.05 0.1136 0.1011611 0.1260389 0.1011611 0.1260389
+#> 2  90 0.2      0.05 0.2676 0.2502462 0.2849538 0.2502462 0.2849538
+#> 3 270 0.2      0.05 0.6292 0.6102660 0.6481340 0.6102660 0.6481340
+#> 4 550 0.2      0.05 0.9080 0.8966704 0.9193296 0.8966704 0.9193296
+#> 5  30 0.5      0.05 0.4836 0.4640109 0.5031891 0.4640109 0.5031891
+#> 6  90 0.5      0.05 0.9028 0.8911880 0.9144120 0.8911880 0.9144120
 ggplot(df, aes(n, power, linetype=d)) + geom_line()
 
 
@@ -2205,8 +2205,8 @@ nbatch
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    30   0.2      0.05 NA   
 #> 
-#> Estimate of power: 0.122
-#> 95% Confidence Interval: [0.102, 0.142]
+#> Estimate of power: 0.106
+#> 95% Confidence Interval: [0.087, 0.125]
 #> Execution time (H:M:S): 00:00:00
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -2218,8 +2218,8 @@ nbatch
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    90   0.2      0.05 NA   
 #> 
-#> Estimate of power: 0.247
-#> 95% Confidence Interval: [0.220, 0.274]
+#> Estimate of power: 0.276
+#> 95% Confidence Interval: [0.248, 0.304]
 #> Execution time (H:M:S): 00:00:00
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -2231,8 +2231,8 @@ nbatch
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   270   0.2      0.05 NA   
 #> 
-#> Estimate of power: 0.628
-#> 95% Confidence Interval: [0.598, 0.658]
+#> Estimate of power: 0.650
+#> 95% Confidence Interval: [0.620, 0.680]
 #> Execution time (H:M:S): 00:00:00
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -2244,15 +2244,15 @@ nbatch
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   550   0.2      0.05 NA   
 #> 
-#> Estimate of power: 0.905
-#> 95% Confidence Interval: [0.887, 0.923]
+#> Estimate of power: 0.921
+#> 95% Confidence Interval: [0.904, 0.938]
 #> Execution time (H:M:S): 00:00:00
 as.data.frame(nbatch)
-#>     n   d sig.level power    CI_2.5   CI_97.5
-#> 1  30 0.2      0.05 0.122 0.1017150 0.1422850
-#> 2  90 0.2      0.05 0.247 0.2202703 0.2737297
-#> 3 270 0.2      0.05 0.628 0.5980429 0.6579571
-#> 4 550 0.2      0.05 0.905 0.8868267 0.9231733
+#>     n   d sig.level power     CI_2.5   CI_97.5
+#> 1  30 0.2      0.05 0.106 0.08692038 0.1250796
+#> 2  90 0.2      0.05 0.276 0.24829412 0.3037059
+#> 3 270 0.2      0.05 0.650 0.62043766 0.6795623
+#> 4 550 0.2      0.05 0.921 0.90428173 0.9377183
 
 # plot the results, but avoid further computations
 SpowerCurve(batch=nbatch)

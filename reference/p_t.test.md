@@ -17,6 +17,7 @@ p_t.test(
   type = "two.sample",
   n2_n1 = 1,
   two.tailed = TRUE,
+  alternative = NULL,
   var.equal = TRUE,
   means = NULL,
   sds = NULL,
@@ -78,6 +79,12 @@ gen_t.test(
   one-tailed tests relevant `alternative` arguments are set to
   `'greater'`
 
+- alternative:
+
+  character vector passed to `alternative` analysis function (most
+  commonly, `'two.tailed', 'greater', 'less'`). When used, ignores the
+  value of `two.tailed`
+
 - var.equal:
 
   logical; use the classical or Welch corrected t-test?
@@ -134,25 +141,25 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # sample size of 50 per group, "medium" effect size
 p_t.test(n=50, d=0.5)
-#> [1] 0.0002220021
+#> [1] 0.004320646
 
 # point-biserial correlation effect size
 p_t.test(n=50, r=.3)
-#> [1] 0.2011593
+#> [1] 0.0003895059
 
 # second group 2x as large as the first group
 p_t.test(n=50, d=0.5, n2_n1 = 2)
-#> [1] 4.351354e-06
+#> [1] 0.02520275
 
 # specify mean/SDs explicitly
 p_t.test(n=50, means = c(0,1), sds = c(2,2))
-#> [1] 0.162611
+#> [1] 4.039458e-06
 
 # paired and one-sample tests
 p_t.test(n=50, d=0.5, type = 'paired') # n = number of pairs
-#> [1] 0.05433761
+#> [1] 0.08515774
 p_t.test(n=50, d=0.5, type = 'one.sample')
-#> [1] 0.01454658
+#> [1] 0.06671595
 
 # return analysis object
 p_t.test(n=50, d=0.5, return_analysis=TRUE)
@@ -160,13 +167,13 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>  Two Sample t-test
 #> 
 #> data:  dat[[1]] and dat[[2]]
-#> t = 0.17144, df = 98, p-value = 0.8642
+#> t = 3.0504, df = 98, p-value = 0.00294
 #> alternative hypothesis: true difference in means is not equal to 0
 #> 95 percent confidence interval:
-#>  -0.3924309  0.4666493
+#>  0.2099986 0.9919385
 #> sample estimates:
-#>  mean of x  mean of y 
-#> 0.09789803 0.06078885 
+#>    mean of x    mean of y 
+#>  0.595156158 -0.005812391 
 #> 
 
 # \donttest{
@@ -195,8 +202,8 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
 #> 1    60   0.2 one.sample TRUE             0.1 NA   
 #> 
-#> Estimate of power: 0.460
-#> 95% Confidence Interval: [0.450, 0.470]
+#> Estimate of power: 0.466
+#> 95% Confidence Interval: [0.456, 0.475]
 #> Execution time (H:M:S): 00:00:02
 
   pwr::pwr.t.test(d=0.3, power=0.80, type="two.sample",
@@ -224,9 +231,9 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>   <dbl> <dbl> <chr>      <lgl>          <dbl> <dbl>
 #> 1    NA   0.3 two.sample FALSE           0.05   0.8
 #> 
-#> Estimate of n: 138.4
-#> 95% Confidence Interval: [137.5, 139.3]
-#> Execution time (H:M:S): 00:00:17
+#> Estimate of n: 138.5
+#> 95% Confidence Interval: [137.2, 139.9]
+#> Execution time (H:M:S): 00:00:27
 
 # }
 
@@ -258,12 +265,12 @@ my.gen_fun <- function(n, d, df1, df2, ...){
 # check the sample data properties
 dat <- my.gen_fun(n=10000, d=.5, df1=10, df2=5)
 sapply(dat, mean)
-#> [1] -0.0001114232  0.5130805552
+#> [1] 0.0002631173 0.5002441080
 sapply(dat, sd)
-#> [1] 1.000586 1.014579
+#> [1] 0.9869496 1.0122414
 
 p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
-#> [1] 0.0003048384
+#> [1] 0.009952488
 
 # \donttest{
 
@@ -279,8 +286,8 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5      0.05 NA   
 #> 
-#> Estimate of power: 0.940
-#> 95% Confidence Interval: [0.937, 0.943]
+#> Estimate of power: 0.942
+#> 95% Confidence Interval: [0.939, 0.944]
 #> Execution time (H:M:S): 00:00:09
 
   # estimate power given the customized data generating function
@@ -296,8 +303,8 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #>   <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5    10     5      0.05 NA   
 #> 
-#> Estimate of power: 0.955
-#> 95% Confidence Interval: [0.953, 0.957]
+#> Estimate of power: 0.957
+#> 95% Confidence Interval: [0.955, 0.959]
 #> Execution time (H:M:S): 00:00:09
 
   # evaluate Type I error rate to see if liberal/conservative given
@@ -314,9 +321,9 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #>   <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100     0    10     5      0.05 NA   
 #> 
-#> Estimate of power: 0.053
-#> 95% Confidence Interval: [0.051, 0.056]
-#> Execution time (H:M:S): 00:00:09
+#> Estimate of power: 0.051
+#> 95% Confidence Interval: [0.049, 0.053]
+#> Execution time (H:M:S): 00:00:10
 
 # }
 ```
