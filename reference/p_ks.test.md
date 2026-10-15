@@ -92,7 +92,7 @@ p_ks.test(n=100, p2, p1, return_analysis=TRUE)
 #>  Asymptotic two-sample Kolmogorov-Smirnov test
 #> 
 #> data:  dat1 and dat2
-#> D = 0.28, p-value = 0.0007873
+#> D = 0.3, p-value = 0.0002468
 #> alternative hypothesis: two-sided
 #> 
 
@@ -100,7 +100,7 @@ p_ks.test(n=100, p2, p1, return_analysis=TRUE)
 #   against a standard normal distribution
 pc <- function(n, df=15) (rchisq(n, df=df) - df) / sqrt(2*df)
 p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
-#> [1] 0.5180431
+#> [1] 0.795381
 
 # \donttest{
   # empirical power estimates
@@ -115,9 +115,9 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.839
-#> 95% Confidence Interval: [0.832, 0.846]
-#> Execution time (H:M:S): 00:00:03
+#> Estimate of power: 0.832
+#> 95% Confidence Interval: [0.825, 0.840]
+#> Execution time (H:M:S): 00:00:04
   p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1) |> Spower()
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -130,8 +130,8 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #> 1   100     0     1      0.05 NA   
 #> 
 #> Estimate of power: 0.138
-#> 95% Confidence Interval: [0.131, 0.144]
-#> Execution time (H:M:S): 00:00:02
+#> 95% Confidence Interval: [0.131, 0.145]
+#> Execution time (H:M:S): 00:00:03
 
 # }
 ```
