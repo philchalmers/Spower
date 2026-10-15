@@ -15,7 +15,6 @@ p_anova.test(
   k,
   f,
   n.ratios = rep(1, k),
-  two.tailed = TRUE,
   var.equal = TRUE,
   means = NULL,
   sds = NULL,
@@ -45,10 +44,6 @@ gen_anova.test(n, k, f, n.ratios = rep(1, k), means = NULL, sds = NULL, ...)
 
   allocation ratios reflecting the sample size ratios. Default of 1 sets
   the groups to be the same size (n \* n.ratio)
-
-- two.tailed:
-
-  logical; should a two-tailed or one-tailed test be used?
 
 - var.equal:
 
@@ -98,7 +93,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # n=50 in 3 groups, "medium" effect size
 p_anova.test(50, k=3, f=.25)
-#> [1] 0.0004274999
+#> [1] 0.006160834
 
 # return analysis model
 p_anova.test(50, k=3, f=.25, return_analysis=TRUE)
@@ -106,12 +101,12 @@ p_anova.test(50, k=3, f=.25, return_analysis=TRUE)
 #>  One-way analysis of means
 #> 
 #> data:  DV and group
-#> F = 2.9314, num df = 2, denom df = 147, p-value = 0.05645
+#> F = 9.7258, num df = 2, denom df = 147, p-value = 0.0001079
 #> 
 
 # explicit means/sds
 p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
-#> [1] 0.001604556
+#> [1] 0.02117576
 
 # \donttest{
   # compare simulated results to pwr package
@@ -138,8 +133,8 @@ p_anova.test(50, 3, means=c(0,0,1), sds=c(1,2,1))
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    20     4  0.28      0.05 NA   
 #> 
-#> Estimate of power: 0.518
-#> 95% Confidence Interval: [0.508, 0.528]
+#> Estimate of power: 0.512
+#> 95% Confidence Interval: [0.502, 0.522]
 #> Execution time (H:M:S): 00:00:06
 # }
 ```

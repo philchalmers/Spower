@@ -56,7 +56,8 @@ p_wilcox.test(
 
 - two.tailed:
 
-  logical; use two-tailed test?
+  logical; use two-tailed test? For one-tailed tests relevant
+  `alternative` arguments are set to `'greater'`
 
 - parent1:
 
@@ -86,11 +87,11 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # with normal distributions defaults d is standardized
 p_wilcox.test(100, .5)
-#> [1] 0.0007769418
+#> [1] 0.001341513
 p_wilcox.test(100, .5, type = 'paired')  # n = number of pairs
-#> [1] 0.0005890525
+#> [1] 0.01710336
 p_wilcox.test(100, .5, type = 'one.sample')
-#> [1] 0.003647923
+#> [1] 3.723169e-06
 
 # return analysis object
 p_wilcox.test(100, .5, return_analysis = TRUE)
@@ -98,16 +99,16 @@ p_wilcox.test(100, .5, return_analysis = TRUE)
 #>  Wilcoxon rank sum test with continuity correction
 #> 
 #> data:  dat1 and dat2
-#> W = 6290, p-value = 0.001629
+#> W = 6636, p-value = 6.438e-05
 #> alternative hypothesis: true location shift is not equal to 0
 #> 
 
 # using chi-squared distributions (standardizing to 0-1)
 p_wilcox.test(100, .5, type = 'one.sample',
    parent1 = function(n, d) rchisq(n, df=10) - 10 + d)
-#> [1] 0.2543677
+#> [1] 0.8325307
 p_wilcox.test(100, .5,
    parent1 = function(n, d) (rchisq(n, df=10) - 10)/sqrt(20) + d,
    parent2 = function(n, d) (rchisq(n, df=10) - 10)/sqrt(20))
-#> [1] 0.0009022927
+#> [1] 4.153767e-08
 ```

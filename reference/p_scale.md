@@ -40,7 +40,8 @@ p_scale(
 
 - two.tailed:
 
-  logical; use two-tailed test?
+  logical; use two-tailed test? For one-tailed tests relevant
+  `alternative` arguments are set to `'less'`
 
 - exact:
 
@@ -79,14 +80,14 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 # n=30 per group,
 #  Distributions Gaussian with sd=1 for first group and sd=2 for second
 p_scale(30, scale=2)
-#> [1] 0.09482243
+#> [1] 0.004190843
 p_scale(30, scale=2, test='Mood')
-#> [1] 0.00473575
+#> [1] 0.0007656286
 
 # compare chi-squared distributions
 parent <- function(n, df, ...) rchisq(n, df=df) - df
 p_scale(30, scale=2, parent=parent, df=3)
-#> [1] 8.958555e-06
+#> [1] 0.1008993
 
 # \donttest{
   # empirical power of the experiments
@@ -101,9 +102,9 @@ p_scale(30, scale=2, parent=parent, df=3)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    30     2      0.05 NA   
 #> 
-#> Estimate of power: 0.781
-#> 95% Confidence Interval: [0.773, 0.789]
-#> Execution time (H:M:S): 00:00:15
+#> Estimate of power: 0.780
+#> 95% Confidence Interval: [0.772, 0.788]
+#> Execution time (H:M:S): 00:00:17
   p_scale(30, scale=2, test='Mood') |> Spower()
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -116,7 +117,7 @@ p_scale(30, scale=2, parent=parent, df=3)
 #> 1    30     2 Mood       0.05 NA   
 #> 
 #> Estimate of power: 0.860
-#> 95% Confidence Interval: [0.853, 0.866]
+#> 95% Confidence Interval: [0.853, 0.867]
 #> Execution time (H:M:S): 00:00:01
 
   p_scale(30, scale=2, parent=parent, df=3) |> Spower()
@@ -130,9 +131,9 @@ p_scale(30, scale=2, parent=parent, df=3)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    30     2     3      0.05 NA   
 #> 
-#> Estimate of power: 0.902
-#> 95% Confidence Interval: [0.896, 0.908]
-#> Execution time (H:M:S): 00:00:15
+#> Estimate of power: 0.896
+#> 95% Confidence Interval: [0.890, 0.902]
+#> Execution time (H:M:S): 00:00:17
   p_scale(30, scale=2, test='Mood', parent=parent, df=3) |> Spower()
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -144,8 +145,8 @@ p_scale(30, scale=2, parent=parent, df=3)
 #>   <dbl> <dbl> <chr> <dbl>     <dbl> <lgl>
 #> 1    30     2 Mood      3      0.05 NA   
 #> 
-#> Estimate of power: 0.946
-#> 95% Confidence Interval: [0.941, 0.950]
+#> Estimate of power: 0.948
+#> 95% Confidence Interval: [0.944, 0.953]
 #> Execution time (H:M:S): 00:00:01
 
 # }

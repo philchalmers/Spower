@@ -47,7 +47,9 @@ gen_var.test(n, vars, n.ratios = rep(1, length(vars)), ...)
 
 - two.tailed:
 
-  logical; should a two-tailed or one-tailed test be used?
+  logical; should a two-tailed or one-tailed test be used? For
+  one-tailed tests relevant `alternative` arguments are set to
+  `'greater'`
 
 - test:
 
@@ -93,24 +95,24 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # one sample
 p_var.test(100, vars=10, sigma2=9)
-#> [1] 0.07419391
+#> [1] 0.07078858
 
 # return analysis object
 p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> $statistic
 #> Chi-Squared 
-#>    125.3238 
+#>    96.81574 
 #> 
 #> $parameters
 #> df 
 #> 99 
 #> 
 #> $p.value
-#> [1] 0.0762071
+#> [1] 0.9132844
 #> 
 #> $estimate
 #> variance 
-#> 11.39307 
+#> 8.801431 
 #> 
 #> $null.value
 #> variance 
@@ -127,7 +129,7 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> 
 #> $conf.int
 #>       LCL       UCL 
-#>  8.782876 15.374834 
+#>  6.784988 11.877438 
 #> attr(,"conf.level")
 #> [1] 0.95
 #> 
@@ -136,11 +138,12 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 
 # three sample
 p_var.test(100, vars=c(10, 9, 11))
-#> [1] 0.9974183
+#> [1] 0.4968382
 p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
-#> [1] 0.4568191
+#> [1] 0.8474343
 p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
-#> [1] 0.8404389
+#>     Chisq 
+#> 0.2421173 
 
 # \donttest{
   # power to detect three-group variance differences
@@ -156,8 +159,8 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   100    10      0.05 NA   
 #> 
-#> Estimate of power: 0.127
-#> 95% Confidence Interval: [0.121, 0.134]
+#> Estimate of power: 0.119
+#> 95% Confidence Interval: [0.113, 0.125]
 #> Execution time (H:M:S): 00:00:23
 
   # sample size per group to achieve 80% power
@@ -173,8 +176,8 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA    10      0.05   0.8
 #> 
-#> Estimate of n: 1093.7
-#> 95% Confidence Interval: [1077.2, 1111.4]
-#> Execution time (H:M:S): 00:02:02
+#> Estimate of n: 1097.2
+#> 95% Confidence Interval: [1088.3, 1106.7]
+#> Execution time (H:M:S): 00:01:58
 # }
 ```

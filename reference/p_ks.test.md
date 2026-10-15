@@ -42,7 +42,9 @@ p_ks.test(
 
 - two.tailed:
 
-  logical; should a two-tailed or one-tailed test be used?
+  logical; should a two-tailed or one-tailed test be used? For
+  one-tailed tests relevant `alternative` arguments are set to
+  `'greater'`
 
 - parent:
 
@@ -81,16 +83,16 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 # two-sample test from two Gaussian distributions with different locations
 p1 <- function(n) rnorm(n)
 p2 <- function(n) rnorm(n, mean=-.5)
-p_ks.test(n=100, p1, p2)
-#> [1] 0.07832309
+p_ks.test(n=100, p2, p1)
+#> [1] 7.14257e-05
 
 # return analysis model
-p_ks.test(n=100, p1, p2, return_analysis=TRUE)
+p_ks.test(n=100, p2, p1, return_analysis=TRUE)
 #> 
 #>  Asymptotic two-sample Kolmogorov-Smirnov test
 #> 
 #> data:  dat1 and dat2
-#> D = 0.21, p-value = 0.02431
+#> D = 0.28, p-value = 0.0007873
 #> alternative hypothesis: two-sided
 #> 
 
@@ -98,11 +100,11 @@ p_ks.test(n=100, p1, p2, return_analysis=TRUE)
 #   against a standard normal distribution
 pc <- function(n, df=15) (rchisq(n, df=df) - df) / sqrt(2*df)
 p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
-#> [1] 0.0988444
+#> [1] 0.5180431
 
 # \donttest{
   # empirical power estimates
-  p_ks.test(n=100, p1, p2) |> Spower()
+  p_ks.test(n=100, p2, p1) |> Spower()
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
 #> 
@@ -113,9 +115,9 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.836
-#> 95% Confidence Interval: [0.829, 0.843]
-#> Execution time (H:M:S): 00:00:02
+#> Estimate of power: 0.839
+#> 95% Confidence Interval: [0.832, 0.846]
+#> Execution time (H:M:S): 00:00:03
   p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1) |> Spower()
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -127,8 +129,8 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100     0     1      0.05 NA   
 #> 
-#> Estimate of power: 0.137
-#> 95% Confidence Interval: [0.130, 0.144]
+#> Estimate of power: 0.138
+#> 95% Confidence Interval: [0.131, 0.144]
 #> Execution time (H:M:S): 00:00:02
 
 # }

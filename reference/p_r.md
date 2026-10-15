@@ -44,7 +44,9 @@ gen_r(n, r, means = c(0, 0), ...)
 
 - two.tailed:
 
-  logical; should a two-tailed or one-tailed test be used?
+  logical; should a two-tailed or one-tailed test be used? For
+  one-tailed tests relevant `alternative` arguments are set to
+  `'greater'`
 
 - gen_fun:
 
@@ -88,13 +90,14 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # 50 observations, .5 correlation
 p_r(50, r=.5)
-#> [1] 0.0002641329
+#> [1] 0.0001796142
 p_r(50, r=.5, method = 'spearman')
-#> [1] 0.001109197
+#> [1] 6.288013e-05
 
 # test against constant other than rho = .6
 p_r(50, .5, rho=.60)
-#> [1] 0.2221955
+#>      cor 
+#> 0.964661 
 
 # return analysis model
 p_r(50, .5, return_analysis=TRUE)
@@ -102,26 +105,26 @@ p_r(50, .5, return_analysis=TRUE)
 #>  Pearson's product-moment correlation
 #> 
 #> data:  x and y
-#> t = 3.3044, df = 48, p-value = 0.001805
+#> t = 8.2209, df = 48, p-value = 1.023e-10
 #> alternative hypothesis: true correlation is not equal to 0
 #> 95 percent confidence interval:
-#>  0.1728617 0.6329935
+#>  0.6178155 0.8599739
 #> sample estimates:
 #>       cor 
-#> 0.4304958 
+#> 0.7646656 
 #> 
 p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
 #>  Pearson's product-moment correlation
 #> 
 #> data:  x and y
-#> t = -1.4333, df = Inf, p-value = 0.1518
+#> t = -0.27766, df = Inf, p-value = 0.7813
 #> alternative hypothesis: true correlation is not equal to 0.6
 #> 95 percent confidence interval:
-#>  0.1956294 0.6469086
+#>  0.3511505 0.7345488
 #> sample estimates:
 #>       cor 
-#> 0.4495005 
+#> 0.5734483 
 #> 
 
 # \donttest{
@@ -148,7 +151,7 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.3      0.05 NA   
 #> 
-#> Estimate of power: 0.575
+#> Estimate of power: 0.574
 #> 95% Confidence Interval: [0.565, 0.584]
 #> Execution time (H:M:S): 00:00:05
 
@@ -173,9 +176,9 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.3      0.05   0.8
 #> 
-#> Estimate of n: 84.9
-#> 95% Confidence Interval: [83.6, 86.0]
-#> Execution time (H:M:S): 00:00:25
+#> Estimate of n: 83.2
+#> 95% Confidence Interval: [82.1, 84.2]
+#> Execution time (H:M:S): 00:00:22
 
     pwr::pwr.r.test(r=0.1, power=0.80)
 #> 
@@ -198,9 +201,9 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.1      0.05   0.8
 #> 
-#> Estimate of n: 785.4
-#> 95% Confidence Interval: [778.4, 792.2]
-#> Execution time (H:M:S): 00:00:33
+#> Estimate of n: 776.5
+#> 95% Confidence Interval: [768.5, 784.0]
+#> Execution time (H:M:S): 00:00:28
 
 # }
 ```

@@ -12,7 +12,6 @@ p_mcnemar.test(
   prop,
   OR = NULL,
   prop.disc = NULL,
-  two.tailed = TRUE,
   correct = TRUE,
   gen_fun = gen_mcnemar.test,
   return_analysis = FALSE,
@@ -41,10 +40,6 @@ gen_mcnemar.test(n, prop, ...)
 - prop.disc:
 
   proportion of discordant pairings, \\\pi\_{12} + \pi\_{21}\\
-
-- two.tailed:
-
-  logical; should a two-tailed or one-tailed test be used?
 
 - correct:
 
@@ -96,7 +91,7 @@ Performance <- matrix(c(794, 86, 150, 570),
 
 # one sample + test and resulting p-value
 p_mcnemar.test(n=sum(Performance), prop=prop)
-#> [1] 7.064751e-05
+#> [1] 0.001903679
 
 # return analysis model
 p_mcnemar.test(n=sum(Performance), prop=prop, return_analysis=TRUE)
@@ -104,7 +99,7 @@ p_mcnemar.test(n=sum(Performance), prop=prop, return_analysis=TRUE)
 #>  McNemar's Chi-squared test with continuity correction
 #> 
 #> data:  dat
-#> McNemar's chi-squared = 12.461, df = 1, p-value = 0.0004156
+#> McNemar's chi-squared = 22.124, df = 1, p-value = 2.555e-06
 #> 
 
 # \donttest{
@@ -116,20 +111,20 @@ Spower(p_mcnemar.test(n=sum(Performance), prop=prop))
 # odds ratio + discordant proportions supplied instead
 OR <- prop[1,2] / prop[2,1]
 disc <- prop[1,2] + prop[2,1]
-p_mcnemar.test(n=50, OR=.25, prop.disc=disc, two.tailed=FALSE) |>
+p_mcnemar.test(n=50, OR=.25, prop.disc=disc) |>
   Spower(replications=30000)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 5
-#>       n    OR two.tailed sig.level power
-#>   <dbl> <dbl> <lgl>          <dbl> <lgl>
-#> 1    50  0.25 FALSE           0.05 NA   
+#> # A tibble: 1 × 4
+#>       n    OR sig.level power
+#>   <dbl> <dbl>     <dbl> <lgl>
+#> 1    50  0.25      0.05 NA   
 #> 
-#> Estimate of power: 0.335
-#> 95% Confidence Interval: [0.330, 0.340]
+#> Estimate of power: 0.228
+#> 95% Confidence Interval: [0.223, 0.232]
 #> Execution time (H:M:S): 00:00:03
 
 # }

@@ -61,10 +61,6 @@ gen_mediation(
   logical; should the X variable be generated as though it were
   dichotomous? If TRUE then `n` represents the sample size per group
 
-- two.tailed:
-
-  logical; should a two-tailed or one-tailed test be used?
-
 - method:
 
   type of inferential method to use. Default uses the Wald (a.k.a.,
@@ -118,9 +114,9 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # joint test H0: a*b = 0
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
-#> [1] 6.166961e-05
+#> [1] 1.012941e-05
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
-#> [1] 7.175554e-09
+#> [1] 1.275478e-09
 
 # return analysis model
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
@@ -147,45 +143,45 @@ dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2)
 descript(dat) # specific SDs
 #> # A tibble: 3 × 11
-#>   VARIABLE     n    mean    trim  median    sd   IQR    skew    kurt    min
-#>   <fct>    <dbl>   <dbl>   <dbl>   <dbl> <dbl> <dbl>   <dbl>   <dbl>  <dbl>
-#> 1 X         1000 0.0750   0.0544  0.102   2.07  2.79  0.0649 0.0349   -6.43
-#> 2 M         1000 0.00763 -0.0230 -0.0787  2.06  2.75  0.103  0.00923  -7.25
-#> 3 Y         1000 0.0106   0.0127  0.0326  3.03  4.19 -0.0221 0.0577  -11.4 
+#>   VARIABLE     n    mean    trim  median    sd   IQR     skew    kurt   min
+#>   <fct>    <dbl>   <dbl>   <dbl>   <dbl> <dbl> <dbl>    <dbl>   <dbl> <dbl>
+#> 1 X         1000  0.0381  0.0558  0.134   2.07  2.87 -0.0882  -0.112  -6.51
+#> 2 M         1000  0.0441  0.0334  0.0837  2.05  2.77  0.00947  0.0319 -7.01
+#> 3 Y         1000 -0.0906 -0.0790 -0.101   3.07  4.07 -0.0355  -0.156  -9.34
 #> # ℹ 1 more variable: max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#> -0.05252822  0.80248990 
+#>  0.01342498  0.80392087 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
-#>   (Intercept)             M             X 
-#>  0.0003394652 -0.6794564909  0.2067061110 
+#> (Intercept)           M           X 
+#> -0.06648038 -0.64186050  0.10933033 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  0.03603011 -0.33855086 
+#> -0.07509734 -0.40667472 
 
 # same properties, but dichotomous X variable
 dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2, dichotomous.X = TRUE)
 descript(dat) # specific SDs
 #> # A tibble: 3 × 11
-#>   VARIABLE     n   mean   trim median    sd   IQR    skew    kurt    min   max
-#>   <fct>    <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>   <dbl>   <dbl>  <dbl> <dbl>
-#> 1 X         2000  2      2      2      2.00  4     0      -2.00     0     4   
-#> 2 M         2000  1.63   1.63   1.64   2.03  3.28 -0.0197 -0.874   -3.71  7.36
-#> 3 Y         2000 -0.782 -0.807 -0.828  2.97  4.02  0.0826  0.0841 -11.7   9.67
+#>   VARIABLE     n   mean   trim median    sd   IQR   skew    kurt    min   max
+#>   <fct>    <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>  <dbl>   <dbl>  <dbl> <dbl>
+#> 1 X         2000  2      2      2      2.00  4    0      -2.00     0     4   
+#> 2 M         2000  1.56   1.55   1.51   2.02  3.25 0.0356 -0.859   -3.65  7.29
+#> 3 Y         2000 -0.636 -0.642 -0.666  3.02  4.03 0.0402  0.0427 -11.1  11.0 
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#> -0.01950148  0.82304607 
+#> -0.05499232  0.80602136 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
-#>  (Intercept)            M            X 
-#> -0.007004076 -0.682767333  0.167741889 
+#> (Intercept)           M           X 
+#>   0.1352354  -0.6493776   0.1198056 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
-#>  (Intercept)            X 
-#>  0.006310899 -0.394207084 
+#> (Intercept)           X 
+#>   0.1709461  -0.4036065 
 
 # \donttest{
 
@@ -202,9 +198,9 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #>   <dbl>   <dbl>   <dbl>  <dbl>     <dbl> <lgl>
 #> 1    50 0.59161 0.59161   0.39      0.05 NA   
 #> 
-#> Estimate of power: 0.999
-#> 95% Confidence Interval: [0.997, 1.000]
-#> Execution time (H:M:S): 00:00:17
+#> Estimate of power: 0.996
+#> 95% Confidence Interval: [0.992, 1.000]
+#> Execution time (H:M:S): 00:00:18
 
   # sample size estimate for .95 power
   p_mediation(n=interval(50,200), a=sqrt(.35), b=sqrt(.35), cprime=.39) |>
@@ -221,7 +217,7 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> 
 #> Estimate of n: 51.0
 #> 95% Confidence Interval: [NA, NA]
-#> Execution time (H:M:S): 00:19:31
+#> Execution time (H:M:S): 00:19:51
 
 # }
 ```
