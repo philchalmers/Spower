@@ -11,7 +11,6 @@ p_mediation(
   b,
   cprime,
   dichotomous.X = FALSE,
-  two.tailed = TRUE,
   method = "wald",
   sd.X = 1,
   sd.Y = 1,

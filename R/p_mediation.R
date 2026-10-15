@@ -75,8 +75,7 @@
 #' }
 #'
 #' @export
-p_mediation <- function(n, a, b, cprime, dichotomous.X=FALSE,
-						two.tailed=TRUE, method = 'wald',
+p_mediation <- function(n, a, b, cprime, dichotomous.X=FALSE, method = 'wald',
 						sd.X=1, sd.Y=1, sd.M=1,
 						gen_fun=gen_mediation, return_analysis = FALSE, ...){
 	dat <- gen_fun(n, a=a, b=b, cprime=cprime,
