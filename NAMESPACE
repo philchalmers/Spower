@@ -49,16 +49,24 @@ import(SimDesign)
 import(cli)
 import(ggplot2)
 import(stats)
-importFrom(EnvStats,varGroupTest)
-importFrom(EnvStats,varTest)
+importFrom(EnvStats,
+  varGroupTest,
+  varTest
+)
 importFrom(car,lht)
 importFrom(cocor,cocor)
-importFrom(lavaan,lavInspect)
-importFrom(lavaan,parameterEstimates)
-importFrom(lavaan,sem)
-importFrom(methods,is)
-importFrom(methods,slot)
-importFrom(mirai,make_cluster)
-importFrom(mirai,stop_cluster)
+importFrom(lavaan,
+  lavInspect,
+  parameterEstimates,
+  sem
+)
+importFrom(methods,
+  is,
+  slot
+)
+importFrom(mirai,
+  make_cluster,
+  stop_cluster
+)
 importFrom(plotly,ggplotly)
 importFrom(stats,update)

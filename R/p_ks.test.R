@@ -7,6 +7,7 @@
 #'
 #' @param n sample size per group, assumed equal across groups
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}
 #' @param p1 a function indicating how the data were generated for group 1
 #' @param p2 (optional) a function indicating how the data were generated for group 2.
 #'   If omitted a one-sample test will be evaluated provided that \code{parent} is also
@@ -28,10 +29,10 @@
 #' # two-sample test from two Gaussian distributions with different locations
 #' p1 <- function(n) rnorm(n)
 #' p2 <- function(n) rnorm(n, mean=-.5)
-#' p_ks.test(n=100, p1, p2)
+#' p_ks.test(n=100, p2, p1)
 #'
 #' # return analysis model
-#' p_ks.test(n=100, p1, p2, return_analysis=TRUE)
+#' p_ks.test(n=100, p2, p1, return_analysis=TRUE)
 #'
 #' # one-sample data from chi-squared distribution tested
 #' #   against a standard normal distribution
@@ -40,7 +41,7 @@
 #'
 #' \donttest{
 #'   # empirical power estimates
-#'   p_ks.test(n=100, p1, p2) |> Spower()
+#'   p_ks.test(n=100, p2, p1) |> Spower()
 #'   p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1) |> Spower()
 #'
 #' }
@@ -53,10 +54,10 @@ p_ks.test <- function(n, p1, p2, n2_n1 = 1, two.tailed = TRUE,
 	if(is.null(parent)){
 		dat2 <- p2(n=n2)
 	} else dat2 <- parent
-	ret <- ks.test(dat1, dat2, ...)
+	alternative <- ifelse(two.tailed, "two.sided", "greater")
+	ret <- ks.test(dat1, dat2, alternative=alternative, ...)
 	if(return_analysis) return(ret)
 	p <- ret$p.value
-	p <- ifelse(two.tailed, p, p/2)
 	p
 }
 

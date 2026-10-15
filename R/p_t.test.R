@@ -18,6 +18,7 @@
 #' @param type type of t-test to use; can be \code{'two.sample'},
 #'   \code{'one.sample'}, or \code{'paired'}
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}
 #' @param var.equal logical; use the classical or Welch corrected t-test?
 #' @param n2_n1 allocation ratio reflecting the same size ratio.
 #'   Default of 1 sets the groups to be the same size. Only applicable

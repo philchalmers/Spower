@@ -23,7 +23,8 @@ p_scale(
 
 \item{n2_n1}{sample size ratio}
 
-\item{two.tailed}{logical; use two-tailed test?}
+\item{two.tailed}{logical; use two-tailed test?
+For one-tailed tests relevant \code{alternative} arguments are set to \code{'less'}}
 
 \item{exact}{a logical indicating whether an exact p-value should be computed}
 

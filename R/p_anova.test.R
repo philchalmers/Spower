@@ -12,7 +12,7 @@
 #' @param f Cohen's f effect size
 #' @param n.ratios allocation ratios reflecting the sample size ratios.
 #'   Default of 1 sets the groups to be the same size (n * n.ratio)
-#' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+# @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #' @param var.equal logical; use the pooled SE estimate instead of the Welch
 #'   correction for unequal variances?
 #' @param means (optional) vector of means. When specified the input \code{f} is ignored
@@ -47,15 +47,13 @@
 #'
 #' @export
 p_anova.test <- function(n, k, f, n.ratios = rep(1, k),
-						 two.tailed = TRUE, var.equal = TRUE,
-						 means=NULL, sds=NULL, gen_fun=gen_anova.test,
-						 return_analysis = FALSE, ...) {
+						 var.equal = TRUE, means=NULL, sds=NULL,
+						 gen_fun=gen_anova.test, return_analysis = FALSE, ...) {
 	df <- gen_fun(n=n, k=k, f=f, n.ratios=n.ratios, means=means, sds=sds, ...)
 	ret <- oneway.test(DV ~ group, data=df, var.equal=var.equal, subset=NULL,
 					 na.action = NULL)
 	if(return_analysis) return(ret)
 	p <- ret$p.value
-	p <- ifelse(two.tailed, p, p/2)
 	p
 }
 

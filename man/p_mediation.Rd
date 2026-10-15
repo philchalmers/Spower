@@ -46,8 +46,6 @@ value represents the size per group}
 \item{dichotomous.X}{logical; should the X variable be generated as though it
 were dichotomous? If TRUE then \code{n} represents the sample size per group}
 
-\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
-
 \item{method}{type of inferential method to use. Default uses the Wald
 (a.k.a., Sobel) test}
 

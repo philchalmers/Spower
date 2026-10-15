@@ -47,7 +47,8 @@ used in the non-overlapping hypothesis test, comparing this input to \code{r.ab}
 
 \item{n2_n1}{sample size ratio. Only used for independent group test}
 
-\item{two.tailed}{logical; use two-tailed test?}
+\item{two.tailed}{logical; use two-tailed test?
+For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
 
 \item{test}{hypothesis testing method to use. Defaults to \code{'fisher1925'}
 for the independent groups test and \code{'steiger1980'} for overlap/non-overlap tests}

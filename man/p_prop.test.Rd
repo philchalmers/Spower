@@ -47,7 +47,8 @@ for two-sample tests}
 \item{n.ratios}{allocation ratios reflecting the sample size ratios.
 Default of 1 sets the groups to be the same size (n * n.ratio)}
 
-\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
+\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?
+For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
 
 \item{correct}{logical; use Yates' continuity correction?}
 

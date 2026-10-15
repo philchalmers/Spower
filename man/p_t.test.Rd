@@ -54,7 +54,8 @@ into a suitable \code{d} value for the power computations}
 Default of 1 sets the groups to be the same size. Only applicable
 when \code{type = 'two.sample'}}
 
-\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
+\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?
+For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
 
 \item{var.equal}{logical; use the classical or Welch corrected t-test?}
 

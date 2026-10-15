@@ -12,7 +12,7 @@
 #' @param cprime partial regression coefficient for the path X -> Y
 #' @param dichotomous.X logical; should the X variable be generated as though it
 #'  were dichotomous? If TRUE then \code{n} represents the sample size per group
-#' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+# @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #' @param method type of inferential method to use. Default uses the Wald
 #'    (a.k.a., Sobel) test
 #' @param gen_fun function used to generate the required two-sample data.
@@ -99,7 +99,6 @@ p_mediation <- function(n, a, b, cprime, dichotomous.X=FALSE,
 	if(method == 'wald')
 		p <- PE$pvalue[PE$lhs == 'ab']   # joint test
 	else stop('other methods not yet supported')
-	p <- ifelse(two.tailed, p, p/2)
 	p
 }
 

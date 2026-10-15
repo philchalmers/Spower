@@ -10,7 +10,6 @@ p_anova.test(
   k,
   f,
   n.ratios = rep(1, k),
-  two.tailed = TRUE,
   var.equal = TRUE,
   means = NULL,
   sds = NULL,
@@ -30,8 +29,6 @@ gen_anova.test(n, k, f, n.ratios = rep(1, k), means = NULL, sds = NULL, ...)
 
 \item{n.ratios}{allocation ratios reflecting the sample size ratios.
 Default of 1 sets the groups to be the same size (n * n.ratio)}
-
-\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
 
 \item{var.equal}{logical; use the pooled SE estimate instead of the Welch
 correction for unequal variances?}

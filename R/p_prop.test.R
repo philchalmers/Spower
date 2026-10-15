@@ -18,6 +18,7 @@
 #' @param pi probability of success to test against (default is .5). Ignored
 #'   for two-sample tests
 #' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}
 #' @param exact logical; use fisher's exact test via \code{\link{fisher.test}}?
 #'   Use of this flag requires that \code{prop} was specified as a matrix
 #' @param correct logical; use Yates' continuity correction?
@@ -94,20 +95,20 @@ p_prop.test <- function(n, h, prop = NULL, pi = .5,
 						two.tailed = TRUE, correct=TRUE, exact=FALSE,
 						gen_fun=gen_prop.test, return_analysis = FALSE, ...) {
 	dat <- gen_prop.test(n=n, h=h, pi=pi, n.ratios=n.ratios, prop=prop, ...)
+	alternative <- ifelse(two.tailed, "two.sided", "greater")
 	ret <- if(length(prop) > 1){
 		A <- dat[1,]
 		B <- dat[2,]
 		if(exact){
 			stopifnot(is.matrix(prop))
 			A <- matrix(A, nrow(prop), ncol(prop))
-			fisher.test(A)
-		} else prop.test(A, B, correct=correct)
+			fisher.test(A, alternative=alternative)
+		} else prop.test(A, B, correct=correct, alternative=alternative)
 	} else {
-		binom.test(dat[1,1], n=n, p=pi)
+		binom.test(dat[1,1], n=n, p=pi, alternative=alternative)
 	}
 	if(return_analysis) return(ret)
 	p <-  ret$p.value
-	p <- ifelse(two.tailed, p, p/2)
 	p
 }
 

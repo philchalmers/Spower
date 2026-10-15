@@ -18,6 +18,7 @@
 #'   difference
 #' @param parent2 same as \code{parent1}, but for the second group
 #' @param two.tailed logical; use two-tailed test?
+#'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}
 #' @param return_analysis logical; return the analysis object for further
 #'   extraction and customization?
 #' @export
@@ -48,17 +49,18 @@ p_wilcox.test <- function(n, d, n2_n1 = 1, mu=0,
 						  return_analysis = FALSE){
 	type <- match.arg(type)
 	dat1 <- parent1(n, d)
+	alternative <- ifelse(two.tailed, "two.sided", "greater")
 	ret <- if(type == 'one.sample'){
-		wilcox.test(dat1, mu=mu, correct=correct, exact=exact)
+		wilcox.test(dat1, mu=mu, correct=correct, exact=exact,
+					alternative=alternative)
 	} else {
 		paired <- type == 'paired'
 		if(paired) stopifnot(n2_n1 == 1)
 		dat2 <- parent2(n*n2_n1, d)
-		wilcox.test(dat1, dat2, paired=paired,
+		wilcox.test(dat1, dat2, paired=paired, alternative=alternative,
 					mu=mu, correct=correct, exact=exact)
 	}
 	if(return_analysis) return(ret)
 	p <- ret$p.value
-	p <- ifelse(two.tailed, p, p/2)
 	p
 }

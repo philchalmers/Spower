@@ -35,7 +35,8 @@ number of pairings (hence, half of the data points observed)}
 \item{correct}{a logical indicating whether to apply continuity correction
 in the normal approximation for the p-value}
 
-\item{two.tailed}{logical; use two-tailed test?}
+\item{two.tailed}{logical; use two-tailed test?
+For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
 
 \item{parent1}{data generation function for first group. Ideally
 should have SDs = 1 so that \code{d} reflects a standardized
