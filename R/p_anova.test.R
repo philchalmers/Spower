@@ -12,7 +12,6 @@
 #' @param f Cohen's f effect size
 #' @param n.ratios allocation ratios reflecting the sample size ratios.
 #'   Default of 1 sets the groups to be the same size (n * n.ratio)
-# @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #' @param var.equal logical; use the pooled SE estimate instead of the Welch
 #'   correction for unequal variances?
 #' @param means (optional) vector of means. When specified the input \code{f} is ignored

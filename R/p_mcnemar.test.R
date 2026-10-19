@@ -5,7 +5,6 @@
 #'
 #' @param n total sample size
 #' @param prop two-dimensional matrix of proportions/probabilities
-# @param two.tailed logical; should a two-tailed or one-tailed test be used?
 # @param exact logical; use fisher's exact test via \code{\link{fisher.test}}?
 #' @param correct logical; use continuity correction? Only applicable for
 #'   2x2 tables

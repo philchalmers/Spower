@@ -10,11 +10,8 @@
 #'   Fisher's z-transformation approximation when non-zero
 #' @param method method to use to compute the correlation
 #'   (see \code{\link{cor.test}}). Only used when \code{rho = 0}
-#' @param two.tailed logical; should a two-tailed or one-tailed test be used?
-#'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
-#'   of \code{two.tailed}
+#'   (most commonly, \code{'two.tailed', 'greater', 'less'})
 #' @param gen_fun function used to generate the required dependent bivariate data.
 #'   Object returned must be a \code{matrix} with two columns and \code{n} rows.
 #'   Default uses \code{\link{gen_r}} to generate conditionally
@@ -57,12 +54,10 @@
 #' }
 #'
 #' @export
-p_r <- function(n, r, rho = 0, method = 'pearson', two.tailed = TRUE,
-				alternative = NULL, gen_fun=gen_r, return_analysis = FALSE, ...) {
+p_r <- function(n, r, rho = 0, method = 'pearson', alternative = 'two.sided',
+				gen_fun=gen_r, return_analysis = FALSE, ...) {
 	dat <- gen_fun(n=n, r=r, ...)
 	colnames(dat) <- c('x', 'y')
-	if(is.null(alternative))
-		alternative <- ifelse(two.tailed, "two.sided", "greater")
 	out <- cor.test(~ x + y, dat, method=method, alternative=alternative)
 	if(rho != 0){
 		z <- with(out, 1/2 * log((1+estimate)/(1-estimate)))

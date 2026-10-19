@@ -12,7 +12,6 @@
 #' @param cprime partial regression coefficient for the path X -> Y
 #' @param dichotomous.X logical; should the X variable be generated as though it
 #'  were dichotomous? If TRUE then \code{n} represents the sample size per group
-# @param two.tailed logical; should a two-tailed or one-tailed test be used?
 #' @param method type of inferential method to use. Default uses the Wald
 #'    (a.k.a., Sobel) test
 #' @param gen_fun function used to generate the required two-sample data.

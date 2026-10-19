@@ -9,8 +9,7 @@ p_ks.test(
   p1,
   p2,
   n2_n1 = 1,
-  two.tailed = TRUE,
-  alternative = NULL,
+  alternative = "two.sided",
   parent = NULL,
   return_analysis = FALSE,
   ...
@@ -27,12 +26,8 @@ specified}
 
 \item{n2_n1}{sample size ratio. Default uses equal sample sizes}
 
-\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?
-For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
-
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
-of \code{two.tailed}}
+(most commonly, \code{'two.tailed', 'greater', 'less'})}
 
 \item{parent}{the cumulative distribution function to use
 (e.g., \code{\link{pnorm}}). Specifying this input will construct a

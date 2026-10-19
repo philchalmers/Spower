@@ -55,12 +55,8 @@ into a suitable \code{d} value for the power computations}
 Default of 1 sets the groups to be the same size. Only applicable
 when \code{type = 'two.sample'}}
 
-\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?
-For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
-
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
-of \code{two.tailed}}
+(most commonly, \code{'two.tailed', 'greater', 'less'})}
 
 \item{var.equal}{logical; use the classical or Welch corrected t-test?}
 
@@ -122,12 +118,12 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 
   pwr::pwr.t.test(d=0.2, n=60, sig.level=0.10,
              type="one.sample", alternative="two.sided")
-  p_t.test(n=60, d=0.2, type = 'one.sample', two.tailed=TRUE) |>
+  p_t.test(n=60, d=0.2, type = 'one.sample') |>
          Spower(sig.level=.10)
 
   pwr::pwr.t.test(d=0.3, power=0.80, type="two.sample",
                   alternative="greater")
-  p_t.test(n=interval(10, 200), d=0.3, type='two.sample', two.tailed=FALSE) |>
+  p_t.test(n=interval(10, 200), d=0.3, type='two.sample', alternative='greater') |>
          Spower(power=0.80)
 
 }

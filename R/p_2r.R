@@ -27,11 +27,8 @@
 #' @param r.cd (for non-overlap only) correlation between C and D. This is the correlation
 #'   used in the non-overlapping hypothesis test, comparing this input to \code{r.ab}
 #' @param n2_n1 sample size ratio. Only used for independent group test
-#' @param two.tailed logical; use two-tailed test?
-#'   For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
-#'   of \code{two.tailed}
+#'   (most commonly, \code{'two.tailed', 'greater', 'less'})
 #' @param test hypothesis testing method to use. Defaults to \code{'fisher1925'}
 #'   for the independent groups test and \code{'steiger1980'} for overlap/non-overlap tests
 #' @param gen_fun function used to generate the required discrete data.
@@ -75,8 +72,9 @@
 #'
 #'
 p_2r <- function(n, r.ab, r.ab2 = NULL, r.ac, r.bc,
-				 r.ad, r.bd, r.cd, n2_n1 = 1, two.tailed=TRUE,
-				 alternative = NULL, test=NULL, gen_fun=gen_2r,
+				 r.ad, r.bd, r.cd, n2_n1 = 1,
+				 alternative = 'two.sided',
+				 test=NULL, gen_fun=gen_2r,
 				 return_analysis = FALSE, ...){
 	type <- 'overlap'
 	if(!is.null(r.ab2))
@@ -108,8 +106,6 @@ p_2r <- function(n, r.ab, r.ab2 = NULL, r.ac, r.bc,
 		dat <- data.frame(gen_fun(n, R=R, ...))
 		colnames(dat) <- c('y1', 'x1', 'y2', 'x2')
 	}
-	if(is.null(alternative))
-		alternative <- ifelse(two.tailed, "two.sided", "greater")
 	res <- if(type == 'independent'){
 		cocor::cocor(~ y + x | y + x, dat, test=test, alternative=alternative)
 	} else if(type == 'overlap'){

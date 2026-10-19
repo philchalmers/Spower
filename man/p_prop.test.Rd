@@ -11,8 +11,7 @@ p_prop.test(
   prop = NULL,
   pi = 0.5,
   n.ratios = rep(1, length(prop)),
-  two.tailed = TRUE,
-  alternative = NULL,
+  alternative = "two.sided",
   correct = TRUE,
   exact = FALSE,
   gen_fun = gen_prop.test,
@@ -48,12 +47,8 @@ for two-sample tests}
 \item{n.ratios}{allocation ratios reflecting the sample size ratios.
 Default of 1 sets the groups to be the same size (n * n.ratio)}
 
-\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?
-For one-tailed tests relevant \code{alternative} arguments are set to \code{'greater'}}
-
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less'}). When used, ignores the value
-of \code{two.tailed}}
+(most commonly, \code{'two.tailed', 'greater', 'less'})}
 
 \item{correct}{logical; use Yates' continuity correction?}
 
@@ -122,11 +117,11 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
     # two-sample test, one-tailed
     (h <- pwr::ES.h(0.67, 0.5))
     pwr::pwr.2p.test(h=h, n=80, alternative="greater")
-    p_prop.test(n=80, prop=c(.67, .5), two.tailed=FALSE,
+    p_prop.test(n=80, prop=c(.67, .5), alternative='greater',
       correct=FALSE) |> Spower()
 
     # same as above, but with continuity correction (default)
-    p_prop.test(n=80, prop=c(.67, .5), two.tailed=FALSE) |>
+    p_prop.test(n=80, prop=c(.67, .5), alternative='greater') |>
       Spower()
 
     # three-sample joint test, equal n's
