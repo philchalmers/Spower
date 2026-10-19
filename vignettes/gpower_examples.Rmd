@@ -208,7 +208,7 @@ It is also possible to perform a sensitivity analyses rather than the above a pr
 
 ```{r eval=eval}
 # confirm solution obtained by G*power (post hoc power estimate)
-p_2r(n=144, r.ab=.4, r.ac=0.047702, r.bc=-0.6, two.tailed=FALSE) |> Spower()
+p_2r(n=144, r.ab=.4, r.ac=0.047702, r.bc=-0.6, alternative = 'greater') |> Spower()
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
@@ -221,7 +221,7 @@ Obtaining a similar estimate using `Spower()` requires the following sensitivity
 ```{r eval=eval}
 # note that interval is specified as c(upper, lower) as higher values
 # of r.ac result in lower power in this context
-p_2r(n=144, r.ab=.4, r.ac=interval(.4, .001), r.bc=-0.6, two.tailed=FALSE) |> 
+p_2r(n=144, r.ab=.4, r.ac=interval(.4, .001), r.bc=-0.6, alternative='greater') |> 
 	Spower(power = .80)
 ```
 
@@ -241,7 +241,7 @@ $\alpha = .05$.
 
 ```{r eval=eval}
 # solution per group
-out <- p_t.test(r = .25, n = interval(50, 200), two.tailed=FALSE) |> 
+out <- p_t.test(r = .25, n = interval(50, 200), alternative='greater') |> 
 	Spower(power = .95)
 out
 ```
@@ -305,7 +305,7 @@ tetrachoric correlation is less than or equal to 0 in this population
 
 ```{r eval=FALSE}
 p_r.cat(n=interval(100, 500), r=0.2399846, tauX=tauX, tauY=tauY, 
-		score=TRUE, two.tailed=FALSE) |> 
+		score=TRUE, alternative='greater') |> 
 	Spower(power = .95, parallel=TRUE)
 ```
 
@@ -315,9 +315,9 @@ p_r.cat(n=interval(100, 500), r=0.2399846, tauX=tauX, tauY=tauY,
 ## Design conditions:
 ## 
 ## # A tibble: 1 × 6
-##       n       r two.tailed score sig.level power
-##   <dbl>   <dbl> <lgl>      <lgl>     <dbl> <dbl>
-## 1    NA 0.23998 FALSE      TRUE       0.05  0.95
+##       n       r alternative score sig.level power
+##   <dbl>   <dbl> <chr>       <lgl>     <dbl> <dbl>
+## 1    NA 0.23998 greater     TRUE      0.05  0.95
 ## 
 ## Estimate of n: 460.0
 ## 95% Confidence Interval: [455.8, 464.6]
@@ -349,7 +349,7 @@ pi <- .65
 g <- .15
 p <- pi + g
 
-p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |>
+p_prop.test(n=20, prop=p, pi=pi, alternative='greater') |>
 	Spower()
 ```
 
@@ -365,7 +365,7 @@ supported by passing the argument `exact = TRUE`.
 ```{r eval=eval}
 # Fisher exact test
 p_prop.test(n=20, prop=p, pi=pi, exact=TRUE, 
-			two.tailed=FALSE) |> Spower()
+			alternative='greater') |> Spower()
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
@@ -380,7 +380,7 @@ test given $N=649$, $d=.1$, where the parent distribution is assumed to
 follow a Normal/Gaussian shape (default).
 
 ```{r eval=eval}
-p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> 
+p_wilcox.test(n=649, d=.1, type='one.sample', alternative='greater') |> 
 	Spower()
 ```
 
@@ -402,7 +402,7 @@ the analyses.
 
 ```{r eval=eval}
 # For Gaussian(d,1)
-out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |> 
+out <- p_wilcox.test(type='one.sample', alternative='greater') |> 
 	SpowerBatch(n=c(649, 164, 42, 20, 12, 9),
 				d=c(.1, .2, .4, .6, .8, 1.0), replications = 50000, fully.crossed=FALSE)
 as.data.frame(out)
@@ -428,7 +428,7 @@ parent <- function(n, d, sigma=sqrt(1/2))
 	extraDistr::rlaplace(n, d, sigma=sigma)
 
 p_wilcox.test(n=11, d=.8, parent1=parent, type='one.sample',
-			  two.tailed=FALSE, correct = FALSE) |> Spower()
+			  alternative='greater', correct = FALSE) |> Spower()
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
@@ -449,7 +449,7 @@ the analyses.
 ```{r eval=eval}
 # For Laplace(0,1)
 out <- p_wilcox.test(parent1=parent, type='one.sample',
-			  two.tailed=FALSE) |> 
+			  alternative='greater') |> 
 	SpowerBatch(n=c(419, 109, 31, 16, 11, 8),
 				d=c(.1, .2, .4, .6, .8, 1.0), replications=50000, fully.crossed=FALSE)
 as.data.frame(out)
@@ -490,7 +490,7 @@ proportions of discordant pairs
 ```{r eval=eval}
 OR <- obrien2002[1,2] / obrien2002[2,1]
 disc <- obrien2002[1,2] + obrien2002[2,1]
-p_mcnemar.test(n=50, OR=OR, prop.disc=disc, two.tailed=FALSE) |> Spower()
+p_mcnemar.test(n=50, OR=OR, prop.disc=disc, alternative='greater') |> Spower()
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
@@ -503,7 +503,7 @@ achieved when not using the continuity correction, though in general
 this is not recommended in practice.
 
 ```{r eval=eval}
-p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE, correct=FALSE) |> Spower()
+p_mcnemar.test(n=50, prop=obrien2002, alternative='greater', correct=FALSE) |> Spower()
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
@@ -738,7 +738,7 @@ Solve $n$ for variance ratio of $1/1.5 = 2/3$ using a one-tailed
 variance ratio test, assuming that the target power is $1-\beta=.80$.
 
 ```{r eval=eval}
-p_var.test(n=interval(10, 200), vars=1, sigma2=1.5, two.tailed=FALSE) |> 
+p_var.test(n=interval(10, 200), vars=1, sigma2=1.5, alternative='greater') |> 
 	Spower(power=.80)
 ```
 
@@ -755,7 +755,7 @@ For a two-sample equality of variance test with equal sample sizes,
 
 ```{r eval=eval}
 # solve n for variance ratio of 1/1.5 = 2/3, two.tailed, 80% power
-p_var.test(n=interval(50, 300), vars=c(1, 1.5), two.tailed=TRUE) |> 
+p_var.test(n=interval(50, 300), vars=c(1, 1.5)) |> 
 	Spower(power=.80)
 ```
 
@@ -773,7 +773,7 @@ one-tailed, medium effect size ($d=0.5$), $\alpha=0.05$, 95% power
 ($1-\beta = 0.95$), equal sample sizes ($\frac{n_2}{n_1}=1$).
 
 ```{r eval=eval}
-(out <- p_t.test(n = interval(10,500), d = .5, two.tailed=FALSE) |>  
+(out <- p_t.test(n = interval(10,500), d = .5, alternative='greater') |>  
 			   Spower(power = .95))
 ```
 
@@ -846,7 +846,7 @@ using a one-sample $t$-test. The following estimates $n$ given a
 one-tailed $d=.625$ to achieve $1-\beta=.95$.
 
 ```{r eval=eval}
-p_t.test(n=interval(10, 100), d=.625, two.tailed=FALSE, type='one.sample') |>  
+p_t.test(n=interval(10, 100), d=.625, alternative='greater', type='one.sample') |>  
 	Spower(power=.95)
 ```
 
@@ -877,7 +877,7 @@ G\*power gives sample size of $n=1492$.
 Same as Example 22.1 above.
 
 ```{r eval=eval}
-p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> Spower()
+p_wilcox.test(n=649, d=.1, type='one.sample', alternative='greater') |> Spower()
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
@@ -899,7 +899,7 @@ parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
 # properties of sampled distribution
 descript(parent1(n=100000, d=0.8))
 
-p_wilcox.test(n=11, d=.8, type='one.sample', two.tailed=FALSE, parent1 = parent1) |> Spower()
+p_wilcox.test(n=11, d=.8, type='one.sample', alternative='greater', parent1 = parent1) |> Spower()
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
