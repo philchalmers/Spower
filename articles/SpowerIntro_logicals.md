@@ -411,7 +411,7 @@ pp_single.Bayes.t(n=100, mean=.5, mu=.3) |>
     ## 
     ## Estimate of power: 0.150
     ## 95% Confidence Interval: [0.143, 0.157]
-    ## Execution time (H:M:S): 00:01:23
+    ## Execution time (H:M:S): 00:01:21
 
 With this approach all of the power analysis criteria described in
 [`help(Spower)`](https://philchalmers.github.io/Spower/reference/Spower.md)
@@ -632,7 +632,7 @@ rope.lm(n=50, beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
     ## 
     ## Estimate of power: 0.144
     ## 95% Confidence Interval: [0.137, 0.151]
-    ## Execution time (H:M:S): 00:31:28
+    ## Execution time (H:M:S): 00:12:11
 
 Finally, to demonstrate why this might be useful, the following
 estimates the required sample size to achieve 80% power when using a 95%
@@ -656,4 +656,4 @@ rope.lm(n=interval(50, 200), beta0=2, beta1=1, sigma=1/2, range=c(.8, 1.2)) |>
     ## 
     ## Estimate of n: 108.3
     ## 95% Confidence Interval: [107.6, 109.0]
-    ## Execution time (H:M:S): 01:28:00
+    ## Execution time (H:M:S): 01:28:20

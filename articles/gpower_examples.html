@@ -152,7 +152,7 @@ results in the following.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.861</span></span></span>
 <span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.854</span>, <span style="color: #0000BB;">0.867</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:12</span></span></code></pre>
+<span><span class="co">## Execution time (H:M:S): 00:00:11</span></span></code></pre>
 <p>Next, the sample sample size estimate required to reject
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mn>0</mn></msub><mo>:</mo><mspace width="0.167em"></mspace><msub><mi>ρ</mi><mn>0</mn></msub><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">H_0:\, \rho_0=0</annotation></semantics></math>
 in correlation analysis with
@@ -218,7 +218,7 @@ This results in the post-hoc/observed power of</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.727</span></span></span>
 <span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.718</span>, <span style="color: #0000BB;">0.735</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:28</span></span></code></pre>
+<span><span class="co">## Execution time (H:M:S): 00:00:27</span></span></code></pre>
 <p>G*power 3.1 returns the power of .726 in this context.</p>
 </div>
 <div class="section level4">
@@ -269,13 +269,13 @@ approach.</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
-<span><span class="co">##       n  r.ab  r.ac  r.bc  r.ad  r.bd  r.cd two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.1   0.5  -<span style="color: #BB0000;">0.4</span>   0.4   0.8   0.2 FALSE           0.05   0.8</span></span>
+<span><span class="co">##       n  r.ab  r.ac  r.bc  r.ad  r.bd  r.cd alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.1   0.5  -<span style="color: #BB0000;">0.4</span>   0.4   0.8   0.2 less             0.05   0.8</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of n: <span style="color: #0000BB;">1999.0</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">NA</span>, <span style="color: #0000BB;">NA</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:04:15</span></span></code></pre>
+<span><span class="co">## Estimate of n: <span style="color: #0000BB;">885.8</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">875.2</span>, <span style="color: #0000BB;">896.8</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:01:40</span></span></code></pre>
 <p>G*power 3.1 returns the required sample size of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>886</mn></mrow><annotation encoding="application/x-tex">N=886</annotation></semantics></math>.</p>
 </div>
@@ -316,13 +316,13 @@ approach by default.</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
-<span><span class="co">##       n  r.ab  r.ac  r.bc two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.4   0.2   0.5 FALSE           0.05   0.8</span></span>
+<span><span class="co">##       n  r.ab  r.ac  r.bc alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.4   0.2   0.5 greater          0.05   0.8</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimate of n: <span style="color: #0000BB;">134.9</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">133.3</span>, <span style="color: #0000BB;">136.4</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:01:14</span></span></code></pre>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">133.4</span>, <span style="color: #0000BB;">136.3</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:01:26</span></span></code></pre>
 <p>G*power 3.1 returns the required sample size of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>144</mn></mrow><annotation encoding="application/x-tex">N=144</annotation></semantics></math>,
 which interestingly is slightly higher than the simulation version from
@@ -337,13 +337,13 @@ to the above to obtain the power estimate gives the following:</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
-<span><span class="co">##       n  r.ab  r.ac  r.bc two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   144   0.4   0.2   0.5 FALSE           0.05 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">##       n  r.ab  r.ac  r.bc alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   144   0.4   0.2   0.5 greater          0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.828</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.821</span>, <span style="color: #0000BB;">0.835</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:23</span></span></code></pre>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.818</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.811</span>, <span style="color: #0000BB;">0.826</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:22</span></span></code></pre>
 </div>
 <div class="section level4">
 <h4 id="example-28-3-3-sensitivity-analysis">Example 28.3.3; sensitivity analysis<a class="anchor" aria-label="anchor" href="#example-28-3-3-sensitivity-analysis"></a>
@@ -364,12 +364,12 @@ which is confirmed using the simulation below.</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
-<span><span class="co">##       n  r.ab     r.ac  r.bc two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   144   0.4 0.047<span style="text-decoration: underline;">702</span>  -<span style="color: #BB0000;">0.6</span> FALSE           0.05 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">##       n  r.ab     r.ac  r.bc alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   144   0.4 0.047<span style="text-decoration: underline;">702</span>  -<span style="color: #BB0000;">0.6</span> greater          0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.809</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.801</span>, <span style="color: #0000BB;">0.816</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.796</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.789</span>, <span style="color: #0000BB;">0.804</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:22</span></span></code></pre>
 <p>Obtaining a similar estimate using <code><a href="../reference/Spower.html">Spower()</a></code> requires the
 following sensitivity analysis structure:</p>
@@ -384,13 +384,13 @@ following sensitivity analysis structure:</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
-<span><span class="co">##       n  r.ab  r.ac  r.bc two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   144   0.4    <span style="color: #BB0000;">NA</span>  -<span style="color: #BB0000;">0.6</span> FALSE           0.05   0.8</span></span>
+<span><span class="co">##       n  r.ab  r.ac  r.bc alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   144   0.4    <span style="color: #BB0000;">NA</span>  -<span style="color: #BB0000;">0.6</span> greater          0.05   0.8</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of r.ac: <span style="color: #0000BB;">0.049</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.047</span>, <span style="color: #0000BB;">0.047</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:01:35</span></span></code></pre>
+<span><span class="co">## Estimate of r.ac: <span style="color: #0000BB;">0.053</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.052</span>, <span style="color: #0000BB;">0.052</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:01:20</span></span></code></pre>
 <p>For this example, <code>Spower</code> and G*power 3.1 seem to
 agree.</p>
 </div>
@@ -416,13 +416,13 @@ is the true correlation, evaluated under the null
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
-<span><span class="co">##       n     r two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>  0.25 FALSE           0.05  0.95</span></span>
+<span><span class="co">##       n     r alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>  0.25 greater          0.05  0.95</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of n: <span style="color: #0000BB;">82.0</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">79.4</span>, <span style="color: #0000BB;">84.9</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:18</span></span></code></pre>
+<span><span class="co">## Estimate of n: <span style="color: #0000BB;">81.1</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">80.0</span>, <span style="color: #0000BB;">82.3</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:17</span></span></code></pre>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># total sample size required</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">ceiling</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">n</span><span class="op">)</span> <span class="op">*</span> <span class="fl">2</span></span></code></pre></div>
@@ -540,12 +540,12 @@ probability values as-is.</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
-<span><span class="co">##       n two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    20 FALSE           0.05 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">##       n alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    20 greater          0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.416</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.406</span>, <span style="color: #0000BB;">0.426</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.413</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.403</span>, <span style="color: #0000BB;">0.422</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:04</span></span></code></pre>
 <p>G*power gives the estimate
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>β</mi><mo>=</mo><mn>.4112</mn></mrow><annotation encoding="application/x-tex">1-\beta=.4112</annotation></semantics></math>.
@@ -562,12 +562,12 @@ this test is also supported by passing the argument
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
-<span><span class="co">##       n two.tailed exact sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    20 FALSE      TRUE       0.05 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">##       n alternative exact sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    20 greater     TRUE       0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.410</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.401</span>, <span style="color: #0000BB;">0.420</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.416</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.406</span>, <span style="color: #0000BB;">0.425</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:04</span></span></code></pre>
 </div>
 <div class="section level4">
@@ -588,12 +588,12 @@ shape (default).</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
-<span><span class="co">##       n     d type       two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   649   0.1 one.sample FALSE           0.05 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">##       n     d type       alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   649   0.1 one.sample greater          0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.797</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.789</span>, <span style="color: #0000BB;">0.805</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.799</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.791</span>, <span style="color: #0000BB;">0.807</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:22</span></span></code></pre>
 <p>G*power gives the power estimate of .800.</p>
 <p>The following partially recreates the simulation results in Figure 29
@@ -614,13 +614,13 @@ estimates were these the target of the analyses.</p>
 <span>    <span class="fu"><a href="../reference/Spower.html">SpowerBatch</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">649</span>, <span class="fl">164</span>, <span class="fl">42</span>, <span class="fl">20</span>, <span class="fl">12</span>, <span class="fl">9</span><span class="op">)</span>,</span>
 <span>                d<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.4</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="fl">1.0</span><span class="op">)</span>, replications <span class="op">=</span> <span class="fl">50000</span>, fully.crossed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##     n   d       type two.tailed sig.level   power    CI_2.5   CI_97.5</span></span>
-<span><span class="co">## 1 649 0.1 one.sample      FALSE      0.05 0.79678 0.7932529 0.8003071</span></span>
-<span><span class="co">## 2 164 0.2 one.sample      FALSE      0.05 0.80078 0.7972790 0.8042810</span></span>
-<span><span class="co">## 3  42 0.4 one.sample      FALSE      0.05 0.80004 0.7965342 0.8035458</span></span>
-<span><span class="co">## 4  20 0.6 one.sample      FALSE      0.05 0.80568 0.8022118 0.8091482</span></span>
-<span><span class="co">## 5  12 0.8 one.sample      FALSE      0.05 0.80222 0.7987286 0.8057114</span></span>
-<span><span class="co">## 6   9 1.0 one.sample      FALSE      0.05 0.84626 0.8430984 0.8494216</span></span></code></pre>
+<pre><code><span><span class="co">##     n   d       type alternative sig.level   power    CI_2.5   CI_97.5</span></span>
+<span><span class="co">## 1 649 0.1 one.sample     greater      0.05 0.80090 0.7973998 0.8044002</span></span>
+<span><span class="co">## 2 164 0.2 one.sample     greater      0.05 0.79948 0.7959705 0.8029895</span></span>
+<span><span class="co">## 3  42 0.4 one.sample     greater      0.05 0.79884 0.7953263 0.8023537</span></span>
+<span><span class="co">## 4  20 0.6 one.sample     greater      0.05 0.80652 0.8030575 0.8099825</span></span>
+<span><span class="co">## 5  12 0.8 one.sample     greater      0.05 0.80156 0.7980642 0.8050558</span></span>
+<span><span class="co">## 6   9 1.0 one.sample     greater      0.05 0.84780 0.8446514 0.8509486</span></span></code></pre>
 <div class="section level5">
 <h5 id="laplacemu-1-version">Laplace(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>μ</mi><annotation encoding="application/x-tex">\mu</annotation></semantics></math>,
 1) version<a class="anchor" aria-label="anchor" href="#laplacemu-1-version"></a>
@@ -645,12 +645,12 @@ manually, accepting arguments such as <code>n</code> and
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 7</span></span></span>
-<span><span class="co">##       n     d type       correct two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    11   0.8 one.sample FALSE   FALSE           0.05 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">##       n     d type       correct alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    11   0.8 one.sample FALSE   greater          0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.797</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.789</span>, <span style="color: #0000BB;">0.805</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.803</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.795</span>, <span style="color: #0000BB;">0.811</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:04</span></span></code></pre>
 <p>G*power gives the estimate .830, which seems somewhat high (see
 below).</p>
@@ -672,13 +672,13 @@ estimates were these the target of the analyses.</p>
 <span>    <span class="fu"><a href="../reference/Spower.html">SpowerBatch</a></span><span class="op">(</span>n<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">419</span>, <span class="fl">109</span>, <span class="fl">31</span>, <span class="fl">16</span>, <span class="fl">11</span>, <span class="fl">8</span><span class="op">)</span>,</span>
 <span>                d<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.1</span>, <span class="fl">.2</span>, <span class="fl">.4</span>, <span class="fl">.6</span>, <span class="fl">.8</span>, <span class="fl">1.0</span><span class="op">)</span>, replications<span class="op">=</span><span class="fl">50000</span>, fully.crossed<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##     n   d       type two.tailed sig.level   power    CI_2.5   CI_97.5</span></span>
-<span><span class="co">## 1 419 0.1 one.sample      FALSE      0.05 0.79752 0.7939977 0.8010423</span></span>
-<span><span class="co">## 2 109 0.2 one.sample      FALSE      0.05 0.80368 0.8001983 0.8071617</span></span>
-<span><span class="co">## 3  31 0.4 one.sample      FALSE      0.05 0.80328 0.7997957 0.8067643</span></span>
-<span><span class="co">## 4  16 0.6 one.sample      FALSE      0.05 0.79926 0.7957491 0.8027709</span></span>
-<span><span class="co">## 5  11 0.8 one.sample      FALSE      0.05 0.80208 0.7985877 0.8055723</span></span>
-<span><span class="co">## 6   8 1.0 one.sample      FALSE      0.05 0.77440 0.7707363 0.7780637</span></span></code></pre>
+<pre><code><span><span class="co">##     n   d       type alternative sig.level   power    CI_2.5   CI_97.5</span></span>
+<span><span class="co">## 1 419 0.1 one.sample     greater      0.05 0.80112 0.7976213 0.8046187</span></span>
+<span><span class="co">## 2 109 0.2 one.sample     greater      0.05 0.79810 0.7945815 0.8016185</span></span>
+<span><span class="co">## 3  31 0.4 one.sample     greater      0.05 0.80218 0.7986883 0.8056717</span></span>
+<span><span class="co">## 4  16 0.6 one.sample     greater      0.05 0.79562 0.7920854 0.7991546</span></span>
+<span><span class="co">## 5  11 0.8 one.sample     greater      0.05 0.80768 0.8042254 0.8111346</span></span>
+<span><span class="co">## 6   8 1.0 one.sample     greater      0.05 0.77426 0.7705955 0.7779245</span></span></code></pre>
 </div>
 </div>
 <div class="section level4">
@@ -704,9 +704,9 @@ p. 161-163).</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
-<span><span class="co">##       n two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    50 FALSE           0.05 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">##       n alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    50 less             0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.725</span></span></span>
 <span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.716</span>, <span style="color: #0000BB;">0.734</span>]</span></span>
@@ -727,12 +727,12 @@ can be supplied</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
-<span><span class="co">##       n two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    50 FALSE           0.05 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">##       n alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    50 greater          0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.719</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.710</span>, <span style="color: #0000BB;">0.727</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.725</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.716</span>, <span style="color: #0000BB;">0.733</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:03</span></span></code></pre>
 <p>G*Power gives .839
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>.032</mn></mrow><annotation encoding="application/x-tex">\alpha = .032</annotation></semantics></math>).
@@ -746,12 +746,12 @@ correction, though in general this is not recommended in practice.</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
-<span><span class="co">##       n correct two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    50 FALSE   FALSE           0.05 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">##       n correct alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    50 FALSE   greater          0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.821</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.813</span>, <span style="color: #0000BB;">0.828</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.808</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.800</span>, <span style="color: #0000BB;">0.816</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:03</span></span></code></pre>
 </div>
 </div>
@@ -782,9 +782,9 @@ predictor variables gives the estimate.</p>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>    95   0.1     5      0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.662</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.653</span>, <span style="color: #0000BB;">0.672</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:44</span></span></code></pre>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.674</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.665</span>, <span style="color: #0000BB;">0.683</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:45</span></span></code></pre>
 <p>G*power gives
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>β</mi><mo>=</mo><mn>.673</mn></mrow><annotation encoding="application/x-tex">1-\beta = .673</annotation></semantics></math>.</p>
 </div>
@@ -814,8 +814,8 @@ gives</p>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>    90   0.3     9  0.25      5      0.01 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.237</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.229</span>, <span style="color: #0000BB;">0.245</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.239</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.231</span>, <span style="color: #0000BB;">0.247</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:57</span></span></code></pre>
 <p>G*power gives
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>β</mi><mo>=</mo><mn>.241</mn></mrow><annotation encoding="application/x-tex">1-\beta = .241</annotation></semantics></math>.
@@ -833,9 +833,9 @@ Solving the sample size to achieve 80% power</p>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.3     9  0.25      5      0.01   0.8</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of n: <span style="color: #0000BB;">244.1</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">242.3</span>, <span style="color: #0000BB;">245.6</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:04:17</span></span></code></pre>
+<span><span class="co">## Estimate of n: <span style="color: #0000BB;">243.1</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">241.2</span>, <span style="color: #0000BB;">245.1</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:05:21</span></span></code></pre>
 <p>G*power gives
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>242</mn></mrow><annotation encoding="application/x-tex">n = 242</annotation></semantics></math>.</p>
 </div>
@@ -859,9 +859,9 @@ for models with 12 IVs versus 9 IVs. Requires the specification of the
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>   200  0.16    12   0.1      9      0.8      0.01 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.760</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.752</span>, <span style="color: #0000BB;">0.769</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:01:19</span></span></code></pre>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.753</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.745</span>, <span style="color: #0000BB;">0.762</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:01:18</span></span></code></pre>
 <p>G*power gives
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>β</mi><mo>=</mo><mn>.767</mn></mrow><annotation encoding="application/x-tex">1-\beta = .767</annotation></semantics></math>.</p>
 </div>
@@ -886,8 +886,8 @@ randomly sampled instead of fixed.</p>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>    95   0.1     5 FALSE      0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.671</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.662</span>, <span style="color: #0000BB;">0.680</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.658</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.649</span>, <span style="color: #0000BB;">0.668</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:16</span></span></code></pre>
 <p>G*power gives 0.662 using a one-tailed test criterion.</p>
 </div>
@@ -919,9 +919,9 @@ and
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>   100 -<span style="color: #BB0000;">0.066</span><span style="color: #BB0000; text-decoration: underline;">7</span>   7.5     4      0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.234</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.225</span>, <span style="color: #0000BB;">0.242</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:32</span></span></code></pre>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.236</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.227</span>, <span style="color: #0000BB;">0.244</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:31</span></span></code></pre>
 <p>G*power returns the power estimate
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>−</mo><mi>β</mi><mo>=</mo><mn>0.2389</mn></mrow><annotation encoding="application/x-tex">1-\beta = 0.2389</annotation></semantics></math>.</p>
 </div>
@@ -952,9 +952,9 @@ to achieve a power of
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>    10  0.25      0.05  0.95</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of n: <span style="color: #0000BB;">38.9</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">38.3</span>, <span style="color: #0000BB;">39.5</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:29</span></span></code></pre>
+<span><span class="co">## Estimate of n: <span style="color: #0000BB;">38.8</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">38.0</span>, <span style="color: #0000BB;">39.6</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:30</span></span></code></pre>
 <p>G*power gives the estimate
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>39</mn></mrow><annotation encoding="application/x-tex">n=39</annotation></semantics></math>.</p>
 <p>Fixing
@@ -976,10 +976,10 @@ and performing a compromise analysis assuming
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>    20    10  0.25        <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>             1</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimate of Type I error rate (alpha/sig.level): <span style="color: #0000BB;">0.159</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.155</span>, <span style="color: #0000BB;">0.163</span>]</span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.154</span>, <span style="color: #0000BB;">0.163</span>]</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimate of power (1-beta): <span style="color: #0000BB;">0.841</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.837</span>, <span style="color: #0000BB;">0.845</span>]</span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.837</span>, <span style="color: #0000BB;">0.846</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:45</span></span></code></pre>
 <p>G*Power gives
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mi>β</mi><mo>=</mo><mn>0.159</mn></mrow><annotation encoding="application/x-tex">\alpha=\beta=0.159</annotation></semantics></math>.</p>
@@ -1059,8 +1059,8 @@ G*Power is the following.</p>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span> y ~ X * S X:S = 0 0.557<span style="text-decoration: underline;">84</span>    28 1.571<span style="text-decoration: underline;">4</span> 9.029<span style="text-decoration: underline;">1</span> 11.868 0.015<span style="text-decoration: underline;">92</span>      0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.197</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.190</span>, <span style="color: #0000BB;">0.205</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.202</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.194</span>, <span style="color: #0000BB;">0.210</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:36</span></span></code></pre>
 <p>For the a priori power analysis to achieve a power of .80</p>
 <div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
@@ -1078,9 +1078,9 @@ G*Power is the following.</p>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span> y ~ X * S X:S = 0 0.557<span style="text-decoration: underline;">84</span>    <span style="color: #BB0000;">NA</span> 1.571<span style="text-decoration: underline;">4</span> 9.029<span style="text-decoration: underline;">1</span> 11.868 0.015<span style="text-decoration: underline;">92</span>      0.05   0.8</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of n: <span style="color: #0000BB;">166.7</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">163.7</span>, <span style="color: #0000BB;">169.4</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:02:51</span></span></code></pre>
+<span><span class="co">## Estimate of n: <span style="color: #0000BB;">165.8</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">164.7</span>, <span style="color: #0000BB;">166.9</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:02:26</span></span></code></pre>
 <p>G*Power gives the estimate for
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
 to be 163 (and therefore 256 in the second group given the
@@ -1109,13 +1109,13 @@ is
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
-<span><span class="co">##       n  vars sigma2 two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>     1    1.5 FALSE           0.05   0.8</span></span>
+<span><span class="co">##       n  vars sigma2 alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>     1    1.5 greater          0.05   0.8</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimate of n: <span style="color: #0000BB;">200.0</span></span></span>
 <span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">NA</span>, <span style="color: #0000BB;">NA</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:01:35</span></span></code></pre>
+<span><span class="co">## Execution time (H:M:S): 00:01:31</span></span></code></pre>
 <p>G*power gives sample size of 81.</p>
 </div>
 <div class="section level3">
@@ -1132,14 +1132,14 @@ sizes,</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
-<span><span class="co">##       n  vars two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>     1 TRUE            0.05   0.8</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
+<span><span class="co">##       n  vars sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>     1      0.05   0.8</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of n: <span style="color: #0000BB;">193.4</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">191.5</span>, <span style="color: #0000BB;">194.9</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:01:22</span></span></code></pre>
+<span><span class="co">## Estimate of n: <span style="color: #0000BB;">193.6</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">191.7</span>, <span style="color: #0000BB;">195.5</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:52</span></span></code></pre>
 <p>G*Power gives estimate of 193 per group.</p>
 </div>
 </div>
@@ -1166,15 +1166,15 @@ equal sample sizes
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
-<span><span class="co">##       n     d two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.5 FALSE           0.05  0.95</span></span>
+<span><span class="co">##       n     d alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.5 greater          0.05  0.95</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of n: <span style="color: #0000BB;">87.1</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">84.2</span>, <span style="color: #0000BB;">90.1</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:14</span></span></code></pre>
+<span><span class="co">## Estimate of n: <span style="color: #0000BB;">87.0</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">83.9</span>, <span style="color: #0000BB;">90.0</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:12</span></span></code></pre>
 <p>G*power estimate is 88 per group, <code>Spower</code> estimate is
-87.0716217 with the 95% CI [84.192328, 90.067113].</p>
+87.0051385 with the 95% CI [83.9284431, 90.0470007].</p>
 <div class="section level4">
 <h4 id="example-19-3-paired-samples-t-test">Example 19.3; Paired samples t-test<a class="anchor" aria-label="anchor" href="#example-19-3-paired-samples-t-test"></a>
 </h4>
@@ -1200,9 +1200,9 @@ then this results in the repeated
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>   100 0.421<span style="text-decoration: underline;">64</span> paired      0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.839</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.836</span>, <span style="color: #0000BB;">0.842</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:24</span></span></code></pre>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.840</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.836</span>, <span style="color: #0000BB;">0.843</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:23</span></span></code></pre>
 <p>G*power gives power estimate of .832, though Cohen reported a value
 closer to .840. When
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mn>0.2828427</mn></mrow><annotation encoding="application/x-tex">d=0.2828427</annotation></semantics></math>
@@ -1219,9 +1219,9 @@ this leads to</p>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>   100 0.282<span style="text-decoration: underline;">84</span> paired      0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.512</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.507</span>, <span style="color: #0000BB;">0.516</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:24</span></span></code></pre>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.510</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.505</span>, <span style="color: #0000BB;">0.514</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:23</span></span></code></pre>
 <p>In this case G*Power 3.1 gives the estimate .500. To answer the
 question “How many subjects would we need to arrive at a power of about
 0.832114 in a two-group design?” this is specified within
@@ -1242,9 +1242,9 @@ element in the experiment.</p>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span> 0.282<span style="text-decoration: underline;">84</span> paired      0.05 0.832<span style="text-decoration: underline;">11</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of n: <span style="color: #0000BB;">214.8</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">213.2</span>, <span style="color: #0000BB;">216.0</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:50</span></span></code></pre>
+<span><span class="co">## Estimate of n: <span style="color: #0000BB;">215.3</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">213.9</span>, <span style="color: #0000BB;">216.7</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:25</span></span></code></pre>
 <p>G*power reports that around
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>110</mn><mo>*</mo><mn>2</mn><mo>=</mo><mn>220</mn></mrow><annotation encoding="application/x-tex">N=110*2=220</annotation></semantics></math>
 pairs are required, though this is estimated visually using
@@ -1272,13 +1272,13 @@ to achieve
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
-<span><span class="co">##       n     d type       two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span> 0.625 one.sample FALSE           0.05  0.95</span></span>
+<span><span class="co">##       n     d type       alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span> 0.625 one.sample greater          0.05  0.95</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of n: <span style="color: #0000BB;">28.4</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">27.7</span>, <span style="color: #0000BB;">29.1</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:13</span></span></code></pre>
+<span><span class="co">## Estimate of n: <span style="color: #0000BB;">30.2</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">28.9</span>, <span style="color: #0000BB;">31.0</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:11</span></span></code></pre>
 <p>G*power gives sample size of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">n=30</annotation></semantics></math>.
 Similarly, though with different inputs.</p>
@@ -1295,9 +1295,9 @@ Similarly, though with different inputs.</p>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>    <span style="color: #BB0000;">NA</span>   0.1 one.sample      0.01   0.9</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of n: <span style="color: #0000BB;">1499.4</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">1476.2</span>, <span style="color: #0000BB;">1519.0</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:19</span></span></code></pre>
+<span><span class="co">## Estimate of n: <span style="color: #0000BB;">1513.2</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">1491.5</span>, <span style="color: #0000BB;">1533.3</span>]</span></span>
+<span><span class="co">## Execution time (H:M:S): 00:00:24</span></span></code></pre>
 <p>G*power gives sample size of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>1492</mn></mrow><annotation encoding="application/x-tex">n=1492</annotation></semantics></math>.</p>
 </div>
@@ -1316,12 +1316,12 @@ Similarly, though with different inputs.</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
-<span><span class="co">##       n     d type       two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   649   0.1 one.sample FALSE           0.05 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">##       n     d type       alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>   649   0.1 one.sample greater          0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.803</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.795</span>, <span style="color: #0000BB;">0.811</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.802</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.795</span>, <span style="color: #0000BB;">0.810</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:22</span></span></code></pre>
 <p>G*power 3.1 provides a power estimate of .800, agreeing with
 <code>Spower</code>.</p>
@@ -1345,12 +1345,12 @@ the <code>extraDistr</code> package.</p>
 <span><span class="co">## Design conditions:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
-<span><span class="co">##       n     d type       two.tailed sig.level power</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>    11   0.8 one.sample FALSE           0.05 <span style="color: #BB0000;">NA</span></span></span>
+<span><span class="co">##       n     d type       alternative sig.level power</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>    11   0.8 one.sample greater          0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.800</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.792</span>, <span style="color: #0000BB;">0.808</span>]</span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.792</span>, <span style="color: #0000BB;">0.807</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:04</span></span></code></pre>
 <p>Interestingly, G*power 3.1 reports this power to be 0.830.</p>
 </div>
@@ -1382,8 +1382,8 @@ different central tendencies.</p>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span>    67 0.375      0.05 <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.844</span></span></span>
-<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.837</span>, <span style="color: #0000BB;">0.851</span>]</span></span>
+<span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.845</span></span></span>
+<span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.837</span>, <span style="color: #0000BB;">0.852</span>]</span></span>
 <span><span class="co">## Execution time (H:M:S): 00:00:11</span></span></code></pre>
 <p>Unlike before with the Laplace distribution, G*power 3.1 seems to
 agree with <code>Spower</code>, where a power of .847 is reported. This
@@ -1415,7 +1415,7 @@ seems to raise questions about the consistency of the results.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Estimate of power: <span style="color: #0000BB;">0.932</span></span></span>
 <span><span class="co">## 95% Confidence Interval: [<span style="color: #0000BB;">0.927</span>, <span style="color: #0000BB;">0.937</span>]</span></span>
-<span><span class="co">## Execution time (H:M:S): 00:00:05</span></span></code></pre>
+<span><span class="co">## Execution time (H:M:S): 00:00:04</span></span></code></pre>
 <p>Again, the simulation approach and G*power 3.1 differ in their
 outputs, where in G*power 3.1 the reported power is 0.853.</p>
 </div>

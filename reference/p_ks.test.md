@@ -83,7 +83,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 p1 <- function(n) rnorm(n)
 p2 <- function(n) rnorm(n, mean=-.5)
 p_ks.test(n=100, p2, p1)
-#> [1] 0.0001341096
+#> [1] 0.0158141
 
 # return analysis model
 p_ks.test(n=100, p2, p1, return_analysis=TRUE)
@@ -91,7 +91,7 @@ p_ks.test(n=100, p2, p1, return_analysis=TRUE)
 #>  Asymptotic two-sample Kolmogorov-Smirnov test
 #> 
 #> data:  dat1 and dat2
-#> D = 0.26, p-value = 0.002318
+#> D = 0.33, p-value = 3.729e-05
 #> alternative hypothesis: two-sided
 #> 
 
@@ -99,7 +99,7 @@ p_ks.test(n=100, p2, p1, return_analysis=TRUE)
 #   against a standard normal distribution
 pc <- function(n, df=15) (rchisq(n, df=df) - df) / sqrt(2*df)
 p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
-#> [1] 0.4648719
+#> [1] 0.4539899
 
 # \donttest{
   # empirical power estimates
@@ -114,8 +114,8 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.822
-#> 95% Confidence Interval: [0.814, 0.829]
+#> Estimate of power: 0.824
+#> 95% Confidence Interval: [0.817, 0.831]
 #> Execution time (H:M:S): 00:00:03
   p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1) |> Spower()
 #> 
@@ -128,9 +128,9 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100     0     1      0.05 NA   
 #> 
-#> Estimate of power: 0.143
-#> 95% Confidence Interval: [0.136, 0.150]
-#> Execution time (H:M:S): 00:00:03
+#> Estimate of power: 0.140
+#> 95% Confidence Interval: [0.133, 0.147]
+#> Execution time (H:M:S): 00:00:02
 
 # }
 ```

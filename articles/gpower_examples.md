@@ -85,7 +85,7 @@ p_r(n = 100, r = .3) |> Spower()
     ## 
     ## Estimate of power: 0.861
     ## 95% Confidence Interval: [0.854, 0.867]
-    ## Execution time (H:M:S): 00:00:12
+    ## Execution time (H:M:S): 00:00:11
 
 Next, the sample sample size estimate required to reject
 $`H_0:\, \rho_0=0`$ in correlation analysis with $`1-\beta=.95`$
@@ -153,7 +153,7 @@ p_2r(n=206, r.ab=.75, r.ab2=.88, n2_n1=51/206) |> Spower()
     ## 
     ## Estimate of power: 0.727
     ## 95% Confidence Interval: [0.718, 0.735]
-    ## Execution time (H:M:S): 00:00:28
+    ## Execution time (H:M:S): 00:00:27
 
 G\*power 3.1 returns the power of .726 in this context.
 
@@ -210,13 +210,13 @@ p_2r(n=interval(500, 2000), r.ab=.1, r.ac=.5, r.ad=.4,
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 10
-    ##       n  r.ab  r.ac  r.bc  r.ad  r.bd  r.cd two.tailed sig.level power
-    ##   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <lgl>          <dbl> <dbl>
-    ## 1    NA   0.1   0.5  -0.4   0.4   0.8   0.2 FALSE           0.05   0.8
+    ##       n  r.ab  r.ac  r.bc  r.ad  r.bd  r.cd alternative sig.level power
+    ##   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <chr>           <dbl> <dbl>
+    ## 1    NA   0.1   0.5  -0.4   0.4   0.8   0.2 less             0.05   0.8
     ## 
-    ## Estimate of n: 1999.0
-    ## 95% Confidence Interval: [NA, NA]
-    ## Execution time (H:M:S): 00:04:15
+    ## Estimate of n: 885.8
+    ## 95% Confidence Interval: [875.2, 896.8]
+    ## Execution time (H:M:S): 00:01:40
 
 G\*power 3.1 returns the required sample size of $`N=886`$.
 
@@ -260,13 +260,13 @@ p_2r(n=interval(50, 500), r.ab=.4, r.ac=.2, r.bc=.5, alternative='greater') |>
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 7
-    ##       n  r.ab  r.ac  r.bc two.tailed sig.level power
-    ##   <dbl> <dbl> <dbl> <dbl> <lgl>          <dbl> <dbl>
-    ## 1    NA   0.4   0.2   0.5 FALSE           0.05   0.8
+    ##       n  r.ab  r.ac  r.bc alternative sig.level power
+    ##   <dbl> <dbl> <dbl> <dbl> <chr>           <dbl> <dbl>
+    ## 1    NA   0.4   0.2   0.5 greater          0.05   0.8
     ## 
     ## Estimate of n: 134.9
-    ## 95% Confidence Interval: [133.3, 136.4]
-    ## Execution time (H:M:S): 00:01:14
+    ## 95% Confidence Interval: [133.4, 136.3]
+    ## Execution time (H:M:S): 00:01:26
 
 G\*power 3.1 returns the required sample size of $`N=144`$, which
 interestingly is slightly higher than the simulation version from
@@ -284,13 +284,13 @@ p_2r(n=144, r.ab=.4, r.ac=.2, r.bc=.5, alternative='greater') |> Spower()
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 7
-    ##       n  r.ab  r.ac  r.bc two.tailed sig.level power
-    ##   <dbl> <dbl> <dbl> <dbl> <lgl>          <dbl> <lgl>
-    ## 1   144   0.4   0.2   0.5 FALSE           0.05 NA
+    ##       n  r.ab  r.ac  r.bc alternative sig.level power
+    ##   <dbl> <dbl> <dbl> <dbl> <chr>           <dbl> <lgl>
+    ## 1   144   0.4   0.2   0.5 greater          0.05 NA
     ## 
-    ## Estimate of power: 0.828
-    ## 95% Confidence Interval: [0.821, 0.835]
-    ## Execution time (H:M:S): 00:00:23
+    ## Estimate of power: 0.818
+    ## 95% Confidence Interval: [0.811, 0.826]
+    ## Execution time (H:M:S): 00:00:22
 
 #### Example 28.3.3; sensitivity analysis
 
@@ -311,12 +311,12 @@ p_2r(n=144, r.ab=.4, r.ac=0.047702, r.bc=-0.6, alternative = 'greater') |> Spowe
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 7
-    ##       n  r.ab     r.ac  r.bc two.tailed sig.level power
-    ##   <dbl> <dbl>    <dbl> <dbl> <lgl>          <dbl> <lgl>
-    ## 1   144   0.4 0.047702  -0.6 FALSE           0.05 NA
+    ##       n  r.ab     r.ac  r.bc alternative sig.level power
+    ##   <dbl> <dbl>    <dbl> <dbl> <chr>           <dbl> <lgl>
+    ## 1   144   0.4 0.047702  -0.6 greater          0.05 NA
     ## 
-    ## Estimate of power: 0.809
-    ## 95% Confidence Interval: [0.801, 0.816]
+    ## Estimate of power: 0.796
+    ## 95% Confidence Interval: [0.789, 0.804]
     ## Execution time (H:M:S): 00:00:22
 
 Obtaining a similar estimate using
@@ -337,13 +337,13 @@ p_2r(n=144, r.ab=.4, r.ac=interval(.4, .001), r.bc=-0.6, alternative='greater') 
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 7
-    ##       n  r.ab  r.ac  r.bc two.tailed sig.level power
-    ##   <dbl> <dbl> <dbl> <dbl> <lgl>          <dbl> <dbl>
-    ## 1   144   0.4    NA  -0.6 FALSE           0.05   0.8
+    ##       n  r.ab  r.ac  r.bc alternative sig.level power
+    ##   <dbl> <dbl> <dbl> <dbl> <chr>           <dbl> <dbl>
+    ## 1   144   0.4    NA  -0.6 greater          0.05   0.8
     ## 
-    ## Estimate of r.ac: 0.049
-    ## 95% Confidence Interval: [0.047, 0.047]
-    ## Execution time (H:M:S): 00:01:35
+    ## Estimate of r.ac: 0.053
+    ## 95% Confidence Interval: [0.052, 0.052]
+    ## Execution time (H:M:S): 00:01:20
 
 For this example, `Spower` and G\*power 3.1 seem to agree.
 
@@ -368,13 +368,13 @@ out
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
-    ##       n     r two.tailed sig.level power
-    ##   <dbl> <dbl> <lgl>          <dbl> <dbl>
-    ## 1    NA  0.25 FALSE           0.05  0.95
+    ##       n     r alternative sig.level power
+    ##   <dbl> <dbl> <chr>           <dbl> <dbl>
+    ## 1    NA  0.25 greater          0.05  0.95
     ## 
-    ## Estimate of n: 82.0
-    ## 95% Confidence Interval: [79.4, 84.9]
-    ## Execution time (H:M:S): 00:00:18
+    ## Estimate of n: 81.1
+    ## 95% Confidence Interval: [80.0, 82.3]
+    ## Execution time (H:M:S): 00:00:17
 
 ``` r
 
@@ -498,12 +498,12 @@ p_prop.test(n=20, prop=p, pi=pi, alternative='greater') |>
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
-    ##       n two.tailed sig.level power
-    ##   <dbl> <lgl>          <dbl> <lgl>
-    ## 1    20 FALSE           0.05 NA
+    ##       n alternative sig.level power
+    ##   <dbl> <chr>           <dbl> <lgl>
+    ## 1    20 greater          0.05 NA
     ## 
-    ## Estimate of power: 0.416
-    ## 95% Confidence Interval: [0.406, 0.426]
+    ## Estimate of power: 0.413
+    ## 95% Confidence Interval: [0.403, 0.422]
     ## Execution time (H:M:S): 00:00:04
 
 G\*power gives the estimate $`1-\beta=.4112`$. Note that with
@@ -524,12 +524,12 @@ p_prop.test(n=20, prop=p, pi=pi, exact=TRUE,
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
-    ##       n two.tailed exact sig.level power
-    ##   <dbl> <lgl>      <lgl>     <dbl> <lgl>
-    ## 1    20 FALSE      TRUE       0.05 NA
+    ##       n alternative exact sig.level power
+    ##   <dbl> <chr>       <lgl>     <dbl> <lgl>
+    ## 1    20 greater     TRUE       0.05 NA
     ## 
-    ## Estimate of power: 0.410
-    ## 95% Confidence Interval: [0.401, 0.420]
+    ## Estimate of power: 0.416
+    ## 95% Confidence Interval: [0.406, 0.425]
     ## Execution time (H:M:S): 00:00:04
 
 #### Example 22.1; Wilcoxon signed-rank test
@@ -550,12 +550,12 @@ p_wilcox.test(n=649, d=.1, type='one.sample', alternative='greater') |>
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 6
-    ##       n     d type       two.tailed sig.level power
-    ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-    ## 1   649   0.1 one.sample FALSE           0.05 NA
+    ##       n     d type       alternative sig.level power
+    ##   <dbl> <dbl> <chr>      <chr>           <dbl> <lgl>
+    ## 1   649   0.1 one.sample greater          0.05 NA
     ## 
-    ## Estimate of power: 0.797
-    ## 95% Confidence Interval: [0.789, 0.805]
+    ## Estimate of power: 0.799
+    ## 95% Confidence Interval: [0.791, 0.807]
     ## Execution time (H:M:S): 00:00:22
 
 G\*power gives the power estimate of .800.
@@ -579,13 +579,13 @@ out <- p_wilcox.test(type='one.sample', alternative='greater') |>
 as.data.frame(out)
 ```
 
-    ##     n   d       type two.tailed sig.level   power    CI_2.5   CI_97.5
-    ## 1 649 0.1 one.sample      FALSE      0.05 0.79678 0.7932529 0.8003071
-    ## 2 164 0.2 one.sample      FALSE      0.05 0.80078 0.7972790 0.8042810
-    ## 3  42 0.4 one.sample      FALSE      0.05 0.80004 0.7965342 0.8035458
-    ## 4  20 0.6 one.sample      FALSE      0.05 0.80568 0.8022118 0.8091482
-    ## 5  12 0.8 one.sample      FALSE      0.05 0.80222 0.7987286 0.8057114
-    ## 6   9 1.0 one.sample      FALSE      0.05 0.84626 0.8430984 0.8494216
+    ##     n   d       type alternative sig.level   power    CI_2.5   CI_97.5
+    ## 1 649 0.1 one.sample     greater      0.05 0.80090 0.7973998 0.8044002
+    ## 2 164 0.2 one.sample     greater      0.05 0.79948 0.7959705 0.8029895
+    ## 3  42 0.4 one.sample     greater      0.05 0.79884 0.7953263 0.8023537
+    ## 4  20 0.6 one.sample     greater      0.05 0.80652 0.8030575 0.8099825
+    ## 5  12 0.8 one.sample     greater      0.05 0.80156 0.7980642 0.8050558
+    ## 6   9 1.0 one.sample     greater      0.05 0.84780 0.8446514 0.8509486
 
 ##### Laplace($`\mu`$, 1) version
 
@@ -612,12 +612,12 @@ p_wilcox.test(n=11, d=.8, parent1=parent, type='one.sample',
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 7
-    ##       n     d type       correct two.tailed sig.level power
-    ##   <dbl> <dbl> <chr>      <lgl>   <lgl>          <dbl> <lgl>
-    ## 1    11   0.8 one.sample FALSE   FALSE           0.05 NA
+    ##       n     d type       correct alternative sig.level power
+    ##   <dbl> <dbl> <chr>      <lgl>   <chr>           <dbl> <lgl>
+    ## 1    11   0.8 one.sample FALSE   greater          0.05 NA
     ## 
-    ## Estimate of power: 0.797
-    ## 95% Confidence Interval: [0.789, 0.805]
+    ## Estimate of power: 0.803
+    ## 95% Confidence Interval: [0.795, 0.811]
     ## Execution time (H:M:S): 00:00:04
 
 G\*power gives the estimate .830, which seems somewhat high (see below).
@@ -641,13 +641,13 @@ out <- p_wilcox.test(parent1=parent, type='one.sample',
 as.data.frame(out)
 ```
 
-    ##     n   d       type two.tailed sig.level   power    CI_2.5   CI_97.5
-    ## 1 419 0.1 one.sample      FALSE      0.05 0.79752 0.7939977 0.8010423
-    ## 2 109 0.2 one.sample      FALSE      0.05 0.80368 0.8001983 0.8071617
-    ## 3  31 0.4 one.sample      FALSE      0.05 0.80328 0.7997957 0.8067643
-    ## 4  16 0.6 one.sample      FALSE      0.05 0.79926 0.7957491 0.8027709
-    ## 5  11 0.8 one.sample      FALSE      0.05 0.80208 0.7985877 0.8055723
-    ## 6   8 1.0 one.sample      FALSE      0.05 0.77440 0.7707363 0.7780637
+    ##     n   d       type alternative sig.level   power    CI_2.5   CI_97.5
+    ## 1 419 0.1 one.sample     greater      0.05 0.80112 0.7976213 0.8046187
+    ## 2 109 0.2 one.sample     greater      0.05 0.79810 0.7945815 0.8016185
+    ## 3  31 0.4 one.sample     greater      0.05 0.80218 0.7986883 0.8056717
+    ## 4  16 0.6 one.sample     greater      0.05 0.79562 0.7920854 0.7991546
+    ## 5  11 0.8 one.sample     greater      0.05 0.80768 0.8042254 0.8111346
+    ## 6   8 1.0 one.sample     greater      0.05 0.77426 0.7705955 0.7779245
 
 #### Example 5.3; Two dependent proportions test (McNemar’s test)
 
@@ -678,9 +678,9 @@ p_mcnemar.test(n=50, prop=obrien2002, alternative = 'less') |> Spower()
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
-    ##       n two.tailed sig.level power
-    ##   <dbl> <lgl>          <dbl> <lgl>
-    ## 1    50 FALSE           0.05 NA
+    ##       n alternative sig.level power
+    ##   <dbl> <chr>           <dbl> <lgl>
+    ## 1    50 less             0.05 NA
     ## 
     ## Estimate of power: 0.725
     ## 95% Confidence Interval: [0.716, 0.734]
@@ -704,12 +704,12 @@ p_mcnemar.test(n=50, OR=OR, prop.disc=disc, alternative='greater') |> Spower()
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 4
-    ##       n two.tailed sig.level power
-    ##   <dbl> <lgl>          <dbl> <lgl>
-    ## 1    50 FALSE           0.05 NA
+    ##       n alternative sig.level power
+    ##   <dbl> <chr>           <dbl> <lgl>
+    ## 1    50 greater          0.05 NA
     ## 
-    ## Estimate of power: 0.719
-    ## 95% Confidence Interval: [0.710, 0.727]
+    ## Estimate of power: 0.725
+    ## 95% Confidence Interval: [0.716, 0.733]
     ## Execution time (H:M:S): 00:00:03
 
 G\*Power gives .839 ($`\alpha = .032`$). Slightly more power can be
@@ -727,12 +727,12 @@ p_mcnemar.test(n=50, prop=obrien2002, alternative='greater', correct=FALSE) |> S
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
-    ##       n correct two.tailed sig.level power
-    ##   <dbl> <lgl>   <lgl>          <dbl> <lgl>
-    ## 1    50 FALSE   FALSE           0.05 NA
+    ##       n correct alternative sig.level power
+    ##   <dbl> <lgl>   <chr>           <dbl> <lgl>
+    ## 1    50 FALSE   greater          0.05 NA
     ## 
-    ## Estimate of power: 0.821
-    ## 95% Confidence Interval: [0.813, 0.828]
+    ## Estimate of power: 0.808
+    ## 95% Confidence Interval: [0.800, 0.816]
     ## Execution time (H:M:S): 00:00:03
 
 ## Multiple Linear Regression (Fixed IVs)
@@ -758,9 +758,9 @@ p_lm.R2(n=95, R2=.1, k=5) |> Spower()
     ##   <dbl> <dbl> <dbl>     <dbl> <lgl>
     ## 1    95   0.1     5      0.05 NA
     ## 
-    ## Estimate of power: 0.662
-    ## 95% Confidence Interval: [0.653, 0.672]
-    ## Execution time (H:M:S): 00:00:44
+    ## Estimate of power: 0.674
+    ## 95% Confidence Interval: [0.665, 0.683]
+    ## Execution time (H:M:S): 00:00:45
 
 G\*power gives $`1-\beta = .673`$.
 
@@ -786,8 +786,8 @@ p_lm.R2(n=90, R2=.3, k=9, R2_0=.25, k.R2_0=5) |> Spower(sig.level=.01)
     ##   <dbl> <dbl> <dbl> <dbl>  <dbl>     <dbl> <lgl>
     ## 1    90   0.3     9  0.25      5      0.01 NA
     ## 
-    ## Estimate of power: 0.237
-    ## 95% Confidence Interval: [0.229, 0.245]
+    ## Estimate of power: 0.239
+    ## 95% Confidence Interval: [0.231, 0.247]
     ## Execution time (H:M:S): 00:00:57
 
 G\*power gives $`1-\beta = .241`$. Solving the sample size to achieve
@@ -809,9 +809,9 @@ p_lm.R2(n=interval(100, 400), R2=.3, R2_0 = .25, k=9, k.R2_0=5) |>
     ##   <dbl> <dbl> <dbl> <dbl>  <dbl>     <dbl> <dbl>
     ## 1    NA   0.3     9  0.25      5      0.01   0.8
     ## 
-    ## Estimate of n: 244.1
-    ## 95% Confidence Interval: [242.3, 245.6]
-    ## Execution time (H:M:S): 00:04:17
+    ## Estimate of n: 243.1
+    ## 95% Confidence Interval: [241.2, 245.1]
+    ## Execution time (H:M:S): 00:05:21
 
 G\*power gives $`n = 242`$.
 
@@ -836,9 +836,9 @@ p_lm.R2(n=200, R2=.16, R2_0 = .1, k=12, k.R2_0=9, R2.resid=.8) |>
     ##   <dbl> <dbl> <dbl> <dbl>  <dbl>    <dbl>     <dbl> <lgl>
     ## 1   200  0.16    12   0.1      9      0.8      0.01 NA
     ## 
-    ## Estimate of power: 0.760
-    ## 95% Confidence Interval: [0.752, 0.769]
-    ## Execution time (H:M:S): 00:01:19
+    ## Estimate of power: 0.753
+    ## 95% Confidence Interval: [0.745, 0.762]
+    ## Execution time (H:M:S): 00:01:18
 
 G\*power gives $`1-\beta = .767`$.
 
@@ -864,8 +864,8 @@ p_lm.R2(n=95, R2=.1, k=5, fixed=FALSE) |> Spower()
     ##   <dbl> <dbl> <dbl> <lgl>     <dbl> <lgl>
     ## 1    95   0.1     5 FALSE      0.05 NA
     ## 
-    ## Estimate of power: 0.671
-    ## 95% Confidence Interval: [0.662, 0.680]
+    ## Estimate of power: 0.658
+    ## 95% Confidence Interval: [0.649, 0.668]
     ## Execution time (H:M:S): 00:00:16
 
 G\*power gives 0.662 using a one-tailed test criterion.
@@ -893,9 +893,9 @@ p_slr(n=100, beta=-0.0667, sd_x=7.5, sd_y = 4) |> Spower()
     ##   <dbl>   <dbl> <dbl> <dbl>     <dbl> <lgl>
     ## 1   100 -0.0667   7.5     4      0.05 NA
     ## 
-    ## Estimate of power: 0.234
-    ## 95% Confidence Interval: [0.225, 0.242]
-    ## Execution time (H:M:S): 00:00:32
+    ## Estimate of power: 0.236
+    ## 95% Confidence Interval: [0.227, 0.244]
+    ## Execution time (H:M:S): 00:00:31
 
 G\*power returns the power estimate $`1-\beta = 0.2389`$.
 
@@ -922,9 +922,9 @@ p_anova.test(n=interval(20, 300), k=10, f=.25) |>  Spower(power=.95)
     ##   <dbl> <dbl> <dbl>     <dbl> <dbl>
     ## 1    NA    10  0.25      0.05  0.95
     ## 
-    ## Estimate of n: 38.9
-    ## 95% Confidence Interval: [38.3, 39.5]
-    ## Execution time (H:M:S): 00:00:29
+    ## Estimate of n: 38.8
+    ## 95% Confidence Interval: [38.0, 39.6]
+    ## Execution time (H:M:S): 00:00:30
 
 G\*power gives the estimate $`n=39`$.
 
@@ -947,10 +947,10 @@ p_anova.test(n=20, k=10, f=.25) |> Spower(beta_alpha=1, replications=30000)
     ## 1    20    10  0.25        NA NA             1
     ## 
     ## Estimate of Type I error rate (alpha/sig.level): 0.159
-    ## 95% Confidence Interval: [0.155, 0.163]
+    ## 95% Confidence Interval: [0.154, 0.163]
     ## 
     ## Estimate of power (1-beta): 0.841
-    ## 95% Confidence Interval: [0.837, 0.845]
+    ## 95% Confidence Interval: [0.837, 0.846]
     ## Execution time (H:M:S): 00:00:45
 
 G\*Power gives $`\alpha=\beta=0.159`$.
@@ -1041,8 +1041,8 @@ p_glm(formula=y~X*S, test="X:S = 0",
     ##   <chr>     <chr>     <dbl> <dbl>  <dbl>  <dbl>  <dbl>   <dbl>     <dbl> <lgl>
     ## 1 y ~ X * S X:S = 0 0.55784    28 1.5714 9.0291 11.868 0.01592      0.05 NA
     ## 
-    ## Estimate of power: 0.197
-    ## 95% Confidence Interval: [0.190, 0.205]
+    ## Estimate of power: 0.202
+    ## 95% Confidence Interval: [0.194, 0.210]
     ## Execution time (H:M:S): 00:00:36
 
 For the a priori power analysis to achieve a power of .80
@@ -1065,9 +1065,9 @@ p_glm(formula=y~X*S, test="X:S = 0",
     ##   <chr>     <chr>     <dbl> <dbl>  <dbl>  <dbl>  <dbl>   <dbl>     <dbl> <dbl>
     ## 1 y ~ X * S X:S = 0 0.55784    NA 1.5714 9.0291 11.868 0.01592      0.05   0.8
     ## 
-    ## Estimate of n: 166.7
-    ## 95% Confidence Interval: [163.7, 169.4]
-    ## Execution time (H:M:S): 00:02:51
+    ## Estimate of n: 165.8
+    ## 95% Confidence Interval: [164.7, 166.9]
+    ## Execution time (H:M:S): 00:02:26
 
 G\*Power gives the estimate for $`n`$ to be 163 (and therefore 256 in
 the second group given the `n2_n1`).
@@ -1091,13 +1091,13 @@ p_var.test(n=interval(10, 200), vars=1, sigma2=1.5, alternative='greater') |>
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 6
-    ##       n  vars sigma2 two.tailed sig.level power
-    ##   <dbl> <dbl>  <dbl> <lgl>          <dbl> <dbl>
-    ## 1    NA     1    1.5 FALSE           0.05   0.8
+    ##       n  vars sigma2 alternative sig.level power
+    ##   <dbl> <dbl>  <dbl> <chr>           <dbl> <dbl>
+    ## 1    NA     1    1.5 greater          0.05   0.8
     ## 
     ## Estimate of n: 200.0
     ## 95% Confidence Interval: [NA, NA]
-    ## Execution time (H:M:S): 00:01:35
+    ## Execution time (H:M:S): 00:01:31
 
 G\*power gives sample size of 81.
 
@@ -1117,14 +1117,14 @@ p_var.test(n=interval(50, 300), vars=c(1, 1.5)) |>
     ## 
     ## Design conditions:
     ## 
-    ## # A tibble: 1 × 5
-    ##       n  vars two.tailed sig.level power
-    ##   <dbl> <dbl> <lgl>          <dbl> <dbl>
-    ## 1    NA     1 TRUE            0.05   0.8
+    ## # A tibble: 1 × 4
+    ##       n  vars sig.level power
+    ##   <dbl> <dbl>     <dbl> <dbl>
+    ## 1    NA     1      0.05   0.8
     ## 
-    ## Estimate of n: 193.4
-    ## 95% Confidence Interval: [191.5, 194.9]
-    ## Execution time (H:M:S): 00:01:22
+    ## Estimate of n: 193.6
+    ## 95% Confidence Interval: [191.7, 195.5]
+    ## Execution time (H:M:S): 00:00:52
 
 G\*Power gives estimate of 193 per group.
 
@@ -1147,16 +1147,16 @@ $`t`$-test, one-tailed, medium effect size ($`d=0.5`$), $`\alpha=0.05`$,
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 5
-    ##       n     d two.tailed sig.level power
-    ##   <dbl> <dbl> <lgl>          <dbl> <dbl>
-    ## 1    NA   0.5 FALSE           0.05  0.95
+    ##       n     d alternative sig.level power
+    ##   <dbl> <dbl> <chr>           <dbl> <dbl>
+    ## 1    NA   0.5 greater          0.05  0.95
     ## 
-    ## Estimate of n: 87.1
-    ## 95% Confidence Interval: [84.2, 90.1]
-    ## Execution time (H:M:S): 00:00:14
+    ## Estimate of n: 87.0
+    ## 95% Confidence Interval: [83.9, 90.0]
+    ## Execution time (H:M:S): 00:00:12
 
-G\*power estimate is 88 per group, `Spower` estimate is 87.0716217 with
-the 95% CI \[84.192328, 90.067113\].
+G\*power estimate is 88 per group, `Spower` estimate is 87.0051385 with
+the 95% CI \[83.9284431, 90.0470007\].
 
 #### Example 19.3; Paired samples t-test
 
@@ -1180,9 +1180,9 @@ p_t.test(n=50 * 2, d=0.421637, type = 'paired') |> Spower(replications=50000)
     ##   <dbl>   <dbl> <chr>      <dbl> <lgl>
     ## 1   100 0.42164 paired      0.05 NA
     ## 
-    ## Estimate of power: 0.839
-    ## 95% Confidence Interval: [0.836, 0.842]
-    ## Execution time (H:M:S): 00:00:24
+    ## Estimate of power: 0.840
+    ## 95% Confidence Interval: [0.836, 0.843]
+    ## Execution time (H:M:S): 00:00:23
 
 G\*power gives power estimate of .832, though Cohen reported a value
 closer to .840. When $`d=0.2828427`$ this leads to
@@ -1202,9 +1202,9 @@ p_t.test(n=50 * 2, d=.2828427, type = 'paired') |> Spower(replications=50000)
     ##   <dbl>   <dbl> <chr>      <dbl> <lgl>
     ## 1   100 0.28284 paired      0.05 NA
     ## 
-    ## Estimate of power: 0.512
-    ## 95% Confidence Interval: [0.507, 0.516]
-    ## Execution time (H:M:S): 00:00:24
+    ## Estimate of power: 0.510
+    ## 95% Confidence Interval: [0.505, 0.514]
+    ## Execution time (H:M:S): 00:00:23
 
 In this case G\*Power 3.1 gives the estimate .500. To answer the
 question “How many subjects would we need to arrive at a power of about
@@ -1232,9 +1232,9 @@ p_t.test(n=interval(100,300), d=0.2828427, type = 'paired') |>
     ##   <dbl>   <dbl> <chr>      <dbl>   <dbl>
     ## 1    NA 0.28284 paired      0.05 0.83211
     ## 
-    ## Estimate of n: 214.8
-    ## 95% Confidence Interval: [213.2, 216.0]
-    ## Execution time (H:M:S): 00:00:50
+    ## Estimate of n: 215.3
+    ## 95% Confidence Interval: [213.9, 216.7]
+    ## Execution time (H:M:S): 00:00:25
 
 G\*power reports that around $`N=110*2=220`$ pairs are required, though
 this is estimated visually using interpolation.
@@ -1264,13 +1264,13 @@ p_t.test(n=interval(10, 100), d=.625, alternative='greater', type='one.sample') 
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 6
-    ##       n     d type       two.tailed sig.level power
-    ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <dbl>
-    ## 1    NA 0.625 one.sample FALSE           0.05  0.95
+    ##       n     d type       alternative sig.level power
+    ##   <dbl> <dbl> <chr>      <chr>           <dbl> <dbl>
+    ## 1    NA 0.625 one.sample greater          0.05  0.95
     ## 
-    ## Estimate of n: 28.4
-    ## 95% Confidence Interval: [27.7, 29.1]
-    ## Execution time (H:M:S): 00:00:13
+    ## Estimate of n: 30.2
+    ## 95% Confidence Interval: [28.9, 31.0]
+    ## Execution time (H:M:S): 00:00:11
 
 G\*power gives sample size of $`n=30`$. Similarly, though with different
 inputs.
@@ -1291,9 +1291,9 @@ p_t.test(n=interval(100,2000), d=.1, type='one.sample') |>
     ##   <dbl> <dbl> <chr>          <dbl> <dbl>
     ## 1    NA   0.1 one.sample      0.01   0.9
     ## 
-    ## Estimate of n: 1499.4
-    ## 95% Confidence Interval: [1476.2, 1519.0]
-    ## Execution time (H:M:S): 00:00:19
+    ## Estimate of n: 1513.2
+    ## 95% Confidence Interval: [1491.5, 1533.3]
+    ## Execution time (H:M:S): 00:00:24
 
 G\*power gives sample size of $`n=1492`$.
 
@@ -1314,12 +1314,12 @@ p_wilcox.test(n=649, d=.1, type='one.sample', alternative='greater') |> Spower()
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 6
-    ##       n     d type       two.tailed sig.level power
-    ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-    ## 1   649   0.1 one.sample FALSE           0.05 NA
+    ##       n     d type       alternative sig.level power
+    ##   <dbl> <dbl> <chr>      <chr>           <dbl> <lgl>
+    ## 1   649   0.1 one.sample greater          0.05 NA
     ## 
-    ## Estimate of power: 0.803
-    ## 95% Confidence Interval: [0.795, 0.811]
+    ## Estimate of power: 0.802
+    ## 95% Confidence Interval: [0.795, 0.810]
     ## Execution time (H:M:S): 00:00:22
 
 G\*power 3.1 provides a power estimate of .800, agreeing with `Spower`.
@@ -1346,12 +1346,12 @@ p_wilcox.test(n=11, d=.8, type='one.sample', alternative='greater', parent1 = pa
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 6
-    ##       n     d type       two.tailed sig.level power
-    ##   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-    ## 1    11   0.8 one.sample FALSE           0.05 NA
+    ##       n     d type       alternative sig.level power
+    ##   <dbl> <dbl> <chr>      <chr>           <dbl> <lgl>
+    ## 1    11   0.8 one.sample greater          0.05 NA
     ## 
     ## Estimate of power: 0.800
-    ## 95% Confidence Interval: [0.792, 0.808]
+    ## 95% Confidence Interval: [0.792, 0.807]
     ## Execution time (H:M:S): 00:00:04
 
 Interestingly, G\*power 3.1 reports this power to be 0.830.
@@ -1387,8 +1387,8 @@ p_wilcox.test(n=67, n2_n1=nr, d=0.375, parent1=parent1, parent2=parent2) |>
     ##   <dbl> <dbl>     <dbl> <lgl>
     ## 1    67 0.375      0.05 NA
     ## 
-    ## Estimate of power: 0.844
-    ## 95% Confidence Interval: [0.837, 0.851]
+    ## Estimate of power: 0.845
+    ## 95% Confidence Interval: [0.837, 0.852]
     ## Execution time (H:M:S): 00:00:11
 
 Unlike before with the Laplace distribution, G\*power 3.1 seems to agree
@@ -1423,7 +1423,7 @@ p_wilcox.test(n=10*2, d=1.13842, type = 'paired',
     ## 
     ## Estimate of power: 0.932
     ## 95% Confidence Interval: [0.927, 0.937]
-    ## Execution time (H:M:S): 00:00:05
+    ## Execution time (H:M:S): 00:00:04
 
 Again, the simulation approach and G\*power 3.1 differ in their outputs,
 where in G\*power 3.1 the reported power is 0.853.

@@ -94,24 +94,24 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # one sample
 p_var.test(100, vars=10, sigma2=9)
-#> [1] 0.8437036
+#> [1] 0.0007168005
 
 # return analysis object
 p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> $statistic
 #> Chi-Squared 
-#>    123.4603 
+#>    113.0489 
 #> 
 #> $parameters
 #> df 
 #> 99 
 #> 
 #> $p.value
-#> [1] 0.0970567
+#> [1] 0.3165318
 #> 
 #> $estimate
 #> variance 
-#> 11.22366 
+#> 10.27717 
 #> 
 #> $null.value
 #> variance 
@@ -128,7 +128,7 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> 
 #> $conf.int
 #>       LCL       UCL 
-#>  8.652277 15.146215 
+#>  7.922632 13.868936 
 #> attr(,"conf.level")
 #> [1] 0.95
 #> 
@@ -137,12 +137,12 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 
 # three sample
 p_var.test(100, vars=c(10, 9, 11))
-#> [1] 0.1316016
+#> [1] 0.3037852
 p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
-#> [1] 0.6267242
+#> [1] 0.6018871
 p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>     Chisq 
-#> 0.4202452 
+#> 0.3542657 
 
 # \donttest{
   # power to detect three-group variance differences
@@ -158,9 +158,9 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   100    10      0.05 NA   
 #> 
-#> Estimate of power: 0.126
-#> 95% Confidence Interval: [0.120, 0.133]
-#> Execution time (H:M:S): 00:00:33
+#> Estimate of power: 0.124
+#> 95% Confidence Interval: [0.117, 0.130]
+#> Execution time (H:M:S): 00:00:30
 
   # sample size per group to achieve 80% power
   p_var.test(n=interval(100, 2000), vars=c(10,9,11)) |> Spower(power=.80)
@@ -175,8 +175,8 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA    10      0.05   0.8
 #> 
-#> Estimate of n: 1085.3
-#> 95% Confidence Interval: [1078.2, 1091.9]
-#> Execution time (H:M:S): 00:02:21
+#> Estimate of n: 1084.9
+#> 95% Confidence Interval: [1076.4, 1093.3]
+#> Execution time (H:M:S): 00:02:40
 # }
 ```

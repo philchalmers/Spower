@@ -98,7 +98,7 @@ p_lm.R2(50, k=3, R2=.3) |> Spower()
     ## 
     ## Estimate of power: 0.971
     ## 95% Confidence Interval: [0.968, 0.974]
-    ## Execution time (H:M:S): 00:00:41
+    ## Execution time (H:M:S): 00:00:40
 
 Each of the `p_*` functions return a $`p`$-value ($`P(D|H_0`$) as this
 is the general information required to evaluate statistical power with
@@ -582,7 +582,7 @@ apriori.batch
     ## 
     ## Estimate of n: 33.3
     ## 95% Confidence Interval: [32.9, 33.7]
-    ## Execution time (H:M:S): 00:00:22
+    ## Execution time (H:M:S): 00:00:21
     ## 
     ## ── Spower Results ──────────────────────────────────────────────────────────────
     ## 
