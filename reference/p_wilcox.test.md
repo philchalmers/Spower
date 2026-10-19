@@ -15,8 +15,7 @@ p_wilcox.test(
   type = c("two.sample", "one.sample", "paired"),
   exact = NULL,
   correct = TRUE,
-  two.tailed = TRUE,
-  alternative = NULL,
+  alternative = "two.sided",
   parent1 = function(n, d) rnorm(n, d, 1),
   parent2 = function(n, d) rnorm(n, 0, 1),
   return_analysis = FALSE
@@ -55,16 +54,10 @@ p_wilcox.test(
   a logical indicating whether to apply continuity correction in the
   normal approximation for the p-value
 
-- two.tailed:
-
-  logical; use two-tailed test? For one-tailed tests relevant
-  `alternative` arguments are set to `'greater'`
-
 - alternative:
 
   character vector passed to `alternative` analysis function (most
-  commonly, `'two.tailed', 'greater', 'less'`). When used, ignores the
-  value of `two.tailed`
+  commonly, `'two.sided', 'greater', 'less'`)
 
 - parent1:
 
@@ -94,11 +87,11 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # with normal distributions defaults d is standardized
 p_wilcox.test(100, .5)
-#> [1] 0.007654102
+#> [1] 0.002978587
 p_wilcox.test(100, .5, type = 'paired')  # n = number of pairs
-#> [1] 2.292677e-05
+#> [1] 0.008067558
 p_wilcox.test(100, .5, type = 'one.sample')
-#> [1] 1.067416e-08
+#> [1] 0.0001253339
 
 # return analysis object
 p_wilcox.test(100, .5, return_analysis = TRUE)
@@ -106,16 +99,16 @@ p_wilcox.test(100, .5, return_analysis = TRUE)
 #>  Wilcoxon rank sum test with continuity correction
 #> 
 #> data:  dat1 and dat2
-#> W = 6724, p-value = 2.54e-05
+#> W = 7114, p-value = 2.416e-07
 #> alternative hypothesis: true location shift is not equal to 0
 #> 
 
 # using chi-squared distributions (standardizing to 0-1)
 p_wilcox.test(100, .5, type = 'one.sample',
    parent1 = function(n, d) rchisq(n, df=10) - 10 + d)
-#> [1] 0.1931195
+#> [1] 0.4545593
 p_wilcox.test(100, .5,
    parent1 = function(n, d) (rchisq(n, df=10) - 10)/sqrt(20) + d,
    parent2 = function(n, d) (rchisq(n, df=10) - 10)/sqrt(20))
-#> [1] 9.563228e-09
+#> [1] 0.002104991
 ```

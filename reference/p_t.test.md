@@ -16,8 +16,7 @@ p_t.test(
   r = NULL,
   type = "two.sample",
   n2_n1 = 1,
-  two.tailed = TRUE,
-  alternative = NULL,
+  alternative = "two.sided",
   var.equal = TRUE,
   means = NULL,
   sds = NULL,
@@ -73,17 +72,10 @@ gen_t.test(
   allocation ratio reflecting the same size ratio. Default of 1 sets the
   groups to be the same size. Only applicable when `type = 'two.sample'`
 
-- two.tailed:
-
-  logical; should a two-tailed or one-tailed test be used? For
-  one-tailed tests relevant `alternative` arguments are set to
-  `'greater'`
-
 - alternative:
 
   character vector passed to `alternative` analysis function (most
-  commonly, `'two.tailed', 'greater', 'less'`). When used, ignores the
-  value of `two.tailed`
+  commonly, `'two.sided', 'greater', 'less'`)
 
 - var.equal:
 
@@ -141,25 +133,25 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # sample size of 50 per group, "medium" effect size
 p_t.test(n=50, d=0.5)
-#> [1] 0.02714614
+#> [1] 0.07851418
 
 # point-biserial correlation effect size
 p_t.test(n=50, r=.3)
-#> [1] 0.00541676
+#> [1] 0.00515977
 
 # second group 2x as large as the first group
 p_t.test(n=50, d=0.5, n2_n1 = 2)
-#> [1] 0.001368394
+#> [1] 8.549163e-08
 
 # specify mean/SDs explicitly
 p_t.test(n=50, means = c(0,1), sds = c(2,2))
-#> [1] 0.03244724
+#> [1] 0.01554954
 
 # paired and one-sample tests
 p_t.test(n=50, d=0.5, type = 'paired') # n = number of pairs
-#> [1] 0.0005507959
+#> [1] 0.001990675
 p_t.test(n=50, d=0.5, type = 'one.sample')
-#> [1] 0.04693736
+#> [1] 0.2638832
 
 # return analysis object
 p_t.test(n=50, d=0.5, return_analysis=TRUE)
@@ -167,13 +159,13 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>  Two Sample t-test
 #> 
 #> data:  dat[[1]] and dat[[2]]
-#> t = 2.4777, df = 98, p-value = 0.01493
+#> t = 3.5049, df = 98, p-value = 0.0006904
 #> alternative hypothesis: true difference in means is not equal to 0
 #> 95 percent confidence interval:
-#>  0.09472651 0.85692764
+#>  0.3020155 1.0904053
 #> sample estimates:
-#>   mean of x   mean of y 
-#>  0.43768146 -0.03814562 
+#>  mean of x  mean of y 
+#>  0.5444522 -0.1517582 
 #> 
 
 # \donttest{
@@ -190,20 +182,20 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>           power = 0.4555818
 #>     alternative = two.sided
 #> 
-  p_t.test(n=60, d=0.2, type = 'one.sample', two.tailed=TRUE) |>
+  p_t.test(n=60, d=0.2, type = 'one.sample') |>
          Spower(sig.level=.10)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
 #> 
 #> Design conditions:
 #> 
-#> # A tibble: 1 × 6
-#>       n     d type       two.tailed sig.level power
-#>   <dbl> <dbl> <chr>      <lgl>          <dbl> <lgl>
-#> 1    60   0.2 one.sample TRUE             0.1 NA   
+#> # A tibble: 1 × 5
+#>       n     d type       sig.level power
+#>   <dbl> <dbl> <chr>          <dbl> <lgl>
+#> 1    60   0.2 one.sample       0.1 NA   
 #> 
-#> Estimate of power: 0.460
-#> 95% Confidence Interval: [0.450, 0.470]
+#> Estimate of power: 0.456
+#> 95% Confidence Interval: [0.446, 0.465]
 #> Execution time (H:M:S): 00:00:02
 
   pwr::pwr.t.test(d=0.3, power=0.80, type="two.sample",
@@ -219,7 +211,7 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #> 
 #> NOTE: n is number in *each* group
 #> 
-  p_t.test(n=interval(10, 200), d=0.3, type='two.sample', two.tailed=FALSE) |>
+  p_t.test(n=interval(10, 200), d=0.3, type='two.sample', alternative='greater') |>
          Spower(power=0.80)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -227,13 +219,13 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 6
-#>       n     d type       two.tailed sig.level power
-#>   <dbl> <dbl> <chr>      <lgl>          <dbl> <dbl>
-#> 1    NA   0.3 two.sample FALSE           0.05   0.8
+#>       n     d type       alternative sig.level power
+#>   <dbl> <dbl> <chr>      <chr>           <dbl> <dbl>
+#> 1    NA   0.3 two.sample greater          0.05   0.8
 #> 
-#> Estimate of n: 138.4
-#> 95% Confidence Interval: [136.2, 140.4]
-#> Execution time (H:M:S): 00:00:23
+#> Estimate of n: 138.6
+#> 95% Confidence Interval: [136.7, 140.9]
+#> Execution time (H:M:S): 00:00:22
 
 # }
 
@@ -265,12 +257,12 @@ my.gen_fun <- function(n, d, df1, df2, ...){
 # check the sample data properties
 dat <- my.gen_fun(n=10000, d=.5, df1=10, df2=5)
 sapply(dat, mean)
-#> [1] -0.0028450  0.4876684
+#> [1] 0.004135842 0.510173764
 sapply(dat, sd)
-#> [1] 1.0107709 0.9888244
+#> [1] 1.006256 1.024283
 
 p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
-#> [1] 0.0003050304
+#> [1] 1.681485e-06
 
 # \donttest{
 
@@ -286,8 +278,8 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5      0.05 NA   
 #> 
-#> Estimate of power: 0.941
-#> 95% Confidence Interval: [0.938, 0.944]
+#> Estimate of power: 0.940
+#> 95% Confidence Interval: [0.937, 0.942]
 #> Execution time (H:M:S): 00:00:08
 
   # estimate power given the customized data generating function
@@ -303,8 +295,8 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #>   <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5    10     5      0.05 NA   
 #> 
-#> Estimate of power: 0.956
-#> 95% Confidence Interval: [0.953, 0.958]
+#> Estimate of power: 0.957
+#> 95% Confidence Interval: [0.955, 0.959]
 #> Execution time (H:M:S): 00:00:09
 
   # evaluate Type I error rate to see if liberal/conservative given
@@ -321,8 +313,8 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #>   <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100     0    10     5      0.05 NA   
 #> 
-#> Estimate of power: 0.051
-#> 95% Confidence Interval: [0.048, 0.053]
+#> Estimate of power: 0.052
+#> 95% Confidence Interval: [0.049, 0.054]
 #> Execution time (H:M:S): 00:00:09
 
 # }

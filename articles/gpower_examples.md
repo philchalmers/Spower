@@ -185,11 +185,11 @@ is the population structure. For the no common index tests all of these
 elements are required, while for the common index form only a
 $`3\times 3`$ subset is needed.
 
-Evaluating the null hypothesis that
+Evaluating the one-tailed null hypothesis
 ``` math
-H_0: \rho_{ab} = \rho_{cd}
+H_0: \rho_{ab} \ge \rho_{cd}
 ```
-where in this case $`\rho_{ab} = .5`$ and $`\rho_{cd} = .8`$ can be
+where in this case $`\rho_{ab} = .1`$ and $`\rho_{cd} = .2`$ can be
 explored using the
 [`p_2r()`](https://philchalmers.github.io/Spower/reference/p_2r.md)
 function. The following performs an a priori analyses to determine the
@@ -198,8 +198,10 @@ inferential $`z`$ approach.
 
 ``` r
 
-p_2r(n=interval(500, 2000), r.ab=.1, r.ac=.5, r.ad=.4, r.bc=-.4, r.bd=.8, r.cd=.2, two.tailed=FALSE) |> 
-    Spower(power = .80)
+# H0: rho.ab >= rho.cd
+# HA: rho.ab < rho.cd
+p_2r(n=interval(500, 2000), r.ab=.1, r.ac=.5, r.ad=.4, 
+     r.bc=-.4, r.bd=.8, r.cd=.2, alternative='less') |> Spower(power = .80)
 ```
 
     ## 
@@ -236,9 +238,9 @@ Cp[c(4,3,1),c(4,3,1)]
     ## x2 0.2 1.0 0.5
     ## x1 0.4 0.5 1.0
 
-The null under instigation in this case is
+The one-sided null under instigation in this case is
 ``` math
-H_0:\rho_{ab} = \rho_{ac}
+H_0:\rho_{ab} \le \rho_{ac}
 ```
 where $`\rho_{ab} = .2`$ and $`\rho_{ac} = .4`$. In `Spower`, this
 equates to the following inputs, which again use Steiger’s (1980)
@@ -246,7 +248,9 @@ inferential $`z`$ approach by default.
 
 ``` r
 
-p_2r(n=interval(50, 500), r.ab=.4, r.ac=.2, r.bc=.5, two.tailed=FALSE) |> 
+# H0: rho.ab <= rho.ac
+# HA: rho.ab > rho.ac
+p_2r(n=interval(50, 500), r.ab=.4, r.ac=.2, r.bc=.5, alternative='greater') |> 
     Spower(power = .80)
 ```
 
@@ -271,7 +275,7 @@ gives the following:
 
 ``` r
 
-p_2r(n=144, r.ab=.4, r.ac=.2, r.bc=.5, two.tailed=FALSE) |> Spower()
+p_2r(n=144, r.ab=.4, r.ac=.2, r.bc=.5, alternative='greater') |> Spower()
 ```
 
     ## 
@@ -298,7 +302,7 @@ $`\rho_{ac} = 0.047702`$, which is confirmed using the simulation below.
 ``` r
 
 # confirm solution obtained by G*power (post hoc power estimate)
-p_2r(n=144, r.ab=.4, r.ac=0.047702, r.bc=-0.6, two.tailed=FALSE) |> Spower()
+p_2r(n=144, r.ab=.4, r.ac=0.047702, r.bc=-0.6, alternative = 'greater') |> Spower()
 ```
 
     ## 
@@ -323,7 +327,7 @@ requires the following sensitivity analysis structure:
 
 # note that interval is specified as c(upper, lower) as higher values
 # of r.ac result in lower power in this context
-p_2r(n=144, r.ab=.4, r.ac=interval(.4, .001), r.bc=-0.6, two.tailed=FALSE) |> 
+p_2r(n=144, r.ab=.4, r.ac=interval(.4, .001), r.bc=-0.6, alternative='greater') |> 
     Spower(power = .80)
 ```
 
@@ -353,7 +357,7 @@ $`\alpha = .05`$.
 ``` r
 
 # solution per group
-out <- p_t.test(r = .25, n = interval(50, 200), two.tailed=FALSE) |> 
+out <- p_t.test(r = .25, n = interval(50, 200), alternative='greater') |> 
     Spower(power = .95)
 out
 ```
@@ -440,7 +444,7 @@ tetrachoric correlation is less than or equal to 0 in this population
 ``` r
 
 p_r.cat(n=interval(100, 500), r=0.2399846, tauX=tauX, tauY=tauY, 
-        score=TRUE, two.tailed=FALSE) |> 
+        score=TRUE, alternative='greater') |> 
     Spower(power = .95, parallel=TRUE)
 ```
 
@@ -449,9 +453,9 @@ p_r.cat(n=interval(100, 500), r=0.2399846, tauX=tauX, tauY=tauY,
     ## Design conditions:
     ## 
     ## # A tibble: 1 × 6
-    ##       n       r two.tailed score sig.level power
-    ##   <dbl>   <dbl> <lgl>      <lgl>     <dbl> <dbl>
-    ## 1    NA 0.23998 FALSE      TRUE       0.05  0.95
+    ##       n       r alternative score sig.level power
+    ##   <dbl>   <dbl> <chr>       <lgl>     <dbl> <dbl>
+    ## 1    NA 0.23998 greater     TRUE      0.05  0.95
     ## 
     ## Estimate of n: 460.0
     ## 95% Confidence Interval: [455.8, 464.6]
@@ -484,7 +488,7 @@ pi <- .65
 g <- .15
 p <- pi + g
 
-p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |>
+p_prop.test(n=20, prop=p, pi=pi, alternative='greater') |>
     Spower()
 ```
 
@@ -511,7 +515,7 @@ argument `exact = TRUE`.
 
 # Fisher exact test
 p_prop.test(n=20, prop=p, pi=pi, exact=TRUE, 
-            two.tailed=FALSE) |> Spower()
+            alternative='greater') |> Spower()
 ```
 
     ## 
@@ -536,7 +540,7 @@ to follow a Normal/Gaussian shape (default).
 
 ``` r
 
-p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> 
+p_wilcox.test(n=649, d=.1, type='one.sample', alternative='greater') |> 
     Spower()
 ```
 
@@ -569,7 +573,7 @@ $`N`$ estimates were these the target of the analyses.
 ``` r
 
 # For Gaussian(d,1)
-out <- p_wilcox.test(type='one.sample', two.tailed=FALSE) |> 
+out <- p_wilcox.test(type='one.sample', alternative='greater') |> 
     SpowerBatch(n=c(649, 164, 42, 20, 12, 9),
                 d=c(.1, .2, .4, .6, .8, 1.0), replications = 50000, fully.crossed=FALSE)
 as.data.frame(out)
@@ -599,7 +603,7 @@ parent <- function(n, d, sigma=sqrt(1/2))
     extraDistr::rlaplace(n, d, sigma=sigma)
 
 p_wilcox.test(n=11, d=.8, parent1=parent, type='one.sample',
-              two.tailed=FALSE, correct = FALSE) |> Spower()
+              alternative='greater', correct = FALSE) |> Spower()
 ```
 
     ## 
@@ -631,7 +635,7 @@ $`N`$ estimates were these the target of the analyses.
 
 # For Laplace(0,1)
 out <- p_wilcox.test(parent1=parent, type='one.sample',
-              two.tailed=FALSE) |> 
+              alternative='greater') |> 
     SpowerBatch(n=c(419, 109, 31, 16, 11, 8),
                 d=c(.1, .2, .4, .6, .8, 1.0), replications=50000, fully.crossed=FALSE)
 as.data.frame(out)
@@ -665,7 +669,7 @@ obrien2002
 
 ``` r
 
-p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE) |> Spower()
+p_mcnemar.test(n=50, prop=obrien2002, alternative = 'less') |> Spower()
 ```
 
     ## 
@@ -691,7 +695,7 @@ proportions of discordant pairs
 
 OR <- obrien2002[1,2] / obrien2002[2,1]
 disc <- obrien2002[1,2] + obrien2002[2,1]
-p_mcnemar.test(n=50, OR=OR, prop.disc=disc, two.tailed=FALSE) |> Spower()
+p_mcnemar.test(n=50, OR=OR, prop.disc=disc, alternative='greater') |> Spower()
 ```
 
     ## 
@@ -714,7 +718,7 @@ this is not recommended in practice.
 
 ``` r
 
-p_mcnemar.test(n=50, prop=obrien2002, two.tailed=FALSE, correct=FALSE) |> Spower()
+p_mcnemar.test(n=50, prop=obrien2002, alternative='greater', correct=FALSE) |> Spower()
 ```
 
     ## 
@@ -1077,7 +1081,7 @@ variance ratio test, assuming that the target power is $`1-\beta=.80`$.
 
 ``` r
 
-p_var.test(n=interval(10, 200), vars=1, sigma2=1.5, two.tailed=FALSE) |> 
+p_var.test(n=interval(10, 200), vars=1, sigma2=1.5, alternative='greater') |> 
     Spower(power=.80)
 ```
 
@@ -1104,7 +1108,7 @@ For a two-sample equality of variance test with equal sample sizes,
 ``` r
 
 # solve n for variance ratio of 1/1.5 = 2/3, two.tailed, 80% power
-p_var.test(n=interval(50, 300), vars=c(1, 1.5), two.tailed=TRUE) |> 
+p_var.test(n=interval(50, 300), vars=c(1, 1.5)) |> 
     Spower(power=.80)
 ```
 
@@ -1133,7 +1137,7 @@ $`t`$-test, one-tailed, medium effect size ($`d=0.5`$), $`\alpha=0.05`$,
 
 ``` r
 
-(out <- p_t.test(n = interval(10,500), d = .5, two.tailed=FALSE) |>  
+(out <- p_t.test(n = interval(10,500), d = .5, alternative='greater') |>  
                Spower(power = .95))
 ```
 
@@ -1250,7 +1254,7 @@ one-tailed $`d=.625`$ to achieve $`1-\beta=.95`$.
 
 ``` r
 
-p_t.test(n=interval(10, 100), d=.625, two.tailed=FALSE, type='one.sample') |>  
+p_t.test(n=interval(10, 100), d=.625, alternative='greater', type='one.sample') |>  
     Spower(power=.95)
 ```
 
@@ -1301,7 +1305,7 @@ Same as Example 22.1 above.
 
 ``` r
 
-p_wilcox.test(n=649, d=.1, type='one.sample', two.tailed=FALSE) |> Spower()
+p_wilcox.test(n=649, d=.1, type='one.sample', alternative='greater') |> Spower()
 ```
 
     ## 
@@ -1333,7 +1337,7 @@ parent1 <- function(n, d) extraDistr::rlaplace(n, mu=d, sigma=sqrt(1/2))
 # properties of sampled distribution
 descript(parent1(n=100000, d=0.8))
 
-p_wilcox.test(n=11, d=.8, type='one.sample', two.tailed=FALSE, parent1 = parent1) |> Spower()
+p_wilcox.test(n=11, d=.8, type='one.sample', alternative='greater', parent1 = parent1) |> Spower()
 ```
 
     ## 

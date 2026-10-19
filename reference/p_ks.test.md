@@ -13,8 +13,7 @@ p_ks.test(
   p1,
   p2,
   n2_n1 = 1,
-  two.tailed = TRUE,
-  alternative = NULL,
+  alternative = "two.sided",
   parent = NULL,
   return_analysis = FALSE,
   ...
@@ -41,17 +40,10 @@ p_ks.test(
 
   sample size ratio. Default uses equal sample sizes
 
-- two.tailed:
-
-  logical; should a two-tailed or one-tailed test be used? For
-  one-tailed tests relevant `alternative` arguments are set to
-  `'greater'`
-
 - alternative:
 
   character vector passed to `alternative` analysis function (most
-  commonly, `'two.tailed', 'greater', 'less'`). When used, ignores the
-  value of `two.tailed`
+  commonly, `'two.sided', 'greater', 'less'`)
 
 - parent:
 
@@ -91,7 +83,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 p1 <- function(n) rnorm(n)
 p2 <- function(n) rnorm(n, mean=-.5)
 p_ks.test(n=100, p2, p1)
-#> [1] 0.05410262
+#> [1] 0.0001341096
 
 # return analysis model
 p_ks.test(n=100, p2, p1, return_analysis=TRUE)
@@ -107,7 +99,7 @@ p_ks.test(n=100, p2, p1, return_analysis=TRUE)
 #   against a standard normal distribution
 pc <- function(n, df=15) (rchisq(n, df=df) - df) / sqrt(2*df)
 p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
-#> [1] 0.03904035
+#> [1] 0.4648719
 
 # \donttest{
   # empirical power estimates
@@ -122,8 +114,8 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.826
-#> 95% Confidence Interval: [0.819, 0.834]
+#> Estimate of power: 0.822
+#> 95% Confidence Interval: [0.814, 0.829]
 #> Execution time (H:M:S): 00:00:03
   p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1) |> Spower()
 #> 
@@ -136,8 +128,8 @@ p_ks.test(n=100, p1=pc, parent=pnorm, mean=0, sd=1)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100     0     1      0.05 NA   
 #> 
-#> Estimate of power: 0.147
-#> 95% Confidence Interval: [0.140, 0.154]
+#> Estimate of power: 0.143
+#> 95% Confidence Interval: [0.136, 0.150]
 #> Execution time (H:M:S): 00:00:03
 
 # }

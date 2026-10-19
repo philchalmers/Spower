@@ -89,17 +89,17 @@ X <- data.frame(G = factor(rep(c('control', 'treatment'), each=50)),
                 C = sample(50:100, 100, replace=TRUE))
 head(X)
 #>         G  C
-#> 1 control 90
-#> 2 control 57
-#> 3 control 78
-#> 4 control 58
-#> 5 control 71
-#> 6 control 69
+#> 1 control 99
+#> 2 control 84
+#> 3 control 99
+#> 4 control 94
+#> 5 control 90
+#> 6 control 85
 
 # ANCOVA setup
 p_glm(y ~ G + C, test="Gtreatment = 0",
   X=X, betas=c(10, .3, 1), sigma=1)
-#> [1] 0.5827529
+#> [1] 0.211526
 
 # return analysis model
 p_glm(y ~ G + C, test="Gtreatment = 0",
@@ -110,19 +110,19 @@ p_glm(y ~ G + C, test="Gtreatment = 0",
 #> 
 #> Coefficients:
 #> (Intercept)   Gtreatment            C  
-#>    10.67925      0.01102      0.99567  
+#>     9.58195      0.01612      1.00671  
 #> 
 
 
 # ANCOVA setup with logistic regression
 p_glm(y ~ G + C, test="Gtreatment = 0",
   X=X, betas=c(-2, .5, .01), family=binomial())
-#> [1] 0.1223876
+#> [1] 0.02787345
 
 # ANCOVA setup with poisson regression
 p_glm(y ~ G + C, test="Gtreatment = 0",
   X=X, betas=c(-2, .5, .01), family=poisson())
-#> [1] 0.8386471
+#> [1] 0.5727564
 
 # \donttest{
 

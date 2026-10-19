@@ -13,7 +13,7 @@ for one or both of the variables."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Spower</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@ for one or both of the variables.</p>
 <span>  rho <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  tauY <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ML <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  two.tailed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  alternative <span class="op">=</span> <span class="st">"two.sided"</span>,</span>
 <span>  score <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  gen_fun <span class="op">=</span> <span class="va">gen_r</span>,</span>
 <span>  return_analysis <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -100,8 +100,9 @@ tetrachoric/polychoric correlation will be estimated</p></dd>
 <dd><p>logical; use maximum-likelihood estimation?</p></dd>
 
 
-<dt id="arg-two-tailed">two.tailed<a class="anchor" aria-label="anchor" href="#arg-two-tailed"></a></dt>
-<dd><p>logical; should a two-tailed or one-tailed test be used?</p></dd>
+<dt id="arg-alternative">alternative<a class="anchor" aria-label="anchor" href="#arg-alternative"></a></dt>
+<dd><p>character vector passed to <code>alternative</code> analysis function
+(most commonly, <code>'two.sided', 'greater', 'less'</code>)</p></dd>
 
 
 <dt id="arg-score">score<a class="anchor" aria-label="anchor" href="#arg-score"></a></dt>
@@ -148,29 +149,32 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 100 observations, .5 correlation, tetrachoric estimate</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">100</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span>, tauY<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.202114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9.854619e-05 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">100</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span>, tauY<span class="op">=</span><span class="fl">1</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Polychoric Correlation, ML est. = 0.03155 (0.1953)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Polychoric Correlation, ML est. = 0.26 (0.1671)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Row Threshold</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Threshold Std.Err.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        1.08   0.1559</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      0.7722   0.1399</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Column Threshold</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Threshold Std.Err.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     0.05015   0.1254</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      0.1257   0.1257</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Wald test</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">100</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span>, tauY<span class="op">=</span><span class="fl">1</span>, score<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0007227181</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.0004413731 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># polyserial estimate (Y continuous)</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">50</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.067138e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.001133947 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

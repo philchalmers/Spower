@@ -11,7 +11,7 @@ to sign tests."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">Spower</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,8 +59,7 @@ to sign tests.</p>
 <span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"two.sample"</span>, <span class="st">"one.sample"</span>, <span class="st">"paired"</span><span class="op">)</span>,</span>
 <span>  exact <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  correct <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  two.tailed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  alternative <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  alternative <span class="op">=</span> <span class="st">"two.sided"</span>,</span>
 <span>  parent1 <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">d</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">d</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  parent2 <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">d</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  return_analysis <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -101,15 +100,9 @@ number of pairings (hence, half of the data points observed)</p></dd>
 in the normal approximation for the p-value</p></dd>
 
 
-<dt id="arg-two-tailed">two.tailed<a class="anchor" aria-label="anchor" href="#arg-two-tailed"></a></dt>
-<dd><p>logical; use two-tailed test?
-For one-tailed tests relevant <code>alternative</code> arguments are set to <code>'greater'</code></p></dd>
-
-
 <dt id="arg-alternative">alternative<a class="anchor" aria-label="anchor" href="#arg-alternative"></a></dt>
 <dd><p>character vector passed to <code>alternative</code> analysis function
-(most commonly, <code>'two.tailed', 'greater', 'less'</code>). When used, ignores the value
-of <code>two.tailed</code></p></dd>
+(most commonly, <code>'two.sided', 'greater', 'less'</code>)</p></dd>
 
 
 <dt id="arg-parent-">parent1<a class="anchor" aria-label="anchor" href="#arg-parent-"></a></dt>
@@ -141,11 +134,11 @@ extraction and customization?</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># with normal distributions defaults d is standardized</span></span></span>
 <span class="r-in"><span><span class="fu">p_wilcox.test</span><span class="op">(</span><span class="fl">100</span>, <span class="fl">.5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.007654102</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002978587</span>
 <span class="r-in"><span><span class="fu">p_wilcox.test</span><span class="op">(</span><span class="fl">100</span>, <span class="fl">.5</span>, type <span class="op">=</span> <span class="st">'paired'</span><span class="op">)</span>  <span class="co"># n = number of pairs</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.292677e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.008067558</span>
 <span class="r-in"><span><span class="fu">p_wilcox.test</span><span class="op">(</span><span class="fl">100</span>, <span class="fl">.5</span>, type <span class="op">=</span> <span class="st">'one.sample'</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.067416e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0001253339</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis object</span></span></span>
 <span class="r-in"><span><span class="fu">p_wilcox.test</span><span class="op">(</span><span class="fl">100</span>, <span class="fl">.5</span>, return_analysis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -153,18 +146,18 @@ extraction and customization?</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Wilcoxon rank sum test with continuity correction</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  dat1 and dat2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> W = 6724, p-value = 2.54e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> W = 7114, p-value = 2.416e-07</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: true location shift is not equal to 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># using chi-squared distributions (standardizing to 0-1)</span></span></span>
 <span class="r-in"><span><span class="fu">p_wilcox.test</span><span class="op">(</span><span class="fl">100</span>, <span class="fl">.5</span>, type <span class="op">=</span> <span class="st">'one.sample'</span>,</span></span>
 <span class="r-in"><span>   parent1 <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">d</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html" class="external-link">rchisq</a></span><span class="op">(</span><span class="va">n</span>, df<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">-</span> <span class="fl">10</span> <span class="op">+</span> <span class="va">d</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1931195</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4545593</span>
 <span class="r-in"><span><span class="fu">p_wilcox.test</span><span class="op">(</span><span class="fl">100</span>, <span class="fl">.5</span>,</span></span>
 <span class="r-in"><span>   parent1 <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">d</span><span class="op">)</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html" class="external-link">rchisq</a></span><span class="op">(</span><span class="va">n</span>, df<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">-</span> <span class="fl">10</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span> <span class="op">+</span> <span class="va">d</span>,</span></span>
 <span class="r-in"><span>   parent2 <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span>, <span class="va">d</span><span class="op">)</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Chisquare.html" class="external-link">rchisq</a></span><span class="op">(</span><span class="va">n</span>, df<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">-</span> <span class="fl">10</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.563228e-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002104991</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

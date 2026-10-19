@@ -113,9 +113,9 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # joint test H0: a*b = 0
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39)
-#> [1] 2.197697e-07
+#> [1] 4.043306e-06
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, dichotomous.X=TRUE)
-#> [1] 3.570031e-09
+#> [1] 4.130496e-11
 
 # return analysis model
 p_mediation(50, a=sqrt(.35), b=sqrt(.35), cprime=.39, return_analysis=TRUE)
@@ -142,44 +142,45 @@ dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2)
 descript(dat) # specific SDs
 #> # A tibble: 3 × 11
-#>   VARIABLE     n    mean    trim median    sd   IQR     skew   kurt    min   max
-#>   <fct>    <dbl>   <dbl>   <dbl>  <dbl> <dbl> <dbl>    <dbl>  <dbl>  <dbl> <dbl>
-#> 1 X         1000  0.0363  0.0439 0.0342  2.00  2.80 -0.0283  -0.265  -5.81  5.73
-#> 2 M         1000  0.0765  0.0799 0.0297  1.98  2.71 -0.00700 -0.102  -7.06  6.02
-#> 3 Y         1000 -0.0748 -0.0470 0.0568  3.14  4.21 -0.102    0.100 -12.5   9.67
+#>   VARIABLE     n    mean    trim  median    sd   IQR     skew     kurt   min
+#>   <fct>    <dbl>   <dbl>   <dbl>   <dbl> <dbl> <dbl>    <dbl>    <dbl> <dbl>
+#> 1 X         1000 -0.0770 -0.0864 -0.144   2.01  2.93  0.0585  -0.223   -6.48
+#> 2 M         1000 -0.0991 -0.112  -0.226   1.96  2.76 -0.00267  0.00179 -7.33
+#> 3 Y         1000 -0.0159 -0.0245 -0.0499  2.90  3.92  0.0540  -0.0384  -8.83
+#> # ℹ 1 more variable: max <dbl>
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#>  0.04769406  0.79277528 
+#>  -0.0388794   0.7825222 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
 #> (Intercept)           M           X 
-#> -0.02465828 -0.75046339  0.19972991 
+#> -0.06963138 -0.71016838  0.21658257 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#> -0.06045092 -0.39521892 
+#> -0.04202046 -0.33913993 
 
 # same properties, but dichotomous X variable
 dat <- gen_mediation(n = N, a = .8, b = -.7, cprime = .2,
            sd.X = 2, sd.Y = 3, sd.M = 2, dichotomous.X = TRUE)
 descript(dat) # specific SDs
 #> # A tibble: 3 × 11
-#>   VARIABLE     n   mean   trim median    sd   IQR     skew    kurt    min   max
-#>   <fct>    <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>    <dbl>   <dbl>  <dbl> <dbl>
-#> 1 X         2000  2      2      2      2.00  4     0       -2.00     0     4   
-#> 2 M         2000  1.61   1.61   1.62   2.02  3.35 -0.00558 -0.904   -3.66  7.10
-#> 3 Y         2000 -0.754 -0.779 -0.893  3.00  4.16  0.0939   0.0740 -11.6   9.57
+#>   VARIABLE     n   mean   trim median    sd   IQR    skew    kurt    min   max
+#>   <fct>    <dbl>  <dbl>  <dbl>  <dbl> <dbl> <dbl>   <dbl>   <dbl>  <dbl> <dbl>
+#> 1 X         2000  2      2      2      2.00  4     0      -2.00     0     4   
+#> 2 M         2000  1.62   1.62   1.58   1.98  3.28  0.0104 -0.909   -3.58  6.70
+#> 3 Y         2000 -0.750 -0.738 -0.801  3.02  3.96 -0.0730  0.0116 -12.2   9.47
 
 # two-step regression-based estimates (not used)
 lm(M ~ X, data=dat) |> coef()       # a
 #> (Intercept)           X 
-#> -0.02721267  0.81899545 
+#>  0.03199566  0.79552416 
 lm(Y ~ M + X, data=dat) |> coef()   # b and cprime
 #> (Intercept)           M           X 
-#>  0.01499636 -0.62398456  0.11818797 
+#> -0.04317056 -0.70362329  0.21738558 
 lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #> (Intercept)           X 
-#>  0.03197665 -0.39285255 
+#> -0.06568345 -0.34236375 
 
 # \donttest{
 
@@ -213,9 +214,9 @@ lm(Y ~ X, data=dat) |> coef()       # c = cprime + a*b
 #>   <dbl>   <dbl>   <dbl>  <dbl>     <dbl> <dbl>
 #> 1    NA 0.59161 0.59161   0.39      0.05  0.95
 #> 
-#> Estimate of n: 53.8
-#> 95% Confidence Interval: [52.1, NA]
-#> Execution time (H:M:S): 00:26:44
+#> Estimate of n: 50.0
+#> 95% Confidence Interval: [NA, NA]
+#> Execution time (H:M:S): 00:27:04
 
 # }
 ```

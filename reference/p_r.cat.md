@@ -15,7 +15,7 @@ p_r.cat(
   rho = 0,
   tauY = NULL,
   ML = TRUE,
-  two.tailed = TRUE,
+  alternative = "two.sided",
   score = FALSE,
   gen_fun = gen_r,
   return_analysis = FALSE,
@@ -52,9 +52,10 @@ p_r.cat(
 
   logical; use maximum-likelihood estimation?
 
-- two.tailed:
+- alternative:
 
-  logical; should a two-tailed or one-tailed test be used?
+  character vector passed to `alternative` analysis function (most
+  commonly, `'two.sided', 'greater', 'less'`)
 
 - score:
 
@@ -101,27 +102,30 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # 100 observations, .5 correlation, tetrachoric estimate
 p_r.cat(100, r=.5, tauX=0, tauY=1)
-#> [1] 0.202114
+#>              
+#> 9.854619e-05 
 
 # return analysis model
 p_r.cat(100, r=.5, tauX=0, tauY=1, return_analysis=TRUE)
 #> 
-#> Polychoric Correlation, ML est. = 0.03155 (0.1953)
+#> Polychoric Correlation, ML est. = 0.26 (0.1671)
 #> 
 #>   Row Threshold
 #>   Threshold Std.Err.
-#>        1.08   0.1559
+#>      0.7722   0.1399
 #> 
 #> 
 #>   Column Threshold
 #>   Threshold Std.Err.
-#>     0.05015   0.1254
+#>      0.1257   0.1257
 
 # Wald test
 p_r.cat(100, r=.5, tauX=0, tauY=1, score=FALSE)
-#> [1] 0.0007227181
+#>              
+#> 0.0004413731 
 
 # polyserial estimate (Y continuous)
 p_r.cat(50, r=.5, tauX=0)
-#> [1] 1.067138e-06
+#>             
+#> 0.001133947 
 ```

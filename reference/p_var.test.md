@@ -14,8 +14,7 @@ p_var.test(
   vars,
   n.ratios = rep(1, length(vars)),
   sigma2 = 1,
-  two.tailed = TRUE,
-  alternative = NULL,
+  alternative = "two.sided",
   test = "Levene",
   correct = TRUE,
   gen_fun = gen_var.test,
@@ -46,17 +45,10 @@ gen_var.test(n, vars, n.ratios = rep(1, length(vars)), ...)
 
   population variance to test against in one-sample test
 
-- two.tailed:
-
-  logical; should a two-tailed or one-tailed test be used? For
-  one-tailed tests relevant `alternative` arguments are set to
-  `'greater'`
-
 - alternative:
 
   character vector passed to `alternative` analysis function (most
-  commonly, `'two.tailed', 'greater', 'less'`). When used, ignores the
-  value of `two.tailed`
+  commonly, `'two.sided', 'greater', 'less'`)
 
 - test:
 
@@ -102,24 +94,24 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # one sample
 p_var.test(100, vars=10, sigma2=9)
-#> [1] 0.8314396
+#> [1] 0.8437036
 
 # return analysis object
 p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> $statistic
 #> Chi-Squared 
-#>    114.0808 
+#>    123.4603 
 #> 
 #> $parameters
 #> df 
 #> 99 
 #> 
 #> $p.value
-#> [1] 0.285282
+#> [1] 0.0970567
 #> 
 #> $estimate
 #> variance 
-#> 10.37098 
+#> 11.22366 
 #> 
 #> $null.value
 #> variance 
@@ -136,7 +128,7 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 #> 
 #> $conf.int
 #>       LCL       UCL 
-#>  7.994948 13.995529 
+#>  8.652277 15.146215 
 #> attr(,"conf.level")
 #> [1] 0.95
 #> 
@@ -145,12 +137,12 @@ p_var.test(100, vars=10, sigma2=9, return_analysis = TRUE)
 
 # three sample
 p_var.test(100, vars=c(10, 9, 11))
-#> [1] 0.1945964
+#> [1] 0.1316016
 p_var.test(100, vars=c(10, 9, 11), test = 'Fligner')
-#> [1] 0.06424074
+#> [1] 0.6267242
 p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
-#>      Chisq 
-#> 0.09115185 
+#>     Chisq 
+#> 0.4202452 
 
 # \donttest{
   # power to detect three-group variance differences
@@ -166,9 +158,9 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   100    10      0.05 NA   
 #> 
-#> Estimate of power: 0.118
-#> 95% Confidence Interval: [0.111, 0.124]
-#> Execution time (H:M:S): 00:00:31
+#> Estimate of power: 0.126
+#> 95% Confidence Interval: [0.120, 0.133]
+#> Execution time (H:M:S): 00:00:33
 
   # sample size per group to achieve 80% power
   p_var.test(n=interval(100, 2000), vars=c(10,9,11)) |> Spower(power=.80)
@@ -183,8 +175,8 @@ p_var.test(100, vars=c(10, 9, 11), test = 'Bartlett')
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA    10      0.05   0.8
 #> 
-#> Estimate of n: 1102.8
-#> 95% Confidence Interval: [1094.9, 1110.5]
-#> Execution time (H:M:S): 00:02:25
+#> Estimate of n: 1085.3
+#> 95% Confidence Interval: [1078.2, 1091.9]
+#> Execution time (H:M:S): 00:02:21
 # }
 ```

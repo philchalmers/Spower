@@ -14,8 +14,7 @@ p_prop.test(
   prop = NULL,
   pi = 0.5,
   n.ratios = rep(1, length(prop)),
-  two.tailed = TRUE,
-  alternative = NULL,
+  alternative = "two.sided",
   correct = TRUE,
   exact = FALSE,
   gen_fun = gen_prop.test,
@@ -63,17 +62,10 @@ gen_prop.test(
   allocation ratios reflecting the sample size ratios. Default of 1 sets
   the groups to be the same size (n \* n.ratio)
 
-- two.tailed:
-
-  logical; should a two-tailed or one-tailed test be used? For
-  one-tailed tests relevant `alternative` arguments are set to
-  `'greater'`
-
 - alternative:
 
   character vector passed to `alternative` analysis function (most
-  commonly, `'two.tailed', 'greater', 'less'`). When used, ignores the
-  value of `two.tailed`
+  commonly, `'two.sided', 'greater', 'less'`)
 
 - correct:
 
@@ -120,7 +112,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # one sample, 50 observations, tested against pi = .5 by default
 p_prop.test(50, prop=.65)
-#> [1] 0.03283914
+#> [1] 0.2026388
 
 # return analysis model
 p_prop.test(50, prop=.65, return_analysis = TRUE)
@@ -128,37 +120,37 @@ p_prop.test(50, prop=.65, return_analysis = TRUE)
 #>  Exact binomial test
 #> 
 #> data:  dat[1, 1] and n
-#> number of successes = 33, number of trials = 50, p-value = 0.03284
+#> number of successes = 28, number of trials = 50, p-value = 0.4799
 #> alternative hypothesis: true probability of success is not equal to 0.5
 #> 95 percent confidence interval:
-#>  0.5123475 0.7879453
+#>  0.4125441 0.7000928
 #> sample estimates:
 #> probability of success 
-#>                   0.66 
+#>                   0.56 
 #> 
 
 # specified using h and pi
 h <- pwr::ES.h(.65, .4)
 p_prop.test(50, h=h, pi=.4)
-#> [1] 0.08533213
+#> [1] 0.01330511
 p_prop.test(50, h=-h, pi=.65)
-#> [1] 0.07387412
+#> [1] 0.007024179
 
 # two-sample test
 p_prop.test(50, prop=c(.5, .65))
-#> [1] 0.1584835
+#> [1] 0.1561115
 
 # two-sample test, unequal ns
 p_prop.test(50, prop=c(.5, .65), n.ratios = c(1,2))
-#> [1] 0.5247826
+#> [1] 0.2699144
 
 # three-sample test, group2 twice as large as others
 p_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
-#> [1] 0.8764566
+#> [1] 0.5592288
 
 # Fisher exact test
 p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
-#> [1] 0.02913192
+#> [1] 1.749565e-05
 
 # \donttest{
     # compare simulated results to pwr package
@@ -189,8 +181,8 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.4      0.05 NA   
 #> 
-#> Estimate of power: 0.355
-#> 95% Confidence Interval: [0.345, 0.364]
+#> Estimate of power: 0.360
+#> 95% Confidence Interval: [0.350, 0.369]
 #> Execution time (H:M:S): 00:00:03
     Spower(p_prop.test(n=60, prop=.5, pi=.4))
 #> 
@@ -203,8 +195,8 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.5   0.4      0.05 NA   
 #> 
-#> Estimate of power: 0.354
-#> 95% Confidence Interval: [0.345, 0.364]
+#> Estimate of power: 0.351
+#> 95% Confidence Interval: [0.341, 0.360]
 #> Execution time (H:M:S): 00:00:03
 
     # compare with switched null
@@ -219,8 +211,8 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.5      0.05 NA   
 #> 
-#> Estimate of power: 0.244
-#> 95% Confidence Interval: [0.236, 0.253]
+#> Estimate of power: 0.250
+#> 95% Confidence Interval: [0.242, 0.259]
 #> Execution time (H:M:S): 00:00:03
     Spower(p_prop.test(n=60, prop=.4, pi=.5))
 #> 
@@ -233,8 +225,8 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.4   0.5      0.05 NA   
 #> 
-#> Estimate of power: 0.259
-#> 95% Confidence Interval: [0.251, 0.268]
+#> Estimate of power: 0.250
+#> 95% Confidence Interval: [0.241, 0.258]
 #> Execution time (H:M:S): 00:00:03
 
     # two-sample test, one-tailed
@@ -252,7 +244,7 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #> 
 #> NOTE: same sample sizes
 #> 
-    p_prop.test(n=80, prop=c(.67, .5), two.tailed=FALSE,
+    p_prop.test(n=80, prop=c(.67, .5), alternative='greater',
       correct=FALSE) |> Spower()
 #> Warning: number of items to replace is not a multiple of replacement length
 #> 
@@ -261,16 +253,16 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 6
-#>       n  prop two.tailed correct sig.level power
-#>   <dbl> <dbl> <lgl>      <lgl>       <dbl> <lgl>
-#> 1    80  0.67 FALSE      FALSE        0.05 NA   
+#>       n  prop alternative correct sig.level power
+#>   <dbl> <dbl> <chr>       <lgl>       <dbl> <lgl>
+#> 1    80  0.67 greater     FALSE        0.05 NA   
 #> 
-#> Estimate of power: 0.693
-#> 95% Confidence Interval: [0.684, 0.702]
+#> Estimate of power: 0.697
+#> 95% Confidence Interval: [0.688, 0.706]
 #> Execution time (H:M:S): 00:00:03
 
     # same as above, but with continuity correction (default)
-    p_prop.test(n=80, prop=c(.67, .5), two.tailed=FALSE) |>
+    p_prop.test(n=80, prop=c(.67, .5), alternative='greater') |>
       Spower()
 #> Warning: number of items to replace is not a multiple of replacement length
 #> 
@@ -279,12 +271,12 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #> Design conditions:
 #> 
 #> # A tibble: 1 × 5
-#>       n  prop two.tailed sig.level power
-#>   <dbl> <dbl> <lgl>          <dbl> <lgl>
-#> 1    80  0.67 FALSE           0.05 NA   
+#>       n  prop alternative sig.level power
+#>   <dbl> <dbl> <chr>           <dbl> <lgl>
+#> 1    80  0.67 greater          0.05 NA   
 #> 
-#> Estimate of power: 0.638
-#> 95% Confidence Interval: [0.628, 0.647]
+#> Estimate of power: 0.646
+#> 95% Confidence Interval: [0.637, 0.656]
 #> Execution time (H:M:S): 00:00:03
 
     # three-sample joint test, equal n's
@@ -300,8 +292,8 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.6      0.05 NA   
 #> 
-#> Estimate of power: 0.805
-#> 95% Confidence Interval: [0.797, 0.813]
+#> Estimate of power: 0.798
+#> 95% Confidence Interval: [0.790, 0.805]
 #> Execution time (H:M:S): 00:00:03
 
 # }

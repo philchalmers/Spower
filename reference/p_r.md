@@ -12,8 +12,7 @@ p_r(
   r,
   rho = 0,
   method = "pearson",
-  two.tailed = TRUE,
-  alternative = NULL,
+  alternative = "two.sided",
   gen_fun = gen_r,
   return_analysis = FALSE,
   ...
@@ -43,17 +42,10 @@ gen_r(n, r, means = c(0, 0), ...)
   [`cor.test`](https://rdrr.io/r/stats/cor.test.html)). Only used when
   `rho = 0`
 
-- two.tailed:
-
-  logical; should a two-tailed or one-tailed test be used? For
-  one-tailed tests relevant `alternative` arguments are set to
-  `'greater'`
-
 - alternative:
 
   character vector passed to `alternative` analysis function (most
-  commonly, `'two.tailed', 'greater', 'less'`). When used, ignores the
-  value of `two.tailed`
+  commonly, `'two.sided', 'greater', 'less'`)
 
 - gen_fun:
 
@@ -97,14 +89,14 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # 50 observations, .5 correlation
 p_r(50, r=.5)
-#> [1] 6.890884e-05
+#> [1] 0.05487908
 p_r(50, r=.5, method = 'spearman')
-#> [1] 0.1071959
+#> [1] 8.268016e-06
 
 # test against constant other than rho = .6
 p_r(50, .5, rho=.60)
-#>         cor 
-#> 0.002001046 
+#>       cor 
+#> 0.2661104 
 
 # return analysis model
 p_r(50, .5, return_analysis=TRUE)
@@ -112,26 +104,26 @@ p_r(50, .5, return_analysis=TRUE)
 #>  Pearson's product-moment correlation
 #> 
 #> data:  x and y
-#> t = 2.8112, df = 48, p-value = 0.007125
+#> t = 5.1709, df = 48, p-value = 4.494e-06
 #> alternative hypothesis: true correlation is not equal to 0
 #> 95 percent confidence interval:
-#>  0.1090570 0.5923462
+#>  0.3836535 0.7513801
 #> sample estimates:
 #>       cor 
-#> 0.3759913 
+#> 0.5981277 
 #> 
 p_r(50, .5, rho=.60, return_analysis=TRUE)
 #> 
 #>  Pearson's product-moment correlation
 #> 
 #> data:  x and y
-#> t = -2.8839, df = Inf, p-value = 0.003928
+#> t = -0.32759, df = Inf, p-value = 0.7432
 #> alternative hypothesis: true correlation is not equal to 0.6
 #> 95 percent confidence interval:
-#>  -0.01340575  0.50676979
+#>  0.3447492 0.7311774
 #> sample estimates:
 #>       cor 
-#> 0.2659343 
+#> 0.5685398 
 #> 
 
 # \donttest{
@@ -158,9 +150,9 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.3      0.05 NA   
 #> 
-#> Estimate of power: 0.577
-#> 95% Confidence Interval: [0.568, 0.587]
-#> Execution time (H:M:S): 00:00:07
+#> Estimate of power: 0.572
+#> 95% Confidence Interval: [0.562, 0.581]
+#> Execution time (H:M:S): 00:00:08
 
     pwr::pwr.r.test(r=0.3, power=0.80)
 #> 
@@ -183,9 +175,9 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.3      0.05   0.8
 #> 
-#> Estimate of n: 83.7
-#> 95% Confidence Interval: [82.7, 84.7]
-#> Execution time (H:M:S): 00:00:47
+#> Estimate of n: 83.9
+#> 95% Confidence Interval: [83.3, 84.4]
+#> Execution time (H:M:S): 00:00:35
 
     pwr::pwr.r.test(r=0.1, power=0.80)
 #> 
@@ -208,9 +200,9 @@ p_r(50, .5, rho=.60, return_analysis=TRUE)
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.1      0.05   0.8
 #> 
-#> Estimate of n: 778.0
-#> 95% Confidence Interval: [765.4, 789.9]
-#> Execution time (H:M:S): 00:00:38
+#> Estimate of n: 781.2
+#> 95% Confidence Interval: [772.4, 788.7]
+#> Execution time (H:M:S): 00:00:45
 
 # }
 ```

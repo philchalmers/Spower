@@ -18,8 +18,7 @@ p_2r(
   r.bd,
   r.cd,
   n2_n1 = 1,
-  two.tailed = TRUE,
-  alternative = NULL,
+  alternative = "two.sided",
   test = NULL,
   gen_fun = gen_2r,
   return_analysis = FALSE,
@@ -73,16 +72,10 @@ gen_2r(n, R, ...)
 
   sample size ratio. Only used for independent group test
 
-- two.tailed:
-
-  logical; use two-tailed test? For one-tailed tests relevant
-  `alternative` arguments are set to `'greater'`
-
 - alternative:
 
   character vector passed to `alternative` analysis function (most
-  commonly, `'two.tailed', 'greater', 'less'`). When used, ignores the
-  value of `two.tailed`
+  commonly, `'two.sided', 'greater', 'less'`)
 
 - test:
 
@@ -138,15 +131,15 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # independent (same x-y pairing across groups)
 p_2r(100, r.ab=.5, r.ab2=.6)
-#> [1] 0.5194832
+#> [1] 0.008021144
 
 # return cocor object for further analysis
 p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> 
 #>   Results of a comparison of two correlations based on independent groups
 #> 
-#> Comparison between r1.jk (y, x) = 0.4452 and r2.hm (y, x) = 0.4393
-#> Difference: r1.jk - r2.hm = 0.0059
+#> Comparison between r1.jk (y, x) = 0.522 and r2.hm (y, x) = 0.5779
+#> Difference: r1.jk - r2.hm = -0.0558
 #> Data: sample1: j = y, k = x; sample2: h = y, m = x
 #> Group sizes: n1 = 100, n2 = 100
 #> Null hypothesis: r1.jk is equal to r2.hm
@@ -154,7 +147,7 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #> Alpha: 0.05
 #> 
 #> fisher1925: Fisher's z (1925)
-#>   z = 0.0512, p-value = 0.9592
+#>   z = -0.5581, p-value = 0.5768
 #>   Null hypothesis retained
 #> 
 
@@ -172,8 +165,8 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5   0.6      0.05 NA   
 #> 
-#> Estimate of power: 0.177
-#> 95% Confidence Interval: [0.170, 0.185]
+#> Estimate of power: 0.166
+#> 95% Confidence Interval: [0.159, 0.174]
 #> Execution time (H:M:S): 00:00:18
 
    # estimate n required to reach 80% power
@@ -188,20 +181,20 @@ p_2r(100, r.ab=.5, r.ab2=.6, return_analysis = TRUE)
 #>   <dbl> <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.5   0.6      0.05   0.8
 #> 
-#> Estimate of n: 759.0
-#> 95% Confidence Interval: [754.8, 763.2]
-#> Execution time (H:M:S): 00:01:18
+#> Estimate of n: 764.5
+#> 95% Confidence Interval: [755.3, 773.8]
+#> Execution time (H:M:S): 00:01:10
 
 # }
 
 # overlap (same y, different xs)
 # H0: r.ab = r.bc
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2)
-#> [1] 0.8769102
+#> [1] 0.1358089
 
 # nonoverlap (different ys, different xs)
 # H0: r.ab = r.cd
 p_2r(100, r.ab=.5, r.ac=.3, r.bc=.2, r.ad=.2, r.bd=.4, r.cd=.2)
-#> [1] 0.0004152594
+#> [1] 0.06179131
 
 ```
