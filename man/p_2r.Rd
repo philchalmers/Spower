@@ -48,7 +48,7 @@ used in the non-overlapping hypothesis test, comparing this input to \code{r.ab}
 \item{n2_n1}{sample size ratio. Only used for independent group test}
 
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less'})}
+(most commonly, \code{'two.sided', 'greater', 'less'})}
 
 \item{test}{hypothesis testing method to use. Defaults to \code{'fisher1925'}
 for the independent groups test and \code{'steiger1980'} for overlap/non-overlap tests}

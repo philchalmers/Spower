@@ -28,7 +28,7 @@
 #'   used in the non-overlapping hypothesis test, comparing this input to \code{r.ab}
 #' @param n2_n1 sample size ratio. Only used for independent group test
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less'})
+#'   (most commonly, \code{'two.sided', 'greater', 'less'})
 #' @param test hypothesis testing method to use. Defaults to \code{'fisher1925'}
 #'   for the independent groups test and \code{'steiger1980'} for overlap/non-overlap tests
 #' @param gen_fun function used to generate the required discrete data.

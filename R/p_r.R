@@ -11,7 +11,7 @@
 #' @param method method to use to compute the correlation
 #'   (see \code{\link{cor.test}}). Only used when \code{rho = 0}
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less'})
+#'   (most commonly, \code{'two.sided', 'greater', 'less'})
 #' @param gen_fun function used to generate the required dependent bivariate data.
 #'   Object returned must be a \code{matrix} with two columns and \code{n} rows.
 #'   Default uses \code{\link{gen_r}} to generate conditionally

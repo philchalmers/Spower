@@ -15,7 +15,7 @@
 #' @param parent data generation function (default assumes Gaussian shape). Must be
 #'   population mean centered
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less'})
+#'   (most commonly, \code{'two.sided', 'greater', 'less'})
 #' @param return_analysis logical; return the analysis object for further
 #'   extraction and customization?
 #' @param ... additional arguments to pass to simulation functions (if used)

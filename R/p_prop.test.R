@@ -18,7 +18,7 @@
 #' @param pi probability of success to test against (default is .5). Ignored
 #'   for two-sample tests
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less'})
+#'   (most commonly, \code{'two.sided', 'greater', 'less'})
 #' @param exact logical; use fisher's exact test via \code{\link{fisher.test}}?
 #'   Use of this flag requires that \code{prop} was specified as a matrix
 #' @param correct logical; use Yates' continuity correction?

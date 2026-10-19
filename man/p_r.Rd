@@ -30,7 +30,7 @@ Fisher's z-transformation approximation when non-zero}
 (see \code{\link{cor.test}}). Only used when \code{rho = 0}}
 
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less'})}
+(most commonly, \code{'two.sided', 'greater', 'less'})}
 
 \item{gen_fun}{function used to generate the required dependent bivariate data.
 Object returned must be a \code{matrix} with two columns and \code{n} rows.

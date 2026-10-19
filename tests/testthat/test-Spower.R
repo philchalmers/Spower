@@ -245,12 +245,12 @@ test_that('scope', {
 	PI <- pi <- .65
 	g <- .15
 	p <- PI + g
-	p_prop.test(n=20, prop=p, pi=PI, two.tailed=FALSE) |>
+	p_prop.test(n=20, prop=p, pi=PI, alternative='greater') |>
 		Spower(replications=10, verbose=FALSE) -> out
 	expect_equal(out$power, .6)
 
 	# global pi
-	p_prop.test(n=20, prop=p, pi=pi, two.tailed=FALSE) |>
+	p_prop.test(n=20, prop=p, pi=pi, alternative='greater') |>
 		Spower(replications=10, verbose=FALSE) -> out2
 	expect_equal(out2$power, .2)
 

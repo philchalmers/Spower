@@ -12,7 +12,7 @@
 #' @param n.ratios allocation ratios reflecting the sample size ratios.
 #'   Default of 1 sets the groups to be the same size (n * n.ratio)
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less'})
+#'   (most commonly, \code{'two.sided', 'greater', 'less'})
 #' @param test type of test to use in multi-sample applications.
 #'   Can be either \code{'Levene'} (default), \code{'Bartlett'}, or \code{'Fligner'}
 #' @param sigma2 population variance to test against in one-sample test

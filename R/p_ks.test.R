@@ -7,7 +7,7 @@
 #'
 #' @param n sample size per group, assumed equal across groups
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less'})
+#'   (most commonly, \code{'two.sided', 'greater', 'less'})
 #' @param p1 a function indicating how the data were generated for group 1
 #' @param p2 (optional) a function indicating how the data were generated for group 2.
 #'   If omitted a one-sample test will be evaluated provided that \code{parent} is also

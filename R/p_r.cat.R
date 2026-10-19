@@ -14,7 +14,8 @@
 #'   missing a polyserial correlation will be estimated, otherwise a
 #'   tetrachoric/polychoric correlation will be estimated
 #' @param ML logical; use maximum-likelihood estimation?
-#' @param two.tailed logical; should a two-tailed or one-tailed test be used?
+#' @param alternative character vector passed to \code{alternative} analysis function
+#'   (most commonly, \code{'two.sided', 'greater', 'less'})
 #' @param score logical; should the SE be based at the null hypothesis (score test)
 #'   or the ML estimate (Wald test)? The former is the canonical form for
 #'   a priori power analyses though requires twice as many computations as the
@@ -49,7 +50,7 @@
 #' p_r.cat(50, r=.5, tauX=0)
 #'
 p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
-					ML=TRUE, two.tailed=TRUE, score=FALSE,
+					ML=TRUE, alternative = 'two.sided', score=FALSE,
 					gen_fun=gen_r, return_analysis = FALSE, ...){
 	continuous.Y <- is.null(tauY)
 	dat <- gen_fun(n=n, r=r, ...)
@@ -74,10 +75,16 @@ p_r.cat <- function(n, r, tauX, rho=0, tauY = NULL,
 	if(score > 1) return(sqrt(vcov[1,1]))
 	SE <- if(score == 1){
 		p_r.cat(n, r=rho, tauX=tauX, rho=rho, tauY=tauY,
-				ML=ML, two.tailed=two.tailed, score=2)
+				ML=ML, alternative=alternative, score=2)
 	} else sqrt(vcov[1,1])
 	z <- (est - rho) / SE
-	p <- pnorm(abs(z), lower.tail=FALSE)
-	p <- ifelse(two.tailed, p*2, p)
+	if(alternative == 'two.sided')
+		p <- pnorm(abs(z), lower.tail=FALSE)*2
+	else {
+		if(alternative == 'greater')
+			p <- pnorm(z, lower.tail=FALSE)
+		else if(alternative == 'less')
+			p <- pnorm(z, lower.tail=TRUE)
+	}
 	p
 }

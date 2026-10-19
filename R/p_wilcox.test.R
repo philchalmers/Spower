@@ -18,7 +18,7 @@
 #'   difference
 #' @param parent2 same as \code{parent1}, but for the second group
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less'})
+#'   (most commonly, \code{'two.sided', 'greater', 'less'})
 #' @param return_analysis logical; return the analysis object for further
 #'   extraction and customization?
 #' @export

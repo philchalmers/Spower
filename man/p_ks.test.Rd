@@ -27,7 +27,7 @@ specified}
 \item{n2_n1}{sample size ratio. Default uses equal sample sizes}
 
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less'})}
+(most commonly, \code{'two.sided', 'greater', 'less'})}
 
 \item{parent}{the cumulative distribution function to use
 (e.g., \code{\link{pnorm}}). Specifying this input will construct a

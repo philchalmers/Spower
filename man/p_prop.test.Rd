@@ -48,7 +48,7 @@ for two-sample tests}
 Default of 1 sets the groups to be the same size (n * n.ratio)}
 
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less'})}
+(most commonly, \code{'two.sided', 'greater', 'less'})}
 
 \item{correct}{logical; use Yates' continuity correction?}
 

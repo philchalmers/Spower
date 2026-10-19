@@ -11,7 +11,7 @@ p_r.cat(
   rho = 0,
   tauY = NULL,
   ML = TRUE,
-  two.tailed = TRUE,
+  alternative = "two.sided",
   score = FALSE,
   gen_fun = gen_r,
   return_analysis = FALSE,
@@ -34,7 +34,8 @@ tetrachoric/polychoric correlation will be estimated}
 
 \item{ML}{logical; use maximum-likelihood estimation?}
 
-\item{two.tailed}{logical; should a two-tailed or one-tailed test be used?}
+\item{alternative}{character vector passed to \code{alternative} analysis function
+(most commonly, \code{'two.sided', 'greater', 'less'})}
 
 \item{score}{logical; should the SE be based at the null hypothesis (score test)
 or the ML estimate (Wald test)? The former is the canonical form for

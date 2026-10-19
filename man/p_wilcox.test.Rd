@@ -36,7 +36,7 @@ number of pairings (hence, half of the data points observed)}
 in the normal approximation for the p-value}
 
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less'})}
+(most commonly, \code{'two.sided', 'greater', 'less'})}
 
 \item{parent1}{data generation function for first group. Ideally
 should have SDs = 1 so that \code{d} reflects a standardized

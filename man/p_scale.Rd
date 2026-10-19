@@ -24,7 +24,7 @@ p_scale(
 \item{n2_n1}{sample size ratio}
 
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less'})}
+(most commonly, \code{'two.sided', 'greater', 'less'})}
 
 \item{exact}{a logical indicating whether an exact p-value should be computed}
 

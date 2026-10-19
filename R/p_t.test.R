@@ -18,7 +18,7 @@
 #' @param type type of t-test to use; can be \code{'two.sample'},
 #'   \code{'one.sample'}, or \code{'paired'}
 #' @param alternative character vector passed to \code{alternative} analysis function
-#'   (most commonly, \code{'two.tailed', 'greater', 'less'})
+#'   (most commonly, \code{'two.sided', 'greater', 'less'})
 #' @param var.equal logical; use the classical or Welch corrected t-test?
 #' @param n2_n1 allocation ratio reflecting the same size ratio.
 #'   Default of 1 sets the groups to be the same size. Only applicable
@@ -126,7 +126,7 @@
 #'
 #' @export
 p_t.test <- function(n, d, mu = 0, r = NULL, type = 'two.sample',
-					 n2_n1 = 1, two.tailed = TRUE, alternative = NULL,
+					 n2_n1 = 1, alternative = 'two.sided',
 					 var.equal = TRUE, means=NULL, sds=NULL, conf.level = .95,
 					 gen_fun=gen_t.test, return_analysis = FALSE, ...) {
 	if(is.null(means))
@@ -138,8 +138,6 @@ p_t.test <- function(n, d, mu = 0, r = NULL, type = 'two.sample',
 	}
 	dat <- gen_fun(n=n, n2_n1=n2_n1, d=d, r=r, type=type,
 				   means=means, sds=sds, ...)
-	if(is.null(alternative))
-		alternative <- ifelse(two.tailed, "two.sided", "greater")
 	res <- if(type == 'paired'){
 		t.test(dat[[1]], dat[[2]], mu=mu,
 			   paired=TRUE, conf.level=conf.level, alternative=alternative)

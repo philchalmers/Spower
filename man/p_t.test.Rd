@@ -12,8 +12,7 @@ p_t.test(
   r = NULL,
   type = "two.sample",
   n2_n1 = 1,
-  two.tailed = TRUE,
-  alternative = NULL,
+  alternative = "two.sided",
   var.equal = TRUE,
   means = NULL,
   sds = NULL,
@@ -56,7 +55,7 @@ Default of 1 sets the groups to be the same size. Only applicable
 when \code{type = 'two.sample'}}
 
 \item{alternative}{character vector passed to \code{alternative} analysis function
-(most commonly, \code{'two.tailed', 'greater', 'less'})}
+(most commonly, \code{'two.sided', 'greater', 'less'})}
 
 \item{var.equal}{logical; use the classical or Welch corrected t-test?}
 
