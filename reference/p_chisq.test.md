@@ -82,7 +82,7 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # effect size w + df
 p_chisq.test(100, w=.2, df=3)
-#> [1] 0.3286277
+#> [1] 3.269289e-05
 
 # return analysis model
 p_chisq.test(100, w=.2, df=3, return_analysis=TRUE)
@@ -90,19 +90,19 @@ p_chisq.test(100, w=.2, df=3, return_analysis=TRUE)
 #>  Chi-squared test for given probabilities
 #> 
 #> data:  tab
-#> X-squared = 16.16, df = 3, p-value = 0.001051
+#> X-squared = 6.8, df = 3, p-value = 0.07855
 #> 
 
 # vector of explicit probabilities (goodness of fit test)
 p_chisq.test(100, P0 = c(.25, .25, .25, .25),
                    P = c(.6, .2, .1, .1))
-#> [1] 4.160222e-16
+#> [1] 2.105592e-19
 
 # matrix of explicit probabilities (two-dimensional test of independence)
 p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
                    P = matrix(c(.6, .2, .1, .1),2,2))
 #> Warning: Chi-squared approximation may be incorrect
-#> [1] 0.6067591
+#> [1] 0.3121272
 
 # \donttest{
     # compare simulated results to pwr package
@@ -138,7 +138,7 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #> 
 #> Estimate of power: 0.887
 #> 95% Confidence Interval: [0.885, 0.889]
-#> Execution time (H:M:S): 00:00:19
+#> Execution time (H:M:S): 00:00:11
     p_chisq.test(n=100, P0=P0, P=P) |> Spower(replications=100000)
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -150,9 +150,9 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #>   <dbl>     <dbl> <lgl>
 #> 1   100      0.05 NA   
 #> 
-#> Estimate of power: 0.887
-#> 95% Confidence Interval: [0.885, 0.889]
-#> Execution time (H:M:S): 00:00:14
+#> Estimate of power: 0.888
+#> 95% Confidence Interval: [0.886, 0.890]
+#> Execution time (H:M:S): 00:00:09
 
     # slightly differ (latter more conservative due to finite sampling behaviour)
     pwr::pwr.chisq.test(w=w, df=df, power=.8, sig.level=0.05)
@@ -178,9 +178,9 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #>   <dbl>     <dbl> <dbl>
 #> 1    NA      0.05   0.8
 #> 
-#> Estimate of n: 79.4
-#> 95% Confidence Interval: [79.0, 79.7]
-#> Execution time (H:M:S): 00:00:20
+#> Estimate of n: 79.3
+#> 95% Confidence Interval: [78.9, 79.8]
+#> Execution time (H:M:S): 00:00:11
     p_chisq.test(n=interval(50, 200), w=w, df=df, correct=FALSE) |>
       Spower(power=.80)
 #> 
@@ -193,9 +193,9 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #>   <dbl> <lgl>       <dbl> <dbl>
 #> 1    NA FALSE        0.05   0.8
 #> 
-#> Estimate of n: 79.6
-#> 95% Confidence Interval: [78.0, 81.1]
-#> Execution time (H:M:S): 00:00:32
+#> Estimate of n: 79.3
+#> 95% Confidence Interval: [78.9, 79.6]
+#> Execution time (H:M:S): 00:00:20
 
     # Spower slightly more conservative even with larger N
     pwr::pwr.chisq.test(w=.1, df=df, power=.95, sig.level=0.05)
@@ -221,9 +221,9 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #>   <dbl> <dbl>     <dbl> <dbl>
 #> 1    NA   0.1      0.05  0.95
 #> 
-#> Estimate of n: 1578.2
-#> 95% Confidence Interval: [1544.2, 1616.2]
-#> Execution time (H:M:S): 00:00:06
+#> Estimate of n: 1586.2
+#> 95% Confidence Interval: [1549.1, 1638.1]
+#> Execution time (H:M:S): 00:00:04
     p_chisq.test(n=interval(1000, 2000), w=.1, df=df, correct=FALSE) |>
            Spower(power=.95)
 #> 
@@ -236,9 +236,9 @@ p_chisq.test(100, P0 = matrix(c(.25, .25, .25, .25), 2, 2),
 #>   <dbl> <dbl> <lgl>       <dbl> <dbl>
 #> 1    NA   0.1 FALSE        0.05  0.95
 #> 
-#> Estimate of n: 1557.6
-#> 95% Confidence Interval: [1547.7, 1573.9]
-#> Execution time (H:M:S): 00:00:08
+#> Estimate of n: 1610.6
+#> 95% Confidence Interval: [1588.2, 1631.7]
+#> Execution time (H:M:S): 00:00:04
 
 # }
 ```
