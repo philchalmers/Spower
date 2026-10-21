@@ -91,7 +91,7 @@ Performance <- matrix(c(794, 86, 150, 570),
 
 # one sample + test and resulting p-value
 p_mcnemar.test(n=sum(Performance), prop=prop)
-#> [1] 2.737939e-06
+#> [1] 1.655411e-05
 
 # return analysis model
 p_mcnemar.test(n=sum(Performance), prop=prop, return_analysis=TRUE)
@@ -99,7 +99,7 @@ p_mcnemar.test(n=sum(Performance), prop=prop, return_analysis=TRUE)
 #>  McNemar's Chi-squared test with continuity correction
 #> 
 #> data:  dat
-#> McNemar's chi-squared = 14.768, df = 1, p-value = 0.0001216
+#> McNemar's chi-squared = 21.778, df = 1, p-value = 3.061e-06
 #> 
 
 # \donttest{
@@ -123,9 +123,9 @@ p_mcnemar.test(n=50, OR=.25, prop.disc=disc) |>
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50  0.25      0.05 NA   
 #> 
-#> Estimate of power: 0.225
-#> 95% Confidence Interval: [0.221, 0.230]
-#> Execution time (H:M:S): 00:00:02
+#> Estimate of power: 0.224
+#> 95% Confidence Interval: [0.220, 0.229]
+#> Execution time (H:M:S): 00:00:05
 
 # }
 ```

@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/philchalmers/Spower/blob/v0.7.1/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/philchalmers/Spower/blob/main/DESCRIPTION)
 
 Chalmers P (2026). *Spower: Power Analyses using Monte Carlo
 Simulations*.

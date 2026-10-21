@@ -41,7 +41,7 @@ for one or both of the variables."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>p-value from tetrachoric/polychoric or polyserial</h1>
-      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/v0.7.1/R/p_r.cat.R" class="external-link"><code>R/p_r.cat.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/philchalmers/Spower/blob/main/R/p_r.cat.R" class="external-link"><code>R/p_r.cat.R</code></a></small>
       <div class="d-none name"><code>p_r.cat.Rd</code></div>
     </div>
 
@@ -149,13 +149,13 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># 100 observations, .5 correlation, tetrachoric estimate</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">100</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span>, tauY<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.0002181314 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.202114 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># return analysis model</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">100</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span>, tauY<span class="op">=</span><span class="fl">1</span>, return_analysis<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Polychoric Correlation, ML est. = 0.7043 (0.136)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Polychoric Correlation, ML est. = 0.03155 (0.1953)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Row Threshold</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Threshold Std.Err.</span>
@@ -164,17 +164,17 @@ unless a customized <code>gen_fun</code> is defined</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Column Threshold</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Threshold Std.Err.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           0   0.1253</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     0.05015   0.1254</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Wald test</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">100</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span>, tauY<span class="op">=</span><span class="fl">1</span>, score<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.000624906 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.0007227181 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># polyserial estimate (Y continuous)</span></span></span>
 <span class="r-in"><span><span class="fu">p_r.cat</span><span class="op">(</span><span class="fl">50</span>, r<span class="op">=</span><span class="fl">.5</span>, tauX<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.47496e-18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.067138e-06 </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

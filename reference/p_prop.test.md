@@ -120,37 +120,37 @@ p_prop.test(50, prop=.65, return_analysis = TRUE)
 #>  Exact binomial test
 #> 
 #> data:  dat[1, 1] and n
-#> number of successes = 37, number of trials = 50, p-value = 0.0009362
+#> number of successes = 33, number of trials = 50, p-value = 0.03284
 #> alternative hypothesis: true probability of success is not equal to 0.5
 #> 95 percent confidence interval:
-#>  0.5965523 0.8536994
+#>  0.5123475 0.7879453
 #> sample estimates:
 #> probability of success 
-#>                   0.74 
+#>                   0.66 
 #> 
 
 # specified using h and pi
 h <- pwr::ES.h(.65, .4)
 p_prop.test(50, h=h, pi=.4)
-#> [1] 0.00024228
+#> [1] 0.08533213
 p_prop.test(50, h=-h, pi=.65)
-#> [1] 1.209349e-07
+#> [1] 0.07387412
 
 # two-sample test
 p_prop.test(50, prop=c(.5, .65))
-#> [1] 0.2278
+#> [1] 0.1584835
 
 # two-sample test, unequal ns
 p_prop.test(50, prop=c(.5, .65), n.ratios = c(1,2))
-#> [1] 0.2193497
+#> [1] 0.5247826
 
 # three-sample test, group2 twice as large as others
 p_prop.test(50, prop=c(.5, .65, .7), n.ratios=c(1,2,1))
-#> [1] 0.0591059
+#> [1] 0.8764566
 
 # Fisher exact test
 p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
-#> [1] 0.2862258
+#> [1] 0.02913192
 
 # \donttest{
     # compare simulated results to pwr package
@@ -181,9 +181,9 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.4      0.05 NA   
 #> 
-#> Estimate of power: 0.350
-#> 95% Confidence Interval: [0.341, 0.359]
-#> Execution time (H:M:S): 00:00:01
+#> Estimate of power: 0.355
+#> 95% Confidence Interval: [0.345, 0.364]
+#> Execution time (H:M:S): 00:00:03
     Spower(p_prop.test(n=60, prop=.5, pi=.4))
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -195,9 +195,9 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.5   0.4      0.05 NA   
 #> 
-#> Estimate of power: 0.349
-#> 95% Confidence Interval: [0.339, 0.358]
-#> Execution time (H:M:S): 00:00:01
+#> Estimate of power: 0.354
+#> 95% Confidence Interval: [0.345, 0.364]
+#> Execution time (H:M:S): 00:00:03
 
     # compare with switched null
     Spower(p_prop.test(n=60, h=h, pi=.5))
@@ -211,9 +211,9 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.5      0.05 NA   
 #> 
-#> Estimate of power: 0.260
-#> 95% Confidence Interval: [0.251, 0.268]
-#> Execution time (H:M:S): 00:00:01
+#> Estimate of power: 0.244
+#> 95% Confidence Interval: [0.236, 0.253]
+#> Execution time (H:M:S): 00:00:03
     Spower(p_prop.test(n=60, prop=.4, pi=.5))
 #> 
 #> ── Spower Results ──────────────────────────────────────────────────────────────
@@ -225,9 +225,9 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1    60   0.4   0.5      0.05 NA   
 #> 
-#> Estimate of power: 0.258
-#> 95% Confidence Interval: [0.250, 0.267]
-#> Execution time (H:M:S): 00:00:01
+#> Estimate of power: 0.259
+#> 95% Confidence Interval: [0.251, 0.268]
+#> Execution time (H:M:S): 00:00:03
 
     # two-sample test, one-tailed
     (h <- pwr::ES.h(0.67, 0.5))
@@ -257,9 +257,9 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl> <chr>       <lgl>       <dbl> <lgl>
 #> 1    80  0.67 greater     FALSE        0.05 NA   
 #> 
-#> Estimate of power: 0.704
-#> 95% Confidence Interval: [0.695, 0.713]
-#> Execution time (H:M:S): 00:00:01
+#> Estimate of power: 0.693
+#> 95% Confidence Interval: [0.684, 0.702]
+#> Execution time (H:M:S): 00:00:03
 
     # same as above, but with continuity correction (default)
     p_prop.test(n=80, prop=c(.67, .5), alternative='greater') |>
@@ -275,9 +275,9 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl> <chr>           <dbl> <lgl>
 #> 1    80  0.67 greater          0.05 NA   
 #> 
-#> Estimate of power: 0.650
-#> 95% Confidence Interval: [0.641, 0.660]
-#> Execution time (H:M:S): 00:00:01
+#> Estimate of power: 0.638
+#> 95% Confidence Interval: [0.628, 0.647]
+#> Execution time (H:M:S): 00:00:03
 
     # three-sample joint test, equal n's
     p_prop.test(n=50, prop=c(.6,.4,.7)) |> Spower()
@@ -292,9 +292,9 @@ p_prop.test(50, prop=matrix(c(.5, .65, .7, .5), 2, 2))
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1    50   0.6      0.05 NA   
 #> 
-#> Estimate of power: 0.798
-#> 95% Confidence Interval: [0.790, 0.806]
-#> Execution time (H:M:S): 00:00:01
+#> Estimate of power: 0.805
+#> 95% Confidence Interval: [0.797, 0.813]
+#> Execution time (H:M:S): 00:00:03
 
 # }
 ```

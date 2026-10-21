@@ -133,25 +133,25 @@ Phil Chalmers <rphilip.chalmers@gmail.com>
 
 # sample size of 50 per group, "medium" effect size
 p_t.test(n=50, d=0.5)
-#> [1] 0.6477456
+#> [1] 0.02714614
 
 # point-biserial correlation effect size
 p_t.test(n=50, r=.3)
-#> [1] 0.04046067
+#> [1] 0.00541676
 
 # second group 2x as large as the first group
 p_t.test(n=50, d=0.5, n2_n1 = 2)
-#> [1] 4.234589e-07
+#> [1] 0.001368394
 
 # specify mean/SDs explicitly
 p_t.test(n=50, means = c(0,1), sds = c(2,2))
-#> [1] 0.007970861
+#> [1] 0.03244724
 
 # paired and one-sample tests
 p_t.test(n=50, d=0.5, type = 'paired') # n = number of pairs
-#> [1] 0.0003850679
+#> [1] 0.0005507959
 p_t.test(n=50, d=0.5, type = 'one.sample')
-#> [1] 0.0001113383
+#> [1] 0.04693736
 
 # return analysis object
 p_t.test(n=50, d=0.5, return_analysis=TRUE)
@@ -159,13 +159,13 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>  Two Sample t-test
 #> 
 #> data:  dat[[1]] and dat[[2]]
-#> t = 1.9243, df = 98, p-value = 0.05721
+#> t = 2.4777, df = 98, p-value = 0.01493
 #> alternative hypothesis: true difference in means is not equal to 0
 #> 95 percent confidence interval:
-#>  -0.01142863  0.74293554
+#>  0.09472651 0.85692764
 #> sample estimates:
-#> mean of x mean of y 
-#> 0.5173487 0.1515953 
+#>   mean of x   mean of y 
+#>  0.43768146 -0.03814562 
 #> 
 
 # \donttest{
@@ -194,9 +194,9 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>   <dbl> <dbl> <chr>          <dbl> <lgl>
 #> 1    60   0.2 one.sample       0.1 NA   
 #> 
-#> Estimate of power: 0.452
-#> 95% Confidence Interval: [0.442, 0.462]
-#> Execution time (H:M:S): 00:00:01
+#> Estimate of power: 0.460
+#> 95% Confidence Interval: [0.450, 0.470]
+#> Execution time (H:M:S): 00:00:02
 
   pwr::pwr.t.test(d=0.3, power=0.80, type="two.sample",
                   alternative="greater")
@@ -223,9 +223,9 @@ p_t.test(n=50, d=0.5, return_analysis=TRUE)
 #>   <dbl> <dbl> <chr>      <chr>           <dbl> <dbl>
 #> 1    NA   0.3 two.sample greater          0.05   0.8
 #> 
-#> Estimate of n: 137.0
-#> 95% Confidence Interval: [136.0, 138.0]
-#> Execution time (H:M:S): 00:00:16
+#> Estimate of n: 138.4
+#> 95% Confidence Interval: [136.2, 140.4]
+#> Execution time (H:M:S): 00:00:24
 
 # }
 
@@ -257,12 +257,12 @@ my.gen_fun <- function(n, d, df1, df2, ...){
 # check the sample data properties
 dat <- my.gen_fun(n=10000, d=.5, df1=10, df2=5)
 sapply(dat, mean)
-#> [1] -0.006442215  0.492954321
+#> [1] -0.0028450  0.4876684
 sapply(dat, sd)
-#> [1] 1.0143929 0.9859019
+#> [1] 1.0107709 0.9888244
 
 p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
-#> [1] 0.0001116539
+#> [1] 0.0003050304
 
 # \donttest{
 
@@ -278,9 +278,9 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #>   <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5      0.05 NA   
 #> 
-#> Estimate of power: 0.942
-#> 95% Confidence Interval: [0.939, 0.945]
-#> Execution time (H:M:S): 00:00:04
+#> Estimate of power: 0.941
+#> 95% Confidence Interval: [0.938, 0.944]
+#> Execution time (H:M:S): 00:00:09
 
   # estimate power given the customized data generating function
   p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5) |>
@@ -295,9 +295,9 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #>   <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100   0.5    10     5      0.05 NA   
 #> 
-#> Estimate of power: 0.957
-#> 95% Confidence Interval: [0.954, 0.959]
-#> Execution time (H:M:S): 00:00:05
+#> Estimate of power: 0.956
+#> 95% Confidence Interval: [0.953, 0.958]
+#> Execution time (H:M:S): 00:00:09
 
   # evaluate Type I error rate to see if liberal/conservative given
   # assumption violations (should be close to alpha/sig.level)
@@ -313,9 +313,9 @@ p_t.test(n=100, d=0.5, gen_fun=my.gen_fun, df1=10, df2=5)
 #>   <dbl> <dbl> <dbl> <dbl>     <dbl> <lgl>
 #> 1   100     0    10     5      0.05 NA   
 #> 
-#> Estimate of power: 0.050
-#> 95% Confidence Interval: [0.048, 0.052]
-#> Execution time (H:M:S): 00:00:05
+#> Estimate of power: 0.051
+#> 95% Confidence Interval: [0.048, 0.053]
+#> Execution time (H:M:S): 00:00:09
 
 # }
 ```

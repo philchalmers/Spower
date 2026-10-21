@@ -230,19 +230,19 @@ is required for the common index setup.
 
 ``` r
 
-Cp[c(4,3,1),c(4,3,1)]
+Cp[c(4,1,3),c(4,1,3)]
 ```
 
-    ##     y2  x2  x1
-    ## y2 1.0 0.2 0.4
-    ## x2 0.2 1.0 0.5
-    ## x1 0.4 0.5 1.0
+    ##     y2  x1  x2
+    ## y2 1.0 0.4 0.2
+    ## x1 0.4 1.0 0.5
+    ## x2 0.2 0.5 1.0
 
 The one-sided null under instigation in this case is
 ``` math
 H_0:\rho_{ab} \le \rho_{ac}
 ```
-where $`\rho_{ab} = .2`$ and $`\rho_{ac} = .4`$. In `Spower`, this
+where $`\rho_{ab} = .4`$ and $`\rho_{ac} = .2`$. In `Spower`, this
 equates to the following inputs, which again use Steiger’s (1980)
 inferential $`z`$ approach by default.
 
@@ -669,7 +669,7 @@ obrien2002
 
 ``` r
 
-p_mcnemar.test(n=50, prop=obrien2002, alternative = 'less') |> Spower()
+p_mcnemar.test(n=50, prop=obrien2002) |> Spower()
 ```
 
     ## 
@@ -695,7 +695,7 @@ proportions of discordant pairs
 
 OR <- obrien2002[1,2] / obrien2002[2,1]
 disc <- obrien2002[1,2] + obrien2002[2,1]
-p_mcnemar.test(n=50, OR=OR, prop.disc=disc, alternative='greater') |> Spower()
+p_mcnemar.test(n=50, OR=OR, prop.disc=disc) |> Spower()
 ```
 
     ## 
@@ -712,13 +712,16 @@ p_mcnemar.test(n=50, OR=OR, prop.disc=disc, alternative='greater') |> Spower()
     ## 95% Confidence Interval: [0.716, 0.733]
     ## Execution time (H:M:S): 00:00:03
 
-G\*Power gives .839 ($`\alpha = .032`$). Slightly more power can be
-achieved when not using the continuity correction, though in general
-this is not recommended in practice.
+G\*Power gives .839 ($`\alpha = .032`$), however this is for a one-sided
+test, while the above
+[`Spower()`](https://philchalmers.github.io/Spower/reference/Spower.md)
+output is for a two-sided test. Slightly more power can be achieved when
+not using the continuity correction, though in general this is not
+recommended in practice.
 
 ``` r
 
-p_mcnemar.test(n=50, prop=obrien2002, alternative='greater', correct=FALSE) |> Spower()
+p_mcnemar.test(n=50, prop=obrien2002, correct=FALSE) |> Spower()
 ```
 
     ## 
