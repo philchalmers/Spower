@@ -171,12 +171,12 @@ G\*power 3.1 returns the required sample size of $N=886$.
 The information in this example is the same as `Example 28.3.1`, however it is assumed that there is a common index between the correlation measures instead of a complete overlap. As such, the previous `Cp` object may be further subset to see what type of correlation structure is required for the common index setup.
 
 ```{r}
-Cp[c(4,3,1),c(4,3,1)]
+Cp[c(4,1,3),c(4,1,3)]
 ```
 
 The one-sided null under instigation in this case is 
 $$H_0:\rho_{ab} \le \rho_{ac}$$
-where $\rho_{ab} = .2$ and $\rho_{ac} = .4$. In `Spower`, this equates to the following inputs, which again use Steiger's (1980) inferential $z$ approach by default.
+where $\rho_{ab} = .4$ and $\rho_{ac} = .2$. In `Spower`, this equates to the following inputs, which again use Steiger's (1980) inferential $z$ approach by default.
 
 ```{r eval=eval}
 # H0: rho.ab <= rho.ac
@@ -474,7 +474,7 @@ obrien2002
 
 
 ```{r eval=eval}
-p_mcnemar.test(n=50, prop=obrien2002, alternative = 'less') |> Spower()
+p_mcnemar.test(n=50, prop=obrien2002) |> Spower()
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
@@ -490,7 +490,7 @@ proportions of discordant pairs
 ```{r eval=eval}
 OR <- obrien2002[1,2] / obrien2002[2,1]
 disc <- obrien2002[1,2] + obrien2002[2,1]
-p_mcnemar.test(n=50, OR=OR, prop.disc=disc, alternative='greater') |> Spower()
+p_mcnemar.test(n=50, OR=OR, prop.disc=disc) |> Spower()
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
@@ -498,12 +498,13 @@ if(eval) store$ex.5.3b <- getLastSpower()
 print(store$ex.5.3b)
 ```
 
-G\*Power gives .839 ($\alpha = .032$). Slightly more power can be
+G\*Power gives .839 ($\alpha = .032$), however this is for a one-sided test, while the above 
+`Spower()` output is for a two-sided test. Slightly more power can be
 achieved when not using the continuity correction, though in general
 this is not recommended in practice.
 
 ```{r eval=eval}
-p_mcnemar.test(n=50, prop=obrien2002, alternative='greater', correct=FALSE) |> Spower()
+p_mcnemar.test(n=50, prop=obrien2002, correct=FALSE) |> Spower()
 ```
 
 ```{r echo=FALSE, collapse=TRUE}
